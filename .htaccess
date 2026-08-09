@@ -1,0 +1,101 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Redirect www to non-www (live domain only)
+RewriteCond %{HTTP_HOST} ^www\.haulinjunkies\.com [NC]
+RewriteRule ^ https://haulinjunkies.com%{REQUEST_URI} [R=301,L]
+
+# Force HTTPS (live domain only)
+RewriteCond %{HTTP_HOST} ^haulinjunkies\.com [NC]
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://haulinjunkies.com%{REQUEST_URI} [R=301,L]
+
+# Redirect /index.php to / (all environments)
+RewriteCond %{THE_REQUEST} /index\.php[\s?] [NC]
+RewriteRule ^index\.php$ / [R=301,L]
+
+# Legacy .html URLs → .php equivalents (old site version still indexed by Google)
+RewriteCond %{REQUEST_URI} ^/(.+)\.html$
+RewriteRule ^(.+)\.html$ /$1.php [R=301,L]
+
+# Custom 404 error page
+ErrorDocument 404 /404.php
+
+# Underscore URL fixes
+Redirect 301 /apartment_cleanouts.php /apartment-cleanouts.php
+Redirect 301 /estate_cleanout.php /estate-cleanout.php
+
+# orlando.php → homepage (was cannibalizing index.php for "junk removal orlando")
+Redirect 301 /orlando.php /
+
+# Baldwin Park sub-pages → main Baldwin Park page
+Redirect 301 /baldwin-park-village-center.php /baldwin-park.php
+Redirect 301 /baldwin-park-lake-baldwin.php /baldwin-park.php
+Redirect 301 /baldwin-park-new-broad-street.php /baldwin-park.php
+Redirect 301 /baldwin-park-corrine-drive.php /baldwin-park.php
+Redirect 301 /baldwin-park-phillips-street.php /baldwin-park.php
+Redirect 301 /baldwin-park-bennett-road.php /baldwin-park.php
+Redirect 301 /baldwin-park-commons.php /baldwin-park.php
+Redirect 301 /baldwin-park-park-avenue.php /baldwin-park.php
+Redirect 301 /baldwin-park-aloma-avenue.php /baldwin-park.php
+Redirect 301 /baldwin-park-shine-avenue.php /baldwin-park.php
+Redirect 301 /baldwin-park-lake-formosa.php /baldwin-park.php
+Redirect 301 /baldwin-park-townhomes.php /baldwin-park.php
+Redirect 301 /baldwin-park-condominiums.php /baldwin-park.php
+Redirect 301 /baldwin-park-apartments.php /baldwin-park.php
+Redirect 301 /baldwin-park-lofts.php /baldwin-park.php
+Redirect 301 /baldwin-park-mixed-use.php /baldwin-park.php
+
+# Winter Park sub-pages → main Winter Park page
+Redirect 301 /winter-park-park-avenue.php /winter-park.php
+Redirect 301 /winter-park-rollins-college.php /winter-park.php
+Redirect 301 /winter-park-village.php /winter-park.php
+Redirect 301 /winter-park-downtown.php /winter-park.php
+Redirect 301 /winter-park-lake-osceola.php /winter-park.php
+Redirect 301 /winter-park-hannibal-square.php /winter-park.php
+Redirect 301 /winter-park-virginia-drive.php /winter-park.php
+Redirect 301 /winter-park-via-tuscany.php /winter-park.php
+Redirect 301 /winter-park-college-quarter.php /winter-park.php
+Redirect 301 /winter-park-lakes-community.php /winter-park.php
+Redirect 301 /winter-park-central-park.php /winter-park.php
+Redirect 301 /winter-park-museum-district.php /winter-park.php
+Redirect 301 /winter-park-suntrust.php /winter-park.php
+Redirect 301 /winter-park-chain-of-lakes.php /winter-park.php
+Redirect 301 /winter-park-farmers-market.php /winter-park.php
+
+# Windermere sub-pages → main Windermere page
+Redirect 301 /windermere-all-butler-chain.php /windermere.php
+Redirect 301 /windermere-butler-bay.php /windermere.php
+Redirect 301 /windermere-butler-chain.php /windermere.php
+Redirect 301 /windermere-chateau-elan.php /windermere.php
+Redirect 301 /windermere-country-club.php /windermere.php
+Redirect 301 /windermere-custom-estates.php /windermere.php
+Redirect 301 /windermere-downtown.php /windermere.php
+Redirect 301 /windermere-estates.php /windermere.php
+Redirect 301 /windermere-golden-bear.php /windermere.php
+Redirect 301 /windermere-isleworth.php /windermere.php
+Redirect 301 /windermere-keenes-pointe.php /windermere.php
+Redirect 301 /windermere-lake-butler-sound.php /windermere.php
+Redirect 301 /windermere-lakes.php /windermere.php
+Redirect 301 /windermere-osprey-ridge.php /windermere.php
+Redirect 301 /windermere-palmer-oaks.php /windermere.php
+Redirect 301 /windermere-trails.php /windermere.php
+
+# Maitland sub-pages → main Maitland page
+Redirect 301 /maitland-downtown.php /maitland.php
+Redirect 301 /maitland-center.php /maitland.php
+Redirect 301 /maitland-lake-maitland.php /maitland.php
+Redirect 301 /maitland-art-center.php /maitland.php
+Redirect 301 /maitland-dommerich-hills.php /maitland.php
+Redirect 301 /maitland-avenue.php /maitland.php
+Redirect 301 /maitland-bird-road.php /maitland.php
+Redirect 301 /maitland-lake-minnehaha.php /maitland.php
+Redirect 301 /maitland-industrial-park.php /maitland.php
+Redirect 301 /maitland-packwood-avenue.php /maitland.php
+Redirect 301 /maitland-forest-hills.php /maitland.php
+Redirect 301 /maitland-orlando-avenue.php /maitland.php
+Redirect 301 /maitland-lake-sybelia.php /maitland.php
+Redirect 301 /maitland-historic-district.php /maitland.php
+Redirect 301 /maitland-independence-lane.php /maitland.php
+Redirect 301 /maitland-boulevard.php /maitland.php

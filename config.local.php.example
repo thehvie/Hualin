@@ -1,0 +1,8 @@
+<?php
+// Copy this file to config.local.php (which is gitignored) and fill in real values.
+// Alternatively, set these as real environment variables (e.g. MAILGUN_API_KEY)
+// via Apache/nginx or the OS, which takes priority over this file.
+
+return [
+    'mailgun_api_key' => 'your-mailgun-api-key-here',
+];

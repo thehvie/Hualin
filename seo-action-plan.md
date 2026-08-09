@@ -1,0 +1,140 @@
+# SEO Action Plan: Haulin' — Position 30 → Top 10
+
+**Data Period:** Jan 2026 – Apr 2026  
+**Current Avg Position:** ~30  
+**Goal:** Below 10  
+**Last Updated:** 2026-04-25
+
+---
+
+## Key Stats from Search Console
+
+| Metric | Value |
+|---|---|
+| Total Pages (at start) | 168 |
+| Indexed (at start) | 60 (36%) |
+| Not Indexed (at start) | 108 (64%) |
+| Total Clicks (period) | 2 |
+| Avg Position | ~30 |
+
+### Queries Close to Page 1 (Quick Wins)
+
+| Query | Position | Impressions | Page Optimized? |
+|---|---|---|---|
+| junk removal hunters creek fl | 11 | 49 | ✅ done |
+| hot tub removal | 23 | 51 | ✅ done |
+| concrete removal orlando | 33 | 42 | ✅ done |
+| commercial junk removal central florida | 42 | 63 | ✅ done |
+| foreclosure cleanouts | 50 | 61 | ✅ done |
+| junk removal near me | 6 | 12 | 🔴 homepage (pending) |
+| junk removal | 3 | 6 | 🔴 homepage (pending) |
+
+---
+
+## ✅ COMPLETED WORK — Session 2026-04-25
+
+### Infrastructure Cleanup
+- [x] Deleted 3 test files from root (`inc_test.php`, `php_inc_test.php`, `test_php_write.php`)
+- [x] Deleted duplicate `material-logistics (1).php`
+- [x] Fixed underscore URLs: `apartment_cleanouts.php` → `apartment-cleanouts.php`, `estate_cleanout.php` → `estate-cleanout.php`, 301 redirects added, sitemap updated
+- [x] Fixed broken internal links in all 4 city pages — neighborhood sub-page links stripped, text kept
+
+### Sub-Neighborhood Pages — Root Cause Fixed
+63 thin pages deleted, 301 redirects to parent pages added to `.htaccess`, sitemap cleaned:
+- **Baldwin Park** — 16 sub-pages deleted → `baldwin-park.php`
+- **Winter Park** — 15 sub-pages deleted → `winter-park.php`
+- **Maitland** — 16 sub-pages deleted → `maitland.php`
+- **Windermere** — 16 sub-pages deleted → `windermere.php`
+
+### Service Pages Optimized (title, H1, meta description, canonical)
+- [x] `hunters-creek.php` — pos 11, keyword-first H1 + title + first sentence
+- [x] `hot-tub-removal.php` — added missing meta, canonical, robots
+- [x] `concrete-removal.php` — fixed duplicate H1, added canonical
+- [x] `commercial.php` — shifted focus to "Central Florida" (63 impressions query)
+- [x] `foreclosure-cleanout.php` — added missing meta, canonical; plural "cleanouts" in title
+- [x] `estate-cleanout.php` — title/H1 optimized, URL renamed
+- [x] `carpet-removal.php` — added missing meta, canonical
+- [x] `appliance-removal.php` — fixed wrong copy-pasted concrete content + full SEO
+- [x] `residential.php` — added missing meta, canonical
+
+---
+
+## 🔴 NEXT UP — Do These Now
+
+### Search Console Actions
+- [x] Resubmit `sitemap.xml` in Search Console — done 2026-04-25
+- [x] Request re-indexing for 9 optimized service pages — done 2026-04-25
+
+### Homepage (`index.php`)
+- [ ] Optimize title tag — target "junk removal orlando fl"
+- [ ] Add/fix meta description
+- [ ] Fix H1 to include "Orlando, FL"
+- [ ] Add `LocalBusiness` schema with full NAP + service area
+- [ ] First paragraph must open with target keyword
+
+---
+
+## 🟠 THIS MONTH
+
+- [ ] **Create `/junk-removal-orlando.php`** — dedicated money page, 800+ words, targets "junk removal orlando"
+- [ ] **Google Business Profile** — add all services, before/after photos, post 2x/week, request reviews after every job
+- [ ] **Add FAQ + FAQPage schema** to top 5 service pages
+- [ ] **Optimize remaining service pages:** `dumpster-rentals.php`, `cardboard-removal.php`, `material-logistics.php`
+- [ ] **Optimize top location pages:** `doctor-phillips.php`, `horizon-west.php`, `kissimmee.php`, `st-cloud.php`
+- [ ] **Build 5-10 local directory citations** — Yelp, Angi, Thumbtack, HomeAdvisor, BBB (NAP must match exactly)
+
+---
+
+## 🟡 ONGOING
+
+- [ ] **Local backlinks** — partner with real estate agents/property managers for foreclosure cleanout referrals
+- [ ] **Internal linking** — add 3-5 internal links to each of the optimized service pages from other pages
+- [ ] **Monitor Coverage report** in Search Console over next 2-4 weeks — indexed page count should climb from 60 as Google re-crawls after sub-page removals
+
+---
+
+## Pages Audit Tracker
+
+| Page | File | Title ✅ | H1 ✅ | Meta ✅ | Canonical ✅ | Status |
+|---|---|---|---|---|---|---|
+| **Homepage** | `index.php` | ☐ | ☐ | ☐ | ☐ | 🔴 next |
+| Residential | `residential.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Hot Tub Removal | `hot-tub-removal.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Concrete Removal | `concrete-removal.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Foreclosure Cleanouts | `foreclosure-cleanout.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Commercial Junk Removal | `commercial.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Estate Cleanouts | `estate-cleanout.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Carpet Removal | `carpet-removal.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Appliance Removal | `appliance-removal.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Hunters Creek | `hunters-creek.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Apartment Cleanouts | `apartment-cleanouts.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
+| Dumpster Rentals | `dumpster-rentals.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
+| Cardboard Removal | `cardboard-removal.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
+| Material Logistics | `material-logistics.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
+| Doctor Phillips | `doctor-phillips.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
+| Horizon West | `horizon-west.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
+| Kissimmee | `kissimmee.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
+| St. Cloud | `st-cloud.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
+| Maitland | `maitland.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
+| Altamonte Springs | `altamonte-springs.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
+| Baldwin Park | `baldwin-park.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
+| Winter Park | `winter-park.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
+| Windermere | `windermere.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
+
+---
+
+## Infrastructure Status
+
+| File | Status |
+|---|---|
+| `robots.txt` | ✅ Clean — no blocks |
+| `sitemap.xml` | ✅ Cleaned — sub-pages removed, lastmod updated |
+| `.htaccess` | ✅ 65 redirect rules added (63 sub-pages + 2 underscore URLs) |
+| Google Verification | ✅ Present |
+| Test files | ✅ Deleted |
+| Duplicate files | ✅ Deleted |
+
+---
+
+*Generated from Google Search Console data — Jan 2026 to Apr 2026*  
+*Last updated: 2026-04-25*

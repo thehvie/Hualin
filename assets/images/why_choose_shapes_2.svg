@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 165 198">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <style>
+      .st0 {
+        stroke-width: 1px;
+      }
+
+      .st0, .st1, .st2, .st3, .st4 {
+        stroke: #231f20;
+      }
+
+      .st0, .st1, .st3 {
+        fill: #b0d13b;
+      }
+
+      .st5, .st6 {
+        fill: none;
+      }
+
+      .st7 {
+        clip-path: url(#clippath-1);
+      }
+
+      .st1, .st4 {
+        stroke-width: .95px;
+      }
+
+      .st2 {
+        stroke-width: .71px;
+      }
+
+      .st2, .st4 {
+        fill: #fff;
+      }
+
+      .st6 {
+        stroke: #010101;
+        stroke-width: .8px;
+      }
+
+      .st8 {
+        clip-path: url(#clippath-2);
+      }
+
+      .st3 {
+        stroke-miterlimit: 10;
+        stroke-width: .48px;
+      }
+
+      .st9 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <path class="st5" d="M58.46,117.27c-3.29-.55-7.54-1.08-10.79-1.81-10.75-2.41-21.33-5.6-31.86-8.46l-1.75,6.46c10.54,2.86,22.16,6.44,32.84,8.96,3.23.77,6.92,1.92,9.91,2.42,2.92.49,5.14.32,8.25,1.16.58-2.15,1.54-5.16,2.12-7.32-3.25-.31-5.5-.89-8.71-1.43"/>
+    </clipPath>
+    <clipPath id="clippath-1">
+      <rect class="st5" x="35.92" y="89.96" width="9.27" height="52.64" transform="translate(-82.29 124.99) rotate(-74.83)"/>
+    </clipPath>
+    <clipPath id="clippath-2">
+      <rect class="st5" x="35.92" y="89.96" width="9.27" height="52.64" transform="translate(-82.29 124.99) rotate(-74.83)"/>
+    </clipPath>
+  </defs>
+  <path class="st1" d="M-56.04,163.88s-4.8,2.18-8.92,13.4c-1.53,8.52,3.45,18.81,6.84,22.06l8.15-2.84-4.36-9.73s-.54-5.32,2.95-6.58c4.31-1.55,5.86,2.75,5.86,2.75l1.36,5.03,6.74-.5s4.44-3.63,1.23-18.21"/>
+  <path class="st1" d="M107.92,208.34s3.04,4.31.92,16.07c-2.98,8.13-12.48,14.49-17.04,15.58l-5.6-6.57,8.67-6.2s3.15-4.32.78-7.17c-2.93-3.51-6.45-.58-6.45-.58l-3.71,3.65-5.56-3.84s-2-5.38,8.14-16.33"/>
+  <rect class="st1" x="5.35" y="26.08" width="88.39" height="124.71" transform="translate(-48.77 113.11) rotate(-74.83)"/>
+  <rect class="st1" x="-14.07" y="188.2" width="16.08" height="21.59" transform="translate(-196.51 141.09) rotate(-74.83)"/>
+  <rect class="st1" x="-13.92" y="191.92" width="10.5" height="33.59" transform="translate(-207.84 145.73) rotate(-74.83)"/>
+  <path class="st1" d="M2.16,133.15c-25.55-6.93-51.97,8.22-58.9,33.77l17.02,4.62c4.38-16.16,21.1-25.75,37.27-21.37l4.62-17.02Z"/>
+  <rect class="st1" x="-23.53" y="138.04" width="23.48" height="5.53" transform="translate(-144.6 92.57) rotate(-74.83)"/>
+  <path class="st1" d="M72.08,152.11c25.55,6.93,40.7,33.35,33.77,58.9l-17.02-4.62c4.38-16.16-5.2-32.88-21.37-37.27l4.62-17.02Z"/>
+  <rect class="st1" x="68" y="162.86" width="23.48" height="5.53" transform="translate(-100.98 199.24) rotate(-74.83)"/>
+  <rect class="st1" x="32.68" y="200.88" width="16.08" height="21.58" transform="translate(-174.23 195.57) rotate(-74.83)"/>
+  <rect class="st3" x="37.63" y="118.37" width="2.11" height="28.01" transform="translate(-99.2 135.07) rotate(-74.83)"/>
+  <rect class="st3" x="36.81" y="121.4" width="2.11" height="28.01" transform="translate(-102.74 136.51) rotate(-74.83)"/>
+  <rect class="st3" x="35.95" y="124.57" width="2.11" height="28.01" transform="translate(-106.44 138.02) rotate(-74.83)"/>
+  <g class="st9">
+    <g class="st7">
+      <g class="st8">
+        <image width="111" height="48" transform="translate(13.92 104.88) scale(.48)" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG8AAAAwCAYAAAAfHSRCAAAACXBIWXMAABcRAAAXEQHKJvM/AAABcElEQVR4nO3cW4+DIBCG4bHx//9letFacQoqyGEO33PTbLJpJG8G1E12CSEEApVesy8A6iGeYoin2H88nIBqrIefAvvcLEOuBQqt179Cx5gIKca9eDFMpRjl8ThM5TR7vBY3KpjKoZ5P3hnE7KpvPA5bbFNj48UwlY994kl4MMdUFps3eWcwlbfIjMchZtIqYssshZhEpGXyrjiNuf4WqnECc5zE3CePLxAxxctvm/ECLYUkMhPz3plneSqJ1Masu2GxPJVE6TUJDPr8btP6VG5y65oYtf2jgpeYm4lR+z/nWd9icwZEHfuQ7m0qUxpGnfuGxetUplRElfN6DFOZdhJVTjwOMc8FyfE4xPyjJx7n/bwUvW2WcDqVNuJxTmLajMdZi/ldj494nJHz0me8mOKpRDxOeszo+hDviuCYiFcq9a5xUlDEa2HSdCJeD71isu9FvBHu/K2uIjDiSVFxliKeZBcTi/+ApBjiKYZ4ir0BqGw8q9eaVg8AAAAASUVORK5CYII="/>
+      </g>
+    </g>
+  </g>
+  <g>
+    <path class="st4" d="M20.65,96.35c-12.53-3.4-19.94-16.32-16.54-28.85s16.31-19.94,28.85-16.54,19.94,16.31,16.54,28.85-16.31,19.94-28.84,16.54Z"/>
+    <path class="st4" d="M46.03,78.87c2.88-10.62-3.39-21.57-14.01-24.45s-21.57,3.39-24.45,14.02,3.4,21.57,14.02,24.45,21.56-3.4,24.44-14.02Z"/>
+  </g>
+  <g>
+    <path class="st2" d="M72.79,105.69c-9.03-2.45-14.37-11.76-11.92-20.79s11.76-14.37,20.8-11.92,14.37,11.76,11.92,20.79c-2.45,9.03-11.76,14.37-20.79,11.92Z"/>
+    <path class="st2" d="M91.08,93.09c2.08-7.66-2.45-15.55-10.1-17.62s-15.55,2.45-17.62,10.1,2.45,15.55,10.11,17.62,15.55-2.45,17.62-10.1Z"/>
+  </g>
+  <polyline class="st0" points="119.17 66.84 122.84 72.62 117.77 91.32 111.28 95.08"/>
+  <polyline class="st6" points="117.78 85.18 123.66 86.77 132.85 52.88"/>
+  <path class="st6" d="M143.6,47.02c1.28-4.71-1.51-9.57-6.22-10.84s-9.57,1.5-10.85,6.22,1.51,9.57,6.22,10.84,9.57-1.51,10.84-6.22Z"/>
+  <rect class="st1" x="-5.2" y="126.85" width="67.51" height="90.66" transform="translate(-145.09 154.68) rotate(-74.83)"/>
+  <rect class="st1" x="36.97" y="205.72" width="10.5" height="33.59" transform="translate(-183.59 205.03) rotate(-74.83)"/>
+</svg>

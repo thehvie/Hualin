@@ -1,0 +1,46 @@
+# Dependencies (restore with `composer install`)
+/vendor/
+
+# User-uploaded content
+/uploads/
+
+# Sensitive / confidential
+confidential_information_sheet.pdf
+
+# Old template backups
+/bak/
+
+# Stale duplicate scripts with old secrets
+/phps/
+
+# Local secrets (see config.local.php.example)
+config.local.php
+
+# Runtime debug output
+/test.txt
+/contact_debug.log
+
+# Stray local test/debug artifacts
+bt_test.txt
+dollar_test.txt
+dq_heredoc_test.txt
+inc_test.txt
+nav_test.txt
+php_heredoc_test.txt
+php_test.txt
+quote_test.txt
+sq_test.txt
+stdin_test.txt
+test_node.txt
+test_node2.txt
+unicode_test.txt
+
+# Misc local artifacts
+ehlo
+telnet
+nul
+quick
+
+# OS / editor
+.DS_Store
+Thumbs.db

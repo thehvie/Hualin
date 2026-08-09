@@ -1,0 +1,47 @@
+# ===================================
+# Haulin Junkies - .htaccess File
+# ===================================
+
+# Redirect .html to .php URLs
+# This allows old .html links to work after renaming files to .php
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)\.html$ /$1.php [L,R=301]
+
+# Force HTTPS (Recommended for security)
+# Uncomment these lines if you have an SSL certificate
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Prevent directory browsing
+Options -Indexes
+
+# Enable Server Side Includes (if using SSI method instead of PHP)
+# Uncomment if using .shtml files
+# AddType text/html .shtml
+# AddOutputFilter INCLUDES .shtml
+# Options +Includes
+
+# Default character encoding
+AddDefaultCharset UTF-8
+
+# Enable compression for faster loading
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+</IfModule>
+
+# Set cache headers for static files
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# Custom error pages (create these if needed)
+# ErrorDocument 404 /404.html
+# ErrorDocument 500 /500.html

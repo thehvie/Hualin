@@ -1,0 +1,3199 @@
+@media (min-width: 1600px) and (max-width: 1800px) {
+    .topbar::after {
+        width: 600px;
+    }
+
+    .banner_img .img {
+        height: 670px;
+    }
+
+    .booking_form_2_overly::after {
+        width: 200px;
+    }
+
+    .booking_form_2_overly::before {
+        width: 120px;
+        height: 185px;
+    }
+
+    .faq_2::after {
+        width: 30%;
+    }
+}
+
+@media (min-width: 1400px) and (max-width: 1599.99px) {
+
+    .about_us::before {
+        display: none;
+    }
+
+    .about_us::after {
+        width: 140px;
+        height: 110px;
+    }
+
+    .testimonial::after {
+        display: none;
+    }
+
+    .choose_2::after {
+        display: none;
+    }
+
+    .booking_form_2_overly::after {
+        display: none;
+    }
+
+    .booking_form_2_overly::before {
+        right: 100px;
+        width: 105px;
+        height: 160px;
+    }
+
+    .faq_2::after {
+        width: 30%;
+    }
+
+    .testimonial_2_overly::after {
+        display: none;
+    }
+
+    .about_3_img {
+        width: 635px;
+        height: 590px;
+        left: -30px;
+    }
+
+    .mission_3::after {
+        left: -195px;
+    }
+
+    .topbar::after {
+        width: 500px;
+    }
+
+    .banner_img .img {
+        height: 630px;
+    }
+
+    .single_portfolio {
+        height: 285px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .why_choose_us::before {
+        width: 120px;
+        height: 155px;
+    }
+
+    .why_choose_us::after {
+        width: 260px;
+        height: 220px;
+    }
+
+    .download_app_img {
+        max-width: 440px;
+    }
+
+    .sidebar_summery {
+        padding: 30px;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1399.99px) {
+
+    .topbar_left li a,
+    .topbar_left li p {
+        font-size: 14px;
+    }
+
+    .topbar_left li a span,
+    .topbar_left li p span {
+        margin-right: 5px;
+    }
+
+    .topbar_left {
+        gap: 15px;
+    }
+
+    .topbar::after {
+        width: 470px;
+    }
+
+    .banner_text h1 {
+        font-size: 64px;
+    }
+
+    .banner_img .img {
+        height: 615px;
+    }
+
+    .section_heading h2 {
+        font-size: 40px;
+    }
+
+    .about_us::before {
+        display: none;
+    }
+
+    .about_us_text .about_btn_area ul {
+        margin-left: 20px;
+        margin-right: 10px;
+    }
+
+    .about_us_img .text {
+        left: 50px;
+    }
+
+    .single_services_img {
+        height: 200px;
+    }
+
+    .single_team .single_team_img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .single_team .single_team_img span {
+        bottom: 0px;
+    }
+
+    .single_team .single_team_img ul {
+        bottom: -10px;
+    }
+
+    .single_team .single_team_img ul li a {
+        margin-bottom: 7px;
+    }
+
+    .single_portfolio {
+        height: 310px;
+    }
+
+    .why_choose_us::before {
+        width: 100px;
+        height: 115px;
+    }
+
+    .why_choose_us::after {
+        width: 220px;
+        height: 185px;
+    }
+
+    .why_choose_img {
+        height: 415px;
+    }
+
+    .why_choose_text ul li .text {
+        max-width: 76%;
+    }
+
+    .why_choose_text ul li .text h3 {
+        font-size: 22px;
+    }
+
+    .simply_work_single {
+        width: 300px;
+        height: 300px;
+    }
+
+    .simply_work_single::after {
+        width: 340px;
+        height: 172px;
+        left: -24px;
+        bottom: -20px;
+    }
+
+    .testimonial::after {
+        display: none;
+    }
+
+    .single_blog_img {
+        height: 240px;
+    }
+
+    .footer_top li .text a,
+    .footer_top li .text p {
+        font-size: 18px;
+    }
+
+    .footer_link ul li a {
+        font-size: 14px;
+    }
+
+    .footer_time ul li {
+        font-size: 14px;
+    }
+
+    .banner_2_text h1 {
+        font-size: 65px;
+    }
+
+    .about_us_2_img {
+        height: 465px;
+    }
+
+    .about_us_2_img .text {
+        top: 51px;
+        right: 47px;
+    }
+
+    .section_heading_2 h2 {
+        font-size: 40px;
+    }
+
+    .service_2_item .img {
+        height: 210px;
+    }
+
+    .choose_2::before,
+    .choose_2::after {
+        display: none;
+    }
+
+    .choose_2_img {
+        height: 750px;
+        margin-left: 0;
+        margin-top: 127px;
+    }
+
+    .choose_2_item .title {
+        font-size: 22px;
+    }
+
+    .booking_form_2_overly::before,
+    .booking_form_2_overly::after {
+        display: none;
+    }
+
+    .team_2_item .img {
+        height: 260px;
+    }
+
+    .more_about_progressbar .progress-bar div span {
+        font-size: 50px;
+    }
+
+    .team_2_item .img::after {
+        display: none;
+    }
+
+    .faq_2::after {
+        width: 30%;
+    }
+
+    .faq_2_img {
+        height: 500px;
+    }
+
+    .portfolio_2_item {
+        height: 260px;
+    }
+
+    .process_2_item::before {
+        width: 210px;
+    }
+
+    .testimonial_2_overly::after {
+        display: none;
+    }
+
+    .blog_2_item_img {
+        height: 260px;
+    }
+
+    .footer_2_recent_post ul li .text {
+        width: 65%;
+        margin-left: 10px;
+    }
+
+    .about_3_img {
+        height: 510px;
+        left: -35px;
+    }
+
+    .section_heading_3 h2 {
+        font-size: 40px;
+    }
+
+    .about_3_contant_right {
+        width: 32%;
+        margin-left: 20px;
+    }
+
+    .about_3_contant_right ul li h6,
+    .about_3_contant_right ul li h5 {
+        font-size: 20px;
+    }
+
+    .about_3_contant_right ul li {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .about_3_contant_left {
+        width: 64%;
+    }
+
+    .about_3_contant_left ul li h4 {
+        width: 75%;
+        font-size: 20px;
+    }
+
+    .mission_3::after {
+        left: -160px;
+    }
+
+    .faq_3_img .img_1 {
+        height: 390px;
+    }
+
+    .faq_3_img .img_2 {
+        right: -25px;
+    }
+
+    .award_3_img {
+        height: 580px;
+    }
+
+    .award_3_text_top h5 {
+        font-size: 20px;
+        width: 70%;
+    }
+
+    .blog_3_item .img {
+        height: 250px;
+    }
+
+    .services_details_img,
+    .booking_details_img,
+    .blog_details_img {
+        height: 390px;
+    }
+
+    .single_review .text {
+        width: 88%;
+    }
+
+    .sidebar_post ul li .text {
+        max-width: 53%;
+    }
+
+    .single_comment .text {
+        width: 86%;
+    }
+
+    .single_comment .text {
+        width: 84%;
+    }
+
+    .contact_info {
+        padding: 20px;
+    }
+
+    .contact_info .text {
+        max-width: 68%;
+    }
+
+    .contact_info .text p,
+    .contact_info .text a {
+        font-size: 15px;
+    }
+
+    .faq_img {
+        height: 500px;
+    }
+
+    .team_details_left .img {
+        margin: 20px;
+    }
+
+    .error_text .img {
+        height: 225px;
+    }
+
+    .about_us_img .img_2 {
+        width: 240px;
+        height: 240px;
+    }
+
+    .about_us_text .bottom_text li h3 {
+        font-size: 16px;
+        max-width: 175px;
+    }
+
+    .why_choose_text ul {
+        gap: 40px;
+    }
+
+    .simply_work_single p {
+        -webkit-line-clamp: 3;
+    }
+
+    .single_testimonial_img {
+        height: 345px;
+    }
+
+    .single_blog_text ul li {
+        font-size: 14px;
+    }
+
+    .banner_text p {
+        max-width: 100%;
+    }
+
+    .about_us::after {
+        width: 155px;
+        height: 120px;
+    }
+
+    .title {
+        font-size: 18px !important;
+    }
+
+    .about_us_2_contant ul li h6 {
+        font-size: 18px;
+    }
+
+    .more_about_progressbar h2 {
+        font-size: 22px;
+    }
+
+    .choose_3_item .top h4 {
+        margin-top: 15px;
+        font-size: 20px;
+    }
+
+    .sidebar_summery {
+        padding: 25px;
+    }
+
+    .error_text h2 {
+        font-size: 40px;
+    }
+
+    .sidebar_package {
+        padding: 30px 30px 25px 30px;
+    }
+
+    .sidebar_provider {
+        padding: 30px;
+    }
+
+    .topbar_left li p {
+        display: none;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.99px) {
+
+    .topbar_left li p {
+        display: none;
+    }
+
+    .topbar_left {
+        gap: 0;
+    }
+
+    .topbar_left li {
+        margin-right: 30px;
+    }
+
+    .topbar_left li:first-child {
+        margin-right: 0;
+    }
+
+    .topbar::after {
+        width: 450px;
+    }
+
+    .main_menu .navbar-nav .nav-item .nav-link {
+        font-size: 15px;
+        margin: 0px 12px;
+    }
+
+    .banner_img .img {
+        height: 560px;
+    }
+
+    .banner_text h1 {
+        font-size: 58px;
+    }
+
+    .about_us::before {
+        display: none;
+    }
+
+    .about_us::after {
+        width: 110px;
+        height: 80px;
+    }
+
+    .about_us_img .img_1 {
+        margin: auto;
+    }
+
+    .about_us_text {
+        margin-top: 60px;
+    }
+
+    .section_heading h2 {
+        font-size: 40px;
+    }
+
+    .single_services_img {
+        height: 260px;
+    }
+
+    .single_portfolio {
+        height: 340px;
+    }
+
+    .why_choose_us::before {
+        width: 100px;
+        height: 115px;
+    }
+
+    .why_choose_us::after {
+        width: 175px;
+        height: 150px;
+    }
+
+    .why_choose_img {
+        height: 345px;
+    }
+
+    .single_testimonial_img {
+        height: 365px;
+    }
+
+    .testimonial::after {
+        display: none;
+    }
+
+    .testimonial_text_area {
+        margin-top: 60px;
+    }
+
+    .single_blog_img {
+        height: 315px;
+    }
+
+    .footer_top li .text a,
+    .footer_top li .text p {
+        font-size: 18px;
+    }
+
+    .footer_link_padding {
+        padding-left: 0;
+    }
+
+    .topbar_2 .topbar_left li:first-child {
+        margin-right: 30px;
+    }
+
+    .banner_2_text h1 {
+        font-size: 60px;
+    }
+
+    .about_us_2_img {
+        height: 610px;
+    }
+
+    .about_us_2_img .text {
+        top: 117px;
+        right: 82px;
+    }
+
+    .about_us_2_contant {
+        margin-top: 90px;
+    }
+
+    .service_2_item .img {
+        height: 260px;
+    }
+
+    .choose_2::before,
+    .choose_2::after {
+        display: none;
+    }
+
+    .choose_2_item {
+        padding: 20px 20px 14px 20px;
+    }
+
+    .choose_2_item .title {
+        margin-top: 15px;
+    }
+
+    .choose_2_img {
+        height: 815px;
+        padding-top: 100px;
+    }
+
+    .booking_form_2_contant {
+        padding: 40px;
+    }
+
+    .booking_form_2_overly::before,
+    .booking_form_2_overly::after {
+        display: none;
+    }
+
+    .booking_form_text {
+        margin-top: 60px;
+    }
+
+    .team_2_item .img {
+        height: 295px;
+    }
+
+    .faq_2 .section_heading_2 h2 {
+        font-size: 34px;
+    }
+
+    .more_about_progressbar h2 {
+        font-size: 22px;
+    }
+
+    .more_about_progressbar .progress-bar div span {
+        font-size: 46px;
+    }
+
+    .banner_2_text p {
+        max-width: 87%;
+    }
+
+    .faq_2_img {
+        height: 510px;
+    }
+
+    .faq_accordion .accordion-button {
+        font-size: 16px;
+    }
+
+    .section_heading_2 h2 {
+        font-size: 40px;
+    }
+
+    .faq_2::after {
+        width: 30%;
+    }
+
+    .portfolio_2_item {
+        height: 330px;
+    }
+
+    .more_about_progressbar {
+        margin-top: 60px;
+    }
+
+    .testimonial_2_overly::after {
+        display: none;
+    }
+
+    .blog_2_item_img {
+        height: 210px;
+    }
+
+    .footer_2 .footer_link_padding {
+        margin-top: 0;
+    }
+
+    .main_menu_3 .navbar-nav .nav-item .nav-link {
+        margin: 0px 7px;
+    }
+
+    .about_3_img {
+        height: 425px;
+        left: 0;
+    }
+
+    .about_3_contant_left {
+        width: 100%;
+    }
+
+    .about_3_contant_right {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .about_3_contant_right ul {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .about_3_contant_right ul li {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-bottom: 0;
+        border-right: 1px solid #69696942;
+        width: 50%;
+    }
+
+    .mission_3_area .section_heading_3 h2 {
+        font-size: 37px;
+    }
+
+    .mission_3_area p {
+        margin-top: 15px;
+    }
+
+    .choose_3_item .top h4 {
+        font-size: 20px;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .about_3_contant .common_btn_2 {
+        margin-top: 20px;
+    }
+
+    .about_3_contant_right ul li h5 {
+        margin-top: 5px;
+        font-size: 18px;
+    }
+
+    .about_3_ceo {
+        margin-top: 15px;
+    }
+
+    .about_3_contant_left ul {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 15px;
+    }
+
+    .about_3_contant_left ul li {
+        width: 50%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 15px;
+        padding-bottom: 15px;
+        border-bottom: 0;
+    }
+
+    .about_3_contant_left ul li span {
+        margin-right: 15px;
+    }
+
+    .about_3_contant_left ul li h4 {
+        font-size: 16px;
+        width: 63%;
+    }
+
+    .section_heading_3 h2 {
+        font-size: 40px;
+    }
+
+    .mission_3::after {
+        display: none;
+    }
+
+    .faq_3_img .img_1 {
+        height: 315px;
+    }
+
+    .faq_3_img .img_2 {
+        bottom: -135px;
+        right: -15px;
+    }
+
+    .award_3_img {
+        height: 500px;
+    }
+
+    .blog_3_item .img {
+        height: 325px;
+    }
+
+    .footer_3_address {
+        margin-top: 40px;
+    }
+
+    .footer_3_insta {
+        margin-top: 40px;
+    }
+
+    .breadcrumb_overlay {
+        padding: 205px 0px 100px 0px;
+    }
+
+    .sidebar {
+        padding-left: 0;
+    }
+
+    .services_details_img,
+    .booking_details_img,
+    .blog_details_img {
+        height: 325px;
+    }
+
+    .single_review .text {
+        width: 84%;
+    }
+
+    .sidebar_package {
+        padding: 25px 25px 20px 25px;
+    }
+
+    .sidebar_provider {
+        padding: 25px 25px;
+    }
+
+    .sidebar_booking_info {
+        padding: 30px 20px;
+    }
+
+    .sidebar_summery {
+        padding: 30px 20px;
+    }
+
+    .sidebar_summery .text_bg {
+        padding: 15px 20px 20px 20px;
+    }
+
+    .single_comment .text {
+        width: 83%;
+    }
+
+    .single_comment_reply .text {
+        width: 80%;
+    }
+
+    .input_comment {
+        padding: 35px;
+    }
+
+    .blog_sidebar {
+        padding: 25px;
+    }
+
+    .sidebar_post ul li .text {
+        max-width: 50%;
+    }
+
+    .sidebar_contact .text h2 {
+        font-size: 24px;
+    }
+
+    .sidebar_contact .text p {
+        line-height: 24px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .contact_map {
+        height: 350px;
+    }
+
+    .faq_img {
+        height: 500px;
+    }
+
+    .team_details_contant {
+        margin-left: 0;
+    }
+
+    .team_details_left .img {
+        height: 400px;
+        margin: 0;
+    }
+
+    .team_details_left .text,
+    .team_details_contact {
+        margin-top: 50px;
+    }
+
+    .error_text .img {
+        height: 270px;
+    }
+
+    .login_text {
+        padding: 45px !important;
+    }
+
+    .dashboard_invoice_header .text ul li span {
+        width: 100%;
+    }
+
+    .about_us_text .about_btn_area ul {
+        margin-left: 25px;
+        margin-top: 10px;
+    }
+
+    .about_us_text .bottom_text li .icon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .about_us_text .bottom_text li h3 {
+        font-size: 18px;
+        max-width: 180px;
+    }
+
+    .about_us_text .about_btn_area ul li {
+        width: 45px;
+        height: 45px;
+    }
+
+    .about_us_img .img_2 {
+        bottom: -130px;
+        width: 200px;
+        height: 200px;
+    }
+
+    .about_us_img .text {
+        width: 180px;
+        height: 180px;
+        left: -20px;
+    }
+
+    .about_us_img .img_1 {
+        width: 370px;
+        height: 370px;
+    }
+
+    .about_us_img .text h3 {
+        font-size: 45px;
+    }
+
+    .why_choose_text ul {
+        gap: 30px;
+    }
+
+    .why_choose_text ul li .text h3 {
+        font-size: 16px;
+    }
+
+    .why_choose_text ul li .text {
+        max-width: 70%;
+    }
+
+    .simply_work_single {
+        width: 270px;
+        height: 270px;
+    }
+
+    .simply_work_single p {
+        -webkit-line-clamp: 2;
+    }
+
+    .simply_work_single::after {
+        width: 310px;
+        height: 156px;
+        bottom: -20px;
+        left: -25px;
+    }
+
+    .title {
+        font-size: 18px !important;
+    }
+
+    .footer_time ul li span {
+        min-width: 85px;
+        font-size: 13px;
+    }
+
+    .footer_time ul li,
+    .footer_link ul li a,
+    .footer_2_recent_post ul li a {
+        font-size: 13px;
+    }
+
+    .blog_2_item_text {
+        padding: 60px 20px 20px 20px;
+    }
+
+    .blog_2_item_text .date {
+        left: 20px;
+    }
+
+    .faq_3_accordion .accordion-button {
+        font-size: 16px;
+    }
+
+    .footer_3 .footer_3_address,
+    .footer_3 .footer_3_insta {
+        margin-top: 0;
+    }
+
+    .main_menu_3 .navbar-brand::after {
+        width: 210px;
+    }
+
+    .blog_details_text ul li::after,
+    .blog_details_text ol li::after {
+        top: 0px;
+    }
+
+    .sidebar_summery .text_bg p span,
+    .sidebar_summery .text_bg h5 span {
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .faq_text .accordion-item h2 button {
+        font-size: 16px;
+    }
+
+    .team_details_contant .addressing li span {
+        width: 160px;
+    }
+
+    .sidebar_provider h2 {
+        font-size: 22px;
+    }
+
+    .services_page .single_services_img,
+    .dashboard .single_services_img {
+        height: 165px;
+    }
+
+    .single_services_text {
+        padding: 20px;
+    }
+
+    .book_now_btn {
+        margin-left: -35px;
+    }
+
+    .single_services_text ul li {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.99px) {
+
+    .topbar_right {
+        justify-content: center;
+    }
+
+    .topbar::after {
+        width: 825px;
+    }
+
+    .main_menu .container {
+        padding: 12px 0px 13px !important;
+    }
+
+    .main_menu .navbar-brand {
+        margin-left: 12px;
+    }
+
+    .main_menu .navbar-toggler {
+        margin-right: 12px;
+    }
+
+    .main_menu .navbar-collapse {
+        margin-top: 9px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+
+    .main_menu .navbar-nav {
+        line-height: 57px;
+        padding: 25px 0px 25px;
+        background: var(--colorWhite);
+    }
+
+    .main_menu .navbar-nav .nav-item .nav-link {
+        color: var(--colorBlack);
+    }
+
+    .main_menu .navbar-nav .nav-item:hover .nav-link,
+    .main_menu .navbar-nav .nav-item .nav-link.active {
+        color: var(--colorPrimary);
+    }
+
+    .main_menu .droap_menu {
+        left: 20px;
+        max-height: 250px;
+    }
+
+    .main_menu .right_menu {
+        margin-top: -1px;
+        padding: 18px 0px 18px 20px;
+        background: var(--colorWhite);
+        border-top: 1px solid #16171a24;
+    }
+
+    .main_menu .right_menu li .search img {
+        filter: brightness(0) saturate(100%) invert(4%) sepia(4%) saturate(3995%) hue-rotate(187deg) brightness(90%) contrast(88%);
+        -webkit-filter: brightness(0) saturate(100%) invert(4%) sepia(4%) saturate(3995%) hue-rotate(187deg) brightness(90%) contrast(88%);
+    }
+
+    .banner_text h1 {
+        font-size: 56px;
+    }
+
+    .banner_img {
+        align-items: center;
+    }
+
+    .about_us::before,
+    .about_us::after {
+        display: none;
+    }
+
+    .about_us_img .text {
+        left: 175px;
+    }
+
+    .about_us_img .img_2 {
+        left: 10px;
+    }
+
+    .about_us_text {
+        margin-top: 60px;
+    }
+
+    .section_heading h2 {
+        font-size: 30px;
+    }
+
+    .single_services_img {
+        height: 190px;
+    }
+
+    .single_portfolio {
+        height: 265px;
+    }
+
+    .why_choose_us::before,
+    .why_choose_us::after {
+        display: none;
+    }
+
+    .why_choose_img {
+        height: 812px;
+        margin: 60px 0px;
+    }
+
+    .single_counter {
+        margin: 20px 0px;
+    }
+
+    .testimonial::after {
+        display: none;
+    }
+
+    .single_testimonial_img {
+        height: 290px;
+        margin-right: 20px;
+    }
+
+    .single_blog_text ul li {
+        font-size: 13px;
+    }
+
+    .testimonial_text_area {
+        margin-top: 60px;
+    }
+
+    .single_blog_img {
+        height: 230px;
+    }
+
+    .footer_top li .text a,
+    .footer_top li .text p {
+        font-size: 14px;
+    }
+
+    .footer_top li {
+        padding-left: 60px;
+    }
+
+    .footer_top li .icon {
+        top: -3px;
+    }
+
+    .footer_link_padding {
+        padding-left: 0;
+        margin-top: 60px;
+    }
+
+    .footer_time {
+        margin-top: 60px;
+    }
+
+    .main_menu_2 .navbar-collapse {
+        margin-top: 7px;
+        border-top: 1px solid #16171a30;
+    }
+
+    .banner_2_text h1 {
+        font-size: 64px;
+        line-height: 84px;
+    }
+
+    .about_us_2_img {
+        height: 600px;
+    }
+
+    .about_us_2_img .text {
+        top: 112px;
+        right: 82px;
+    }
+
+    .about_us_2_contant {
+        margin-top: 80px;
+    }
+
+    .service_2_item .img {
+        height: 200px;
+    }
+
+    .choose_2::before,
+    .choose_2::after {
+        display: none;
+    }
+
+    .choose_2_img {
+        height: 720px;
+        margin-top: 60px;
+    }
+
+    .booking_form_2_overly::before,
+    .booking_form_2_overly::after {
+        display: none;
+    }
+
+    .booking_form_text {
+        margin-top: 60px;
+    }
+
+    .section_heading_2 h2 {
+        font-size: 30px;
+    }
+
+    .team_2_item .img {
+        height: 340px;
+    }
+
+    .faq_2_img {
+        height: 775px;
+    }
+
+    .faq_2::after {
+        width: 50%;
+        height: 995px;
+    }
+
+    .faq_2_text {
+        margin-top: 200px;
+    }
+
+    .portfolio_2_item {
+        height: 240px;
+    }
+
+    .more_about_progressbar {
+        margin-top: 60px;
+    }
+
+    .testimonial_2_overly::after {
+        display: none;
+    }
+
+    .blog_2_item_img {
+        height: 240px;
+    }
+
+    .footer_2 .footer_link_padding {
+        margin-top: 0;
+    }
+
+    .footer_2_recent_post {
+        margin-top: 60px;
+    }
+
+    .main_menu_3 {
+        background: var(--colorGreen);
+    }
+
+    .main_menu_3 .navbar-brand {
+        padding-left: 0;
+    }
+
+    .banner_3 .banner_text h1 {
+        font-size: 60px;
+        line-height: 75px;
+    }
+
+    .about_3_img {
+        height: 480px;
+        left: 0;
+        margin-bottom: 60px;
+    }
+
+    .section_heading_3 h2 {
+        font-size: 30px;
+    }
+
+    .mission_3::after {
+        display: none;
+    }
+
+    .mission_btn {
+        text-align: start;
+        margin-top: 40px;
+    }
+
+    .faq_3_img .img_1 {
+        height: 400px;
+        margin-top: 120px;
+        margin-left: 50px;
+    }
+
+    .faq_3_img_text {
+        left: 0;
+    }
+
+    .award_3_img {
+        height: 430px;
+    }
+
+    .award_3 {
+        margin-top: 60px;
+    }
+
+    .blog_3_item .img {
+        height: 240px;
+    }
+
+    .footer_3_address {
+        margin-top: 40px;
+    }
+
+    .footer_3_insta {
+        margin-top: 40px;
+    }
+
+    .breadcrumb_overlay {
+        padding: 205px 0px 100px 0px;
+    }
+
+    .sidebar {
+        padding-left: 0;
+    }
+
+    .services_details_area {
+        margin-bottom: 60px;
+    }
+
+    .services_details_img,
+    .booking_details_img,
+    .blog_details_img {
+        height: 370px;
+    }
+
+    .single_review .text {
+        width: 86%;
+    }
+
+    .wsus__booking_button_area {
+        margin-bottom: 65px;
+    }
+
+    .input_comment {
+        margin-bottom: 60px;
+    }
+
+    .single_comment .text {
+        width: 85%;
+    }
+
+    .single_comment_reply .text {
+        width: 83%;
+    }
+
+    .contact_form {
+        padding: 30px 40px 40px 40px;
+    }
+
+    .contact_map {
+        height: 350px;
+    }
+
+    .faq_img {
+        height: 770px;
+        margin-top: 80px;
+    }
+
+    .faq_page::after {
+        display: none;
+    }
+
+    .team_details_contant {
+        margin-left: 0;
+        margin-top: 30px;
+    }
+
+    .team_details_left .text,
+    .team_details_contact {
+        margin-top: 30px;
+    }
+
+    .team_details_left .img {
+        height: 530px;
+        margin: 0;
+    }
+
+    .error_text .img {
+        height: 290px;
+    }
+
+    .error_text h2 {
+        font-size: 40px;
+    }
+
+    .login_text {
+        padding: 40px !important;
+    }
+
+    .dashboard_content {
+        margin-top: 60px;
+    }
+
+    .banner_text p {
+        max-width: 100%;
+    }
+
+    .title {
+        font-size: 18px !important;
+    }
+
+    .why_choose_text ul li .text h3 {
+        font-size: 20px;
+    }
+
+    .banner {
+        height: auto;
+    }
+
+    .banner_text {
+        padding-top: 230px;
+    }
+
+    .banner_img .img {
+        height: 700px;
+        margin-top: 30px;
+    }
+
+    .topbar::after {
+        width: 100%;
+        clip-path: none !important;
+    }
+
+    .simply_work_single {
+        width: 300px;
+        height: 300px;
+    }
+
+    .simply_work_single h3 {
+        font-size: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .simply_work_single::after {
+        width: 335px;
+        height: 169px;
+        bottom: -18px;
+        left: -22px;
+    }
+
+    .banner_2 {
+        height: auto;
+        padding: 110px 0px;
+        background-position: center left !important;
+    }
+
+    .banner_2_text p {
+        max-width: 100%;
+    }
+
+    .main_menu_3 .navbar-brand::after {
+        left: -150px;
+        width: 375px;
+        border-radius: 0;
+    }
+
+    .main_menu_3 .container::after {
+        display: none;
+    }
+
+    .banner_3 .banner_text {
+        padding-top: 155px;
+        padding-bottom: 165px;
+    }
+
+    .choose_3 {
+        margin-top: -80px;
+    }
+
+    .banner_3_overly {
+        background: linear-gradient(90deg, rgb(6 174 89 / 90%) 16.67%, rgb(3 66 125 / 0%) 100%);
+    }
+
+    .choose_3_item .top h4 {
+        width: 100%;
+        font-size: 20px;
+        margin-top: 20px;
+    }
+
+    .about_3_contant_left ul li h4 {
+        width: 78%;
+        font-size: 20px;
+    }
+
+    .main_menu_3 .navbar-nav .nav-item:hover .nav-link,
+    .main_menu_3 .navbar-nav .nav-item .nav-link.active {
+        color: var(--colorGreen);
+    }
+
+    .progress-wrap {
+        right: 20px;
+        bottom: 20px;
+    }
+
+    .error {
+        height: auto;
+        padding: 100px 0px;
+    }
+
+    .small_margin {
+        margin-bottom: 50px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767.99px) {
+
+    .topbar_right {
+        justify-content: center;
+    }
+
+    .topbar::after {
+        width: 615px;
+    }
+
+    .main_menu .container {
+        padding: 12px 0px 13px !important;
+    }
+
+    .main_menu .navbar-brand {
+        margin-left: 12px;
+    }
+
+    .main_menu .navbar-toggler {
+        margin-right: 12px;
+    }
+
+    .main_menu .navbar-collapse {
+        margin-top: 9px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+
+    .main_menu .navbar-nav {
+        line-height: 57px;
+        padding: 25px 0px 25px;
+        background: var(--colorWhite);
+    }
+
+    .main_menu .navbar-nav .nav-item .nav-link {
+        color: var(--colorBlack);
+    }
+
+    .main_menu .navbar-nav .nav-item:hover .nav-link,
+    .main_menu .navbar-nav .nav-item .nav-link.active {
+        color: var(--colorPrimary);
+    }
+
+    .main_menu .droap_menu {
+        left: 20px;
+        max-height: 250px;
+    }
+
+    .main_menu .right_menu {
+        margin-top: -1px;
+        padding: 18px 0px 18px 20px;
+        background: var(--colorWhite);
+        border-top: 1px solid #16171a24;
+    }
+
+    .main_menu .right_menu li .search img {
+        filter: brightness(0) saturate(100%) invert(4%) sepia(4%) saturate(3995%) hue-rotate(187deg) brightness(90%) contrast(88%);
+        -webkit-filter: brightness(0) saturate(100%) invert(4%) sepia(4%) saturate(3995%) hue-rotate(187deg) brightness(90%) contrast(88%);
+    }
+
+    .banner_text {
+        padding-top: 210px;
+    }
+
+    .banner_text h1 {
+        font-size: 46px;
+    }
+
+    .banner_text p {
+        font-size: 16px;
+        max-width: 100%;
+    }
+
+    .banner_text ul li .play_btn {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 16px;
+    }
+
+    .banner_img .img {
+        height: 700px;
+        margin-top: 30px;
+    }
+
+    .common_btn,
+    .common_btn_2 {
+        padding: 12px 20px;
+    }
+
+    .about_us::before,
+    .about_us::after {
+        display: none;
+    }
+
+    .about_us_img .img_1 {
+        width: 350px;
+        height: 350px;
+    }
+
+    .about_us_img .img_2 {
+        width: 200px;
+        height: 200px;
+        left: 25px;
+    }
+
+    .about_us_img .text {
+        left: 50px;
+    }
+
+    .about_us_text {
+        padding-left: 0;
+        margin-top: 60px;
+    }
+
+    .section_heading h2 {
+        font-size: 30px;
+    }
+
+    .about_us_text .about_btn_area ul {
+        margin-left: 30px;
+        margin-right: 20px;
+    }
+
+    .single_services_img {
+        height: 300px;
+    }
+
+    .title {
+        font-size: 20px !important;
+    }
+
+    .single_services_text h4 {
+        font-size: 18px;
+    }
+
+    .single_portfolio {
+        height: 300px;
+    }
+
+    .why_choose_us::before,
+    .why_choose_us::after {
+        display: none;
+    }
+
+    .why_choose_img {
+        height: 600px;
+        margin: 60px 0px;
+    }
+
+    .single_counter {
+        margin: 30px 0px;
+    }
+
+    .single_counter h4,
+    .single_counter h4 span {
+        font-size: 35px;
+    }
+
+    .download_app_img {
+        margin-top: 60px;
+        max-width: 360px;
+        max-height: 480px;
+    }
+
+    .testimonial::after {
+        display: none;
+    }
+
+    .single_testimonial_img {
+        height: 550px;
+        margin-right: 0;
+    }
+
+    .testimonial_text_area {
+        margin-top: 60px;
+    }
+
+    .call_to_action_text h2 {
+        font-size: 30px;
+    }
+
+    .single_blog_img {
+        height: 350px;
+    }
+
+    .footer_top li {
+        width: 100%;
+        margin: 20px 0px;
+    }
+
+    .footer_top li .text a,
+    .footer_top li .text p {
+        font-size: 20px;
+    }
+
+    .footer_link_padding {
+        padding-left: 0;
+    }
+
+    .footer_link {
+        margin-top: 50px;
+    }
+
+    .footer_time {
+        margin-top: 50px;
+    }
+
+    .footer_copyright_text {
+        justify-content: center;
+    }
+
+    .footer_copyright_text ul {
+        margin-top: 10px;
+    }
+
+    .main_menu_2 .navbar-collapse {
+        margin-top: 7px;
+        border-top: 1px solid #16171a30;
+    }
+
+    .banner_2_text h1 {
+        font-size: 54px;
+        line-height: 70px;
+    }
+
+    .about_us_2_img {
+        height: 440px;
+    }
+
+    .about_us_2_img .text {
+        top: 39px;
+        right: 40px;
+    }
+
+    .section_heading_2 h2 {
+        font-size: 30px;
+        line-height: 50px;
+    }
+
+    .about_us_2_contant {
+        margin-top: 60px;
+    }
+
+    .service_2_item .img {
+        height: 300px;
+    }
+
+    .choose_2::before,
+    .choose_2::after {
+        display: none;
+    }
+
+    .choose_2_img {
+        height: 525px;
+        margin-top: 60px;
+    }
+
+    .booking_form_2_overly::before,
+    .booking_form_2_overly::after {
+        display: none;
+    }
+
+    .booking_form_text {
+        margin-top: 60px;
+    }
+
+    .team_2_item .img {
+        height: 500px;
+    }
+
+    .faq_2_img {
+        height: 570px;
+    }
+
+    .faq_2::after {
+        height: 770px;
+        width: 50%;
+    }
+
+    .faq_2_text {
+        margin-top: 160px;
+    }
+
+    .portfolio_2_item {
+        height: 360px;
+    }
+
+    .more_about_progressbar {
+        margin-top: 60px;
+    }
+
+    .testimonial_2_overly::after {
+        display: none;
+    }
+
+    .blog_2_item_img {
+        height: 360px;
+    }
+
+    .testimonial_2_item {
+        padding: 55px 20px 25px 20px;
+    }
+
+    .footer_2_recent_post {
+        margin-top: 50px;
+    }
+
+    .main_menu_3 {
+        background: var(--colorGreen);
+    }
+
+    .main_menu_3 .container::after {
+        display: none;
+    }
+
+    .main_menu_3 .navbar-brand::after {
+        left: -130px;
+        width: 325px;
+    }
+
+    .main_menu_3 .navbar-brand {
+        padding-left: 0;
+    }
+
+    .banner_3 .banner_text h1 {
+        font-size: 60px;
+        line-height: 70px;
+    }
+
+    .about_3_img {
+        height: 480px;
+        left: 0;
+        margin-bottom: 60px;
+    }
+
+    .section_heading_3 h2 {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .about_3_contant_left ul li h4 {
+        font-size: 20px;
+    }
+
+    .about_3_contant_left {
+        width: 100%;
+    }
+
+    .about_3_contant_right {
+        width: 70%;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+
+    .team_3_item .img {
+        width: 190px;
+        height: 190px;
+    }
+
+    .mission_3::after {
+        display: none;
+    }
+
+    .mission_btn {
+        text-align: start;
+        margin-top: 40px;
+    }
+
+    .faq_3_img {
+        height: 450px;
+        margin-top: 100px;
+        padding-left: 50px;
+    }
+
+    .faq_3_img_text {
+        left: 0;
+    }
+
+    .award_3 {
+        margin-top: 60px;
+    }
+
+    .award_3_img {
+        height: 320px;
+    }
+
+    .blog_3_btn {
+        align-items: start;
+    }
+
+    .blog_3_item .img {
+        height: 365px;
+    }
+
+    .footer_3_newsletter_right form {
+        margin-top: 30px;
+    }
+
+    .footer_3_menu {
+        margin-bottom: 50px;
+    }
+
+    .footer_3_insta {
+        margin-top: 50px;
+    }
+
+    .footer_copyright_3_text {
+        justify-content: center;
+    }
+
+    .footer_copyright_3_text p {
+        margin-bottom: 10px;
+    }
+
+    .breadcrumb_text h1 {
+        font-size: 42px;
+    }
+
+    .breadcrumb_overlay {
+        padding: 180px 0px 75px 0px;
+    }
+
+    .services_details_img,
+    .booking_details_img,
+    .blog_details_img {
+        height: 270px;
+    }
+
+    .service_details_overview ul li,
+    .service_details_overview ul ol,
+    .service_details_text ul li,
+    .service_details_text ul ol {
+        width: 100%;
+    }
+
+    .single_review .text {
+        width: 100%;
+        margin-top: 25px;
+    }
+
+    .sidebar {
+        padding-left: 0;
+    }
+
+    .services_details_area {
+        margin-bottom: 60px;
+    }
+
+    .wsus__booking_button_area {
+        margin-bottom: 65px;
+    }
+
+    .input_comment {
+        margin-bottom: 60px;
+        padding: 35px;
+    }
+
+    .single_comment .text {
+        width: 80%;
+    }
+
+    .single_comment_reply {
+        margin-left: 50px;
+    }
+
+    .single_comment_reply .text {
+        width: 78%;
+    }
+
+    .contact_map {
+        height: 300px;
+    }
+
+    .faq_img {
+        height: 570px;
+        margin-top: 80px;
+    }
+
+    .faq_page::after {
+        display: none;
+    }
+
+    .team_details_contant {
+        margin-left: 0;
+        margin-top: 25px;
+    }
+
+    .team_details_left .text,
+    .team_details_contact {
+        margin-top: 30px;
+    }
+
+    .team_details_left .img {
+        height: 400px;
+        margin: 0;
+    }
+
+    .error_text .img {
+        height: 260px;
+    }
+
+    .error_text h2 {
+        font-size: 35px;
+    }
+
+    .login_text {
+        padding: 35px !important;
+    }
+
+    .dashboard_content {
+        margin-top: 60px;
+    }
+
+    .dashboard_invoice_header .text {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .dashboard_invoice_footer a {
+        display: none;
+    }
+
+    .menu_search form {
+        width: 93%;
+    }
+
+    .progress-wrap {
+        right: 20px;
+        bottom: 20px;
+    }
+
+    .banner_text p {
+        max-width: 100%;
+    }
+
+    .about_us_text .bottom_text li h3 {
+        font-size: 16px;
+        max-width: 160px;
+    }
+
+    .why_choose_text ul li .text h3 {
+        font-size: 18px;
+    }
+
+    .blog .text-end,
+    .portfolio .text-end,
+    .services .text-end {
+        text-align: left !important;
+    }
+
+    .banner {
+        height: auto;
+    }
+
+    .banner_img {
+        align-items: center;
+    }
+
+    .topbar::after {
+        width: 100%;
+        clip-path: none !important;
+    }
+
+    .banner_2 {
+        height: auto;
+        padding: 90px 0px;
+        background-position: center left !important;
+    }
+
+    .banner_2_text {
+        width: 100%;
+    }
+
+    .about_us_2_contant ul li {
+        width: 100%;
+    }
+
+    .booking_form_text h2 {
+        font-size: 40px;
+    }
+
+    .footer_time ul li span {
+        min-width: 90px;
+        font-size: 14px;
+    }
+
+    .footer_time ul li {
+        margin-top: 15px;
+    }
+
+    .footer_2_recent_post ul li .text {
+        width: 58%;
+    }
+
+    .footer_2_recent_post ul li a {
+        font-size: 14px;
+    }
+
+    .banner_2_text p {
+        max-width: 100%;
+    }
+
+    .banner_3 .banner_text {
+        padding-top: 135px;
+        padding-bottom: 100px;
+    }
+
+    .choose_3 {
+        margin-top: 70px;
+    }
+
+    .faq_3_img .img_1 {
+        height: 400px;
+    }
+
+    .faq_3_img .img_2 {
+        right: 0;
+    }
+
+    .footer_3 .footer_3_insta {
+        margin-top: 0px;
+    }
+
+    .footer_3_insta ul li a {
+        width: 54px;
+        height: 54px;
+    }
+
+    .banner_3_overly {
+        background: linear-gradient(90deg, rgb(6 174 89 / 90%) 16.67%, rgb(3 66 125 / 0%) 100%);
+    }
+
+    .main_menu_3 .navbar-nav .nav-item:hover .nav-link,
+    .main_menu_3 .navbar-nav .nav-item .nav-link.active {
+        color: var(--colorGreen);
+    }
+
+    .contact_form {
+        padding: 10px 40px 40px 40px;
+    }
+
+    .error {
+        height: auto;
+        padding: 100px 0px;
+    }
+
+    .terms_and_condition_text ul li::after,
+    .terms_and_condition_text ol li::after {
+        top: 4px;
+    }
+
+    .small_margin {
+        margin-bottom: 50px;
+    }
+
+    .login_text h4 {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 575px) {
+
+    .topbar_right {
+        justify-content: center;
+    }
+
+    .main_menu .container {
+        padding: 17px 0px 13px !important;
+    }
+
+    .main_menu .navbar-brand {
+        margin-left: 12px;
+        max-width: 130px;
+    }
+
+    .main_menu .navbar-toggler {
+        margin-right: 12px;
+    }
+
+    .main_menu .navbar-collapse {
+        margin-top: 12px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+
+    .main_menu .navbar-nav {
+        line-height: 50px;
+        padding: 10px 0px 10px 0;
+        background: var(--colorWhite);
+    }
+
+    .main_menu .navbar-nav .nav-item .nav-link {
+        color: var(--colorBlack);
+    }
+
+    .main_menu .navbar-nav .nav-item:hover .nav-link,
+    .main_menu .navbar-nav .nav-item .nav-link.active {
+        color: var(--colorPrimary);
+    }
+
+    .main_menu .droap_menu {
+        left: 20px;
+        max-height: 250px;
+    }
+
+    .main_menu .right_menu {
+        margin-top: -1px;
+        padding: 18px 0px 18px 20px;
+        background: var(--colorWhite);
+        border-top: 1px solid #16171a24;
+    }
+
+    .main_menu .right_menu li .search img {
+        filter: brightness(0) saturate(100%) invert(4%) sepia(4%) saturate(3995%) hue-rotate(187deg) brightness(90%) contrast(88%);
+        -webkit-filter: brightness(0) saturate(100%) invert(4%) sepia(4%) saturate(3995%) hue-rotate(187deg) brightness(90%) contrast(88%);
+    }
+
+    .banner_text {
+        padding-top: 210px;
+    }
+
+    .banner_text h1 {
+        font-size: 46px;
+    }
+
+    .banner_text p {
+        font-size: 16px;
+        max-width: 100%;
+    }
+
+    .banner_text ul li .play_btn {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 16px;
+    }
+
+    .banner_img .img {
+        height: auto;
+        margin-top: 30px;
+    }
+
+    .common_btn,
+    .common_btn_2 {
+        padding: 12px 20px;
+    }
+
+    .about_us::before,
+    .about_us::after {
+        display: none;
+    }
+
+
+    .about_us_img .img_1 {
+        width: auto;
+        height: auto;
+    }
+
+    .about_us_img .img_2 {
+        width: 150px;
+        height: 150px;
+        left: 0px;
+    }
+
+    .about_us_img .text {
+        display: none;
+    }
+
+    .about_us_text {
+        padding-left: 0;
+        margin-top: 60px;
+    }
+
+    .section_heading h2 {
+        font-size: 28px;
+    }
+
+    .about_us_text .about_btn_area ul {
+        margin-left: 12px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .about_us_text .bottom_text li {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .single_services_img {
+        height: auto;
+    }
+
+    .single_services_text {
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 18px !important;
+    }
+
+    .single_services_text h4 {
+        font-size: 18px;
+    }
+
+    .single_team .single_team_img {
+        width: auto;
+        height: auto;
+    }
+
+    .single_portfolio {
+        height: auto;
+    }
+
+    .why_choose_us::before,
+    .why_choose_us::after {
+        display: none;
+    }
+
+    .why_choose_text ul li .text {
+        max-width: 100%;
+    }
+
+    .why_choose_img {
+        height: auto;
+        margin: 60px 0px;
+    }
+
+    .single_counter {
+        margin: 30px 0px;
+    }
+
+    .single_counter h4,
+    .single_counter h4 span {
+        font-size: 35px;
+    }
+
+    .download_app_img {
+        margin-top: 60px;
+    }
+
+    .simply_work_single {
+        width: 280px;
+        height: 280px;
+    }
+
+    .simply_work_single h3 {
+        font-size: 18px;
+        margin-top: 6px;
+        margin-bottom: 6px;
+    }
+
+    .simply_work_single p {
+        line-height: 20px;
+        font-size: 14px;
+    }
+
+    .simply_work_single::after {
+        width: 315px;
+        height: 159px;
+        bottom: -23px;
+        left: -22px;
+    }
+
+    .testimonial::after {
+        display: none;
+    }
+
+    .single_testimonial_img {
+        height: auto;
+        margin-left: 20px;
+    }
+
+    .testimonial_text_area {
+        margin-top: 60px;
+    }
+
+    .call_to_action_text h2 {
+        font-size: 26px;
+    }
+
+    .single_blog_img {
+        height: auto;
+    }
+
+    .single_blog_text {
+        padding: 20px;
+    }
+
+    .single_blog_text ul li {
+        border-right: none;
+    }
+
+    .footer_top li {
+        width: 100%;
+        margin: 20px 0px;
+    }
+
+    .footer_top li .text a,
+    .footer_top li .text p {
+        font-size: 18px;
+    }
+
+    .footer_link_padding {
+        padding-left: 0;
+    }
+
+    .footer_link {
+        margin-top: 50px;
+    }
+
+    .footer_time {
+        margin-top: 50px;
+    }
+
+    .footer_copyright_text {
+        justify-content: center;
+    }
+
+    .footer_copyright_text ul li a {
+        font-size: 15px;
+        padding-right: 20px;
+        margin-right: 20px;
+    }
+
+    .main_menu_2 .navbar-collapse {
+        margin-top: 12px;
+        border-top: 1px solid #16171a30;
+    }
+
+    .banner_2_text h1 {
+        font-size: 45px;
+        line-height: 55px;
+    }
+
+    .banner_2_text h5 {
+        font-size: 15px;
+    }
+
+    .about_us_2_img {
+        height: auto;
+        margin-right: 0;
+        width: 295px;
+    }
+
+    .about_us_2_img .text {
+        top: 40px;
+        right: 0;
+        width: 130px;
+        text-align: center;
+        padding: 15px 10px;
+    }
+
+    .section_heading_2 h2 {
+        font-size: 28px;
+        line-height: 40px;
+    }
+
+    .about_us_2_contant ul li {
+        width: 100%;
+    }
+
+    .about_us_2_contant {
+        margin-top: 60px;
+    }
+
+    .about_us_2_contant_contact {
+        margin-left: 0;
+        margin-top: 40px;
+    }
+
+    .service_2_item .img {
+        height: 180px;
+    }
+
+    .service_2_item .text {
+        padding: 65px 20px 22px 20px;
+    }
+
+    .choose_2::before,
+    .choose_2::after {
+        display: none;
+    }
+
+    .choose_2_item_blue {
+        margin-top: 25px;
+    }
+
+    .choose_2_img {
+        height: auto;
+        margin-top: 50px;
+    }
+
+    .booking_form_2_overly::before,
+    .booking_form_2_overly::after {
+        display: none;
+    }
+
+    .booking_form_2_contant {
+        padding: 20px 20px 20px 20px;
+    }
+
+    .booking_form_text {
+        margin-top: 60px;
+    }
+
+    .booking_form_text h2 {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .text_2_slider ul li {
+        font-size: 30px;
+    }
+
+    .text_2_slider ul li::after {
+        top: 7px;
+    }
+
+    .team_2_item .img {
+        height: auto;
+    }
+
+    .faq_2_img {
+        height: auto;
+    }
+
+    .faq_2::after {
+        display: none;
+    }
+
+    .faq_2_text {
+        margin-top: 60px;
+    }
+
+    .more_about_progressbar h2 {
+        font-size: 24px;
+    }
+
+    .portfolio_2_item {
+        height: auto;
+    }
+
+    .portfolio_2_item .text .title {
+        font-size: 20px;
+    }
+
+    .portfolio_2_item .text {
+        left: 42px;
+    }
+
+    .more_about_contant form {
+        width: auto;
+    }
+
+    .more_about_progressbar {
+        margin-top: 60px;
+    }
+
+    .testimonial_2_overly::after {
+        display: none;
+    }
+
+    .blog_2_item_img {
+        height: auto;
+    }
+
+    .footer_2_recent_post {
+        margin-top: 50px;
+    }
+
+    .main_menu_3 {
+        background: var(--colorGreen);
+    }
+
+    .main_menu_3 .navbar-brand::after {
+        top: -19px;
+        left: -15px;
+        width: 190px;
+        height: 70px;
+        border-radius: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -ms-border-radius: 0;
+        -o-border-radius: 0;
+    }
+
+    .main_menu_3 .navbar-brand {
+        padding-left: 0;
+    }
+
+    .banner_3 .banner_text {
+        padding-bottom: 100px;
+    }
+
+    .banner_3 .banner_text h1 {
+        font-size: 45px;
+        line-height: 50px;
+    }
+
+    .banner_3 .banner_text h5 {
+        font-size: 16px;
+    }
+
+    .choose_3_item .top span {
+        width: auto;
+        height: auto;
+        margin-right: 10px;
+    }
+
+    .about_3_img {
+        width: auto;
+        height: auto;
+        left: 0;
+    }
+
+    .section_heading_3 h2 {
+        font-size: 28px;
+        line-height: 40px;
+    }
+
+    .about_3_contant {
+        margin-top: 60px;
+    }
+
+    .about_3_contant_left {
+        width: 100%;
+    }
+
+    .about_3_contant_left ul li h4 {
+        font-size: 18px;
+    }
+
+    .about_3_contant_right {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .about_3_ceo .img_2 {
+        margin-top: 40px;
+    }
+
+    .services_3 .single_services_text {
+        padding: 20px;
+    }
+
+    .mission_3::after {
+        display: none;
+    }
+
+    .mission_btn {
+        text-align: start;
+        margin-top: 30px;
+    }
+
+    .faq_3_img .img_1 {
+        height: auto;
+        margin-right: 0;
+        margin-top: 140px;
+    }
+
+    .faq_3_img_text {
+        left: 0;
+        top: -115px;
+    }
+
+    .award_3_img {
+        height: auto;
+    }
+
+    .award_3_text_top {
+        width: 100%;
+    }
+
+    .award_3_text_top h5 {
+        font-size: 18px;
+        width: 70%;
+        margin-left: 10px;
+    }
+
+    .blog_3_btn {
+        align-items: start;
+    }
+
+    .blog_3_item .img {
+        height: auto;
+    }
+
+    .footer_3_newsletter_right form .common_btn_2 {
+        position: initial;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .footer_3_newsletter_right form {
+        margin-top: 40px;
+    }
+
+    .footer_3_menu {
+        margin-bottom: 50px;
+    }
+
+    .footer_3_insta {
+        margin-top: 50px;
+    }
+
+    .footer_copyright_3_text p {
+        margin-bottom: 10px;
+    }
+
+    .footer_copyright_3_text {
+        justify-content: center;
+    }
+
+    .footer_copyright_3_text ul li a {
+        padding-right: 18px;
+        margin-right: 18px;
+    }
+
+    .breadcrumb_text h1 {
+        font-size: 26px;
+    }
+
+    .breadcrumb_text ul li a {
+        font-size: 16px;
+    }
+
+    .breadcrumb_overlay {
+        padding: 180px 0px 75px 0px;
+    }
+
+    .pagination ul li a {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+    }
+
+    .services_details_img,
+    .booking_details_img,
+    .blog_details_img {
+        height: auto;
+    }
+
+    .services_details_area .details_title {
+        font-size: 22px;
+    }
+
+    .service_details_overview ul li,
+    .service_details_overview ul ol,
+    .service_details_text ul li,
+    .service_details_text ul ol {
+        width: 100%;
+    }
+
+    .single_review .text h4 {
+        font-size: 18px;
+    }
+
+    .single_review .text {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .input_review {
+        padding: 40px 20px;
+    }
+
+    .input_review h3 {
+        font-size: 24px;
+    }
+
+    .sidebar {
+        padding-left: 0;
+    }
+
+    .services_details_area {
+        margin-bottom: 60px;
+    }
+
+    .wsus__booking_button_area {
+        margin-bottom: 65px;
+    }
+
+    .sidebar_booking_info {
+        padding: 20px;
+    }
+
+    .sidebar_summery {
+        padding: 20px;
+    }
+
+    .sidebar_summery .text_bg {
+        padding: 20px 25px 35px 25px;
+    }
+
+    .blog_sidebar {
+        padding: 25px;
+    }
+
+    .sidebar_post ul li .text {
+        max-width: 50%;
+    }
+
+    .single_comment .text {
+        width: 100% !important;
+        margin-top: 20px;
+    }
+
+    .input_comment {
+        padding: 20px;
+        margin-bottom: 60px;
+    }
+
+    .sidebar_contact .text h2 {
+        font-size: 22px;
+    }
+
+    .sidebar_contact .text span {
+        margin-bottom: 10px;
+    }
+
+    .sidebar_contact .text p {
+        line-height: 24px;
+        margin-top: 15px;
+        margin-bottom: 25px;
+    }
+
+    .contact_info .text {
+        max-width: 100%;
+        margin-top: 20px;
+    }
+
+    .contact_form {
+        padding: 20px 20px 30px 20px;
+    }
+
+    .contact_map {
+        height: 200px;
+    }
+
+    .menu_search form button {
+        position: initial;
+        width: 100%;
+        margin-top: 10px;
+        transform: translate(0);
+        -webkit-transform: translate(0);
+        -moz-transform: translate(0);
+        -ms-transform: translate(0);
+        -o-transform: translate(0);
+    }
+
+    .payment_area {
+        padding: 20px;
+    }
+
+    .payment_modal .modal-body {
+        padding: 20px;
+    }
+
+    .faq_img {
+        height: auto;
+        margin-top: 80px;
+    }
+
+    .faq_page::after {
+        display: none;
+    }
+
+    .team_details_left .img {
+        height: auto;
+        margin: 0;
+    }
+
+    .team_details_contant {
+        margin-left: 0;
+        margin-top: 25px;
+    }
+
+    .team_details_left .text,
+    .team_details_contact {
+        margin-top: 30px;
+    }
+
+    .team_details_contant .addressing li span {
+        width: 100%;
+    }
+
+    .provider_service_heading h2 {
+        font-size: 30px;
+    }
+
+    .error_text .img {
+        height: auto;
+    }
+
+    .error_text h2 {
+        font-size: 26px;
+    }
+
+    .login_text {
+        padding: 30px !important;
+    }
+
+    .login_text h4 {
+        font-size: 24px;
+    }
+
+    .other_login_option li {
+        width: 100%;
+    }
+
+    .dashboard_content {
+        margin-top: 60px;
+    }
+
+    .dashboard_profile_info_list h2 a,
+    .dashboard_profile_info_edit h2 a {
+        margin-top: 10px;
+    }
+
+    .dashboard_profile_info_list ul li span {
+        width: 100%;
+    }
+
+    .dashboard_invoice_header .text {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .dashboard_invoice_header .text ul li span {
+        width: 100%;
+    }
+
+    .dashboard_invoice_footer a {
+        display: none;
+    }
+
+    .menu_search form {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .menu_search form input {
+        padding: 12px 20px;
+    }
+
+    .book_now_btn {
+        margin-left: -35px;
+    }
+
+    .progress-wrap {
+        right: 20px;
+        bottom: 20px;
+    }
+
+    .banner_text h5 {
+        font-size: 16px;
+    }
+
+    .about_us_img {
+        padding-top: 0;
+    }
+
+    .about_us_text .bottom_text {
+        padding-top: 20px;
+    }
+
+    .about_us_text .bottom_text li h3 {
+        font-size: 18px;
+    }
+
+    .why_choose_text ul li .text h3 {
+        font-size: 18px;
+    }
+
+    .single_testimonial_text h3 {
+        font-size: 16px;
+    }
+
+    .blog .text-end,
+    .portfolio .text-end,
+    .services .text-end {
+        text-align: left !important;
+    }
+
+    .banner {
+        height: auto;
+    }
+
+    .topbar::after {
+        width: 100%;
+        clip-path: none !important;
+    }
+
+    .banner_2 {
+        height: auto;
+        padding: 90px 0px;
+        background-position: center left !important;
+    }
+
+    .about_us_2_img .text h5 {
+        font-size: 30px;
+    }
+
+    .about_us_2_img .text p {
+        font-size: 12px;
+    }
+
+    .banner_2_text {
+        width: 100%;
+    }
+
+    .banner_2_text p {
+        max-width: 100%;
+    }
+
+    .banner_3_overly {
+        padding-top: 135px;
+    }
+
+    .choose_3 {
+        margin-top: 70px;
+    }
+
+    .main_menu_3 .navbar-collapse {
+        margin-top: 13px;
+    }
+
+    .choose_3_item {
+        padding: 25px 25px 22px 25px;
+    }
+
+    .choose_3_item .top h4 {
+        width: 100%;
+        font-size: 20px;
+        margin-top: 20px;
+    }
+
+    .about_3_ceo .text {
+        width: 210px;
+    }
+
+    .services_3 .book_now_btn {
+        margin-left: -35px;
+    }
+
+    .faq_3_img .img_2 {
+        width: 100%;
+        height: auto;
+        position: initial;
+        border: none;
+        margin-top: 25px;
+    }
+
+    .faq_3_img_text .text a {
+        font-size: 16px;
+    }
+
+    .testimonial_3_item p {
+        padding: 0px 20px;
+    }
+
+    .testimonial_3_item .name h4 {
+        font-size: 18px;
+    }
+
+    .main_menu_3 .navbar-nav .nav-item:hover .nav-link,
+    .main_menu_3 .navbar-nav .nav-item .nav-link.active {
+        color: var(--colorGreen);
+    }
+
+    .service_2_item .text .icon {
+        left: 25px;
+    }
+
+    .blog_details_text ul li::after,
+    .blog_details_text ol li::after {
+        top: 3px;
+    }
+
+    .single_comment_reply {
+        margin-left: 0;
+    }
+
+    .sidebar_summery .text_bg p span,
+    .sidebar_summery .text_bg h5 span {
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .error {
+        height: auto;
+        padding: 100px 0px;
+    }
+
+    .faq_text .accordion-item h2 button {
+        font-size: 16px;
+    }
+
+    .payment_area h5 {
+        font-size: 16px;
+    }
+
+    .terms_and_condition_text ul li::after,
+    .terms_and_condition_text ol li::after {
+        top: 4px;
+    }
+
+    .service__sidebar {
+        padding: 25px;
+    }
+
+    .small_margin {
+        margin-bottom: 50px;
+    }
+
+    .topbar_right .nice-select {
+        margin-right: 15px;
+        padding-right: 30px;
+        min-width: 100px;
+    }
+
+    .topbar_right .nice-select:after {
+        right: 15px;
+    }
+}
