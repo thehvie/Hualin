@@ -10,7 +10,7 @@ Run these **on the production server**, in the site's document root
 `apt install git` / `yum install git` if not):
 
 ```bash
-cd /path/to/live/site   # wherever nginx's document root points
+cd /var/www/hlnjks
 
 # Back up first, just in case anything doesn't match GitHub
 tar -czf ~/haulin-backup-$(date +%Y%m%d%H%M%S).tar.gz .
@@ -58,7 +58,7 @@ your setup):
 location = /deploy/webhook.php {
     include fastcgi_params;
     fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
-    fastcgi_param SCRIPT_FILENAME $document_root/deploy/webhook.php;
+    fastcgi_param SCRIPT_FILENAME /var/www/hlnjks/deploy/webhook.php;
 }
 
 # Block direct access to everything else in deploy/
