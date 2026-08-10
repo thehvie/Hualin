@@ -3,6 +3,13 @@
 One-time setup on the production server, so every push to `main` on
 GitHub auto-deploys via webhook.
 
+> **Monorepo note**: this repo also contains `ops/` — the separate
+> Next.js CRM/quoting/invoicing app (see `ops/deploy/README.md`). It
+> deploys independently, to its own directory, via its own webhook.
+> This checkout (`/var/www/hlnjks`) will still receive the `ops/`
+> source files on every pull since it's the same repo — step 3 below
+> blocks public access to that folder so it's never served.
+
 ## 1. Point the live directory at the GitHub repo
 
 Run these **on the production server**, in the site's document root
@@ -63,6 +70,12 @@ location = /deploy/webhook.php {
 
 # Block direct access to everything else in deploy/
 location ~ ^/deploy/(webhook-secret\.php|deploy\.sh|deploy\.log)$ {
+    deny all;
+}
+
+# Block public access to the ops/ subfolder entirely — it's a separate
+# Next.js app's source code, not meant to be served here.
+location ^~ /ops/ {
     deny all;
 }
 ```
