@@ -14,7 +14,7 @@ GitHub auto-deploys via webhook.
 
 Run these **on the production server**, in the site's document root
 (assumes Linux + git already installed — `git --version` to check,
-`apt install git` / `yum install git` if not):
+`apt install git` / `yum install git` if not) test 123:
 
 ```bash
 cd /var/www/hlnjks
