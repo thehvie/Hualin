@@ -8,7 +8,7 @@ GitHub auto-deploys via webhook.
 > deploys independently, to its own directory, via its own webhook.
 > This checkout (`/var/www/hlnjks`) will still receive the `ops/`
 > source files on every pull since it's the same repo — step 3 below
-> blocks public access to that folder so it's never served.
+> blocks public access to that folder so it's never served. this is a test
 
 ## 1. Point the live directory at the GitHub repo
 
