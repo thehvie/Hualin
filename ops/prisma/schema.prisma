@@ -164,8 +164,10 @@ model Estimate {
   status     EstimateStatus @default(DRAFT)
   notes      String?        @db.Text
 
-  lineItems EstimateLineItem[]
-  job       Job?
+  lineItems      EstimateLineItem[]
+  job            Job?
+  invoice        Invoice?
+  communications Communication[]
 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -235,12 +237,15 @@ model Invoice {
   number     Int           @unique @default(autoincrement())
   customerId String
   customer   Customer      @relation(fields: [customerId], references: [id])
+  estimateId String?       @unique
+  estimate   Estimate?     @relation(fields: [estimateId], references: [id])
   jobId      String?       @unique
   job        Job?          @relation(fields: [jobId], references: [id])
   status     InvoiceStatus @default(DRAFT)
 
-  lineItems InvoiceLineItem[]
-  payments  Payment[]
+  lineItems      InvoiceLineItem[]
+  payments       Payment[]
+  communications Communication[]
 
   dueAt DateTime?
 
@@ -327,10 +332,17 @@ model Communication {
   id         String                 @id @default(cuid())
   customerId String
   customer   Customer               @relation(fields: [customerId], references: [id])
+  estimateId String?
+  estimate   Estimate?              @relation(fields: [estimateId], references: [id])
+  invoiceId  String?
+  invoice    Invoice?               @relation(fields: [invoiceId], references: [id])
   channel    CommunicationChannel
   direction  CommunicationDirection
   body       String                 @db.Text
   providerId String?
 
   createdAt DateTime @default(now())
+
+  @@index([estimateId])
+  @@index([invoiceId])
 }
