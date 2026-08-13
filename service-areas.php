@@ -925,6 +925,18 @@
             ></a>
           </div>
 
+          <!-- Lake Nona -->
+          <div class="service-area-card wow fadeInUp" data-wow-delay="1.15s">
+            <div class="service-area-header">
+              <h2 class="area-name">Lake Nona, FL</h2>
+              <span class="area-badge">24/7</span>
+            </div>
+            <div class="service-areas-text">Medical City &amp; Laureate Park</div>
+            <a href="lake-nona.php" class="view-details-btn"
+              >View Details <i class="fas fa-arrow-right"></i
+            ></a>
+          </div>
+
           <!-- Lake Buena Vista -->
           <div class="service-area-card wow fadeInUp" data-wow-delay="1.2s">
             <div class="service-area-header">
@@ -1017,6 +1029,18 @@
             </div>
             <div class="service-areas-text">St Cloud</div>
             <a href="st-cloud.php" class="view-details-btn"
+              >View Details <i class="fas fa-arrow-right"></i
+            ></a>
+          </div>
+
+          <!-- Winter Haven -->
+          <div class="service-area-card wow fadeInUp" data-wow-delay="1.95s">
+            <div class="service-area-header">
+              <h2 class="area-name">Winter Haven, FL</h2>
+              <span class="area-badge">Scheduled</span>
+            </div>
+            <div class="service-areas-text">Chain of Lakes &amp; LEGOLAND area</div>
+            <a href="winter-haven.php" class="view-details-btn"
               >View Details <i class="fas fa-arrow-right"></i
             ></a>
           </div>
