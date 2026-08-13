@@ -10,6 +10,22 @@
     <meta name="description" content="Residential junk removal in Orlando, FL — furniture, appliances, garage cleanouts & more. Same-day pickup, upfront pricing, no hidden fees. Call (407) 815-4926!" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://haulinjunkies.com/residential.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/residential.php" />
+    <meta property="og:title" content="Residential Junk Removal in Orlando, FL | Same-Day Service | Haulin Junkies" />
+    <meta property="og:description" content="Residential junk removal in Orlando, FL — furniture, appliances, garage cleanouts & more. Same-day pickup, upfront pricing, no hidden fees. Call (407) 815-4926!" />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Residential Junk Removal in Orlando, FL | Same-Day Service | Haulin Junkies" />
+    <meta name="twitter:description" content="Residential junk removal in Orlando, FL — furniture, appliances, garage cleanouts & more. Same-day pickup, upfront pricing, no hidden fees. Call (407) 815-4926!" />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -115,56 +131,7 @@
       }
     </style>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Residential Junk Removal Orlando",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/residential.php",
-        "url": "https://haulinjunkies.com/residential.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "1375 Lake Shadow Cir",
-          "postalCode": "32751",
-          "addressLocality": "Maitland",
-          "addressRegion": "FL",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.5383,
-          "longitude": -81.3792
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "priceRange": "$$",
-        "description": "Residential junk removal in Orlando FL. We pick up furniture, appliances, yard waste, and more. Same-day service available.",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-    <script type="application/ld+json">
+        <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -192,7 +159,6 @@
     </script>
 </head>
 
-
   <body>
     
 <?php include 'includes/header.php'; ?>
@@ -210,8 +176,6 @@
       </div>
     </div>
 
-
-
     <!--============================
         BREADCRUMB START
     =============================-->
@@ -226,8 +190,8 @@
               <div class="breadcrumb_text">
                 <h1>Residential Junk Removal in Orlando, FL</h1>
                 <ul class="d-flex flex-wrap">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">junk removal services</a></li>
+                  <li><a href="index.php">Home</a></li>
+                  <li><a href="residential.php">Residential Junk Removal</a></li>
                 </ul>
               </div>
             </div>
@@ -296,11 +260,11 @@
                     <ul>
                       <li>Household Trash & Unwanted Junk</li>
                       <li>Property Cleanouts (Garage to Full House)</li>
-                      <li>Old Furniture Removal & Disposal</li>
-                      <li>Large Appliances (Refrigerators, Washers, Dryers)</li>
+                      <li><a href="how-to-get-rid-of-old-furniture-orlando.php">Old Furniture Removal & Disposal</a></li>
+                      <li><a href="appliance-removal.php">Large Appliances (Refrigerators, Washers, Dryers)</a></li>
                       <li>E-Waste & Electronics Recycling</li>
-                      <li>Yard Debris & Construction Cleanup</li>
-                      <li>Hot Tub Removal</li>
+                      <li><a href="concrete-removal.php">Yard Debris & Construction Cleanup</a></li>
+                      <li><a href="hot-tub-removal.php">Hot Tub Removal</a></li>
                       <li>Garage Cleanouts</li>
                     </ul>
 
@@ -554,7 +518,7 @@
                 </ul>
                 <a href="/cdn-cgi/l/email-protection#f8b09d949497b890998d949196928d9693919d8bd69b9795"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="c880ada4a4a788a0a9bda4a1a6a2bda6a3a1adbbe6aba7a5">[email&#160;protected]</span></a
                 >
-                <a href="callto:1234567890"
+                <a href="tel:+14078154926"
                   ><i class="fas fa-phone-alt"></i> 407.815.4926</a
                 >
               </div>

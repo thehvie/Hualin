@@ -6,6 +6,22 @@
     <title>How to Get Rid of Old Furniture in Orlando, FL | Haulin Junkies</title>
     <meta name="description" content="Upgrading your furniture in Orlando? Here are 6 responsible ways to get rid of old sofas, beds, and more — including donation, resale, and same-day haul-off options." />
     <link rel="canonical" href="https://haulinjunkies.com/how-to-get-rid-of-old-furniture-orlando.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/how-to-get-rid-of-old-furniture-orlando.php" />
+    <meta property="og:title" content="How to Get Rid of Old Furniture in Orlando, FL | Haulin Junkies" />
+    <meta property="og:description" content="Upgrading your furniture in Orlando? Here are 6 responsible ways to get rid of old sofas, beds, and more — including donation, resale, and same-day haul-off options." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How to Get Rid of Old Furniture in Orlando, FL | Haulin Junkies" />
+    <meta name="twitter:description" content="Upgrading your furniture in Orlando? Here are 6 responsible ways to get rid of old sofas, beds, and more — including donation, resale, and same-day haul-off options." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

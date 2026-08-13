@@ -10,6 +10,22 @@
     <meta name="description" content="Concrete removal in Orlando, FL — driveways, patios, slabs, parking lots. We break it up, haul it, and dispose of it properly. Free estimates. Call (407) 815-4926!" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://haulinjunkies.com/concrete-removal.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/concrete-removal.php" />
+    <meta property="og:title" content="Concrete Removal in Orlando, FL | Free Estimates | Haulin Junkies" />
+    <meta property="og:description" content="Concrete removal in Orlando, FL — driveways, patios, slabs, parking lots. We break it up, haul it, and dispose of it properly. Free estimates. Call (407) 815-4926!" />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Concrete Removal in Orlando, FL | Free Estimates | Haulin Junkies" />
+    <meta name="twitter:description" content="Concrete removal in Orlando, FL — driveways, patios, slabs, parking lots. We break it up, haul it, and dispose of it properly. Free estimates. Call (407) 815-4926!" />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -115,56 +131,7 @@
       }
     </style>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Concrete Removal Orlando",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/concrete-removal.php",
-        "url": "https://haulinjunkies.com/concrete-removal.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "1375 Lake Shadow Cir",
-          "postalCode": "32751",
-          "addressLocality": "Maitland",
-          "addressRegion": "FL",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.5383,
-          "longitude": -81.3792
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "priceRange": "$$",
-        "description": "Concrete and debris removal in Orlando FL. We haul away concrete, brick, stone, and construction debris. Same-day available.",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-    <script type="application/ld+json">
+        <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -183,7 +150,6 @@
     </script>
 </head>
 
-
   <body>
     
 <?php include 'includes/header.php'; ?>
@@ -200,11 +166,6 @@
         </div>
       </div>
     </div>
-
-
-
-
-
 
     <!--============================
         BREADCRUMB START
@@ -594,7 +555,7 @@
                 </ul>
                 <a href="/cdn-cgi/l/email-protection#256d4049494a654d4450494c4b4f504b4e4c40560b464a48"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="c78fa2ababa887afa6b2abaea9adb2a9acaea2b4e9a4a8aa">[email&#160;protected]</span></a
                 >
-                <a href="callto:14078154926"
+                <a href="tel:+14078154926"
                   ><i class="fas fa-phone-alt"></i> +1 407.815.4926</a
                 >
               </div>
@@ -608,7 +569,6 @@
     =============================-->
 
     
-
 
 <?php include 'includes/footer.php'; ?>
 

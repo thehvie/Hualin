@@ -478,84 +478,7 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Maitland Junk Removal",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/maitland.php",
-        "url": "https://haulinjunkies.com/maitland.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "",
-          "addressLocality": "Maitland",
-          "addressRegion": "FL",
-          "postalCode": "32751",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.6275,
-          "longitude": -81.3631
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "serviceArea": {
-          "@type": "City",
-          "name": "Maitland",
-          "addressRegion": "FL"
-        },
-        "priceRange": "$$",
-        "description": "Maitland's junk removal specialists for art studios, Maitland Center Parkway office cleanouts, and lakefront residential properties on Lake Maitland, Lake Minnehaha, and Lake Sybelia. Same-day service in zip code 32751.",
-        "service": [
-          {
-            "@type": "Service",
-            "name": "Art Studio & Gallery Cleanouts Maitland",
-            "description": "Art supply removal, sculpture materials, canvases, easels, workshop equipment, and gallery installations in the Maitland Arts District"
-          },
-          {
-            "@type": "Service",
-            "name": "Maitland Center Office Junk Removal",
-            "description": "Cubicle systems, office furniture, filing cabinets, IT equipment, and commercial cleanouts along Maitland Center Parkway"
-          },
-          {
-            "@type": "Service",
-            "name": "Lake Maitland Waterfront Property Cleanouts",
-            "description": "Lakefront home cleanouts, dock furniture removal, and estate services on Lake Maitland, Lake Minnehaha, and Lake Sybelia"
-          },
-          {
-            "@type": "Service",
-            "name": "Estate Cleanouts Maitland Historic District",
-            "description": "Full property cleanouts, downsizing assistance, and donation sorting in Maitland's Historic District and established neighborhoods"
-          }
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-
-    <!-- FAQ Structured Data -->
+        <!-- FAQ Structured Data -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -613,7 +536,6 @@
       }
     </script>
   </head>
-
 
   <body>
     

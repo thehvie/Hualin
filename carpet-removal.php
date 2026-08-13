@@ -10,6 +10,22 @@
     <meta name="description" content="Carpet removal in Orlando, FL — we pull it up, haul it away, and clean up. Residential & commercial. Same-day available. Licensed & insured. Call (407) 815-4926!" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://haulinjunkies.com/carpet-removal.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/carpet-removal.php" />
+    <meta property="og:title" content="Carpet Removal in Orlando, FL | Same-Day Service | Haulin Junkies" />
+    <meta property="og:description" content="Carpet removal in Orlando, FL — we pull it up, haul it away, and clean up. Residential & commercial. Same-day available. Licensed & insured. Call (407) 815-4926!" />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Carpet Removal in Orlando, FL | Same-Day Service | Haulin Junkies" />
+    <meta name="twitter:description" content="Carpet removal in Orlando, FL — we pull it up, haul it away, and clean up. Residential & commercial. Same-day available. Licensed & insured. Call (407) 815-4926!" />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -34,7 +50,6 @@
         overflow: visible !important;
         height: auto !important;
       }
-
 
       .booking-modal {
         display: none;
@@ -116,56 +131,7 @@
       }
     </style>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Carpet Removal Orlando",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/carpet-removal.php",
-        "url": "https://haulinjunkies.com/carpet-removal.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "1375 Lake Shadow Cir",
-          "postalCode": "32751",
-          "addressLocality": "Maitland",
-          "addressRegion": "FL",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.5383,
-          "longitude": -81.3792
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "priceRange": "$$",
-        "description": "Fast carpet removal and disposal in Orlando FL. We remove old carpet, padding, and flooring. Licensed and insured.",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-    <script type="application/ld+json">
+        <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -180,6 +146,64 @@
       "areaServed": {"@type": "City", "name": "Orlando", "addressRegion": "FL"},
       "description": "Same-day carpet removal in Orlando FL. We pull it up, haul it away, and clean up. Residential and commercial. Upfront pricing.",
       "url": "https://haulinjunkies.com/carpet-removal.php"
+    }
+    </script>
+
+    <!-- FAQ Schema — mirrors visible Q&A in the FAQS tab below -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does carpet removal cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Carpet removal costs typically range from $1-$2 per square foot, depending on factors like room size, carpet type, and whether furniture needs moving. We provide free estimates over the phone or in person so you know exactly what to expect before we begin work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to remove furniture before you arrive?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If possible, removing furniture makes the job faster and less expensive. However, if you can't move heavy items, we can include furniture moving in your service. Just let us know during scheduling so we can account for the additional time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you remove glued-down carpet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely. Carpet glued directly to concrete or wood requires different techniques than standard installation, but we have the experience and tools to handle it. This type of removal typically takes longer and may involve additional costs, which we'll explain in your estimate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer same-day service?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, we offer same-day and next-day service throughout Orlando when our schedule allows. If you have an urgent need, contact us as early in the day as possible and we'll do our best to accommodate you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is carpet removal included in junk removal services?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Carpet removal is a specialized service that goes beyond general junk hauling. It requires specific skills and tools to remove the carpet, padding, tack strips, and fasteners properly. However, we're happy to combine carpet removal with other junk removal services if you're doing a full cleanout or renovation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a minimum charge for carpet removal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, we have a minimum service charge that covers our travel time and basic operating costs. The exact amount varies by location within our service area. We'll explain our pricing structure during your free consultation."
+          }
+        }
+      ]
     }
     </script>
 </head>
@@ -201,9 +225,6 @@
       </div>
     </div>
 
-
-
-
     <!--============================
         BREADCRUMB START
     =============================-->
@@ -218,8 +239,8 @@
               <div class="breadcrumb_text">
                 <h1>Carpet Removal in Orlando, FL</h1>
                 <ul class="d-flex flex-wrap">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">carpet removal services</a></li>
+                  <li><a href="index.php">Home</a></li>
+                  <li><a href="carpet-removal.php">Carpet Removal Services</a></li>
                 </ul>
               </div>
             </div>
@@ -353,12 +374,12 @@
 
                     <h3>Additional Services We Offer</h3>
                     <p>
-                      Beyond carpet removal, Haulin Junkies offers complementary services including furniture removal and disposal, subfloor cleaning and preparation, baseboard and trim removal, drywall and demolition cleanup, and general junk hauling for renovation debris. Bundling services often results in cost savings and streamlines your renovation or cleanout project.
+                      Beyond carpet removal, Haulin Junkies offers complementary services including <a href="how-to-get-rid-of-old-furniture-orlando.php">furniture removal and disposal</a>, subfloor cleaning and preparation, baseboard and trim removal, drywall and demolition cleanup, and general junk hauling for renovation debris. Bundling services often results in cost savings and streamlines your renovation or cleanout project.
                     </p>
 
                     <h3>Serving Greater Orlando and Surrounding Areas</h3>
                     <p>
-                      Our carpet removal service covers all of Orlando and surrounding communities including Winter Park, Maitland, Altamonte Springs, Oviedo, Lake Mary, Sanford, Kissimmee, and Apopka. We serve both residential and commercial clients throughout Central Florida. No matter where your property is located in the metro area, Haulin Junkies brings professional carpet removal to your doorstep.
+                      Our carpet removal service covers all of Orlando and surrounding communities including <a href="winter-park.php">Winter Park</a>, <a href="maitland.php">Maitland</a>, <a href="altamonte-springs.php">Altamonte Springs</a>, <a href="oviedo.php">Oviedo</a>, <a href="lake-mary.php">Lake Mary</a>, <a href="sanford.php">Sanford</a>, <a href="kissimmee.php">Kissimmee</a>, and <a href="apopka.php">Apopka</a>. We serve both residential and commercial clients throughout Central Florida. No matter where your property is located in the metro area, Haulin Junkies brings professional carpet removal to your doorstep.
                     </p>
 
                     <h3>Why Haulin Junkies Stands Out</h3>
@@ -656,7 +677,7 @@
                 </ul>
                 <a href="/cdn-cgi/l/email-protection#531b363f3f3c133b32263f3a3d39263d383a36207d303c3e"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="8cc4e9e0e0e3cce4edf9e0e5e2e6f9e2e7e5e9ffa2efe3e1">[email&#160;protected]</span></a
                 >
-                <a href="callto:14078154926"
+                <a href="tel:+14078154926"
                   ><i class="fas fa-phone-alt"></i> +1 407.815.4926</a
                 >
               </div>

@@ -6,6 +6,22 @@
     <title>How Much Does Junk Removal Cost in Orlando? | Haulin Junkies</title>
     <meta name="description" content="Junk removal in Orlando typically costs $100–$650 depending on volume. See our full pricing breakdown by item type, truck size, and service — plus tips to save money." />
     <link rel="canonical" href="https://haulinjunkies.com/junk-removal-cost-orlando.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/junk-removal-cost-orlando.php" />
+    <meta property="og:title" content="How Much Does Junk Removal Cost in Orlando? | Haulin Junkies" />
+    <meta property="og:description" content="Junk removal in Orlando typically costs $100–$650 depending on volume. See our full pricing breakdown by item type, truck size, and service — plus tips to save money." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How Much Does Junk Removal Cost in Orlando? | Haulin Junkies" />
+    <meta name="twitter:description" content="Junk removal in Orlando typically costs $100–$650 depending on volume. See our full pricing breakdown by item type, truck size, and service — plus tips to save money." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

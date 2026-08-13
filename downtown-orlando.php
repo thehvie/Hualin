@@ -74,7 +74,6 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/responsive.css" />
 
-
     <!-- Custom Styles -->
     <style>
 /* Fix dropdown menu - remove scroll and show all services */
@@ -479,90 +478,7 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Downtown Orlando Junk Removal",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/downtown-orlando.php",
-        "url": "https://haulinjunkies.com/downtown-orlando.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "",
-          "addressLocality": "Downtown Orlando",
-          "addressRegion": "FL",
-          "postalCode": "",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.5383,
-          "longitude": -81.3792
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday"
-            ],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "serviceArea": {
-          "@type": "City",
-          "name": "Downtown Orlando",
-          "addressRegion": "FL"
-        },
-        "priceRange": "$$",
-        "description": "Professional junk removal services in Downtown Orlando, Orlando FL. Same-day pickup, furniture removal, appliance disposal, estate cleanouts. Licensed and insured.",
-        "service": [
-          {
-            "@type": "Service",
-            "name": "Residential Junk Removal Downtown Orlando",
-            "description": "Furniture, appliances, household cleanouts in Downtown Orlando, Orlando FL"
-          },
-          {
-            "@type": "Service",
-            "name": "Commercial Junk Removal Downtown Orlando",
-            "description": "Office furniture, retail fixtures, warehouse cleanouts in Downtown Orlando"
-          },
-          {
-            "@type": "Service",
-            "name": "Appliance Removal Downtown Orlando",
-            "description": "Refrigerators, washers, dryers, dishwashers removal in Downtown Orlando"
-          },
-          {
-            "@type": "Service",
-            "name": "Estate Cleanouts Downtown Orlando",
-            "description": "Full property cleanouts and donation sorting in Downtown Orlando, Orlando FL"
-          }
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-  </head>
-
+      </head>
 
   <body>
     

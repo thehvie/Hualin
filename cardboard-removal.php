@@ -7,6 +7,25 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>Cardboard Removal Orlando FL | Haulin Junkies</title>
+    <meta name="description" content="Cardboard removal and recycling in Orlando, FL — we haul away moving boxes, packaging, and bulk cardboard for homes and businesses. Same-day pickup. Call (407) 815-4926!" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://haulinjunkies.com/cardboard-removal.php" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/cardboard-removal.php" />
+    <meta property="og:title" content="Cardboard Removal Orlando FL | Haulin Junkies" />
+    <meta property="og:description" content="Cardboard removal and recycling in Orlando, FL — we haul away moving boxes, packaging, and bulk cardboard for homes and businesses." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Cardboard Removal Orlando FL | Haulin Junkies" />
+    <meta name="twitter:description" content="Cardboard removal and recycling in Orlando, FL — same-day pickup for homes and businesses." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -31,7 +50,6 @@
         overflow: visible !important;
         height: auto !important;
       }
-
 
       .booking-modal {
         display: none;
@@ -113,56 +131,7 @@
       }
     </style>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Cardboard Removal Orlando",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/cardboard-removal.php",
-        "url": "https://haulinjunkies.com/cardboard-removal.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "1375 Lake Shadow Cir",
-          "postalCode": "32751",
-          "addressLocality": "Maitland",
-          "addressRegion": "FL",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.5383,
-          "longitude": -81.3792
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "priceRange": "$$",
-        "description": "Commercial cardboard removal and recycling services in Orlando FL. We haul away boxes and cardboard waste for businesses.",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-    <script type="application/ld+json">
+        <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -198,9 +167,6 @@
       </div>
     </div>
 
-
-
-
     <!--============================
         BREADCRUMB START
     =============================-->
@@ -213,10 +179,10 @@
           <div class="row">
             <div class="col-12 wow fadeInUp">
               <div class="breadcrumb_text">
-                <h1>Professional Material Delivery Services</h1>
+                <h1>Cardboard Removal &amp; Recycling in Orlando, FL</h1>
                 <ul class="d-flex flex-wrap">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">material delivery services</a></li>
+                  <li><a href="index.php">Home</a></li>
+                  <li><a href="cardboard-removal.php">Cardboard Removal</a></li>
                 </ul>
               </div>
             </div>
@@ -682,7 +648,7 @@
                 <a href="mailto:hello@haulinjunkies.com"
                   ><i class="fas fa-envelope"></i> hello@haulinjunkies.com</a
                 >
-                <a href="callto:14078154926"
+                <a href="tel:+14078154926"
                   ><i class="fas fa-phone-alt"></i> +1 407.815.4926</a
                 >
               </div>

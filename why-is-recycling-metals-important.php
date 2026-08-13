@@ -9,6 +9,22 @@
     <title>Why Is Recycling Metals Important? | Haulin Junkies Blog</title>
     <meta name="description" content="Learn why metal recycling matters for Central Florida and the planet — environmental benefits, energy savings, and how Haulin Junkies responsibly handles scrap metal from every job." />
     <link rel="canonical" href="https://haulinjunkies.com/why-is-recycling-metals-important.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/why-is-recycling-metals-important.php" />
+    <meta property="og:title" content="Why Is Recycling Metals Important? | Haulin Junkies Blog" />
+    <meta property="og:description" content="Learn why metal recycling matters for Central Florida and the planet — environmental benefits, energy savings, and how Haulin Junkies responsibly handles scrap metal from every job." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Why Is Recycling Metals Important? | Haulin Junkies Blog" />
+    <meta name="twitter:description" content="Learn why metal recycling matters for Central Florida and the planet — environmental benefits, energy savings, and how Haulin Junkies responsibly handles scrap metal from every job." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

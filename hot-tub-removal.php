@@ -10,6 +10,22 @@
     <meta name="description" content="Hot tub removal in Orlando, FL — we break it down, haul it away, and clean up. Same-day and next-day appointments. Licensed & insured. Free quote: (407) 815-4926" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://haulinjunkies.com/hot-tub-removal.php" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/hot-tub-removal.php" />
+    <meta property="og:title" content="Hot Tub Removal in Orlando, FL | Same-Day Service | Haulin Junkies" />
+    <meta property="og:description" content="Hot tub removal in Orlando, FL — we break it down, haul it away, and clean up. Same-day and next-day appointments. Licensed & insured." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Hot Tub Removal in Orlando, FL | Same-Day Service | Haulin Junkies" />
+    <meta name="twitter:description" content="Hot tub removal in Orlando, FL — we break it down, haul it away, and clean up. Free quote: (407) 815-4926" />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -115,56 +131,7 @@
       }
     </style>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Hot Tub Removal Orlando",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/hot-tub-removal.php",
-        "url": "https://haulinjunkies.com/hot-tub-removal.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "1375 Lake Shadow Cir",
-          "postalCode": "32751",
-          "addressLocality": "Maitland",
-          "addressRegion": "FL",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.5383,
-          "longitude": -81.3792
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "priceRange": "$$",
-        "description": "Hot tub and spa removal in Orlando FL. Full demolition and hauling service. Licensed and insured team.",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-    <script type="application/ld+json">
+        <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -181,8 +148,33 @@
       "url": "https://haulinjunkies.com/hot-tub-removal.php"
     }
     </script>
-</head>
 
+    <!-- FAQ Schema — mirrors visible Q&A in the Guide tab below -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need to empty out my hot tub before you pick it up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We recommend you drain all water and disconnect any hoses which may connect to your hot tub. This is essential for safety and to prevent any water damage during the removal process."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to disconnect my hot tub before you haul it away?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, Haulin Junkies recommends you disconnect your hot tub before we arrive: turn off the heater and the circuit breaker for the hot tub, handle any electric air blowers properly, and remove remaining water with a shop vacuum if it won't drain through the spigot. Contact a professional electrician or plumber if you're unsure about any connections."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
 
   <body>
     
@@ -201,10 +193,6 @@
       </div>
     </div>
 
-
-
-
-
   
     <!--============================
         BREADCRUMB START
@@ -220,8 +208,8 @@
               <div class="breadcrumb_text">
                 <h1>Hot Tub Removal in Orlando, FL</h1>
                 <ul class="d-flex flex-wrap">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">hot tub removal services</a></li>
+                  <li><a href="index.php">Home</a></li>
+                  <li><a href="hot-tub-removal.php">Hot Tub Removal Services</a></li>
                 </ul>
               </div>
             </div>
@@ -550,7 +538,7 @@
                   <li>No Hidden Charges</li>
                   <li>Fully Insured & Licensed</li>
                   <li>Free On-Site Estimates</li>
-                  <li>5+ Years Experience</li>
+                  <li>15+ Years Experience</li>
                 </ul>
                 <a class="common_btn w-100" href="#" onclick="openBookingModal()"
                   >Book Now <i class="far fa-long-arrow-right"></i
@@ -581,7 +569,7 @@
                 </ul>
                 <a href="/cdn-cgi/l/email-protection#e9a18c858586a981889c858087839c8782808c9ac78a8684"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="b7ffd2dbdbd8f7dfd6c2dbded9ddc2d9dcded2c499d4d8da">[email&#160;protected]</span></a
                 >
-                <a href="callto:14078154926"
+                <a href="tel:+14078154926"
                   ><i class="fas fa-phone-alt"></i> +1 407.815.4926</a
                 >
               </div>

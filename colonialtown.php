@@ -74,7 +74,6 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/responsive.css" />
 
-
     <!-- Custom Styles -->
     <style>
 /* Fix dropdown menu - remove scroll and show all services */
@@ -479,90 +478,7 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Colonialtown Junk Removal",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/colonialtown.php",
-        "url": "https://haulinjunkies.com/colonialtown.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "",
-          "addressLocality": "Colonialtown",
-          "addressRegion": "FL",
-          "postalCode": "",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.555,
-          "longitude": -81.36
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday"
-            ],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "serviceArea": {
-          "@type": "City",
-          "name": "Colonialtown",
-          "addressRegion": "FL"
-        },
-        "priceRange": "$$",
-        "description": "Professional junk removal services in Colonialtown, Orlando FL. Same-day pickup, furniture removal, appliance disposal, estate cleanouts. Licensed and insured.",
-        "service": [
-          {
-            "@type": "Service",
-            "name": "Residential Junk Removal Colonialtown",
-            "description": "Furniture, appliances, household cleanouts in Colonialtown, Orlando FL"
-          },
-          {
-            "@type": "Service",
-            "name": "Commercial Junk Removal Colonialtown",
-            "description": "Office furniture, retail fixtures, warehouse cleanouts in Colonialtown"
-          },
-          {
-            "@type": "Service",
-            "name": "Appliance Removal Colonialtown",
-            "description": "Refrigerators, washers, dryers, dishwashers removal in Colonialtown"
-          },
-          {
-            "@type": "Service",
-            "name": "Estate Cleanouts Colonialtown",
-            "description": "Full property cleanouts and donation sorting in Colonialtown, Orlando FL"
-          }
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-  </head>
-
+      </head>
 
   <body>
     

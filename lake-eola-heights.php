@@ -489,95 +489,11 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Lake Eola Heights Junk Removal",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/lake-eola-heights.php",
-        "url": "https://haulinjunkies.com/lake-eola-heights.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "",
-          "addressLocality": "Lake Eola Heights",
-          "addressRegion": "FL",
-          "postalCode": "",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.543,
-          "longitude": -81.37
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday"
-            ],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "serviceArea": {
-          "@type": "City",
-          "name": "Lake Eola Heights",
-          "addressRegion": "FL"
-        },
-        "priceRange": "$$",
-        "description": "Professional junk removal services in Lake Eola Heights, Orlando FL. Same-day pickup, furniture removal, appliance disposal, estate cleanouts. Licensed and insured.",
-        "service": [
-          {
-            "@type": "Service",
-            "name": "Residential Junk Removal Lake Eola Heights",
-            "description": "Furniture, appliances, household cleanouts in Lake Eola Heights, Orlando FL"
-          },
-          {
-            "@type": "Service",
-            "name": "Commercial Junk Removal Lake Eola Heights",
-            "description": "Office furniture, retail fixtures, warehouse cleanouts in Lake Eola Heights"
-          },
-          {
-            "@type": "Service",
-            "name": "Appliance Removal Lake Eola Heights",
-            "description": "Refrigerators, washers, dryers, dishwashers removal in Lake Eola Heights"
-          },
-          {
-            "@type": "Service",
-            "name": "Estate Cleanouts Lake Eola Heights",
-            "description": "Full property cleanouts and donation sorting in Lake Eola Heights, Orlando FL"
-          }
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-  </head>
-
+      </head>
 
   <body>
 
 <?php include 'includes/header.php'; ?>
-
 
     <!-- Booking Modal -->
     <div id="bookingModal" class="booking-modal">
@@ -1021,7 +937,6 @@
     <!--============================
         SERVICE CONTENT END
     =============================-->
-
 
 <?php include 'includes/footer.php'; ?>
 

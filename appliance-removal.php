@@ -10,6 +10,66 @@
     <meta name="description" content="Appliance removal in Orlando, FL — refrigerators, washers, dryers, dishwashers & more hauled away same day. Upfront pricing, no hidden fees. Call (407) 815-4926!" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://haulinjunkies.com/appliance-removal.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/appliance-removal.php" />
+    <meta property="og:title" content="Appliance Removal in Orlando, FL | Same-Day Pickup | Haulin Junkies" />
+    <meta property="og:description" content="Appliance removal in Orlando, FL — refrigerators, washers, dryers, dishwashers & more hauled away same day. Upfront pricing, no hidden fees. Call (407) 815-4926!" />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Appliance Removal in Orlando, FL | Same-Day Pickup | Haulin Junkies" />
+    <meta name="twitter:description" content="Appliance removal in Orlando, FL — refrigerators, washers, dryers, dishwashers & more hauled away same day. Upfront pricing, no hidden fees. Call (407) 815-4926!" />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Appliance Removal in Orlando, FL",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Haulin Junkies",
+        "telephone": "+14078154926",
+        "url": "https://haulinjunkies.com/"
+      },
+      "serviceType": "Appliance Removal",
+      "areaServed": {"@type": "City", "name": "Orlando", "addressRegion": "FL"},
+      "description": "Appliance removal in Orlando and Central Florida. We haul refrigerators, washers, dryers, and more, with certified Freon recovery and donation of working units. Upfront pricing.",
+      "url": "https://haulinjunkies.com/appliance-removal.php"
+    }
+    </script>
+
+    <!-- FAQ Schema — mirrors visible Q&A in the Guide tab below -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can my appliance be donated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If your appliance is still functional, there's a good chance it can go to a Central Florida family in need instead of a landfill. Our partners include Habitat for Humanity ReStore, Salvation Army, and Mustard Seed of Central Florida. We sort every load on-site and deliver donable appliances to our partners directly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if my appliance is broken?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Broken appliances still have value as scrap. Steel, copper wiring, and aluminum components from old appliances are valuable recyclable materials. We separate metals and route them to certified recyclers, reducing landfill waste and supporting the circular economy."
+          }
+        }
+      ]
+    }
+    </script>
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -116,56 +176,7 @@
       }
     </style>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Appliance Removal Orlando",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/appliance-removal.php",
-        "url": "https://haulinjunkies.com/appliance-removal.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "1375 Lake Shadow Cir",
-          "postalCode": "32751",
-          "addressLocality": "Maitland",
-          "addressRegion": "FL",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.5383,
-          "longitude": -81.3792
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "priceRange": "$$",
-        "description": "Professional appliance removal in Orlando FL. We haul away refrigerators, washers, dryers, dishwashers and more. Same-day service available.",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-</head>
+    </head>
 
   <body>
     
@@ -182,11 +193,7 @@
       </div>
     </div>
 
-
-
  <?php include 'includes/header.php'; ?>
-
-
 
     <!--============================
         BREADCRUMB START
@@ -202,8 +209,8 @@
               <div class="breadcrumb_text">
                 <h1>Appliance Removal in Orlando, FL</h1>
                 <ul class="d-flex flex-wrap">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">appliance removal services</a></li>
+                  <li><a href="index.php">Home</a></li>
+                  <li><a href="appliance-removal.php">Appliance Removal Services</a></li>
                 </ul>
               </div>
             </div>
@@ -300,7 +307,7 @@
                       Florida law and EPA regulations require that refrigerants be recovered by certified technicians before an appliance is scrapped. Every appliance we haul goes through our sorting process first:
                     </p>
                     <ul>
-                      <li><strong>Working appliances</strong> — donated to Goodwill, Salvation Army, Habitat for Humanity ReStore, or Mustard Seed of Central Florida.</li>
+                      <li><strong>Working appliances</strong> — donated to Goodwill, Salvation Army, Habitat for Humanity ReStore, or Mustard Seed of Central Florida — see our <a href="donation-partners.php">donation partners</a>.</li>
                       <li><strong>Recyclable materials</strong> — metal components go to certified recycling facilities, keeping them out of the landfill.</li>
                       <li><strong>Non-recyclable items</strong> — only what genuinely can't be reused or recycled goes to the landfill.</li>
                     </ul>
@@ -323,7 +330,7 @@
                     </ul>
 
                     <p>
-                      Call <strong>(407) 815-4926</strong> for a free, upfront appliance removal quote. We serve Orlando, Maitland, Winter Park, and 27+ other Central Florida cities.
+                      Call <strong>(407) 815-4926</strong> for a free, upfront appliance removal quote. We serve <a href="index.php">Orlando</a>, <a href="maitland.php">Maitland</a>, <a href="winter-park.php">Winter Park</a>, and <a href="service-areas.php">27+ other Central Florida cities</a>.
                     </p>
                   </div>
                 </div>
@@ -424,7 +431,7 @@
                 <a href="mailto:Hello@haulinjunkies.com"
                   ><i class="fas fa-envelope"></i> Hello@haulinjunkies.com</a
                 >
-                <a href="callto:14078154926"
+                <a href="tel:+14078154926"
                   ><i class="fas fa-phone-alt"></i> +1 407.815.4926</a
                 >
               </div>

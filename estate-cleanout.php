@@ -8,7 +8,7 @@
     />
     <title>Estate Cleanout Services in Orlando, FL | Haulin Junkies</title>
     <meta name="description" content="Estate clean-out services in Orlando, FL — compassionate, full-service removal for families, downsizing & estate sales. Free quotes. Call (407) 815-4926!" />
-    <meta name="keywords" content="estate cleanout Orlando, estate clean out services, property cleanout Orlando, deceased estate removal, bereavement cleanout, estate liquidation services, downsizing cleanout Orlando FL, foreclosure cleanout, full service estate removal" />
+    <meta name="keywords" content="estate cleanout Orlando, estate clean-out Orlando, property cleanout Orlando, deceased estate removal, bereavement cleanout, estate liquidation services, downsizing cleanout Orlando FL, full service estate removal" />
     <meta name="author" content="Haulin Junkies" />
     <meta name="robots" content="index, follow" />
 
@@ -32,88 +32,7 @@
     <meta name="geo.region" content="US-FL" />
     <meta name="geo.placename" content="Orlando" />
 
-    <!-- Schema Markup for Local Business -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Haulin Junkies Estate Cleanout Services",
-      "image": "https://haulinjunkies.com/assets/images/logo.png",
-      "description": "Professional estate cleanout and property clean out services in Orlando, FL. Compassionate, full-service estate removal for families.",
-      "@id": "https://haulinjunkies.com/estate-cleanout.php",
-      "url": "https://haulinjunkies.com/estate-cleanout.php",
-      "telephone": "407-815-4926",
-      "priceRange": "$$",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "",
-        "addressLocality": "Maitland",
-        "addressRegion": "FL",
-        "postalCode": "",
-        "addressCountry": "US"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 28.6277,
-        "longitude": -81.3630
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday"
-          ],
-          "opens": "07:00",
-          "closes": "18:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Saturday",
-          "opens": "10:00",
-          "closes": "16:00"
-        }
-      ],
-      "sameAs": [
-        "https://www.facebook.com/haulinjunkies",
-        "https://twitter.com/haulinjunkies"
-      ],
-      "areaServed": [
-        "Orlando",
-        "Winter Park",
-        "Maitland",
-        "Altamonte Springs",
-        "Lake Mary",
-        "Sanford",
-        "Apopka",
-        "Ocoee",
-        "Winter Garden",
-        "Kissimmee",
-        "Central Florida"
-      ],
-      "serviceType": [
-        "Estate Cleanout",
-        "Property Cleanout",
-        "Bereavement Cleanout",
-        "Downsizing Services",
-        "Estate Sale Preparation",
-        "Foreclosure Cleanout",
-        "Full Estate Removal"
-      ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-    }
-    </script>
-
-    <!-- FAQ Schema — mirrors visible FAQ section below -->
+        <!-- FAQ Schema — mirrors visible FAQ section below -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -301,7 +220,6 @@
     </script>
 </head>
 
-
   <body>
     
 <?php include 'includes/header.php'; ?>
@@ -365,7 +283,7 @@
               </div>
               <h2>Professional Estate Cleanout Services in Orlando, FL</h2>
               <p>
-                Need an estate cleanout — sometimes called an estate cleanup — in Orlando, FL? When facing the emotional and overwhelming task of cleaning out a deceased loved one's home or managing property after life changes like downsizing, divorce, or foreclosure, Haulin Junkies provides compassionate and professional estate cleanout services throughout Orlando and Central Florida. Our experienced team understands the sensitive nature of estate clean outs and handles every item with care and respect during this difficult time.
+                Need an estate cleanout — also called an estate clean-out or estate cleanup — in Orlando, FL? When facing the emotional and overwhelming task of cleaning out a deceased loved one's home or managing property after life changes like downsizing, divorce, or foreclosure, Haulin Junkies provides compassionate and professional estate clean-out services throughout Orlando and Central Florida. Our experienced team understands the sensitive nature of estate clean-outs and handles every item with care and respect during this difficult time.
               </p>
               <p>
                 As Orlando's trusted estate cleanout company, we specialize in full-service property cleanouts for families, estate executors, real estate agents, and property managers. Whether you need to prepare a home for an estate sale, clear out a foreclosed property, or simply remove years of accumulated belongings, our comprehensive estate removal services make the process smooth and stress-free.
@@ -465,7 +383,7 @@
                     <div class="service_work_item">
                       <span><i class="fas fa-gavel"></i></span>
                       <h4>Foreclosure Property Cleanouts</h4>
-                      <p>Fast, thorough cleanouts of foreclosed properties for banks, lenders, and real estate investors</p>
+                      <p>Fast, thorough cleanouts of foreclosed properties for banks, lenders, and real estate investors — see our dedicated <a href="foreclosure-cleanout.php">foreclosure cleanout services</a> for details</p>
                     </div>
                   </div>
                   <div class="col-xl-6 col-md-6">
@@ -519,22 +437,22 @@
                 <div class="row">
                   <div class="col-md-6">
                     <ul>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>Orlando Estate Cleanouts</p></li>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>Winter Park Property Cleanouts</p></li>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>Maitland Estate Services</p></li>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>Altamonte Springs Cleanouts</p></li>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>Lake Mary Estate Removal</p></li>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>Sanford Property Services</p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="index.php">Orlando Estate Cleanouts</a></p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="winter-park.php">Winter Park Property Cleanouts</a></p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="maitland.php">Maitland Estate Services</a></p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="altamonte-springs.php">Altamonte Springs Cleanouts</a></p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="lake-mary.php">Lake Mary Estate Removal</a></p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="sanford.php">Sanford Property Services</a></p></li>
                     </ul>
                   </div>
                   <div class="col-md-6">
                     <ul>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>Apopka Estate Cleanouts</p></li>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>Ocoee Property Clearing</p></li>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>Winter Garden Estate Services</p></li>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>Kissimmee Cleanout Services</p></li>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>Longwood Estate Removal</p></li>
-                      <li><i class="fas fa-map-marker-alt"></i> <p>All Central Florida Areas</p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="apopka.php">Apopka Estate Cleanouts</a></p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="ocoee.php">Ocoee Property Clearing</a></p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="winter-garden.php">Winter Garden Estate Services</a></p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="kissimmee.php">Kissimmee Cleanout Services</a></p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="longwood.php">Longwood Estate Removal</a></p></li>
+                      <li><i class="fas fa-map-marker-alt"></i> <p><a href="service-areas.php">All Central Florida Areas</a></p></li>
                     </ul>
                   </div>
                 </div>

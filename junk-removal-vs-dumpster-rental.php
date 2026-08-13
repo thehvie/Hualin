@@ -6,6 +6,22 @@
     <title>Junk Removal vs Dumpster Rental in Orlando | Which Is Right for You?</title>
     <meta name="description" content="Junk removal or dumpster rental — which makes more sense for your Orlando project? Compare cost, convenience, and best use cases to pick the right option." />
     <link rel="canonical" href="https://haulinjunkies.com/junk-removal-vs-dumpster-rental.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/junk-removal-vs-dumpster-rental.php" />
+    <meta property="og:title" content="Junk Removal vs Dumpster Rental in Orlando | Which Is Right for You?" />
+    <meta property="og:description" content="Junk removal or dumpster rental — which makes more sense for your Orlando project? Compare cost, convenience, and best use cases to pick the right option." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Junk Removal vs Dumpster Rental in Orlando | Which Is Right for You?" />
+    <meta name="twitter:description" content="Junk removal or dumpster rental — which makes more sense for your Orlando project? Compare cost, convenience, and best use cases to pick the right option." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

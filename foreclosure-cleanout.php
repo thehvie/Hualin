@@ -10,6 +10,22 @@
     <meta name="description" content="Foreclosure cleanouts in Orlando, FL — we clear out any property fast for banks, REO companies & property managers. Full-service, insured, free quotes. Call (407) 815-4926!" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://haulinjunkies.com/foreclosure-cleanout.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/foreclosure-cleanout.php" />
+    <meta property="og:title" content="Foreclosure Cleanouts in Orlando, FL | Fast & Insured | Haulin Junkies" />
+    <meta property="og:description" content="Foreclosure cleanouts in Orlando, FL — we clear out any property fast for banks, REO companies & property managers. Full-service, insured, free quotes. Call (407) 815-4926!" />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Foreclosure Cleanouts in Orlando, FL | Fast & Insured | Haulin Junkies" />
+    <meta name="twitter:description" content="Foreclosure cleanouts in Orlando, FL — we clear out any property fast for banks, REO companies & property managers. Full-service, insured, free quotes. Call (407) 815-4926!" />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -115,57 +131,7 @@
       }
     </style>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Foreclosure Cleanout Orlando",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/foreclosure-cleanout.php",
-        "url": "https://haulinjunkies.com/foreclosure-cleanout.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "1375 Lake Shadow Cir",
-          "postalCode": "32751",
-          "addressLocality": "Maitland",
-          "addressRegion": "FL",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.5383,
-          "longitude": -81.3792
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "priceRange": "$$",
-        "description": "Foreclosure and REO property cleanout services in Orlando FL. Fast turnaround for banks and property managers.",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-</head>
-
+    </head>
 
   <body>
     
@@ -183,8 +149,6 @@
         </div>
       </div>
     </div>
-
-
 
     <!--============================
         BREADCRUMB START
@@ -656,7 +620,7 @@
                 </ul>
                 <a href="/cdn-cgi/l/email-protection#e6ae838a8a89a68e87938a8f888c93888d8f8395c885898b"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="c880ada4a4a788a0a9bda4a1a6a2bda6a3a1adbbe6aba7a5">[email&#160;protected]</span></a
                 >
-                <a href="callto:14078154926"
+                <a href="tel:+14078154926"
                   ><i class="fas fa-phone-alt"></i> 407-815-4926</a
                 >
               </div>

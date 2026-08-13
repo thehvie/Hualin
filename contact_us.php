@@ -9,6 +9,22 @@
     <title>Contact Haulin Junkies | Orlando Junk Removal</title>
     <meta name="description" content="Contact Haulin Junkies for same-day junk removal in Orlando and Central Florida. Call (407) 815-4926 or book online for a free, upfront estimate. We sort, we donate, we reduce." />
     <link rel="canonical" href="https://haulinjunkies.com/contact_us.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/contact_us.php" />
+    <meta property="og:title" content="Contact Haulin Junkies | Orlando Junk Removal" />
+    <meta property="og:description" content="Contact Haulin Junkies for same-day junk removal in Orlando and Central Florida. Call (407) 815-4926 or book online for a free, upfront estimate. We sort, we donate, we reduce." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Contact Haulin Junkies | Orlando Junk Removal" />
+    <meta name="twitter:description" content="Contact Haulin Junkies for same-day junk removal in Orlando and Central Florida. Call (407) 815-4926 or book online for a free, upfront estimate. We sort, we donate, we reduce." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -180,57 +196,7 @@
     </script>
 
     <!-- LocalBusiness Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Haulin Junkies",
-      "image": "https://haulinjunkies.com/assets/images/logo.png",
-      "@id": "https://haulinjunkies.com/",
-      "url": "https://haulinjunkies.com/",
-      "telephone": "+14078154926",
-      "email": "hello@haulinjunkies.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "1375 Lake Shadow Cir",
-        "addressLocality": "Maitland",
-        "addressRegion": "FL",
-        "postalCode": "32751",
-        "addressCountry": "US"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 28.5383,
-        "longitude": -81.3792
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-          "opens": "07:00",
-          "closes": "18:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Saturday",
-          "opens": "10:00",
-          "closes": "16:00"
-        }
-      ],
-      "priceRange": "$$",
-      "description": "Haulin Junkies offers same-day junk removal in Orlando and 27+ Central Florida cities. Licensed and insured. We sort, we donate, we reduce.",
-      "areaServed": [
-        {"@type": "City", "name": "Orlando", "addressRegion": "FL"},
-        {"@type": "City", "name": "Maitland", "addressRegion": "FL"},
-        {"@type": "City", "name": "Winter Park", "addressRegion": "FL"},
-        {"@type": "City", "name": "Windermere", "addressRegion": "FL"},
-        {"@type": "City", "name": "Kissimmee", "addressRegion": "FL"},
-        {"@type": "City", "name": "Sanford", "addressRegion": "FL"}
-      ]
-    }
-    </script>
   </head>
-
 
     <!-- Google reCAPTCHA -->
     <!-- IMPORTANT: Replace 'YOUR_SITE_KEY_HERE' with your actual reCAPTCHA site key -->
@@ -344,7 +310,7 @@
               </div>
               <div class="text">
                 <h2>Phone Number</h2>
-                <a href="callto:4078154926">(407) 815-4926</a>
+                <a href="tel:+14078154926">(407) 815-4926</a>
                 <p style="margin-top: 10px; color: #666">
                   Call us for a free estimate!
                 </p>

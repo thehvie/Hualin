@@ -245,10 +245,10 @@
               Users who submit contact information agree to receive SMS notifications about service confirmations, scheduling updates, reminders, and other service-related matters.
             </p>
             <ul>
-              <li><strong>Opt-Out Policy:</strong> Text <strong>STOP</strong> to <a href="callto:4078154926">(407) 815-4926</a> to cancel SMS service. A confirmation message will follow. Email or phone communications may continue per your service agreement.</li>
+              <li><strong>Opt-Out Policy:</strong> Text <strong>STOP</strong> to <a href="tel:+14078154926">(407) 815-4926</a> to cancel SMS service. A confirmation message will follow. Email or phone communications may continue per your service agreement.</li>
               <li><strong>Message Frequency and Rates:</strong> Frequency varies based on account activity. Standard message and data rates may apply. Contact your wireless provider regarding your plan details.</li>
               <li><strong>Carrier Disclaimer:</strong> Carriers are not responsible for delayed or undelivered messages.</li>
-              <li><strong>Support:</strong> Reply <strong>HELP</strong> or contact <a href="mailto:info@haulinjunkies.com">info@haulinjunkies.com</a> or <a href="callto:4078154926">(407) 815-4926</a>.</li>
+              <li><strong>Support:</strong> Reply <strong>HELP</strong> or contact <a href="mailto:info@haulinjunkies.com">info@haulinjunkies.com</a> or <a href="tel:+14078154926">(407) 815-4926</a>.</li>
               <li><strong>Privacy:</strong> Review our privacy policy at <a href="privacy_policy.php">Privacy Policy</a>.</li>
             </ul>
 
@@ -339,7 +339,7 @@
             <h2>13. Contact Us</h2>
             <p>If you have any questions about these Terms and Conditions, please contact us:</p>
             <ul>
-              <li><strong>Phone:</strong> <a href="callto:4078154926">(407) 815-4926</a></li>
+              <li><strong>Phone:</strong> <a href="tel:+14078154926">(407) 815-4926</a></li>
               <li><strong>Email:</strong> <a href="mailto:info@haulinjunkies.com">info@haulinjunkies.com</a></li>
               <li><strong>Service Area:</strong> Orlando, Florida and surrounding areas</li>
             </ul>

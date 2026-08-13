@@ -32,128 +32,7 @@
     <meta name="geo.region" content="US-FL" />
     <meta name="geo.placename" content="Orlando" />
 
-    <!-- Schema Markup for Local Business + Product/Service -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Haulin Junkies Dumpster Rental Services",
-      "image": "https://haulinjunkies.com/assets/images/logo.png",
-      "description": "Affordable roll-off dumpster rental services in Orlando, FL. 12, 14, 16, and 20 yard dumpsters for residential and commercial projects. No hidden fees, same-day delivery, 100% driveway protection.",
-      "@id": "https://haulinjunkies.com/dumpster-rentals.php",
-      "url": "https://haulinjunkies.com/dumpster-rentals.php",
-      "telephone": "407-815-4926",
-      "priceRange": "$$",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "",
-        "addressLocality": "Maitland",
-        "addressRegion": "FL",
-        "postalCode": "",
-        "addressCountry": "US"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 28.6277,
-        "longitude": -81.3630
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-          "opens": "07:00",
-          "closes": "18:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Saturday",
-          "opens": "10:00",
-          "closes": "16:00"
-        }
-      ],
-      "sameAs": [
-        "https://www.facebook.com/haulinjunkies",
-        "https://twitter.com/haulinjunkies"
-      ],
-      "areaServed": [
-        {"@type": "City", "name": "Orlando", "sameAs": "https://en.wikipedia.org/wiki/Orlando,_Florida"},
-        {"@type": "City", "name": "Winter Park"},
-        {"@type": "City", "name": "Maitland"},
-        {"@type": "City", "name": "Altamonte Springs"},
-        {"@type": "City", "name": "Lake Mary"},
-        {"@type": "City", "name": "Sanford"},
-        {"@type": "City", "name": "Apopka"},
-        {"@type": "City", "name": "Ocoee"},
-        {"@type": "City", "name": "Winter Garden"},
-        {"@type": "City", "name": "Kissimmee"},
-        {"@type": "City", "name": "Windermere"},
-        {"@type": "City", "name": "Baldwin Park"},
-        {"@type": "City", "name": "Oviedo"},
-        {"@type": "City", "name": "Doctor Phillips"},
-        {"@type": "City", "name": "Hunters Creek"},
-        {"@type": "City", "name": "Alafaya"},
-        {"@type": "City", "name": "Lake Buena Vista"},
-        {"@type": "City", "name": "Horizon West"},
-        {"@type": "City", "name": "Clermont"},
-        {"@type": "City", "name": "Minneola"},
-        {"@type": "City", "name": "Heathrow"},
-        {"@type": "City", "name": "St Cloud"},
-        {"@type": "City", "name": "Wedgfield"},
-        {"@type": "City", "name": "Geneva"},
-        {"@type": "City", "name": "Longwood"},
-        {"@type": "City", "name": "Gotha"},
-        {"@type": "City", "name": "Groveland"},
-        {"@type": "City", "name": "Central Florida"}
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Dumpster Rental Sizes",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "12 Yard Dumpster Rental",
-              "description": "Compact roll-off dumpster ideal for small renovations, garage cleanouts, and residential debris removal in Orlando FL. Approximately 10 feet long, 7 feet wide, 4 feet high."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "14 Yard Dumpster Rental",
-              "description": "Mid-size roll-off dumpster perfect for medium home cleanouts, kitchen or bathroom remodels, and construction projects in Orlando FL. Approximately 12 feet long, 7.5 feet wide, 4.5 feet high."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "16 Yard Dumpster Rental",
-              "description": "Large roll-off dumpster for major renovations, whole-home cleanouts, roofing projects, and commercial debris in Orlando FL. Approximately 14 feet long, 7.5 feet wide, 5 feet high."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "20 Yard Dumpster Rental",
-              "description": "Extra-large roll-off dumpster for commercial construction, large-scale cleanouts, multi-unit properties, and extensive demolition projects in Orlando FL. Approximately 16 feet long, 8 feet wide, 5.5 feet high."
-            }
-          }
-        ]
-      },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-    }
-    </script>
-
-    <!-- FAQ Schema for AI / Rich Results -->
+        <!-- FAQ Schema for AI / Rich Results -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -742,7 +621,6 @@
     }
     </script>
 </head>
-
 
   <body>
     

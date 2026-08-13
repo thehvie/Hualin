@@ -7,6 +7,25 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>Tips for Moving Heavy Things | Haulin Junkies</title>
+    <meta name="description" content="Tips for safely moving heavy furniture and large items without injury — plus how Haulin Junkies can haul away what you don't want to move. Orlando, FL." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://haulinjunkies.com/tips-for-moving-things.php" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://haulinjunkies.com/tips-for-moving-things.php" />
+    <meta property="og:title" content="Tips for Moving Heavy Things | Haulin Junkies" />
+    <meta property="og:description" content="Tips for safely moving heavy furniture and large items without injury — plus how Haulin Junkies can haul away what you don't want to move." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tips for Moving Heavy Things | Haulin Junkies" />
+    <meta name="twitter:description" content="Tips for safely moving heavy furniture and large items without injury in Orlando, FL." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

@@ -83,7 +83,6 @@
     <!-- Custom Styles -->
     <style>
 
-
 /* Fix dropdown menu - remove scroll and show all services */
       .droap_menu {
         max-height: none !important;
@@ -485,89 +484,7 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Altamonte Springs Junk Removal",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/altamonte-springs.php",
-        "url": "https://haulinjunkies.com/altamonte-springs.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "",
-          "addressLocality": "Altamonte Springs",
-          "addressRegion": "FL",
-          "postalCode": "",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.6611,
-          "longitude": -81.3656
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday"
-            ],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "serviceArea": {
-          "@type": "City",
-          "name": "Altamonte Springs",
-          "addressRegion": "FL"
-        },
-        "priceRange": "$$",
-        "description": "Professional junk removal services in Altamonte Springs, FL. Same-day pickup, furniture removal, appliance disposal, estate cleanouts. Licensed and insured.",
-        "service": [
-          {
-            "@type": "Service",
-            "name": "Residential Junk Removal Altamonte Springs",
-            "description": "Furniture, appliances, household cleanouts in Altamonte Springs FL"
-          },
-          {
-            "@type": "Service",
-            "name": "Commercial Junk Removal Altamonte Springs",
-            "description": "Office furniture, retail fixtures, warehouse cleanouts in Altamonte Springs"
-          },
-          {
-            "@type": "Service",
-            "name": "Appliance Removal Altamonte Springs",
-            "description": "Refrigerators, washers, dryers, dishwashers removal in Altamonte Springs"
-          },
-          {
-            "@type": "Service",
-            "name": "Estate Cleanouts Altamonte Springs",
-            "description": "Full property cleanouts and donation sorting in Altamonte Springs FL"
-          }
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-  </head>
+      </head>
 
   <body>
 

@@ -267,8 +267,8 @@
               By submitting your contact information through our website, you agree to receive SMS notifications about appointment confirmations, scheduling updates, service reminders, and other service-related matters.
             </p>
             <ul>
-              <li><strong>Opt-Out:</strong> You may opt out of SMS communications at any time by texting <strong>STOP</strong> to <a href="callto:4078154926">(407) 815-4926</a>. A confirmation message will follow and no further SMS messages will be sent. You may still receive email or phone communications as part of your service agreement.</li>
-              <li><strong>Help:</strong> Reply <strong>HELP</strong> to any SMS message, or contact us at <a href="callto:4078154926">(407) 815-4926</a> or info@haulinjunkies.com.</li>
+              <li><strong>Opt-Out:</strong> You may opt out of SMS communications at any time by texting <strong>STOP</strong> to <a href="tel:+14078154926">(407) 815-4926</a>. A confirmation message will follow and no further SMS messages will be sent. You may still receive email or phone communications as part of your service agreement.</li>
+              <li><strong>Help:</strong> Reply <strong>HELP</strong> to any SMS message, or contact us at <a href="tel:+14078154926">(407) 815-4926</a> or info@haulinjunkies.com.</li>
               <li><strong>Message &amp; Data Rates:</strong> Standard message and data rates may apply. Contact your wireless provider for details about your plan.</li>
               <li><strong>Frequency:</strong> Message frequency varies based on your account activity and service interactions.</li>
               <li><strong>Carrier Disclaimer:</strong> Carriers are not responsible for delayed or undelivered messages.</li>
@@ -330,7 +330,7 @@
             <h2>11. Contact Us</h2>
             <p>If you have any questions or concerns about this Privacy Policy, please contact us:</p>
             <ul>
-              <li><strong>Phone:</strong> <a href="callto:4078154926">(407) 815-4926</a></li>
+              <li><strong>Phone:</strong> <a href="tel:+14078154926">(407) 815-4926</a></li>
               <li><strong>Email:</strong> info@haulinjunkies.com</li>
               <li><strong>Service Area:</strong> Orlando, Florida and surrounding areas</li>
             </ul>

@@ -6,10 +6,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Orlando Junk Removal Services | Haulin Junkies FL</title>
+    <title>Property Manager &amp; Realtor Junk Removal | Orlando FL</title>
     <meta
       name="description"
-      content="Orlando's junk removal team for property managers, realtors, estate cleanouts &amp; same-day residential pickups. Serving all 32 Orlando zip codes. Licensed &amp; insured. Call (407) 815-4926."
+      content="Junk removal for Orlando property managers, realtors &amp; investors: turnover cleanouts, tenant move-outs, estate &amp; eviction cleanouts. Same-day service, all 32 zip codes. (407) 815-4926."
     />
     <meta
       name="keywords"
@@ -27,11 +27,11 @@
     <meta property="og:url" content="https://haulinjunkies.com/orlando.php" />
     <meta
       property="og:title"
-      content="Orlando Junk Removal Services | Same-Day Pickup | Haulin Junkies"
+      content="Property Manager & Realtor Junk Removal | Orlando FL"
     />
     <meta
       property="og:description"
-      content="Professional junk removal services in Orlando, FL. Same-day pickup available. Licensed & insured."
+      content="Turnover cleanouts, tenant move-outs & estate cleanouts for Orlando property managers, realtors & investors. Same-day service, licensed & insured."
     />
     <meta
       property="og:image"
@@ -46,11 +46,11 @@
     />
     <meta
       property="twitter:title"
-      content="Orlando Junk Removal Services | Same-Day Pickup"
+      content="Property Manager & Realtor Junk Removal | Orlando FL"
     />
     <meta
       property="twitter:description"
-      content="Professional junk removal services in Orlando, FL. Same-day pickup available."
+      content="Turnover cleanouts, tenant move-outs & estate cleanouts for Orlando property managers, realtors & investors."
     />
     <meta
       property="twitter:image"
@@ -478,89 +478,7 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Orlando Junk Removal",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/orlando.php",
-        "url": "https://haulinjunkies.com/orlando.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "",
-          "addressLocality": "Orlando",
-          "addressRegion": "FL",
-          "postalCode": "",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.5383,
-          "longitude": -81.3792
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "serviceArea": {
-          "@type": "City",
-          "name": "Orlando",
-          "addressRegion": "FL"
-        },
-        "priceRange": "$$",
-        "description": "Orlando's junk removal specialists for property managers, realtors, vacation rental owners, and residents. Same-day service across all 32 Orlando zip codes. Licensed and insured.",
-        "service": [
-          {
-            "@type": "Service",
-            "name": "Property Manager Junk Removal Orlando",
-            "description": "Unit turnover cleanouts, abandoned belongings, bulk appliance removal for rental properties throughout Orlando"
-          },
-          {
-            "@type": "Service",
-            "name": "Realtor & Pre-Listing Cleanouts Orlando",
-            "description": "Fast pre-listing cleanouts, estate sale debris removal, and staging prep for Orlando real estate professionals"
-          },
-          {
-            "@type": "Service",
-            "name": "Vacation Rental Cleanout Orlando",
-            "description": "Furniture replacement, deep cleanouts, and Airbnb/VRBO refresh service on International Drive and throughout the tourist corridor"
-          },
-          {
-            "@type": "Service",
-            "name": "Estate Cleanouts Orlando",
-            "description": "Full property cleanouts with donation sorting for College Park bungalows, historic neighborhoods, and senior relocations"
-          },
-          {
-            "@type": "Service",
-            "name": "Construction Debris Removal Orlando",
-            "description": "Renovation waste, flooring, drywall, and contractor debris removal across Orange County"
-          }
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-
-    <!-- FAQ Structured Data -->
+        <!-- FAQ Structured Data -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -619,7 +537,6 @@
     </script>
   </head>
 
-
   <body>
     
 <?php include 'includes/header.php'; ?>
@@ -656,10 +573,10 @@
         <div class="row">
           <div class="col-12">
             <h1 class="hero-title wow fadeInUp">
-              Orlando Junk Removal Services
+              Property Manager &amp; Realtor Junk Removal in Orlando
             </h1>
             <p class="hero-subtitle wow fadeInUp" data-wow-delay="0.2s">
-              Orlando's Junk Removal Team for Property Managers, Realtors &amp; Residents — All 32 Zip Codes Covered
+              Turnover Cleanouts, Tenant Move-Outs &amp; Estate Cleanouts — All 32 Orlando Zip Codes Covered
             </p>
             <div class="hero-features wow fadeInUp" data-wow-delay="0.4s">
               <span class="hero-feature">✓ Same-Day Service</span>

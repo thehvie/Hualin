@@ -9,6 +9,22 @@
     <title>Benefits of Junk Removal | Haulin Junkies Blog</title>
     <meta name="description" content="Discover the top benefits of hiring a junk removal service in Orlando — stress-free cleanouts, responsible donation, recycling, and same-day pickup. Haulin Junkies: We sort, we donate, we reduce." />
     <link rel="canonical" href="https://haulinjunkies.com/benefits-of-junk-removal.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/benefits-of-junk-removal.php" />
+    <meta property="og:title" content="Benefits of Junk Removal | Haulin Junkies Blog" />
+    <meta property="og:description" content="Discover the top benefits of hiring a junk removal service in Orlando — stress-free cleanouts, responsible donation, recycling, and same-day pickup. Haulin Junkies: We sort, we donate, we reduce." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Benefits of Junk Removal | Haulin Junkies Blog" />
+    <meta name="twitter:description" content="Discover the top benefits of hiring a junk removal service in Orlando — stress-free cleanouts, responsible donation, recycling, and same-day pickup. Haulin Junkies: We sort, we donate, we reduce." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

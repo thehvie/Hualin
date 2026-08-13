@@ -8,6 +8,24 @@
     />
     <title>Donation Partners | Haulin Junkies Keeps Items from Landfills | Orlando FL</title>
     <meta name="description" content="Haulin Junkies partners with Mustard Seed, Salvation Army, Teen Challenge, and Goodwill to donate usable items and keep them from landfills. Eco-friendly junk removal in Orlando, FL." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://haulinjunkies.com/donation-partners.php" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/donation-partners.php" />
+    <meta property="og:title" content="Donation Partners | Haulin Junkies Keeps Items from Landfills | Orlando FL" />
+    <meta property="og:description" content="Haulin Junkies partners with Mustard Seed, Salvation Army, Teen Challenge, and Goodwill to donate usable items and keep them from landfills." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Donation Partners | Haulin Junkies Keeps Items from Landfills" />
+    <meta name="twitter:description" content="We partner with Mustard Seed, Salvation Army, Teen Challenge, and Goodwill to keep usable items out of landfills." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

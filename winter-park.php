@@ -74,106 +74,7 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/responsive.css" />
 
-    <!-- Structured Data - Local Business Schema -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "@id": "https://haulinjunkies.com/winter-park.php",
-        "name": "Haulin Junkies - Winter Park Junk Removal",
-        "description": "Winter Park junk removal specialists for historic home estates, Park Avenue commercial cleanouts, Rollins College student move-outs, and Chain of Lakes waterfront properties. Serving zip codes 32789 and 32792.",
-        "url": "https://haulinjunkies.com/winter-park.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "1375 Lake Shadow Cir",
-          "postalCode": "32751",
-          "addressLocality": "Winter Park",
-          "addressRegion": "FL",
-          "postalCode": "32789",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": "28.5950",
-          "longitude": "-81.3656"
-        },
-        "areaServed": [
-          {
-            "@type": "City",
-            "name": "Winter Park",
-            "sameAs": "https://en.wikipedia.org/wiki/Winter_Park,_Florida"
-          }
-        ],
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Winter Park Junk Removal Services",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Historic Home Estate Cleanouts Winter Park",
-                "description": "Full estate and property cleanouts for Winter Park's historic 1920s-1960s homes, with careful handling of antique furniture, vintage appliances, and period fixtures"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Park Avenue Commercial Junk Removal",
-                "description": "Discreet commercial cleanouts for Park Avenue boutiques, restaurants, galleries, and office buildings on and around Winter Park's main shopping corridor"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Rollins College Area Move-Out Cleanouts",
-                "description": "Student move-out furniture and appliance removal in the College Quarter and surrounding rental housing during spring and fall semester transitions"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Chain of Lakes Waterfront Property Cleanouts",
-                "description": "Lakefront estate cleanouts on Lake Osceola, Lake Virginia, Lake Berry, and the Winter Park Chain of Lakes with careful property access"
-              }
-            }
-          ]
-        },
-        "priceRange": "$$",
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "sameAs": [
-          "https://www.facebook.com/haulinjunkies",
-          "https://www.yelp.com/biz/haulin-junkies"
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-
-    <!-- Breadcrumb Schema -->
+        <!-- Breadcrumb Schema -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -690,7 +591,6 @@
       gtag("config", "G-NCGVC9289X");
     </script>
   </head>
-
 
   <body>
     

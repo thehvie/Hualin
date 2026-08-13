@@ -9,6 +9,22 @@
     <title>Attic Organization Tips for Orlando Homeowners | Haulin Junkies Blog</title>
     <meta name="description" content="Tips for organizing your attic in Florida's humid climate — what to keep, what to toss, and how Haulin Junkies can haul away what you no longer need. Same-day attic cleanout in Orlando." />
     <link rel="canonical" href="https://haulinjunkies.com/the-advantages-of-organizing-your-attic.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/the-advantages-of-organizing-your-attic.php" />
+    <meta property="og:title" content="Attic Organization Tips for Orlando Homeowners | Haulin Junkies Blog" />
+    <meta property="og:description" content="Tips for organizing your attic in Florida's humid climate — what to keep, what to toss, and how Haulin Junkies can haul away what you no longer need. Same-day attic cleanout in Orlando." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Attic Organization Tips for Orlando Homeowners | Haulin Junkies Blog" />
+    <meta name="twitter:description" content="Tips for organizing your attic in Florida's humid climate — what to keep, what to toss, and how Haulin Junkies can haul away what you no longer need. Same-day attic cleanout in Orlando." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

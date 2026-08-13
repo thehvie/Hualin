@@ -481,84 +481,7 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Windermere Luxury Junk Removal",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/windermere.php",
-        "url": "https://haulinjunkies.com/windermere.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "",
-          "addressLocality": "Windermere",
-          "addressRegion": "FL",
-          "postalCode": "34786",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.4919,
-          "longitude": -81.5367
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "serviceArea": {
-          "@type": "City",
-          "name": "Windermere",
-          "addressRegion": "FL"
-        },
-        "priceRange": "$$$",
-        "description": "Windermere junk removal specialists with gated community gate access protocols for Isleworth, Keenes Pointe, and Butler Chain communities. Sub-Zero and luxury appliance removal, discreet estate cleanouts, HOA-compliant service in zip code 34786.",
-        "service": [
-          {
-            "@type": "Service",
-            "name": "Isleworth & Keenes Pointe Gated Community Junk Removal",
-            "description": "Gate access coordination, HOA-compliant junk removal, and full estate cleanouts for Isleworth, Keenes Pointe, and all Windermere gated communities"
-          },
-          {
-            "@type": "Service",
-            "name": "Luxury Appliance Removal Windermere",
-            "description": "Sub-Zero refrigerator removal, Viking range disposal, Wolf cooktop teardown, and commercial-grade kitchen appliance removal from Windermere luxury homes"
-          },
-          {
-            "@type": "Service",
-            "name": "Butler Chain Lakes Estate Cleanouts",
-            "description": "Full waterfront estate cleanouts on Butler Chain of Lakes communities including dock equipment, pool systems, and lakefront property clearing"
-          },
-          {
-            "@type": "Service",
-            "name": "Windermere Custom Estate Renovation Debris Removal",
-            "description": "Construction debris, luxury flooring, custom cabinetry teardown, wine cellar clearing, and home theater removal from custom estate renovation projects in Windermere"
-          }
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-
-    <!-- FAQ Structured Data -->
+        <!-- FAQ Structured Data -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -616,7 +539,6 @@
       }
     </script>
   </head>
-
 
   <body>
     

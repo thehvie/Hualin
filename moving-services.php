@@ -127,56 +127,7 @@
       }
     </style>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Moving Help Orlando",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/moving-services.php",
-        "url": "https://haulinjunkies.com/moving-services.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "1375 Lake Shadow Cir",
-          "postalCode": "32751",
-          "addressLocality": "Maitland",
-          "addressRegion": "FL",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.5383,
-          "longitude": -81.3792
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "priceRange": "$$",
-        "description": "Same-day moving help, local vehicle and car moving, and delivery runs in Orlando FL. Licensed and insured. Serving Central Florida.",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-    <script type="application/ld+json">
+        <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -253,7 +204,6 @@
     </script>
 </head>
 
-
   <body>
 
 <?php include 'includes/header.php'; ?>
@@ -270,8 +220,6 @@
         </div>
       </div>
     </div>
-
-
 
     <!--============================
         BREADCRUMB START
@@ -669,7 +617,7 @@
                 </ul>
                 <a href="/cdn-cgi/l/email-protection#a8e0cdc4c4c7e8c0c9ddc4c1c6c2ddc6c3c1cddb86cbc7c5"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="b5fdd0d9d9daf5ddd4c0d9dcdbdfc0dbdedcd0c69bd6dad8">[email&#160;protected]</span></a
                 >
-                <a href="callto:14078154926"
+                <a href="tel:+14078154926"
                   ><i class="fas fa-phone-alt"></i> +1 407.815.4926</a
                 >
               </div>
@@ -681,7 +629,6 @@
     <!--============================
         SERVICE DETAILS END
     =============================-->
-
 
 <?php include 'includes/footer.php'; ?>
 

@@ -74,7 +74,6 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/responsive.css" />
 
-
     <!-- Custom Styles -->
     <style>
 /* Fix dropdown menu - remove scroll and show all services */
@@ -479,90 +478,7 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Conway Junk Removal",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/conway.php",
-        "url": "https://haulinjunkies.com/conway.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "",
-          "addressLocality": "Conway",
-          "addressRegion": "FL",
-          "postalCode": "",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.52,
-          "longitude": -81.36
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday"
-            ],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "serviceArea": {
-          "@type": "City",
-          "name": "Conway",
-          "addressRegion": "FL"
-        },
-        "priceRange": "$$",
-        "description": "Professional junk removal services in Conway, Orlando FL. Same-day pickup, furniture removal, appliance disposal, estate cleanouts. Licensed and insured.",
-        "service": [
-          {
-            "@type": "Service",
-            "name": "Residential Junk Removal Conway",
-            "description": "Furniture, appliances, household cleanouts in Conway, Orlando FL"
-          },
-          {
-            "@type": "Service",
-            "name": "Commercial Junk Removal Conway",
-            "description": "Office furniture, retail fixtures, warehouse cleanouts in Conway"
-          },
-          {
-            "@type": "Service",
-            "name": "Appliance Removal Conway",
-            "description": "Refrigerators, washers, dryers, dishwashers removal in Conway"
-          },
-          {
-            "@type": "Service",
-            "name": "Estate Cleanouts Conway",
-            "description": "Full property cleanouts and donation sorting in Conway, Orlando FL"
-          }
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-  </head>
-
+      </head>
 
   <body>
     

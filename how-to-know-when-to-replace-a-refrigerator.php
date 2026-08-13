@@ -7,6 +7,25 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>When to Replace a Refrigerator | Haulin Junkies</title>
+    <meta name="description" content="Not sure if it's time to replace your old refrigerator? Learn the warning signs and how Haulin Junkies can haul away your old appliance in Orlando, FL." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://haulinjunkies.com/how-to-know-when-to-replace-a-refrigerator.php" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://haulinjunkies.com/how-to-know-when-to-replace-a-refrigerator.php" />
+    <meta property="og:title" content="When to Replace a Refrigerator | Haulin Junkies" />
+    <meta property="og:description" content="Not sure if it's time to replace your old refrigerator? Learn the warning signs and how Haulin Junkies can haul away your old appliance." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="When to Replace a Refrigerator | Haulin Junkies" />
+    <meta name="twitter:description" content="Learn the warning signs it's time for a new refrigerator, and how we haul away the old one in Orlando, FL." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

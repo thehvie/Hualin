@@ -9,6 +9,22 @@
     <title>Old Appliance Removal Guide | Haulin Junkies</title>
     <meta name="description" content="How to get rid of old appliances in Orlando — refrigerators, washers, dryers, AC units, and more. Recycling rules, disposal options, and same-day haul-off by Haulin Junkies." />
     <link rel="canonical" href="https://haulinjunkies.com/a-guide-for-old-appliance-removal.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/a-guide-for-old-appliance-removal.php" />
+    <meta property="og:title" content="Old Appliance Removal Guide | Haulin Junkies" />
+    <meta property="og:description" content="How to get rid of old appliances in Orlando — refrigerators, washers, dryers, AC units, and more. Recycling rules, disposal options, and same-day haul-off by Haulin Junkies." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Old Appliance Removal Guide | Haulin Junkies" />
+    <meta name="twitter:description" content="How to get rid of old appliances in Orlando — refrigerators, washers, dryers, AC units, and more. Recycling rules, disposal options, and same-day haul-off by Haulin Junkies." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

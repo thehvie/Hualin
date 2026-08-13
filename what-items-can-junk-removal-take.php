@@ -6,6 +6,22 @@
     <title>What Items Can Junk Removal Companies Take? | Haulin Junkies Orlando</title>
     <meta name="description" content="Wondering what a junk removal company will and won't take? Haulin Junkies hauls furniture, appliances, electronics, yard debris &amp; more across Central Florida. See the full list." />
     <link rel="canonical" href="https://haulinjunkies.com/what-items-can-junk-removal-take.php" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://haulinjunkies.com/what-items-can-junk-removal-take.php" />
+    <meta property="og:title" content="What Items Can Junk Removal Companies Take? | Haulin Junkies Orlando" />
+    <meta property="og:description" content="Wondering what a junk removal company will and won't take? Haulin Junkies hauls furniture, appliances, electronics, yard debris &amp; more across Central Florida. See the full list." />
+    <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="What Items Can Junk Removal Companies Take? | Haulin Junkies Orlando" />
+    <meta name="twitter:description" content="Wondering what a junk removal company will and won't take? Haulin Junkies hauls furniture, appliances, electronics, yard debris &amp; more across Central Florida. See the full list." />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

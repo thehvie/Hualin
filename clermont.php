@@ -478,90 +478,7 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-    <!-- Structured Data for Local Business -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies - Clermont Junk Removal",
-        "image": "https://haulinjunkies.com/assets/images/logo.png",
-        "@id": "https://haulinjunkies.com/clermont.php",
-        "url": "https://haulinjunkies.com/clermont.php",
-        "telephone": "+14078154926",
-        "email": "hello@haulinjunkies.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "",
-          "addressLocality": "Clermont",
-          "addressRegion": "FL",
-          "postalCode": "34711",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 28.5494,
-          "longitude": -81.7729
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday"
-            ],
-            "opens": "07:00",
-            "closes": "18:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": "Saturday",
-            "opens": "10:00",
-            "closes": "16:00"
-          }
-        ],
-        "serviceArea": {
-          "@type": "City",
-          "name": "Clermont",
-          "addressRegion": "FL"
-        },
-        "priceRange": "$$",
-        "description": "Professional junk removal services in Clermont, FL. Same-day pickup, furniture removal, appliance disposal, estate cleanouts. Licensed and insured.",
-        "service": [
-          {
-            "@type": "Service",
-            "name": "Residential Junk Removal Clermont",
-            "description": "Furniture, appliances, household cleanouts in Clermont FL"
-          },
-          {
-            "@type": "Service",
-            "name": "Commercial Junk Removal Clermont",
-            "description": "Office furniture, retail fixtures, warehouse cleanouts in Clermont"
-          },
-          {
-            "@type": "Service",
-            "name": "Appliance Removal Clermont",
-            "description": "Refrigerators, washers, dryers, dishwashers removal in Clermont"
-          },
-          {
-            "@type": "Service",
-            "name": "Estate Cleanouts Clermont",
-            "description": "Full property cleanouts and donation sorting in Clermont FL"
-          }
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      }
-    </script>
-  </head>
-
+      </head>
 
   <body>
     
@@ -970,7 +887,6 @@
     <!--============================
         SERVICE CONTENT END
     =============================-->
-
 
 <?php include 'includes/footer.php'; ?>
 
