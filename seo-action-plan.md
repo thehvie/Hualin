@@ -65,12 +65,12 @@
 - [x] Resubmit `sitemap.xml` in Search Console — done 2026-04-25
 - [x] Request re-indexing for 9 optimized service pages — done 2026-04-25
 
-### Homepage (`index.php`)
-- [ ] Optimize title tag — target "junk removal orlando fl"
-- [ ] Add/fix meta description
-- [ ] Fix H1 to include "Orlando, FL"
-- [ ] Add `LocalBusiness` schema with full NAP + service area
-- [ ] First paragraph must open with target keyword
+### Homepage (`index.php`) — done 2026-08-15
+- [x] Optimize title tag — target "junk removal orlando fl"
+- [x] Add/fix meta description
+- [x] Fix H1 to include "Orlando, FL"
+- [x] Add `LocalBusiness` schema with full NAP + service area
+- [x] First paragraph must open with target keyword
 
 ---
 
@@ -97,7 +97,7 @@
 
 | Page | File | Title ✅ | H1 ✅ | Meta ✅ | Canonical ✅ | Status |
 |---|---|---|---|---|---|---|
-| **Homepage** | `index.php` | ☐ | ☐ | ☐ | ☐ | 🔴 next |
+| **Homepage** | `index.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
 | Residential | `residential.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
 | Hot Tub Removal | `hot-tub-removal.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
 | Concrete Removal | `concrete-removal.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |

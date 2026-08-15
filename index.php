@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Orlando Junk Removal | Same-Day Service | Haulin Junkies</title>
+    <title>Junk Removal Orlando, FL | Same-Day Service | Haulin Junkies</title>
     <meta name="description" content="Haulin Junkies offers fast, affordable junk removal in Orlando and Central Florida. Same-day residential and commercial pickup. Licensed &amp; insured. Call (407) 815-4926." />
     <meta name="keywords" content="junk removal Orlando FL, same day junk removal Orlando, residential junk removal, commercial junk removal, estate cleanout Orlando, appliance removal Orlando, haulin junkies" />
     <meta name="robots" content="index, follow" />
@@ -19,14 +19,14 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://haulinjunkies.com/" />
-    <meta property="og:title" content="Orlando Junk Removal | Same-Day Service | Haulin Junkies" />
+    <meta property="og:title" content="Junk Removal Orlando, FL | Same-Day Service | Haulin Junkies" />
     <meta property="og:description" content="Fast, affordable junk removal in Orlando and Central Florida. Same-day residential and commercial pickup. Licensed &amp; insured." />
     <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://haulinjunkies.com/" />
-    <meta property="twitter:title" content="Orlando Junk Removal | Same-Day Service | Haulin Junkies" />
+    <meta property="twitter:title" content="Junk Removal Orlando, FL | Same-Day Service | Haulin Junkies" />
     <meta property="twitter:description" content="Fast, affordable junk removal in Orlando and Central Florida. Same-day pickup available." />
 
     <link rel="canonical" href="https://haulinjunkies.com/" />
@@ -285,13 +285,14 @@
           <div class="col-lg-7 col-xl-7 wow fadeInUp">
             <div class="banner_text">
               <h5>Junk Removal is what we do!</h5>
-              <h1>Orlando's Junk Removal Experts — We Sort, We Donate, We Reduce</h1>
+              <h1>Junk Removal Experts in Orlando, FL — We Sort, We Donate, We Reduce</h1>
               <h2>Call today! 407.815.4926</h2>
-              
+
 
               <p>
-                We offer a range of services including residential and
-                commercial junk removal.
+                Haulin Junkies provides junk removal in Orlando, FL and
+                throughout Central Florida, including residential and
+                commercial pickup.
               </p>
               <ul class="d-flex flex-wrap align-items-center">
                 <!-- COMMENTED OUT: Book A Schedule button
