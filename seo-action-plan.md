@@ -120,11 +120,11 @@
 | Horizon West | `horizon-west.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
 | Kissimmee | `kissimmee.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
 | St. Cloud | `st-cloud.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
-| Maitland | `maitland.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
-| Altamonte Springs | `altamonte-springs.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
-| Baldwin Park | `baldwin-park.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
-| Winter Park | `winter-park.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
-| Windermere | `windermere.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
+| Maitland | `maitland.php` | ✅ | ✅ | ✅ | ✅ | ✅ done (verified 2026-08-15; 0 GSC impressions — needs re-index request, see below) |
+| Altamonte Springs | `altamonte-springs.php` | ✅ | ✅ | ✅ | ✅ | ✅ done (verified 2026-08-15) |
+| Baldwin Park | `baldwin-park.php` | ✅ | ✅ | ✅ | ✅ | ✅ done (verified 2026-08-15) |
+| Winter Park | `winter-park.php` | ✅ | ✅ | ✅ | ✅ | ✅ done (verified 2026-08-15) |
+| Windermere | `windermere.php` | ✅ | ✅ | ✅ | ✅ | ✅ done (verified 2026-08-15; 0 GSC impressions — needs re-index request, see below) |
 
 ---
 
