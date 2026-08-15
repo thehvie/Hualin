@@ -81,7 +81,12 @@
 - [x] **Add FAQ + FAQPage schema** to top 5 service pages — done 2026-08-15: `residential.php`, `concrete-removal.php`, `foreclosure-cleanout.php`, `apartment-cleanouts.php` were missing it entirely (also added missing Service schema to `foreclosure-cleanout.php`); `cardboard-removal.php` and `material-logistics.php` got FAQ as part of the full optimize below
 - [x] **Optimize remaining service pages:** `dumpster-rentals.php`, `cardboard-removal.php`, `material-logistics.php` — done 2026-08-15. `dumpster-rentals.php` was already complete. `cardboard-removal.php` had a serious bug: its entire body content was a leftover copy of `material-logistics.php`'s gravel/dirt content (wrong topic, wrong sidebar bio) — rewritten with genuine cardboard removal content. `material-logistics.php` had a leaked competitor name ("ABR Transport") never replaced with "Haulin Junkies" — fixed, plus added missing Service/FAQ schema and fixed H1/breadcrumb links.
 - [x] **Optimize top location pages:** `doctor-phillips.php`, `horizon-west.php`, `kissimmee.php`, `st-cloud.php` — done 2026-08-15 (verified only — all four were already fully built with correct title/H1/meta/canonical, no changes needed)
-- [ ] **Build 5-10 local directory citations** — Yelp, Angi, Thumbtack, HomeAdvisor, BBB (NAP must match exactly)
+- [ ] **Build 5-10 local directory citations** — NAP must match exactly: Haulin Junkies, 1375 Lake Shadow Cir, Maitland, FL 32751, (407) 815-4926
+  - [x] Yelp — account exists, NAP not yet verified against site
+  - [x] Thumbtack — account exists, NAP not yet verified against site
+  - [ ] Angi
+  - [ ] HomeAdvisor
+  - [ ] BBB
 
 ---
 
