@@ -148,6 +148,56 @@
       "url": "https://haulinjunkies.com/cardboard-removal.php"
     }
     </script>
+
+    <!-- FAQ Schema — mirrors visible FAQ section below -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need to break down the boxes first?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It helps speed up the pickup and keeps costs down, but it's not required — we'll break down and haul away loose cardboard too."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you set up recurring pickup for my business?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Retail stores, restaurants, and warehouses that generate cardboard regularly can set up a recurring pickup schedule so it never piles up."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my cardboard actually recycled?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, we take cardboard to certified recycling facilities rather than the landfill whenever possible."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does cardboard removal cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pricing is based on volume, from a few boxes to a full garage or loading dock. We give a firm quote before any work begins."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How fast can you pick up cardboard?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Same-day and next-day pickup is available for most Orlando locations."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 
   <body>
@@ -204,13 +254,13 @@
             <div class="services_details_img">
               <img
                 src="assets/images/service_details_img.jpg"
-                alt="material delivery"
+                alt="cardboard removal and recycling"
                 class="img-fluid w-100"
               />
             </div>
             <div class="services_details_area">
               <h2 class="details_title">
-                Turn to a Reputable Gravel Supplier in Orlando, FL
+                Cardboard Removal &amp; Recycling Services in Orlando, FL
               </h2>
               <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -252,178 +302,103 @@
                 >
                   <div class="service_details_overview">
                     <p>
-                      Do you need gravel for your next landscaping or
-                      construction project? Trust the professionals at
-                      <strong>Haulin Junkies</strong> to provide a smooth
-                      delivery process. As a leading gravel supplier in Orlando,
-                      FL, we can put the materials exactly where you need them.
-                      You can count on us to get the gravel to you on time so
-                      your project doesn't have any delays.
+                      Buried in cardboard from a move, a remodel, or a
+                      warehouse full of shipping boxes? <strong>Haulin
+                      Junkies</strong> hauls away cardboard of any volume in
+                      Orlando, FL — flattened or not — and recycles nearly all
+                      of it instead of sending it to a landfill. One box or a
+                      truckload, we pick it up fast and keep it out of your
+                      way.
                     </p>
 
-                    <h3>
-                      Trust Haulin Junkies for Gravel Delivery Services Near You
-                    </h3>
+                    <h3>Cardboard We Remove</h3>
                     <p>
-                      You'll find that we have a wide variety of sizes and color
-                      options to choose from. When you get our gravel delivery
-                      services, we can bring you crushed stone, pea gravel,
-                      marble chips, and even quarry process gravel. We can
-                      deliver any amount of gravel that you need. Get in touch
-                      with us now to learn more about our gravel delivery
-                      services.
-                    </p>
-
-                    <h3>Get Exceptional Materials Without Breaking the Bank</h3>
-                    <p>
-                      Quality materials don't have to cost an arm and a leg. The
-                      trick is using concrete fines for your next project. Not
-                      only are they less expensive, but they can also last for
-                      years to come. You can get as much as you need by
-                      contacting Haulin Junkies in Orlando, FL. We'll deliver
-                      orders of all sizes directly to your worksite.
-                    </p>
-
-                    <h3>
-                      Utilize Crushed Concrete Fines for All Types of Jobs
-                    </h3>
-                    <p>
-                      Crushed concrete fines are popular to work with for a
-                      variety of reasons. They are eco-friendly and great for
-                      all kinds of landscaping and construction projects.
-                      Consider working with this material to:
+                      We handle cardboard from homes and businesses alike, no
+                      matter how it shows up:
                     </p>
                     <ul>
-                      <li>Solidify gravel driveways</li>
-                      <li>Make a base for paver patios</li>
-                      <li>Create dividers in garden beds</li>
+                      <li>Moving and packing boxes</li>
+                      <li>E-commerce and shipping boxes</li>
+                      <li>Retail and warehouse bulk cardboard</li>
+                      <li>Appliance and furniture packaging</li>
+                      <li>Office and storeroom cardboard buildup</li>
+                      <li>Construction and packaging waste</li>
                     </ul>
 
-                    <h3>Get All the Dirt You'll Ever Need</h3>
+                    <h3>Residential &amp; Business Cardboard Pickup</h3>
                     <p>
-                      If you're looking for a large amount of dirt for your next
-                      building project, you're in the right place. The experts
-                      at Haulin Junkies offer bulk dirt delivery services in
-                      Orlando, FL. With an 18-yard truck, we can tackle even the
-                      largest delivery jobs. We can deliver for homebuilding,
-                      commercial construction and site development projects.
+                      Just moved in and drowning in boxes? We'll clear out a
+                      garage or driveway full of moving cardboard in one trip.
+                      For businesses — retail stores, restaurants, offices, and
+                      warehouses — we also offer recurring pickup for
+                      locations that generate cardboard regularly, so it never
+                      piles up between deliveries.
                     </p>
 
+                    <h3>Our Cardboard Recycling Process</h3>
                     <p>
-                      We can also deliver clay and sand. Get in touch with us
-                      now for more information about our bulk dirt delivery
-                      services.
+                      Cardboard is one of the most recyclable materials there
+                      is, and we treat it that way. We haul what we collect to
+                      certified recycling facilities rather than the landfill,
+                      so the boxes from your move or your business get a
+                      second life as new material instead of taking up space
+                      in a dump.
                     </p>
 
-                    <h3>
-                      Providing World-Class Commercial Sand Delivery Services
-                    </h3>
+                    <h3>Cardboard Removal Pricing</h3>
                     <p>
-                      Searching for commercial sand delivery services? We have
-                      the know-how and equipment needed to handle any project.
-                      You can rely on us to:
-                    </p>
-                    <ul>
-                      <li>Follow any instructions for your job</li>
-                      <li>Get the delivery to your site on time</li>
-                      <li>Put the sand exactly where you want</li>
-                    </ul>
-
-                    <h3>Our Material Types:</h3>
-                    <ul>
-                      <li>Crushed Stone</li>
-                      <li>Pea Gravel</li>
-                      <li>Marble Chips</li>
-                      <li>Quarry Process Gravel</li>
-                      <li>Concrete Fines</li>
-                      <li>Bulk Dirt</li>
-                      <li>Clay</li>
-                      <li>Commercial Sand</li>
-                      <li>Fill Dirt</li>
-                      <li>Topsoil</li>
-                    </ul>
-
-                    <h3>Professional Material Delivery Process:</h3>
-                    <ul>
-                      <li>
-                        <strong>Consultation:</strong> We assess your project
-                        needs, material type requirements, and delivery
-                        specifications
-                      </li>
-                      <li>
-                        <strong>Quote:</strong> Transparent pricing based on
-                        material type, quantity, and delivery location
-                      </li>
-                      <li>
-                        <strong>Scheduling:</strong> Flexible delivery times to
-                        meet your project timeline
-                      </li>
-                      <li>
-                        <strong>Delivery:</strong> Professional drivers with
-                        18-yard trucks for efficient material placement
-                      </li>
-                      <li>
-                        <strong>Placement:</strong> Materials delivered exactly
-                        where you need them on your worksite
-                      </li>
-                    </ul>
-
-                    <h3>Why Choose Haulin Junkies for Material Delivery?</h3>
-                    <p>
-                      Haulin Junkies provides reliable material delivery
-                      services throughout the Orlando area. Our experienced team
-                      understands construction and landscaping needs, ensuring
-                      your materials arrive on time and are placed exactly where
-                      you need them. We work with contractors, landscapers, and
-                      homeowners on projects of all sizes.
+                      Pricing depends on volume — a few flattened boxes costs
+                      far less than a garage or loading dock full of loose
+                      cardboard. We give a firm, upfront quote before we
+                      start, whether it's a one-time pickup or a recurring
+                      business account.
                     </p>
 
                     <h3>Service Benefits:</h3>
                     <ul>
-                      <li>Professional 18-Yard Truck Fleet</li>
-                      <li>On-Time Delivery Guarantee</li>
-                      <li>Competitive Pricing</li>
-                      <li>Flexible Scheduling</li>
-                      <li>Experienced Drivers</li>
-                      <li>Quality Materials</li>
-                      <li>Precise Material Placement</li>
-                      <li>Residential & Commercial Service</li>
+                      <li>Same-Day &amp; Next-Day Pickup Available</li>
+                      <li>One-Time or Recurring Service</li>
+                      <li>Residential &amp; Commercial</li>
+                      <li>No Hidden Charges</li>
+                      <li>Fully Insured &amp; Licensed</li>
+                      <li>Certified Recycling Facilities</li>
                     </ul>
 
-                    <h3>Project Applications:</h3>
-                    <ul>
-                      <li>
-                        <strong>Landscaping:</strong> Driveways, walkways,
-                        garden borders, decorative features
-                      </li>
-                      <li>
-                        <strong>Construction:</strong> Foundation preparation,
-                        site development, road base
-                      </li>
-                      <li>
-                        <strong>Drainage:</strong> French drains, erosion
-                        control, water management
-                      </li>
-                      <li>
-                        <strong>Hardscaping:</strong> Patio bases, retaining
-                        walls, outdoor living spaces
-                      </li>
-                    </ul>
-
-                    <h3>Service Area & Availability:</h3>
+                    <h3>Service Area &amp; Availability:</h3>
                     <ul>
                       <li>Orlando Metro Area</li>
                       <li>Monday - Friday: 7:00 AM - 5:00 PM</li>
-                      <li>Saturday: 8:00 AM - 4:00 PM</li>
-                      <li>Emergency Deliveries Available</li>
+                      <li>Saturday: 9:00 AM - 4:00 PM</li>
+                      <li>Same-Day Service for Urgent Pickups</li>
                     </ul>
 
                     <p>
-                      Contact Haulin Junkies today at +1 407.815.4926 to
-                      schedule your material delivery. Whether you need gravel,
-                      concrete fines, bulk dirt, or commercial sand, we have the
-                      materials and expertise to keep your project moving
-                      forward.
+                      Contact Haulin Junkies today at (407) 815-4926 to
+                      schedule your cardboard pickup. Whether it's a single
+                      move-in mess or an ongoing business account, we'll
+                      clear it out and recycle it properly.
+                    </p>
+
+                    <h3>Cardboard Removal — Frequently Asked Questions</h3>
+                    <p>
+                      <strong>Do I need to break down the boxes first?</strong><br />
+                      It helps speed up the pickup and keeps costs down, but it's not required — we'll break down and haul away loose cardboard too.
+                    </p>
+                    <p>
+                      <strong>Can you set up recurring pickup for my business?</strong><br />
+                      Yes. Retail stores, restaurants, and warehouses that generate cardboard regularly can set up a recurring pickup schedule so it never piles up.
+                    </p>
+                    <p>
+                      <strong>Is my cardboard actually recycled?</strong><br />
+                      Yes, we take cardboard to certified recycling facilities rather than the landfill whenever possible.
+                    </p>
+                    <p>
+                      <strong>How much does cardboard removal cost?</strong><br />
+                      Pricing is based on volume, from a few boxes to a full garage or loading dock. We give a firm quote before any work begins.
+                    </p>
+                    <p>
+                      <strong>How fast can you pick up cardboard?</strong><br />
+                      Same-day and next-day pickup is available for most Orlando locations.
                     </p>
                   </div>
                 </div>
@@ -436,165 +411,82 @@
                 >
                   <div class="service_details_overview">
                     <p>
-                      When planning your next construction or landscaping
-                      project, choosing the right material supplier is crucial
-                      for success. Haulin Junkies specializes in professional
-                      material delivery services throughout Orlando, FL. Here's
-                      a comprehensive guide to help you understand our material
-                      delivery services and how we can support your project
-                      needs.
+                      Cardboard has a way of piling up faster than you expect
+                      — after a move, a big online order, or just a busy week
+                      at a business that ships or receives product. Haulin
+                      Junkies specializes in cardboard removal and recycling
+                      throughout Orlando, FL. Here's a closer look at how our
+                      service works.
                     </p>
 
-                    <h3>Why Choose Professional Material Delivery?</h3>
+                    <h3>Why Not Just Recycle It Yourself?</h3>
                     <p>
-                      Professional material delivery saves time, money, and
-                      ensures project efficiency. Our experienced team
-                      understands material specifications, proper handling
-                      techniques, and precise placement requirements. We
-                      eliminate the hassle of sourcing, loading, and
-                      transporting materials yourself, allowing you to focus on
-                      your core project activities.
+                      Curbside recycling bins are built for a normal week's
+                      worth of cardboard, not a move-in's worth of moving
+                      boxes or a retail stockroom's worth of shipping cartons.
+                      When cardboard piles up past what your bin can handle,
+                      it either sits around taking up space or ends up tossed
+                      in the regular trash instead of recycled. We haul any
+                      volume in one trip and make sure it's actually
+                      recycled.
                     </p>
 
-                    <h3>Types of Projects We Support</h3>
-                    <p>
-                      Our material delivery services support a wide range of
-                      projects across residential, commercial, and industrial
-                      sectors:
-                    </p>
+                    <h3>Who We Help</h3>
                     <ul>
                       <li>
-                        <strong>Residential Projects:</strong> Driveways,
-                        landscaping, garden features, walkways, and home
-                        foundations
+                        <strong>Homeowners &amp; Renters:</strong> Post-move
+                        boxes, online order packaging, holiday shipping
+                        buildup
                       </li>
                       <li>
-                        <strong>Commercial Construction:</strong> Site
-                        development, parking lots, building foundations, and
-                        infrastructure projects
+                        <strong>Retail &amp; Restaurants:</strong> Delivery
+                        and stock cartons that build up between trash pickups
                       </li>
                       <li>
-                        <strong>Landscaping Projects:</strong> Decorative
-                        features, drainage systems, hardscaping, and outdoor
-                        living spaces
+                        <strong>Offices &amp; Warehouses:</strong> Bulk
+                        packaging and shipping cardboard, one-time or ongoing
                       </li>
                       <li>
-                        <strong>Road Construction:</strong> Base materials,
-                        surface treatments, and maintenance projects
+                        <strong>Contractors:</strong> Appliance and fixture
+                        packaging left over from a renovation
                       </li>
                     </ul>
 
-                    <h3>Understanding Material Types and Applications</h3>
+                    <h3>Our Pickup Process</h3>
                     <p>
-                      Different projects require specific materials. Our
-                      extensive inventory includes gravel for drainage and
-                      decorative purposes, concrete fines for base
-                      stabilization, bulk dirt for grading and landscaping, sand
-                      for construction and landscaping applications, and
-                      specialty materials for unique project requirements.
+                      Book online or call for a quote. For most residential
+                      pickups we can give you a price over the phone once you
+                      describe the volume; for larger commercial loads we can
+                      swing by to take a look first. Our crew shows up,
+                      loads everything — broken down or not — and hauls it
+                      straight to a recycling facility.
                     </p>
 
-                    <h3>Gravel Selection Guide</h3>
+                    <h3>What Affects the Price</h3>
                     <p>
-                      Choosing the right gravel depends on your project needs.
-                      Crushed stone provides excellent compaction for driveways
-                      and foundations. Pea gravel offers decorative appeal for
-                      landscaping and drainage applications. Marble chips create
-                      elegant decorative features with superior drainage
-                      properties. Quarry process gravel serves as an ideal base
-                      material for various construction applications.
+                      Volume is the main factor — how much space the cardboard
+                      takes up in the truck. Whether it's broken down or
+                      loose also matters, since flattened boxes pack more
+                      efficiently. Recurring commercial accounts typically get
+                      better per-pickup pricing than one-off residential
+                      calls.
                     </p>
 
-                    <h3>Concrete Fines Benefits</h3>
+                    <h3>Setting Up Recurring Pickup</h3>
                     <p>
-                      Concrete fines represent an eco-friendly, cost-effective
-                      solution for many construction needs. These recycled
-                      materials provide excellent compaction properties, reduce
-                      project costs compared to virgin materials, offer
-                      environmental benefits through material reuse, and deliver
-                      long-lasting performance for base applications.
+                      For businesses that generate cardboard on an ongoing
+                      basis, we can set up a regular pickup schedule — weekly,
+                      biweekly, or whatever matches your volume — so cardboard
+                      never becomes a storage or fire-code problem in the back
+                      room.
                     </p>
 
-                    <h3>Bulk Material Considerations</h3>
+                    <h3>Getting Started</h3>
                     <p>
-                      When ordering bulk materials, consider project scope and
-                      timeline, site access and placement requirements, material
-                      specifications and quality standards, delivery scheduling
-                      and coordination, and proper material storage and
-                      protection methods.
-                    </p>
-
-                    <h3>Delivery Process and Logistics</h3>
-                    <p>
-                      Our systematic delivery approach ensures project success.
-                      We begin with project consultation to understand your
-                      specific needs and requirements. Next, we provide detailed
-                      quotes with transparent pricing and delivery
-                      specifications. We then coordinate scheduling to align
-                      with your project timeline and site readiness. Our
-                      professional drivers use 18-yard trucks for efficient
-                      material transport and precise placement at your specified
-                      locations.
-                    </p>
-
-                    <h3>Site Preparation Requirements</h3>
-                    <p>
-                      Proper site preparation ensures successful material
-                      delivery. Ensure clear access routes for delivery trucks,
-                      mark utility lines and underground obstacles, prepare
-                      designated material placement areas, coordinate with other
-                      project activities and contractors, and verify site
-                      conditions meet safety requirements for delivery
-                      operations.
-                    </p>
-
-                    <h3>Quality Assurance and Material Standards</h3>
-                    <p>
-                      Haulin Junkies maintains strict quality standards for all
-                      materials. We source materials from certified suppliers,
-                      conduct regular quality inspections, ensure materials meet
-                      industry specifications, provide material certifications
-                      when required, and maintain consistent quality across all
-                      deliveries.
-                    </p>
-
-                    <h3>Environmental Responsibility</h3>
-                    <p>
-                      We prioritize environmental stewardship through recycled
-                      material options, efficient delivery routes to reduce
-                      emissions, proper material handling to minimize waste,
-                      partnerships with environmentally responsible suppliers,
-                      and sustainable business practices throughout our
-                      operations.
-                    </p>
-
-                    <h3>Cost Optimization Strategies</h3>
-                    <p>
-                      Maximize your project value through accurate material
-                      quantity calculations, consolidated deliveries to reduce
-                      transportation costs, flexible scheduling to accommodate
-                      project needs, consideration of recycled materials where
-                      appropriate, and long-term supplier relationships for
-                      consistent pricing and service.
-                    </p>
-
-                    <h3>Getting Started with Your Material Delivery</h3>
-                    <p>
-                      Ready to begin your material delivery project? Contact
-                      Haulin Junkies at +1 407.815.4926 for a consultation.
-                      We'll assess your project requirements, recommend
-                      appropriate materials, provide detailed quotes with
-                      transparent pricing, and coordinate delivery scheduling to
-                      meet your timeline.
-                    </p>
-
-                    <p>
-                      Trust Haulin Junkies for all your material delivery needs
-                      in Orlando, FL. Our professional team, quality materials,
-                      and reliable service ensure your project success from
-                      start to finish. Contact us today to experience the
-                      difference professional material delivery makes for your
-                      next project.
+                      Ready to clear out the cardboard? Contact Haulin Junkies
+                      at (407) 815-4926 for a quote. We'll get it hauled away
+                      and recycled properly, whether it's a one-time pickup or
+                      a standing account.
                     </p>
                   </div>
                 </div>
@@ -604,19 +496,18 @@
           <div class="col-lg-4 col-sm-10 col-md-7 wow fadeInRight">
             <div class="sidebar sticky_sidebar">
               <div class="sidebar_package">
-                <span>Material Delivery Starting Price</span>
-                <h2>Contact</h2>
+                <span>Cardboard Removal Starting Price</span>
+                <h2>Call for Quote</h2>
                 <ul>
-                  <li>Professional Material Delivery</li>
-                  <li>18-Yard Truck Fleet</li>
-                  <li>On-Time Delivery Guarantee</li>
-                  <li>Free Quotes & Consultation</li>
-                  <li>Precise Material Placement</li>
-                  <li>Quality Materials & Service</li>
+                  <li>Same-Day Pickup Available</li>
+                  <li>One-Time or Recurring Service</li>
+                  <li>No Hidden Charges</li>
+                  <li>Fully Insured & Licensed</li>
+                  <li>Certified Recycling Facilities</li>
                   <li>Residential & Commercial</li>
                 </ul>
-                <a class="common_btn w-100" href=" contact_us.php"
-                  >Get Quote <i class="far fa-long-arrow-right"></i
+                <a class="common_btn w-100" href="#" onclick="openBookingModal()"
+                  >Book Now <i class="far fa-long-arrow-right"></i
                 ></a>
               </div>
               <div class="sidebar_provider mt_30">
@@ -627,15 +518,15 @@
                     class="img-fluid w-100"
                   />
                 </div>
-                <h2>Mike Thompson</h2>
-                <p>Material Delivery Specialist</p>
+                <h2>Eric Robert</h2>
+                <p>Team Leader</p>
                 <ul>
                   <li>
                     <b>
                       <i class="fas fa-truck"></i>
-                      Deliveries Completed
+                      Pickups Completed
                     </b>
-                    <span>5,800+</span>
+                    <span>500+</span>
                   </li>
                   <li>
                     <b>

@@ -157,10 +157,60 @@
       }
     }
     </script>
+
+    <!-- FAQ Schema — mirrors visible FAQ section below -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does residential junk removal cost in Orlando?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most residential jobs run between $100 and $650 depending on how much space your items take up in the truck. We give a firm, upfront quote on site before any work begins — no hidden fees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to be home during the pickup?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not necessarily. As long as the items are accessible and we've confirmed the scope and price ahead of time, we can complete many residential pickups without you present."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you do a full house or garage cleanout?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We handle everything from a single piece of furniture to a complete property cleanout, including garages, attics, and full houses."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What items won't you take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We remove nearly everything except hazardous materials like paint, chemicals, asbestos, and medical waste. Ask us if you're unsure about a specific item."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How quickly can you pick up residential junk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Same-day service is available for most residential jobs when you call early in the day. Otherwise we typically schedule within 24-48 hours."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 
   <body>
-    
+
 <?php include 'includes/header.php'; ?>
 
     <!-- Booking Modal -->
@@ -320,6 +370,28 @@
                       disposed of or recycled properly. Our commitment to
                       environmental responsibility means we make every effort to
                       minimize waste and maximize recycling opportunities.
+                    </p>
+
+                    <h3>Residential Junk Removal — Frequently Asked Questions</h3>
+                    <p>
+                      <strong>How much does residential junk removal cost in Orlando?</strong><br />
+                      Most residential jobs run between $100 and $650 depending on how much space your items take up in the truck. We give a firm, upfront quote on site before any work begins — no hidden fees.
+                    </p>
+                    <p>
+                      <strong>Do I need to be home during the pickup?</strong><br />
+                      Not necessarily. As long as the items are accessible and we've confirmed the scope and price ahead of time, we can complete many residential pickups without you present.
+                    </p>
+                    <p>
+                      <strong>Can you do a full house or garage cleanout?</strong><br />
+                      Yes. We handle everything from a single piece of furniture to a complete property cleanout, including garages, attics, and full houses.
+                    </p>
+                    <p>
+                      <strong>What items won't you take?</strong><br />
+                      We remove nearly everything except hazardous materials like paint, chemicals, asbestos, and medical waste. Ask us if you're unsure about a specific item.
+                    </p>
+                    <p>
+                      <strong>How quickly can you pick up residential junk?</strong><br />
+                      Same-day service is available for most residential jobs when you call early in the day. Otherwise we typically schedule within 24-48 hours.
                     </p>
                   </div>
                 </div>

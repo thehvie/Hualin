@@ -131,6 +131,74 @@
       }
     </style>
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Foreclosure Cleanouts in Orlando, FL",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Haulin Junkies",
+        "telephone": "+14078154926",
+        "url": "https://haulinjunkies.com/"
+      },
+      "serviceType": "Foreclosure Cleanout",
+      "areaServed": {"@type": "City", "name": "Orlando", "addressRegion": "FL"},
+      "description": "Full-service foreclosure cleanouts in Orlando and Central Florida for banks, REO companies, and property managers. Fast, insured, free quotes.",
+      "url": "https://haulinjunkies.com/foreclosure-cleanout.php"
+    }
+    </script>
+
+    <!-- FAQ Schema — mirrors visible FAQ section below -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How fast can you clean out a foreclosed property?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Small residential foreclosure cleanouts typically take 1-2 days, with emergency and same-day service available for urgent bank or REO deadlines. Larger commercial properties may take several days depending on volume."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you work directly with banks and REO companies?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, we have extensive experience working with banks, REO companies, asset managers, and real estate agents, including providing the documentation and before/after photos they typically require."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if there's still personal property left in the home?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We carefully inventory and handle any personal belongings left behind according to legal requirements, and coordinate with the responsible party when necessary before disposal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you provide documentation for banks or insurance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, we can provide before-and-after photos, itemized inventory lists, and disposal documentation for banks, insurance companies, and legal proceedings."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What types of foreclosed properties do you clean out?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We handle single-family homes, condos, townhomes, apartments, office buildings, retail spaces, warehouses, and vacant land throughout Orlando and Central Florida."
+          }
+        }
+      ]
+    }
+    </script>
+
     </head>
 
   <body>
@@ -164,8 +232,8 @@
               <div class="breadcrumb_text">
                 <h1>Foreclosure Cleanouts in Orlando, FL</h1>
                 <ul class="d-flex flex-wrap">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">foreclosure cleanout services</a></li>
+                  <li><a href="index.php">Home</a></li>
+                  <li><a href="foreclosure-cleanout.php">foreclosure cleanout services</a></li>
                 </ul>
               </div>
             </div>
@@ -574,6 +642,28 @@
                       and affordably. Contact us today to experience the
                       difference professional foreclosure cleanout services
                       make.
+                    </p>
+
+                    <h3>Foreclosure Cleanouts — Frequently Asked Questions</h3>
+                    <p>
+                      <strong>How fast can you clean out a foreclosed property?</strong><br />
+                      Small residential foreclosure cleanouts typically take 1-2 days, with emergency and same-day service available for urgent bank or REO deadlines. Larger commercial properties may take several days depending on volume.
+                    </p>
+                    <p>
+                      <strong>Do you work directly with banks and REO companies?</strong><br />
+                      Yes, we have extensive experience working with banks, REO companies, asset managers, and real estate agents, including providing the documentation and before/after photos they typically require.
+                    </p>
+                    <p>
+                      <strong>What if there's still personal property left in the home?</strong><br />
+                      We carefully inventory and handle any personal belongings left behind according to legal requirements, and coordinate with the responsible party when necessary before disposal.
+                    </p>
+                    <p>
+                      <strong>Do you provide documentation for banks or insurance?</strong><br />
+                      Yes, we can provide before-and-after photos, itemized inventory lists, and disposal documentation for banks, insurance companies, and legal proceedings.
+                    </p>
+                    <p>
+                      <strong>What types of foreclosed properties do you clean out?</strong><br />
+                      We handle single-family homes, condos, townhomes, apartments, office buildings, retail spaces, warehouses, and vacant land throughout Orlando and Central Florida.
                     </p>
                   </div>
                 </div>

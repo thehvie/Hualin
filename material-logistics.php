@@ -131,6 +131,74 @@
       }
     </style>
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Material Delivery & Hauling in Orlando, FL",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Haulin Junkies",
+        "telephone": "+14078154926",
+        "url": "https://haulinjunkies.com/"
+      },
+      "serviceType": "Material Delivery",
+      "areaServed": {"@type": "City", "name": "Orlando", "addressRegion": "FL"},
+      "description": "Gravel, mulch, dirt, sand, and material delivery logistics in Orlando, FL for landscaping and construction projects. Reliable delivery with an 18-yard truck fleet.",
+      "url": "https://haulinjunkies.com/material-logistics.php"
+    }
+    </script>
+
+    <!-- FAQ Schema — mirrors visible FAQ section below -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What materials can you deliver?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We deliver crushed stone, pea gravel, marble chips, quarry process gravel, concrete fines, bulk dirt, clay, commercial sand, fill dirt, and topsoil."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much material can you deliver at once?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our 18-yard trucks can handle large deliveries in a single trip, from small residential landscaping orders to full commercial construction loads."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How quickly can you schedule a delivery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most deliveries can be scheduled within a few days of your call, with flexible scheduling available to match your project timeline."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you place the material exactly where I need it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, our drivers place material precisely at your specified location on site, whether that's a driveway, backyard, or job site."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you serve both residential and commercial projects?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, we deliver for homeowners, landscapers, and contractors on projects of any size throughout Orlando and Central Florida."
+          }
+        }
+      ]
+    }
+    </script>
+
     </head>
 
   <body>
@@ -162,10 +230,10 @@
           <div class="row">
             <div class="col-12 wow fadeInUp">
               <div class="breadcrumb_text">
-                <h1>Professional Material Delivery Services</h1>
+                <h1>Material Delivery &amp; Hauling Services in Orlando, FL</h1>
                 <ul class="d-flex flex-wrap">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">material delivery services</a></li>
+                  <li><a href="index.php">Home</a></li>
+                  <li><a href="material-logistics.php">material delivery services</a></li>
                 </ul>
               </div>
             </div>
@@ -245,7 +313,7 @@
                     </p>
 
                     <h3>
-                      Trust ABR Transport for Gravel Delivery Services Near You
+                      Trust Haulin Junkies for Gravel Delivery Services Near You
                     </h3>
                     <p>
                       You'll find that we have a wide variety of sizes and color
@@ -579,6 +647,28 @@
                       difference professional material delivery makes for your
                       next project.
                     </p>
+
+                    <h3>Material Delivery — Frequently Asked Questions</h3>
+                    <p>
+                      <strong>What materials can you deliver?</strong><br />
+                      We deliver crushed stone, pea gravel, marble chips, quarry process gravel, concrete fines, bulk dirt, clay, commercial sand, fill dirt, and topsoil.
+                    </p>
+                    <p>
+                      <strong>How much material can you deliver at once?</strong><br />
+                      Our 18-yard trucks can handle large deliveries in a single trip, from small residential landscaping orders to full commercial construction loads.
+                    </p>
+                    <p>
+                      <strong>How quickly can you schedule a delivery?</strong><br />
+                      Most deliveries can be scheduled within a few days of your call, with flexible scheduling available to match your project timeline.
+                    </p>
+                    <p>
+                      <strong>Can you place the material exactly where I need it?</strong><br />
+                      Yes, our drivers place material precisely at your specified location on site, whether that's a driveway, backyard, or job site.
+                    </p>
+                    <p>
+                      <strong>Do you serve both residential and commercial projects?</strong><br />
+                      Yes, we deliver for homeowners, landscapers, and contractors on projects of any size throughout Orlando and Central Florida.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -598,7 +688,7 @@
                   <li>Quality Materials & Service</li>
                   <li>Residential & Commercial</li>
                 </ul>
-                <a class="common_btn w-100" href=" contact_us.php"
+                <a class="common_btn w-100" href="contact_us.php"
                   >Get Quote <i class="far fa-long-arrow-right"></i
                 ></a>
               </div>

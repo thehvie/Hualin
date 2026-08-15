@@ -132,6 +132,74 @@
       }
     </style>
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Apartment Cleanout Services in Orlando, FL",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Haulin Junkies",
+        "telephone": "+14078154926",
+        "url": "https://haulinjunkies.com/"
+      },
+      "serviceType": "Apartment Cleanout",
+      "areaServed": {"@type": "City", "name": "Orlando", "addressRegion": "FL"},
+      "description": "Fast, reliable apartment cleanout services in Orlando, FL for move-outs, evictions, and tenant turnovers. Same-day service, upfront pricing.",
+      "url": "https://haulinjunkies.com/apartment-cleanouts.php"
+    }
+    </script>
+
+    <!-- FAQ Schema — mirrors visible FAQ section below -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does an apartment cleanout cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pricing depends on the volume of items and how much space they take up in our truck. We give a firm, upfront quote before starting — no hidden charges."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you do same-day apartment cleanouts for tenant turnovers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, same-day and next-day service is available, which is especially useful for property managers who need a unit turned around quickly for new tenants."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you work with property managers on eviction cleanouts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, we regularly work with landlords and property managers on eviction and move-out cleanouts, including full removal of items left behind."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What size apartments can you handle?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We handle everything from a single studio to a full multi-bedroom unit, and can also manage multiple units at once for property managers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you recycle or donate items from apartment cleanouts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, we sort what we remove and recycle or donate usable items whenever possible instead of sending everything straight to the landfill."
+          }
+        }
+      ]
+    }
+    </script>
+
     </head>
 
   <body>
@@ -163,10 +231,10 @@
           <div class="row">
             <div class="col-12 wow fadeInUp">
               <div class="breadcrumb_text">
-                <h1>Apartment Cleanout Services</h1>
+                <h1>Apartment Cleanout Services in Orlando, FL</h1>
                 <ul class="d-flex flex-wrap">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">apartment cleanout services</a></li>
+                  <li><a href="index.php">Home</a></li>
+                  <li><a href="apartment-cleanouts.php">apartment cleanout services</a></li>
                 </ul>
               </div>
             </div>
@@ -246,7 +314,7 @@
 
                     <h3>Expert Handling of All Types of Junk</h3>
                     <p>
-                      Hualin junkies excels in handling all types of unwanted
+                      Haulin Junkies excels in handling all types of unwanted
                       items and junk, from old furniture and appliances to
                       miscellaneous clutter. Our professional apartment cleanout
                       services ensure that no matter the extent of the junk, our
@@ -260,7 +328,7 @@
                     <p>
                       The process of apartment cleanouts can be overwhelming,
                       especially if you're dealing with a large amount of junk.
-                      Hualin junkies simplifies this by offering a comprehensive
+                      Haulin Junkies simplifies this by offering a comprehensive
                       suite of services. We take care of everything from
                       removing trash and debris to hauling away bulky items.
                       This means you don't have to worry about any of the heavy
@@ -284,7 +352,7 @@
                     <h3>Transparent and Fair Pricing</h3>
                     <p>
                       One of the biggest concerns with junk removal is the
-                      potential for hidden fees. Hualin junkies prides itself on
+                      potential for hidden fees. Haulin Junkies prides itself on
                       offering clear and upfront pricing with no hidden charges.
                       Our transparency allows you to plan your cleanout with
                       confidence, knowing exactly what to expect in terms of
@@ -316,7 +384,7 @@
 
                     <h3>Hassle-Free Experience</h3>
                     <p>
-                      Choosing Hualin junkies means a hassle-free experience
+                      Choosing Haulin Junkies means a hassle-free experience
                       from start to finish. Our team handles all the logistics,
                       including the heavy lifting, sorting, and disposal. This
                       means you can focus on other important aspects of your
@@ -328,7 +396,7 @@
                     <p>
                       A clean apartment is not just aesthetically pleasing; it
                       also contributes to a healthier living environment. By
-                      removing all the unwanted junk, Hualin junkies helps you
+                      removing all the unwanted junk, Haulin Junkies helps you
                       reclaim valuable space and improve the overall cleanliness
                       of your apartment. This can be particularly beneficial if
                       you're preparing to move out, renovate, or simply want to
@@ -346,7 +414,7 @@
                     </ul>
 
                     <p>
-                      Hualin junkies offers unparalleled apartment cleanout
+                      Haulin Junkies offers unparalleled apartment cleanout
                       services with a focus on efficiency, transparency, and
                       eco-friendliness. Our professional approach and
                       comprehensive solutions make them the ideal choice for
@@ -355,6 +423,28 @@
                       amount of junk or a full apartment cleanout, our team is
                       ready to help you achieve a clutter-free and organized
                       space.
+                    </p>
+
+                    <h3>Apartment Cleanouts — Frequently Asked Questions</h3>
+                    <p>
+                      <strong>How much does an apartment cleanout cost?</strong><br />
+                      Pricing depends on the volume of items and how much space they take up in our truck. We give a firm, upfront quote before starting — no hidden charges.
+                    </p>
+                    <p>
+                      <strong>Can you do same-day apartment cleanouts for tenant turnovers?</strong><br />
+                      Yes, same-day and next-day service is available, which is especially useful for property managers who need a unit turned around quickly for new tenants.
+                    </p>
+                    <p>
+                      <strong>Do you work with property managers on eviction cleanouts?</strong><br />
+                      Yes, we regularly work with landlords and property managers on eviction and move-out cleanouts, including full removal of items left behind.
+                    </p>
+                    <p>
+                      <strong>What size apartments can you handle?</strong><br />
+                      We handle everything from a single studio to a full multi-bedroom unit, and can also manage multiple units at once for property managers.
+                    </p>
+                    <p>
+                      <strong>Do you recycle or donate items from apartment cleanouts?</strong><br />
+                      Yes, we sort what we remove and recycle or donate usable items whenever possible instead of sending everything straight to the landfill.
                     </p>
                   </div>
                 </div>
@@ -371,8 +461,7 @@
                       service is crucial for a smooth and stress-free
                       experience. Whether you're dealing with the aftermath of a
                       move, a foreclosure, or simply decluttering, the right
-                      cleanout service can make a significant difference. Hualin
-                      Junkies is a top choice for your apartment cleanout needs.
+                      cleanout service can make a significant difference. Haulin Junkies is a top choice for your apartment cleanout needs.
                       Here's a guide to help you choose the best apartment
                       cleanout service for your needs.
                     </p>
@@ -413,7 +502,7 @@
                     <h3>Check for Comprehensive Services</h3>
                     <p>
                       Look for apartment cleanout services that offer a full
-                      range of solutions. Hualin junkies provides not just junk
+                      range of solutions. Haulin Junkies provides not just junk
                       removal, but also handles all the heavy lifting, sorting,
                       and hauling. Our experienced team will manage the entire
                       process, from removing unwanted items to disposing of them
@@ -484,7 +573,7 @@
                     <p>
                       Choosing the right apartment cleanout service involves
                       careful consideration of your needs, the type of cleanout,
-                      and the service's capabilities. Hualin junkies is a
+                      and the service's capabilities. Haulin Junkies is a
                       reliable option for handling all the heavy lifting and
                       hauling, ensuring that you are left with more space and
                       peace of mind. By assessing these factors and doing

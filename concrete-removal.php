@@ -148,6 +148,56 @@
       "url": "https://haulinjunkies.com/concrete-removal.php"
     }
     </script>
+
+    <!-- FAQ Schema — mirrors visible FAQ section below -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does concrete removal cost in Orlando?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Concrete removal pricing depends on the thickness, accessibility, and size of the slab being removed. We provide a free, firm estimate on site before any work begins."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a concrete removal job take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most jobs can be started within two days of your call. Duration depends on the size and thickness of the concrete and how accessible the area is."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you remove reinforced concrete with rebar or mesh?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, our crew uses professional-grade jackhammers and concrete saws that handle reinforced slabs, including rebar and wire mesh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you handle both residential and commercial concrete removal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We remove driveways, patios, and pool decks for homeowners, and parking lots, slabs, and foundations for commercial and construction sites."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens to the concrete after you remove it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We haul it to certified disposal and recycling facilities whenever possible, since broken concrete can often be repurposed as aggregate for new construction."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 
   <body>
@@ -181,8 +231,8 @@
               <div class="breadcrumb_text">
                 <h1>Concrete Removal in Orlando, FL</h1>
                 <ul class="d-flex flex-wrap">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">concrete removal services</a></li>
+                  <li><a href="index.php">Home</a></li>
+                  <li><a href="concrete-removal.php">concrete removal services</a></li>
                 </ul>
               </div>
             </div>
@@ -507,6 +557,28 @@
                       residential patios to large commercial parking lots. Trust
                       us to get your concrete removal project done right the
                       first time.
+                    </p>
+
+                    <h3>Concrete Removal — Frequently Asked Questions</h3>
+                    <p>
+                      <strong>How much does concrete removal cost in Orlando?</strong><br />
+                      Concrete removal pricing depends on the thickness, accessibility, and size of the slab being removed. We provide a free, firm estimate on site before any work begins.
+                    </p>
+                    <p>
+                      <strong>How long does a concrete removal job take?</strong><br />
+                      Most jobs can be started within two days of your call. Duration depends on the size and thickness of the concrete and how accessible the area is.
+                    </p>
+                    <p>
+                      <strong>Do you remove reinforced concrete with rebar or mesh?</strong><br />
+                      Yes, our crew uses professional-grade jackhammers and concrete saws that handle reinforced slabs, including rebar and wire mesh.
+                    </p>
+                    <p>
+                      <strong>Do you handle both residential and commercial concrete removal?</strong><br />
+                      Yes. We remove driveways, patios, and pool decks for homeowners, and parking lots, slabs, and foundations for commercial and construction sites.
+                    </p>
+                    <p>
+                      <strong>What happens to the concrete after you remove it?</strong><br />
+                      We haul it to certified disposal and recycling facilities whenever possible, since broken concrete can often be repurposed as aggregate for new construction.
                     </p>
                   </div>
                 </div>

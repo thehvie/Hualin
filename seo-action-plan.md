@@ -78,9 +78,9 @@
 
 - [x] **Create `/junk-removal-orlando.php`** — dedicated money page, 870 words, targets "junk removal orlando" — done 2026-08-15 (added to sitemap, nav dropdown, and site-wide footer)
 - [ ] **Google Business Profile** — add all services, before/after photos, post 2x/week, request reviews after every job
-- [ ] **Add FAQ + FAQPage schema** to top 5 service pages
-- [ ] **Optimize remaining service pages:** `dumpster-rentals.php`, `cardboard-removal.php`, `material-logistics.php`
-- [ ] **Optimize top location pages:** `doctor-phillips.php`, `horizon-west.php`, `kissimmee.php`, `st-cloud.php`
+- [x] **Add FAQ + FAQPage schema** to top 5 service pages — done 2026-08-15: `residential.php`, `concrete-removal.php`, `foreclosure-cleanout.php`, `apartment-cleanouts.php` were missing it entirely (also added missing Service schema to `foreclosure-cleanout.php`); `cardboard-removal.php` and `material-logistics.php` got FAQ as part of the full optimize below
+- [x] **Optimize remaining service pages:** `dumpster-rentals.php`, `cardboard-removal.php`, `material-logistics.php` — done 2026-08-15. `dumpster-rentals.php` was already complete. `cardboard-removal.php` had a serious bug: its entire body content was a leftover copy of `material-logistics.php`'s gravel/dirt content (wrong topic, wrong sidebar bio) — rewritten with genuine cardboard removal content. `material-logistics.php` had a leaked competitor name ("ABR Transport") never replaced with "Haulin Junkies" — fixed, plus added missing Service/FAQ schema and fixed H1/breadcrumb links.
+- [x] **Optimize top location pages:** `doctor-phillips.php`, `horizon-west.php`, `kissimmee.php`, `st-cloud.php` — done 2026-08-15 (verified only — all four were already fully built with correct title/H1/meta/canonical, no changes needed)
 - [ ] **Build 5-10 local directory citations** — Yelp, Angi, Thumbtack, HomeAdvisor, BBB (NAP must match exactly)
 
 ---
@@ -107,14 +107,14 @@
 | Carpet Removal | `carpet-removal.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
 | Appliance Removal | `appliance-removal.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
 | Hunters Creek | `hunters-creek.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
-| Apartment Cleanouts | `apartment-cleanouts.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
-| Dumpster Rentals | `dumpster-rentals.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
-| Cardboard Removal | `cardboard-removal.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
-| Material Logistics | `material-logistics.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
-| Doctor Phillips | `doctor-phillips.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
-| Horizon West | `horizon-west.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
-| Kissimmee | `kissimmee.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
-| St. Cloud | `st-cloud.php` | ☐ | ☐ | ☐ | ☐ | 🟠 pending |
+| Apartment Cleanouts | `apartment-cleanouts.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Dumpster Rentals | `dumpster-rentals.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Cardboard Removal | `cardboard-removal.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Material Logistics | `material-logistics.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Doctor Phillips | `doctor-phillips.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Horizon West | `horizon-west.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| Kissimmee | `kissimmee.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
+| St. Cloud | `st-cloud.php` | ✅ | ✅ | ✅ | ✅ | ✅ done |
 | Maitland | `maitland.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
 | Altamonte Springs | `altamonte-springs.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
 | Baldwin Park | `baldwin-park.php` | ☐ | ☐ | ☐ | ☐ | 🟡 pending |
