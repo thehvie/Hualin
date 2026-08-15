@@ -76,7 +76,7 @@
 
 ## 🟠 THIS MONTH
 
-- [ ] **Create `/junk-removal-orlando.php`** — dedicated money page, 800+ words, targets "junk removal orlando"
+- [x] **Create `/junk-removal-orlando.php`** — dedicated money page, 870 words, targets "junk removal orlando" — done 2026-08-15 (added to sitemap, nav dropdown, and site-wide footer)
 - [ ] **Google Business Profile** — add all services, before/after photos, post 2x/week, request reviews after every job
 - [ ] **Add FAQ + FAQPage schema** to top 5 service pages
 - [ ] **Optimize remaining service pages:** `dumpster-rentals.php`, `cardboard-removal.php`, `material-logistics.php`
