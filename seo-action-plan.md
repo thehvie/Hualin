@@ -26,8 +26,8 @@
 | concrete removal orlando | 33 | 42 | ✅ done |
 | commercial junk removal central florida | 42 | 63 | ✅ done |
 | foreclosure cleanouts | 50 | 61 | ✅ done |
-| junk removal near me | 6 | 12 | 🔴 homepage (pending) |
-| junk removal | 3 | 6 | 🔴 homepage (pending) |
+| junk removal near me | 6 | 12 | ✅ homepage (done 2026-08-15) |
+| junk removal | 3 | 6 | ✅ homepage (done 2026-08-15) |
 
 ---
 
