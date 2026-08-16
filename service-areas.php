@@ -979,8 +979,8 @@
               <h2 class="area-name">Minneola, FL</h2>
               <span class="area-badge">24/7</span>
             </div>
-            <div class="service-areas-text">Minneola</div>
-            <a href="minneola.php" class="view-details-btn"
+            <div class="service-areas-text">Served via our Clermont team</div>
+            <a href="clermont.php" class="view-details-btn"
               >View Details <i class="fas fa-arrow-right"></i
             ></a>
           </div>
@@ -1051,8 +1051,8 @@
               <h2 class="area-name">Wedgfield, FL</h2>
               <span class="area-badge">24/7</span>
             </div>
-            <div class="service-areas-text">Wedgfield</div>
-            <a href="wedgfield.php" class="view-details-btn"
+            <div class="service-areas-text">Served via our Alafaya team</div>
+            <a href="alafaya.php" class="view-details-btn"
               >View Details <i class="fas fa-arrow-right"></i
             ></a>
           </div>
@@ -1063,8 +1063,8 @@
               <h2 class="area-name">Geneva, FL</h2>
               <span class="area-badge">24/7</span>
             </div>
-            <div class="service-areas-text">Geneva</div>
-            <a href="geneva.php" class="view-details-btn"
+            <div class="service-areas-text">Served via our Oviedo team</div>
+            <a href="oviedo.php" class="view-details-btn"
               >View Details <i class="fas fa-arrow-right"></i
             ></a>
           </div>
@@ -1087,8 +1087,8 @@
               <h2 class="area-name">Gotha, FL</h2>
               <span class="area-badge">24/7</span>
             </div>
-            <div class="service-areas-text">Gotha</div>
-            <a href="gotha.php" class="view-details-btn"
+            <div class="service-areas-text">Served via our Winter Garden team</div>
+            <a href="winter-garden.php" class="view-details-btn"
               >View Details <i class="fas fa-arrow-right"></i
             ></a>
           </div>
@@ -1099,8 +1099,8 @@
               <h2 class="area-name">Groveland, FL</h2>
               <span class="area-badge">24/7</span>
             </div>
-            <div class="service-areas-text">Groveland</div>
-            <a href="groveland.php" class="view-details-btn"
+            <div class="service-areas-text">Served via our Clermont team</div>
+            <a href="clermont.php" class="view-details-btn"
               >View Details <i class="fas fa-arrow-right"></i
             ></a>
           </div>

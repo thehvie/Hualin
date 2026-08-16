@@ -804,6 +804,7 @@
                 <li>Conway area junk pickup</li>
                 <li>Christmas community debris removal</li>
                 <li>Lake Nona luxury home service</li>
+                <li>Wedgfield rural property cleanouts</li>
               </ul>
             </div>
 

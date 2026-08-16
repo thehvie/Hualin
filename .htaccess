@@ -99,3 +99,22 @@ Redirect 301 /maitland-lake-sybelia.php /maitland.php
 Redirect 301 /maitland-historic-district.php /maitland.php
 Redirect 301 /maitland-independence-lane.php /maitland.php
 Redirect 301 /maitland-boulevard.php /maitland.php
+
+# Pruned thin/duplicate location pages (Aug 2026) → nearest kept hub page
+Redirect 301 /geneva.php /oviedo.php
+Redirect 301 /gotha.php /winter-garden.php
+Redirect 301 /wedgfield.php /alafaya.php
+Redirect 301 /minneola.php /clermont.php
+Redirect 301 /groveland.php /clermont.php
+Redirect 301 /audubon-park.php /baldwin-park.php
+Redirect 301 /colonialtown.php /downtown-orlando.php
+Redirect 301 /conway.php /hunters-creek.php
+Redirect 301 /delaney-park.php /downtown-orlando.php
+Redirect 301 /lake-eola-heights.php /downtown-orlando.php
+Redirect 301 /lake-lawsona.php /downtown-orlando.php
+Redirect 301 /holden-parramore.php /downtown-orlando.php
+Redirect 301 /metro-west.php /downtown-orlando.php
+Redirect 301 /mills-50-district.php /downtown-orlando.php
+Redirect 301 /south-eola.php /downtown-orlando.php
+Redirect 301 /thornton-park.php /downtown-orlando.php
+Redirect 301 /universal-studios-area.php /international-drive.php
