@@ -107,7 +107,8 @@ GSC Page Indexing export (2026-08-16) showed only 35/201 known URLs indexed. Roo
 - [x] Removed the 17 pruned URLs from `sitemap.xml`, bumped `lastmod` on touched pages
 - [x] Repointed the 5 affected `service-areas.php` cards (Minneola, Wedgfield, Geneva, Gotha, Groveland) to link directly to their hub page instead of the deleted file
 - [x] Confirmed the other 12 pruned areas were already named in `downtown-orlando.php`'s locations list (no edit needed) — added missing mentions of Wedgfield to `alafaya.php` and Gotha to `winter-garden.php`
-- [ ] **Next: resubmit sitemap.xml in Search Console and monitor whether "Crawled/Discovered – not indexed" count drops over the next 2-4 weeks**
+- [x] Resubmitted sitemap.xml in Search Console — done 2026-08-16
+- [ ] **Monitor Coverage report over next 2-4 weeks — watch for "Crawled/Discovered – not indexed" to drop from 42 and indexed count to climb from 35**
 - [ ] Kept 25 location pages (alafaya, altamonte-springs, apopka, baldwin-park, clermont, doctor-phillips, downtown-orlando, college-park, heathrow, horizon-west, hunters-creek, international-drive, kissimmee, lake-buena-vista, lake-mary, lake-nona, longwood, maitland, ocoee, oviedo, sanford, st-cloud, windermere, winter-garden, winter-haven, winter-park) are still thin/templated — differentiating their content with real local detail is the next lever if pruning alone doesn't move indexation enough
 - [ ] Noted but out of scope: `orlando.php` is 301-redirected to homepage yet still listed in `sitemap.xml` and still linked from `service-areas.php` ("Property Managers & Realtors" card) — its unique B2B copy is now unreachable; needs a content decision, not just a technical fix
 - [ ] Noted but out of scope: stray debug/test files in web root (`bt_test.txt`, `swaks`, `telnet`, etc.) and `contact_images.php` writing debug logs on every request — flagged separately as a hygiene/security cleanup, not an indexing issue

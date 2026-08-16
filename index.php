@@ -345,7 +345,7 @@
           <div class="col-xl-6 col-lg-5">
             <div class="about_us_img wow fadeInLeft">
               <div class="text">
-                <p>Years Experience In junk removal!</p>
+                <p>Family-Owned &amp; Community-Focused</p>
               </div>
               <div class="img_1">
                 <img
@@ -367,11 +367,25 @@
             <div class="about_us_text wow fadeInRight">
               <div class="section_heading left_heading mb_20">
                 <h5>About Us</h5>
-                <h2>Service you can count on!</h2>
+                <h2>Family-Owned. Community-Focused.</h2>
               </div>
               <p>
-                We offer a range of services including residential and
-                commercial junk removal, clean outs
+                Haulin Junkies started because we were tired of seeing other
+                junk removal companies haul everything straight to the
+                landfill and move on. We sort every load, recycle what we
+                can, and donate usable items to local Central Florida
+                charities instead of dumping it all.
+              </p>
+              <p>
+                We're a family-owned business, and a lot of our work happens
+                during someone's hardest transitions — moving a parent out
+                of their home, settling an estate, downsizing after a loss.
+                Estate cleanouts are where we've built our deepest
+                expertise, handled with care so families can focus on
+                everything else going on around them. We also offer
+                residential and commercial junk removal, appliance and
+                furniture haul-away, and full property cleanouts across
+                Orlando and Central Florida.
               </p>
               <div class="about_btn_area">
                 <!-- COMMENTED OUT: All Services button
@@ -430,6 +444,16 @@
                     />
                   </div>
                   <h3>Junk Removal</h3>
+                </li>
+                <li>
+                  <div class="icon">
+                    <img
+                      src="assets/images/about_icon_2.svg"
+                      alt="About"
+                      class="img-fluid"
+                    />
+                  </div>
+                  <h3>Estate Cleanouts</h3>
                 </li>
                 <li>
                   <div class="icon">
@@ -520,6 +544,26 @@
                     />
                   </div>
                   <h3>Cardboard Removal</h3>
+                </li>
+                <li>
+                  <div class="icon">
+                    <img
+                      src="assets/images/about_icon_1.svg"
+                      alt="About"
+                      class="img-fluid"
+                    />
+                  </div>
+                  <h3>Moving Services</h3>
+                </li>
+                <li>
+                  <div class="icon">
+                    <img
+                      src="assets/images/about_icon_2.svg"
+                      alt="About"
+                      class="img-fluid"
+                    />
+                  </div>
+                  <h3>Senior Move Management</h3>
                 </li>
               </ul>
             </div>
