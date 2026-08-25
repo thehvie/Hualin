@@ -871,7 +871,7 @@
                 <li><a href="holden-parramore.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Holden-Parramore</a></li>
                 <li><a href="lake-lawsona.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Lake Lawsona</a></li>
                 <li><a href="metro-west.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Metro West</a></li>
-                <li><a href="dr-phillips.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Dr. Phillips</a></li>
+                <li><a href="doctor-phillips.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Dr. Phillips</a></li>
                 <li><a href="international-drive.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">International Drive</a></li>
                 <li><a href="universal-studios-area.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Universal Studios Area</a></li>
               </ul>
