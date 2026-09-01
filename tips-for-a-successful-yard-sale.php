@@ -316,6 +316,9 @@
                   </p>
                 </div>
               </div>
+              <h3>Related Services</h3>
+              <p>Haulin Junkies can help with <a href="residential.php">junk removal for what does not sell</a>, <a href="donation-partners.php">our donation partners</a>, <a href="junk-removal-orlando.php">Orlando junk removal</a>. Serving Orlando and 25+ Central Florida cities &mdash; <a href="service-areas.php">see our service areas</a>.</p>
+
             </div>
           </div>
 

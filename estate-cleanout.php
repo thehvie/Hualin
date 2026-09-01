@@ -215,7 +215,20 @@
       "serviceType": "Estate Cleanout",
       "areaServed": {"@type": "City", "name": "Orlando", "addressRegion": "FL"},
       "description": "Full-service estate cleanout in Orlando and Central Florida. We sort, donate, and responsibly dispose of entire home contents. Same-day available.",
-      "url": "https://haulinjunkies.com/estate-cleanout.php"
+      "url": "https://haulinjunkies.com/estate-cleanout.php",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "bestRating": "5",
+        "reviewCount": "3"
+      },
+      "review": {
+        "@type": "Review",
+        "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+        "author": {"@type": "Person", "name": "Sarah Cioppa"},
+        "datePublished": "2026-02-17",
+        "reviewBody": "We needed our estate clean-out done quickly and at the last minute. Eric and Glenda came to my rescue. It is hard to express how professionally they run their business. When the job was finished there was literally not a paper clip left behind - the house was immaculate. They donate, recycle, or trash everything they haul. If you are looking for an estate cleanout company, your search is over."
+      }
     }
     </script>
 </head>
@@ -288,6 +301,12 @@
               <p>
                 As Orlando's trusted estate cleanout company, we specialize in full-service property cleanouts for families, estate executors, real estate agents, and property managers. Whether you need to prepare a home for an estate sale, clear out a foreclosed property, or simply remove years of accumulated belongings, our comprehensive estate removal services make the process smooth and stress-free.
               </p>
+
+              <blockquote style="border-left:4px solid #ff6b35; background:#fafafa; margin:24px 0; padding:18px 22px;">
+                <div style="color:#ff6b35; letter-spacing:2px; font-size:1rem;" aria-label="Rated 5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p style="margin:8px 0 6px;">"We needed our estate clean-out done quickly and at the last minute. Eric and Glenda came to my rescue. It is hard to express how professionally they run their business. When our job was finished and we walked into the house, there was literally not a paper clip left behind &mdash; the house was immaculate. They donate, recycle, or trash everything they haul. If you are looking for an estate cleanout company, your search is over."</p>
+                <cite style="font-style:normal; font-weight:700; color:#333;">&mdash; Sarah Cioppa, Google review</cite>
+              </blockquote>
 
               <div class="service_details_feature">
                 <h3>Our Full-Service Estate Cleanout Process</h3>
@@ -545,7 +564,7 @@
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
-                    <span>(4.9/5)</span>
+                    <span>(5.0/5)</span>
                   </li>
                 </ul>
                 <a href="/cdn-cgi/l/email-protection#aee6cbc2c2c1eec6cfdbc2c7c0c4dbc0c5c7cbdd80cdc1c3"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="8ac2efe6e6e5cae2ebffe6e3e4e0ffe4e1e3eff9a4e9e5e7">[email&#160;protected]</span></a

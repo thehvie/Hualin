@@ -224,6 +224,9 @@
                 </div>
 
               </div>
+              <h3>Related Services</h3>
+              <p>Haulin Junkies can help with <a href="residential.php">furniture and household junk removal</a>, <a href="junk-removal-orlando.php">same-day junk removal in Orlando</a>, <a href="junk-removal-cost-orlando.php">junk removal pricing</a>. Serving Orlando and 25+ Central Florida cities &mdash; <a href="service-areas.php">see our service areas</a>.</p>
+
             </div>
           </div>
 

@@ -185,6 +185,9 @@
                 </div>
 
               </div>
+              <h3>Related Services</h3>
+              <p>Haulin Junkies can help with <a href="items-we-take.php">the full accepted-items list</a>, <a href="residential.php">residential junk removal</a>, <a href="hot-tub-removal.php">hot tub removal</a>. Serving Orlando and 25+ Central Florida cities &mdash; <a href="service-areas.php">see our service areas</a>.</p>
+
             </div>
           </div>
 

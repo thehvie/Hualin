@@ -525,6 +525,33 @@
                 </div>
               </div>
             </div>
+
+          <div class="services_details_area" style="margin-top:50px;">
+            <h3>Hot Tub Removal Across the Orlando Metro</h3>
+            <p>
+              Haulin Junkies provides hot tub removal and haul-away throughout Orlando and Central Florida, including
+              <a href="downtown-orlando.php">Downtown Orlando</a>,
+              <a href="winter-park.php">Winter Park</a>,
+              <a href="maitland.php">Maitland</a>,
+              <a href="windermere.php">Windermere</a>,
+              <a href="doctor-phillips.php">Dr. Phillips</a>,
+              <a href="baldwin-park.php">Baldwin Park</a>,
+              <a href="college-park.php">College Park</a>,
+              <a href="hunters-creek.php">Hunter's Creek</a>,
+              <a href="lake-nona.php">Lake Nona</a>,
+              <a href="horizon-west.php">Horizon West</a>,
+              <a href="kissimmee.php">Kissimmee</a>,
+              <a href="st-cloud.php">St. Cloud</a>,
+              <a href="oviedo.php">Oviedo</a>,
+              <a href="winter-garden.php">Winter Garden</a>,
+              <a href="clermont.php">Clermont</a>,
+              <a href="altamonte-springs.php">Altamonte Springs</a>,
+              <a href="apopka.php">Apopka</a>,
+              <a href="sanford.php">Sanford</a>,
+              <a href="lake-mary.php">Lake Mary</a>.
+              See the <a href="service-areas.php">full list of service areas we cover</a>.
+            </p>
+          </div>
           </div>
           <div class="col-lg-4 col-sm-10 col-md-7 wow fadeInRight">
             <div class="sidebar sticky_sidebar">
@@ -562,9 +589,9 @@
                   <li>
                     <b>
                       <i class="fas fa-star"></i>
-                      Service Rating
+                      Google Rating
                     </b>
-                    <span>(4.9/5)</span>
+                    <span>(5.0/5)</span>
                   </li>
                 </ul>
                 <a href="/cdn-cgi/l/email-protection#e9a18c858586a981889c858087839c8782808c9ac78a8684"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="b7ffd2dbdbd8f7dfd6c2dbded9ddc2d9dcded2c499d4d8da">[email&#160;protected]</span></a

@@ -403,6 +403,9 @@
                             </form>
                         </div>
                         -->
+              <h3>Related Services</h3>
+              <p>Haulin Junkies can help with <a href="appliance-removal.php">appliance removal in Orlando</a>, <a href="items-we-take.php">the full list of items we take</a>, <a href="junk-removal-cost-orlando.php">what junk removal costs</a>. Serving Orlando and 25+ Central Florida cities &mdash; <a href="service-areas.php">see our service areas</a>.</p>
+
             </div>
           </div>
 

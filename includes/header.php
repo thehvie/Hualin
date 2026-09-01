@@ -44,12 +44,13 @@
           </select>
           <ul class="icon d-flex flex-wrap">
             <li>
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-            </li>
+              <a href="https://www.facebook.com/Haulinjunkies" target="_blank" rel="noopener" aria-label="Haulin Junkies on Facebook"><i class="fab fa-facebook-f"></i></a>
             </li>
             <li>
-              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="https://www.instagram.com/haulinjunkies/" target="_blank" rel="noopener" aria-label="Haulin Junkies on Instagram"><i class="fab fa-instagram"></i></a>
             </li>
+            <li>
+              <a href="https://www.yelp.com/biz/haulin-junkies-maitland" target="_blank" rel="noopener" aria-label="Haulin Junkies on Yelp"><i class="fab fa-yelp"></i></a>
             </li>
           </ul>
         </div>
