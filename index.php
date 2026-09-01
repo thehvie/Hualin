@@ -133,6 +133,42 @@
           margin: 2.5% auto;
         }
       }
+
+      /* Areas We Serve section */
+      .areas_we_serve .area_intro {
+        text-align: center;
+        max-width: 760px;
+        margin: 0 auto 35px;
+      }
+      .areas_we_serve .area_links {
+        list-style: none;
+        padding: 0;
+        margin: 0 auto;
+        max-width: 940px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 34px;
+        justify-content: center;
+      }
+      .areas_we_serve .area_links a {
+        color: #ff6b35;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .areas_we_serve .area_links a:hover { text-decoration: underline; }
+      .areas_we_serve .area_cta { text-align: center; margin-top: 40px; }
+
+      /* Homepage customer reviews */
+      .hj-reviews-section { background: #faf8f5; }
+      .hj-review {
+        background: #fff; border: 1px solid #ececec; border-radius: 10px;
+        padding: 24px 22px; height: 100%;
+        box-shadow: 0 2px 14px rgba(0, 0, 0, .05);
+      }
+      .hj-review .hj-stars { color: #ff6b35; letter-spacing: 3px; font-size: 1rem; margin-bottom: 10px; }
+      .hj-review p { color: #555; margin-bottom: 14px; }
+      .hj-review cite { font-style: normal; font-weight: 700; color: #222; }
+      .hj-reviews-note { color: #777; margin-top: 22px; }
     </style>
 
         <!-- Google tag (gtag.js) -->
@@ -232,13 +268,38 @@
         ],
         "aggregateRating": {
           "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "87",
+          "ratingValue": "5",
+          "reviewCount": "3",
           "bestRating": "5",
           "worstRating": "1"
         },
+        "review": [
+          {
+            "@type": "Review",
+            "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+            "author": {"@type": "Person", "name": "Marti Neuville"},
+            "datePublished": "2026-08-04",
+            "reviewBody": "Haulin Junkies were quick to get the job done and very responsive to my text messages. I would definitely use their services again."
+          },
+          {
+            "@type": "Review",
+            "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+            "author": {"@type": "Person", "name": "Sarah Cioppa"},
+            "datePublished": "2026-02-17",
+            "reviewBody": "We needed our estate clean-out done quickly and at the last minute. Eric and Glenda came to my rescue. When the job was finished there was literally not a paper clip left behind - the house was immaculate. They donate, recycle, or trash everything they haul. If you are looking for an estate cleanout company, your search is over."
+          },
+          {
+            "@type": "Review",
+            "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+            "author": {"@type": "Person", "name": "Robert Hicks"},
+            "datePublished": "2026-05-12",
+            "reviewBody": "Fast and easy."
+          }
+        ],
         "sameAs": [
-          "https://haulinjunkies.com/"
+          "https://www.facebook.com/Haulinjunkies",
+          "https://www.instagram.com/haulinjunkies/",
+          "https://www.yelp.com/biz/haulin-junkies-maitland"
         ]
       }
     </script>
@@ -380,12 +441,13 @@
                 We're a family-owned business, and a lot of our work happens
                 during someone's hardest transitions — moving a parent out
                 of their home, settling an estate, downsizing after a loss.
-                Estate cleanouts are where we've built our deepest
+<a href="estate-cleanout.php">Estate cleanouts</a> are where we've built our deepest
                 expertise, handled with care so families can focus on
                 everything else going on around them. We also offer
-                residential and commercial junk removal, appliance and
+                <a href="residential.php">residential</a> and
+                <a href="commercial.php">commercial junk removal</a>, appliance and
                 furniture haul-away, and full property cleanouts across
-                Orlando and Central Florida.
+                <a href="junk-removal-orlando.php">Orlando</a> and Central Florida.
               </p>
               <div class="about_btn_area">
                 <!-- COMMENTED OUT: All Services button
@@ -823,7 +885,7 @@
           </div>
           <div class="col-xl-4 col-md-6 wow fadeInUp">
             <div class="single_services">
-              <a class="single_services_img" href="apartment_cleanouts.php">
+              <a class="single_services_img" href="apartment-cleanouts.php">
                 <img
                   src="assets/images/service_img_6.jpg"
                   alt="Apartment and estate cleanout service in Orlando FL — Haulin Junkies"
@@ -847,7 +909,7 @@
                     <a href="#"><i class="far fa-heart"></i></a>
                   </li>
                 </ul>
-                <a class="title" href="apartment_cleanouts.php"
+                <a class="title" href="apartment-cleanouts.php"
                   >Property Management</a
                 >
                 <!-- COMMENTED OUT: Rating stars
@@ -1237,126 +1299,107 @@
     =============================-->
 
     <!--============================
-        TESTIMONIAL START
-   
-    <section
-      class="testimonial pt_120 xs_pt_100 pb_120 xs_pb_100"
-      style="background: url(assets/images/testimonial_bg.jpg)"
-    >
+        REVIEWS START
+    =============================-->
+    <section class="hj-reviews-section pt_120 xs_pt_100 pb_120 xs_pb_100">
       <div class="container">
-        <div class="row align-items-center">
-          <div class="col-xl-4 col-md-5 wow fadeInLeft">
-            <div class="row slider-nav">
-              <div class="col-12">
-                <div class="single_testimonial_img">
-                  <img
-                    src="assets/images/testimonial_img_1.jpg"
-                    alt="Testimonial"
-                    class="img-fluid w-100"
-                  />
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="single_testimonial_img">
-                  <img
-                    src="assets/images/testimonial_img_1.jpg"
-                    alt="Testimonial"
-                    class="img-fluid w-100"
-                  />
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="single_testimonial_img">
-                  <img
-                    src="assets/images/testimonial_img_1.jpg"
-                    alt="Testimonial"
-                    class="img-fluid w-100"
-                  />
-                </div>
-              </div>
+        <div class="row justify-content-center">
+          <div class="col-xl-7 wow fadeInUp">
+            <div class="section_heading mb_45">
+              <h5>Reviews</h5>
+              <h2>What Central Florida Says About Us</h2>
             </div>
           </div>
-          <div class="col-xl-8 col-md-7 wow fadeInRight">
-            <div class="testimonial_text_area">
-              <div class="section_heading left_heading mb_30">
-                <h5>Testimonial</h5>
-                <h2>Our Clients Feedback</h2>
-              </div>
-              <div class="row slider-for">
-                <div class="col-12">
-                  <div class="single_testimonial_text">
-                    <p class="description">
-                      "We meticulously test and balance the water chemistry
-                      during each service visit. This involves adjusting pH,
-                      alkalinity, and chlorine levels to maintain a safe and
-                      comfortable swimming kinds cleaning, carpet and upholstery
-                      cleaning, window cleaning, post-construction cleaning
-                      service environment fully insured and bonded for your
-                      peace of mind."
-                    </p>
-                    <p class="rating">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                    </p>
-                    <h3>Alex Michel</h3>
-                    <span>Ui/Ux Designer</span>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="single_testimonial_text">
-                    <p class="description">
-                      "We meticulously test and balance the water chemistry
-                      during each service visit. This involves adjusting pH,
-                      alkalinity, and chlorine levels to maintain a safe and
-                      comfortable swimming kinds cleaning, carpet and upholstery
-                      cleaning, window cleaning, post-construction cleaning
-                      service environment fully insured and bonded for your
-                      peace of mind."
-                    </p>
-                    <p class="rating">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                    </p>
-                    <h3>Alex Michel</h3>
-                    <span>Ui/Ux Designer</span>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="single_testimonial_text">
-                    <p class="description">
-                      "We meticulously test and balance the water chemistry
-                      during each service visit. This involves adjusting pH,
-                      alkalinity, and chlorine levels to maintain a safe and
-                      comfortable swimming kinds cleaning, carpet and upholstery
-                      cleaning, window cleaning, post-construction cleaning
-                      service environment fully insured and bonded for your
-                      peace of mind."
-                    </p>
-                    <p class="rating">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                    </p>
-                    <h3>Alex Michel</h3>
-                    <span>Ui/Ux Designer</span>
-                  </div>
-                </div>
-              </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-4 wow fadeInUp">
+            <div class="hj-review">
+              <div class="hj-stars" aria-label="Rated 5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p>"Haulin Junkies were quick to get the job done and very responsive to my text messages. I would definitely use their services again."</p>
+              <cite>&mdash; Marti Neuville</cite>
             </div>
+          </div>
+          <div class="col-md-6 col-lg-4 wow fadeInUp">
+            <div class="hj-review">
+              <div class="hj-stars" aria-label="Rated 5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p>"We needed our estate clean-out done at the last minute. Eric and Glenda came to my rescue. There was literally not a paper clip left behind &mdash; the house was immaculate. If you are looking for an estate cleanout company, your search is over."</p>
+              <cite>&mdash; Sarah Cioppa</cite>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4 wow fadeInUp">
+            <div class="hj-review">
+              <div class="hj-stars" aria-label="Rated 5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <p>"Fast and easy."</p>
+              <cite>&mdash; Robert Hicks</cite>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 text-center wow fadeInUp">
+            <p class="hj-reviews-note">5.0 average from verified Google reviews. <a href="https://www.google.com/maps/search/Haulin+Junkies+Maitland+FL" target="_blank" rel="noopener">Read more on Google</a>.</p>
           </div>
         </div>
       </div>
     </section>
- 
-        TESTIMONIAL END
+    <!--============================
+        REVIEWS END
+    =============================-->
+
+    <!--============================
+        AREAS WE SERVE START
+    =============================-->
+    <section class="areas_we_serve pt_120 xs_pt_100 pb_120 xs_pb_100">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-xl-8 wow fadeInUp">
+            <div class="section_heading mb_25">
+              <h5>Service Areas</h5>
+              <h2>Junk Removal Across Orlando &amp; Central Florida</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 wow fadeInUp">
+            <p class="area_intro">
+              Haulin Junkies runs same-day junk removal, estate cleanouts, and
+              hauling routes throughout the Orlando metro. Some of the cities and
+              neighborhoods we work in every week:
+            </p>
+            <ul class="area_links">
+              <li><a href="downtown-orlando.php">Downtown Orlando</a></li>
+              <li><a href="winter-park.php">Winter Park</a></li>
+              <li><a href="maitland.php">Maitland</a></li>
+              <li><a href="windermere.php">Windermere</a></li>
+              <li><a href="doctor-phillips.php">Dr. Phillips</a></li>
+              <li><a href="college-park.php">College Park</a></li>
+              <li><a href="baldwin-park.php">Baldwin Park</a></li>
+              <li><a href="hunters-creek.php">Hunter's Creek</a></li>
+              <li><a href="lake-nona.php">Lake Nona</a></li>
+              <li><a href="horizon-west.php">Horizon West</a></li>
+              <li><a href="kissimmee.php">Kissimmee</a></li>
+              <li><a href="st-cloud.php">St. Cloud</a></li>
+              <li><a href="oviedo.php">Oviedo</a></li>
+              <li><a href="ocoee.php">Ocoee</a></li>
+              <li><a href="winter-garden.php">Winter Garden</a></li>
+              <li><a href="clermont.php">Clermont</a></li>
+              <li><a href="altamonte-springs.php">Altamonte Springs</a></li>
+              <li><a href="longwood.php">Longwood</a></li>
+              <li><a href="lake-mary.php">Lake Mary</a></li>
+              <li><a href="sanford.php">Sanford</a></li>
+              <li><a href="apopka.php">Apopka</a></li>
+              <li><a href="heathrow.php">Heathrow</a></li>
+            </ul>
+            <p class="area_cta">
+              <a class="common_btn" href="service-areas.php"
+                >View All Service Areas <i class="far fa-long-arrow-right"></i
+              ></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--============================
+        AREAS WE SERVE END
     =============================-->
 
     <!--============================

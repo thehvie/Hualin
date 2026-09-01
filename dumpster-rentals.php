@@ -1053,7 +1053,7 @@
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
-                    <span>(4.9/5)</span>
+                    <span>(5.0/5)</span>
                   </li>
                 </ul>
                 <a href="/cdn-cgi/l/email-protection#4b232e2727240b232a3e272225213e2520222e3865282426"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="127a777e7e7d527a73677e7b7c78677c797b77613c717d7f">[email&#160;protected]</span></a>
@@ -1096,6 +1096,25 @@
         <div class="section-title wow fadeInUp">
           <h2>Dumpster Rental Delivery Areas in Orlando &amp; Central Florida</h2>
           <p>Haulin Junkies delivers 12, 14, 16, and 20 yard roll-off dumpsters to homes and businesses across the entire Greater Orlando area. We provide 24/7 service to all of the following communities:</p>
+          <p style="margin-top:15px;">
+            Popular delivery areas:
+            <a href="downtown-orlando.php">Downtown Orlando</a>,
+            <a href="winter-park.php">Winter Park</a>,
+            <a href="maitland.php">Maitland</a>,
+            <a href="windermere.php">Windermere</a>,
+            <a href="doctor-phillips.php">Dr. Phillips</a>,
+            <a href="baldwin-park.php">Baldwin Park</a>,
+            <a href="hunters-creek.php">Hunter's Creek</a>,
+            <a href="lake-nona.php">Lake Nona</a>,
+            <a href="horizon-west.php">Horizon West</a>,
+            <a href="kissimmee.php">Kissimmee</a>,
+            <a href="oviedo.php">Oviedo</a>,
+            <a href="winter-garden.php">Winter Garden</a>,
+            <a href="clermont.php">Clermont</a>,
+            <a href="apopka.php">Apopka</a>, and
+            <a href="altamonte-springs.php">Altamonte Springs</a>.
+            <a href="service-areas.php">See all service areas</a>.
+          </p>
         </div>
         <div class="row">
 

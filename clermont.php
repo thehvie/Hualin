@@ -831,6 +831,42 @@
                 Central Florida area.
               </p>
             </div>
+
+            <!-- Internal linking: services + nearby cities -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal Services in Clermont</h2>
+              <p class="section-text">
+                Every Haulin Junkies service is available in Clermont &mdash;
+                <a href="residential.php">residential junk removal</a>,
+                <a href="commercial.php">commercial junk removal</a>,
+                <a href="estate-cleanout.php">estate cleanouts</a>,
+                <a href="foreclosure-cleanout.php">foreclosure cleanouts</a>,
+                <a href="appliance-removal.php">appliance removal</a>,
+                <a href="hot-tub-removal.php">hot tub removal</a>,
+                <a href="carpet-removal.php">carpet removal</a>,
+                <a href="concrete-removal.php">concrete &amp; construction debris removal</a>, and
+                <a href="dumpster-rentals.php">dumpster rentals</a>.
+                New to us? Start with our <a href="junk-removal-orlando.php">Orlando junk removal overview</a>
+                or see <a href="junk-removal-cost-orlando.php">what junk removal costs</a>.
+              </p>
+            </div>
+
+            <!-- Nearby cities -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Nearby Cities We Serve</h2>
+              <p class="section-text">
+                Haulin Junkies also hauls junk and runs cleanouts in the communities around Clermont:
+              </p>
+              <ul class="locations-list">
+                <li><a href="winter-garden.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Winter Garden</a></li>
+                <li><a href="ocoee.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Ocoee</a></li>
+                <li><a href="horizon-west.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Horizon West</a></li>
+                <li><a href="winter-haven.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Winter Haven</a></li>
+                <li><a href="apopka.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Apopka</a></li>
+                <li><a href="service-areas.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">All service areas &rarr;</a></li>
+              </ul>
+            </div>
+
           </div>
 
           <!-- Sidebar -->

@@ -322,6 +322,9 @@
                   </p>
                 </div>
               </div>
+              <h3>Related Services</h3>
+              <p>Haulin Junkies can help with <a href="residential.php">attic and garage cleanouts</a>, <a href="estate-cleanout.php">full-property cleanouts</a>, <a href="junk-removal-orlando.php">junk removal in Orlando</a>. Serving Orlando and 25+ Central Florida cities &mdash; <a href="service-areas.php">see our service areas</a>.</p>
+
             </div>
           </div>
 

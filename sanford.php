@@ -836,6 +836,41 @@
                 junk is handled responsibly.
               </p>
             </div>
+
+            <!-- Internal linking: services + nearby cities -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal Services in Sanford</h2>
+              <p class="section-text">
+                Every Haulin Junkies service is available in Sanford &mdash;
+                <a href="residential.php">residential junk removal</a>,
+                <a href="commercial.php">commercial junk removal</a>,
+                <a href="estate-cleanout.php">estate cleanouts</a>,
+                <a href="foreclosure-cleanout.php">foreclosure cleanouts</a>,
+                <a href="appliance-removal.php">appliance removal</a>,
+                <a href="hot-tub-removal.php">hot tub removal</a>,
+                <a href="carpet-removal.php">carpet removal</a>,
+                <a href="concrete-removal.php">concrete &amp; construction debris removal</a>, and
+                <a href="dumpster-rentals.php">dumpster rentals</a>.
+                New to us? Start with our <a href="junk-removal-orlando.php">Orlando junk removal overview</a>
+                or see <a href="junk-removal-cost-orlando.php">what junk removal costs</a>.
+              </p>
+            </div>
+
+            <!-- Nearby cities -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Nearby Cities We Serve</h2>
+              <p class="section-text">
+                Haulin Junkies also hauls junk and runs cleanouts in the communities around Sanford:
+              </p>
+              <ul class="locations-list">
+                <li><a href="lake-mary.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Lake Mary</a></li>
+                <li><a href="heathrow.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Heathrow</a></li>
+                <li><a href="longwood.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Longwood</a></li>
+                <li><a href="altamonte-springs.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Altamonte Springs</a></li>
+                <li><a href="service-areas.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">All service areas &rarr;</a></li>
+              </ul>
+            </div>
+
           </div>
 
           <!-- Sidebar -->

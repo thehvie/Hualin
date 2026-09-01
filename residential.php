@@ -129,6 +129,35 @@
           margin: 2.5% auto;
         }
       }
+
+      /* ===== Junk removal cost estimator + pricing table ===== */
+      .jr-estimator { background: #fff7f3; border: 1px solid #ffd9c7; border-radius: 10px; padding: 26px 24px; margin: 26px 0 30px; }
+      .jr-estimator h3 { margin-top: 0 !important; }
+      .jr-est-readout { display: flex; align-items: baseline; gap: 6px 14px; flex-wrap: wrap; margin: 4px 0; }
+      .jr-est-label { font-weight: 700; font-size: 1.1rem; color: #222; }
+      .jr-est-price { font-weight: 800; font-size: 1.85rem; color: #ff6b35; line-height: 1.1; }
+      .jr-est-desc { color: #666; margin: 4px 0 18px; }
+      .jr-est-truck { height: 24px; background: #efe7df; border: 1px solid #e0d3c7; border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
+      .jr-est-fill { height: 100%; width: 12%; background: repeating-linear-gradient(45deg,#ff6b35,#ff6b35 10px,#ff8256 10px,#ff8256 20px); transition: width .18s ease; }
+      .jr-est-range { width: 100%; margin: 2px 0; height: 26px; accent-color: #ff6b35; cursor: pointer; }
+      .jr-est-range:focus-visible { outline: 2px solid #ff6b35; outline-offset: 3px; }
+      .jr-est-stops { display: flex; justify-content: space-between; font-size: .78rem; color: #999; margin: 0 0 18px; }
+      .jr-est-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+      .jr-est-note { font-size: .84rem; color: #8a8a8a; margin: 14px 0 0; }
+      .jr-price-table { width: 100%; border-collapse: collapse; margin: 12px 0 8px; }
+      .jr-price-table th, .jr-price-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #ececec; vertical-align: top; }
+      .jr-price-table thead th { background: #f5f5f5; font-weight: 700; }
+      .jr-price-table td:nth-child(2) { font-weight: 700; color: #ff6b35; white-space: nowrap; }
+      .jr-price-callout { background: #f6f6f6; border-left: 3px solid #ff6b35; padding: 14px 16px; margin: 18px 0; }
+      .jr-reviews { display: grid; gap: 16px; margin: 16px 0 8px; }
+      .jr-review { background: #fafafa; border: 1px solid #eee; border-radius: 8px; padding: 18px 20px; }
+      .jr-review .jr-stars { color: #ff6b35; letter-spacing: 2px; font-size: .95rem; }
+      .jr-review p { margin: 8px 0 6px; }
+      .jr-review cite { font-style: normal; font-weight: 700; color: #333; }
+      @media (max-width: 480px) {
+        .jr-est-price { font-size: 1.5rem; }
+        .jr-price-table th, .jr-price-table td { padding: 9px 9px; font-size: .93rem; }
+      }
     </style>
 
         <script type="application/ld+json">
@@ -151,10 +180,32 @@
         "priceSpecification": {
           "@type": "PriceSpecification",
           "priceCurrency": "USD",
-          "minPrice": "100",
-          "maxPrice": "650"
+          "minPrice": "150",
+          "maxPrice": "900"
         }
-      }
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "bestRating": "5",
+        "reviewCount": "3"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+          "author": {"@type": "Person", "name": "Marti Neuville"},
+          "datePublished": "2026-08-04",
+          "reviewBody": "Haulin Junkies were quick to get the job done and very responsive to my text messages. I would definitely use their services again."
+        },
+        {
+          "@type": "Review",
+          "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+          "author": {"@type": "Person", "name": "Sarah Cioppa"},
+          "datePublished": "2026-02-17",
+          "reviewBody": "We needed our estate clean-out done quickly and at the last minute. Eric and Glenda came to my rescue. When the job was finished there was literally not a paper clip left behind - the house was immaculate. If you are looking for an estate cleanout company, your search is over."
+        }
+      ]
     }
     </script>
 
@@ -169,7 +220,15 @@
           "name": "How much does residential junk removal cost in Orlando?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Most residential jobs run between $100 and $650 depending on how much space your items take up in the truck. We give a firm, upfront quote on site before any work begins — no hidden fees."
+            "text": "Most single-truck residential jobs run between $150 and $900, priced by how much space your items take up in the truck. A minimum load of 1-2 items starts around $150; a full truck runs $725-$900. Full-house cleanouts that need multiple loads are quoted on-site. We give a firm, upfront quote before any work begins with no hidden fees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the estimate free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The crew gives you a firm price on-site before any work begins, with no obligation and no trip charge for the estimate."
           }
         },
         {
@@ -178,6 +237,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Not necessarily. As long as the items are accessible and we've confirmed the scope and price ahead of time, we can complete many residential pickups without you present."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to move everything to the curb first?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Our crew removes items from anywhere in the home - upstairs bedrooms, the attic, the garage, the backyard. You just point."
           }
         },
         {
@@ -193,7 +260,7 @@
           "name": "What items won't you take?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "We remove nearly everything except hazardous materials like paint, chemicals, asbestos, and medical waste. Ask us if you're unsure about a specific item."
+            "text": "Hazardous materials - wet paint, chemicals, pool chemicals, motor oil, solvents, asbestos, propane tanks, and medical waste. Ask us if you're unsure about a specific item."
           }
         },
         {
@@ -202,6 +269,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Same-day service is available for most residential jobs when you call early in the day. Otherwise we typically schedule within 24-48 hours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens to my stuff after you haul it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We sort every load. Usable furniture and household goods go to local donation partners, metal and appliances go to certified recyclers, and only what's left goes to the landfill."
           }
         }
       ]
@@ -318,68 +393,124 @@
                       <li>Garage Cleanouts</li>
                     </ul>
 
-                    <h3>Efficient and Convenient Service</h3>
+                    <h3>How Much Does Residential Junk Removal Cost in Orlando?</h3>
                     <p>
-                      Our junk removal service is designed to be an easy
-                      solution for your cleaning projects. We offer same day
-                      service for urgent needs, ensuring that your space is
-                      cleared of unwanted items as quickly as possible. Our team
-                      does all the heavy lifting, making the dangerous task of
-                      junk removal safe and hassle-free for you.
+                      Residential junk removal is priced by <strong>how much space your stuff takes up in the truck</strong> &mdash; not by the hour and not by the item. Most single-truck home jobs run between <strong>$150 and $900</strong>. Drag the slider for a ballpark, then book online or call <a href="tel:+14078154926">(407)&nbsp;815-4926</a> for a firm quote.
                     </p>
 
-                    <h3>Service Benefits:</h3>
+                    <div class="jr-estimator" data-jr-estimator>
+                      <h3>Estimate your junk removal cost</h3>
+                      <div class="jr-est-truck"><div class="jr-est-fill"></div></div>
+                      <div class="jr-est-readout">
+                        <span class="jr-est-label">Minimum load</span>
+                        <span class="jr-est-price">$150 &ndash; $225</span>
+                      </div>
+                      <p class="jr-est-desc">A couch, a mattress, or a few boxes.</p>
+                      <input type="range" class="jr-est-range" min="0" max="5" step="1" value="0" aria-label="Junk load size" />
+                      <div class="jr-est-stops" aria-hidden="true">
+                        <span>Min</span><span>&#8539;</span><span>&frac14;</span><span>&frac12;</span><span>&frac34;</span><span>Full</span>
+                      </div>
+                      <div class="jr-est-actions">
+                        <a class="common_btn" href="#" onclick="openBookingModal(); return false;">Get My Exact Quote <i class="far fa-long-arrow-right"></i></a>
+                        <a href="tel:+14078154926"><i class="fas fa-phone-alt"></i> (407) 815-4926</a>
+                      </div>
+                      <p class="jr-est-note">Estimate only. Your final price is confirmed on-site before any work starts.</p>
+                    </div>
+
+                    <table class="jr-price-table">
+                      <thead>
+                        <tr><th>Truck space</th><th>Typical price</th><th>What usually fits</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>Minimum load</td><td>$150&ndash;$225</td><td>1&ndash;2 items: a couch, a mattress, a few boxes</td></tr>
+                        <tr><td>&#8539; truck</td><td>$225&ndash;$325</td><td>One small room or a closet purge</td></tr>
+                        <tr><td>&frac14; truck</td><td>$325&ndash;$450</td><td>A garage corner plus an appliance</td></tr>
+                        <tr><td>&frac12; truck</td><td>$450&ndash;$600</td><td>A full garage or a small apartment</td></tr>
+                        <tr><td>&frac34; truck</td><td>$600&ndash;$775</td><td>Two to three rooms of furniture</td></tr>
+                        <tr><td>Full truck (~15&ndash;16 cu yd)</td><td>$725&ndash;$900</td><td>A whole-home or single-load estate cleanout</td></tr>
+                      </tbody>
+                    </table>
+
+                    <div class="jr-price-callout">
+                      Whole-house cleanouts, <a href="estate-cleanout.php">estate cleanouts</a>, and hoarder situations that need multiple truckloads and a full-day crew run <strong>$1,500&ndash;$4,000+</strong> and are quoted on-site. For a full breakdown by item type, see our <a href="junk-removal-cost-orlando.php">junk removal cost guide</a>.
+                    </div>
+
+                    <h3>What's Included in the Price</h3>
+                    <p>
+                      Every quote covers two or more crew members, all the lifting and carrying, the truck, fuel, dump and recycling fees, and a sweep-up when we're done. You don't pay extra for stairs on a normal residential job, and there's no separate "disposal fee" added at the end. What we quote is what you pay.
+                    </p>
+
+                    <h3>What Moves the Price Up or Down</h3>
                     <ul>
-                      <li>Same Day Service Available</li>
-                      <li>Professional Heavy Lifting</li>
-                      <li>Safe & Hassle-Free Removal</li>
-                      <li>Certified Recycling Facilities</li>
-                      <li>No Hidden Charges</li>
-                      <li>Environmentally Responsible Disposal</li>
-                      <li>Fully Insured & Licensed</li>
-                      <li>Years Experience</li>
+                      <li><strong>Volume</strong> &mdash; the biggest factor. More truck space filled means a higher price.</li>
+                      <li><strong>Weight</strong> &mdash; concrete, dirt, tile, and heavy construction debris are priced separately because of landfill weight charges.</li>
+                      <li><strong>Access</strong> &mdash; a long carry from a back bedroom or a third-floor walk-up can add to a large job.</li>
+                      <li><strong>Special handling</strong> &mdash; appliances with refrigerant, tires, and mattresses carry small state-mandated recycling fees.</li>
                     </ul>
 
-                    <h3>Service Availability:</h3>
+                    <h3>What We Take from Your Home &mdash; and What We Can't</h3>
+                    <p>
+                      We remove almost anything in a house that isn't hazardous: furniture, mattresses, appliances, TVs and electronics, exercise equipment, patio furniture, grills, yard waste, garage clutter, boxes, and general household junk. See our <a href="items-we-take.php">full list of accepted items</a>.
+                    </p>
+                    <p>
+                      We <strong>can't</strong> take hazardous materials &mdash; wet paint, motor oil, pool chemicals, solvents, asbestos, propane tanks, or medical waste. If you're not sure about an item, call and describe it and we'll tell you straight.
+                    </p>
+
+                    <h3>How It Works</h3>
+                    <ol>
+                      <li><strong>Book</strong> &mdash; schedule online or call. Same-day and next-day slots are usually open, with a two-hour arrival window.</li>
+                      <li><strong>On-site estimate</strong> &mdash; the crew walks the job with you and gives one firm price before anything is touched. No obligation.</li>
+                      <li><strong>We load</strong> &mdash; you point, we carry. Everything comes out &mdash; garage, attic, upstairs bedrooms, the backyard &mdash; while you do nothing.</li>
+                      <li><strong>We clean up and haul</strong> &mdash; we sweep the space and sort the truck so usable items get donated and recyclables get recycled.</li>
+                    </ol>
+
+                    <h3>Common Residential Junk Removal Jobs in Orlando</h3>
                     <ul>
-                      <li>Monday 7:00 AM - 5:00 PM</li>
-                      <li>Tuesday 7:00 AM - 5:00 PM</li>
-                      <li>Wednesday 7:00 AM - 5:00 PM</li>
-                      <li>Thursday 7:00 AM - 5:00 PM</li>
-                      <li>Friday 7:00 AM - 5:00 PM</li>
-                      <li>Saturday 9:00 AM - 4:00 PM</li>
+                      <li><strong>Garage &amp; attic cleanouts</strong> &mdash; reclaiming storage space that filled up over the years.</li>
+                      <li><strong>Downsizing &amp; senior moves</strong> &mdash; clearing a home before a move to a smaller place or assisted living.</li>
+                      <li><strong>Move-out cleanouts</strong> &mdash; whatever the movers didn't take, gone the same week.</li>
+                      <li><strong>Furniture &amp; appliance swaps</strong> &mdash; the old sofa or fridge hauled away when the new one is delivered.</li>
+                      <li><strong>Storage-unit clear-outs</strong> &mdash; emptying a unit you're done paying for.</li>
+                      <li><strong>Post-renovation debris</strong> &mdash; old cabinets, flooring, and fixtures after a remodel.</li>
                     </ul>
 
-                    <h3>Specialized Services</h3>
+                    <h3>Why Orlando Homeowners Choose Haulin Junkies</h3>
                     <p>
-                      Our specialized services cater to a variety of needs
-                      beyond typical junk hauling. We can remove hot tubs and
-                      other large, bulky items with ease. Our garage cleanouts
-                      service will reclaim your storage space, allowing you to
-                      use it more effectively. We properly dispose of old
-                      computers, ensuring your data is protected and the
-                      electronics are recycled.
+                      We're a family-owned, locally operated company &mdash; Eric and Glenda run every job to the same standard: a crew that shows up in the window, one firm price before anything is loaded, and your home treated like it's ours. We're fully licensed and insured, so you're covered if anything is damaged during a pickup. And we sort every load: usable furniture and household goods go to <a href="donation-partners.php">local Central Florida donation partners</a>, metal and appliances go to certified recyclers, and only what's left goes to the landfill.
                     </p>
 
-                    <h3>Responsible Disposal</h3>
-                    <p>
-                      We recycle as much as possible except for hazardous
-                      materials, taking items to a recycling facility to reduce
-                      waste. We ensure that all items are properly disposed of,
-                      from old furniture to large appliances, ensuring they are
-                      disposed of or recycled properly. Our commitment to
-                      environmental responsibility means we make every effort to
-                      minimize waste and maximize recycling opportunities.
-                    </p>
+                    <h3>Service Benefits</h3>
+                    <ul>
+                      <li>Same-day and next-day service available</li>
+                      <li>All the heavy lifting &mdash; you don't touch a thing</li>
+                      <li>Upfront, no-surprise pricing</li>
+                      <li>Fully licensed &amp; insured</li>
+                      <li>Donation and recycling on every job</li>
+                    </ul>
 
-                    <h3>Residential Junk Removal — Frequently Asked Questions</h3>
+                    <h3>Hours</h3>
+                    <ul>
+                      <li>Monday &ndash; Friday: 7:00 AM &ndash; 6:00 PM</li>
+                      <li>Saturday: 10:00 AM &ndash; 4:00 PM</li>
+                      <li>Sunday: closed</li>
+                    </ul>
+
+                    <h3>Residential Junk Removal &mdash; Frequently Asked Questions</h3>
                     <p>
                       <strong>How much does residential junk removal cost in Orlando?</strong><br />
-                      Most residential jobs run between $100 and $650 depending on how much space your items take up in the truck. We give a firm, upfront quote on site before any work begins — no hidden fees.
+                      Most single-truck home jobs run between $150 and $900, priced by how much space your items take up in the truck. A minimum load (1&ndash;2 items) starts around $150; a full truck runs $725&ndash;$900. Full-house cleanouts that need multiple loads are quoted on-site. We give a firm, upfront quote before any work begins &mdash; no hidden fees.
+                    </p>
+                    <p>
+                      <strong>Is the estimate free?</strong><br />
+                      Yes. The crew gives you a firm price on-site before any work begins, with no obligation and no trip charge for the estimate.
                     </p>
                     <p>
                       <strong>Do I need to be home during the pickup?</strong><br />
                       Not necessarily. As long as the items are accessible and we've confirmed the scope and price ahead of time, we can complete many residential pickups without you present.
+                    </p>
+                    <p>
+                      <strong>Do I need to move everything to the curb first?</strong><br />
+                      No. Our crew removes items from anywhere in the home &mdash; upstairs bedrooms, the attic, the garage, the backyard. You just point.
                     </p>
                     <p>
                       <strong>Can you do a full house or garage cleanout?</strong><br />
@@ -387,167 +518,68 @@
                     </p>
                     <p>
                       <strong>What items won't you take?</strong><br />
-                      We remove nearly everything except hazardous materials like paint, chemicals, asbestos, and medical waste. Ask us if you're unsure about a specific item.
+                      Hazardous materials &mdash; wet paint, chemicals, pool chemicals, motor oil, solvents, asbestos, propane tanks, and medical waste. Ask us if you're unsure about a specific item.
                     </p>
                     <p>
                       <strong>How quickly can you pick up residential junk?</strong><br />
-                      Same-day service is available for most residential jobs when you call early in the day. Otherwise we typically schedule within 24-48 hours.
+                      Same-day service is available for most residential jobs when you call early in the day. Otherwise we typically schedule within 24&ndash;48 hours.
+                    </p>
+                    <p>
+                      <strong>What happens to my stuff after you haul it?</strong><br />
+                      We sort every load. Usable furniture and household goods go to local donation partners, metal and appliances go to certified recyclers, and only what's left goes to the landfill.
                     </p>
                   </div>
                 </div>
-                <div
-                  class="tab-pane fade"
-                  id="pills-contact"
-                  role="tabpanel"
-                  aria-labelledby="pills-contact-tab"
-                  tabindex="0"
-                >
-                  <div class="service_details_review">
-                    <div class="single_review">
-                      <div class="img">
-                        <img
-                          src="assets/images/review_img_1.png"
-                          alt="review"
-                          class="img-fluid w-100"
-                        />
-                      </div>
-                      <div class="text">
-                        <h4>
-                          Sarah Johnson
-                          <span>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                          </span>
-                        </h4>
-                        <p class="date">15 May 2025</p>
-                        <p class="description">
-                          Excellent junk removal service! They cleared out my
-                          entire garage in just a few hours. The team was
-                          professional, efficient, and cleaned up everything
-                          perfectly. Highly recommend!
-                        </p>
-                      </div>
-                    </div>
-                    <div class="single_review">
-                      <div class="img">
-                        <img
-                          src="assets/images/review_img_2.png"
-                          alt="review"
-                          class="img-fluid w-100"
-                        />
-                      </div>
-                      <div class="text">
-                        <h4>
-                          Michael Chen
-                          <span>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                          </span>
-                        </h4>
-                        <p class="date">28 Apr 2025</p>
-                        <p class="description">
-                          Had them remove an old hot tub and several large
-                          appliances. They handled everything with care and
-                          disposed of everything responsibly. Great service and
-                          fair pricing!
-                        </p>
-                      </div>
-                    </div>
-                    <div class="single_review">
-                      <div class="img">
-                        <img
-                          src="assets/images/review_img_3.png"
-                          alt="review"
-                          class="img-fluid w-100"
-                        />
-                      </div>
-                      <div class="text">
-                        <h4>
-                          Lisa Rodriguez
-                          <span>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                          </span>
-                        </h4>
-                        <p class="date">10 May 2025</p>
-                        <p class="description">
-                          Amazing team! They helped with a complete house
-                          cleanout before our move. They were punctual, careful
-                          with our belongings, and made the process stress-free.
-                        </p>
-                      </div>
-                    </div>
-                    <div class="pagination mt_30">
-                      <ul class="pagination">
-                        <li class="page-item">
-                          <a class="page-link" href="#" aria-label="Previous">
-                            <i class="far fa-angle-left"></i>
-                          </a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link active" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#" aria-label="Next">
-                            <i class="far fa-angle-right"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
+              </div>
 
-                  <div class="input_review mt_60">
-                    <h3>Write Your Review</h3>
-                    <div class="select_rating">
-                      <span>select Your rating:</span>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                    </div>
-
-                    <form action="#">
-                      <div class="row">
-                        <div class="col-xl-6">
-                          <label>Name</label>
-                          <input type="text" placeholder="Your answer" />
-                        </div>
-                        <div class="col-xl-6">
-                          <label>email</label>
-                          <input type="email" placeholder="Your email" />
-                        </div>
-                        <div class="col-xl-12">
-                          <label>Comment</label>
-                          <textarea
-                            rows="5"
-                            placeholder="Write a review"
-                          ></textarea>
-                          <button class="common_btn" type="submit">
-                            submit<i class="far fa-long-arrow-right"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
+              <h3>What Orlando Homeowners Say</h3>
+              <div class="jr-reviews">
+                <div class="jr-review">
+                  <div class="jr-stars" aria-label="Rated 5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <p>"Haulin Junkies were quick to get the job done and very responsive to my text messages. I would definitely use their services again."</p>
+                  <cite>&mdash; Marti Neuville, Google review</cite>
+                </div>
+                <div class="jr-review">
+                  <div class="jr-stars" aria-label="Rated 5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <p>"We needed our estate clean-out done quickly and at the last minute. Eric and Glenda came to my rescue. When the job was finished there was literally not a paper clip left behind &mdash; the house was immaculate. They donate, recycle, or trash everything they haul. If you're looking for an estate cleanout company, your search is over."</p>
+                  <cite>&mdash; Sarah Cioppa, Google review</cite>
+                </div>
+                <div class="jr-review">
+                  <div class="jr-stars" aria-label="Rated 5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  <p>"Fast and easy."</p>
+                  <cite>&mdash; Robert Hicks, Google review</cite>
                 </div>
               </div>
+              <p>Every review is from a verified Google customer. Current average: 5.0 out of 5. <a href="https://www.google.com/maps/search/Haulin+Junkies+Maitland+FL" target="_blank" rel="noopener">Read more on Google</a>.</p>
+
             </div>
+
+          <div class="services_details_area" style="margin-top:50px;">
+            <h3>Residential Junk Removal Across the Orlando Metro</h3>
+            <p>
+              Haulin Junkies provides residential junk removal and household cleanouts throughout Orlando and Central Florida, including
+              <a href="downtown-orlando.php">Downtown Orlando</a>,
+              <a href="winter-park.php">Winter Park</a>,
+              <a href="maitland.php">Maitland</a>,
+              <a href="windermere.php">Windermere</a>,
+              <a href="doctor-phillips.php">Dr. Phillips</a>,
+              <a href="baldwin-park.php">Baldwin Park</a>,
+              <a href="college-park.php">College Park</a>,
+              <a href="hunters-creek.php">Hunter's Creek</a>,
+              <a href="lake-nona.php">Lake Nona</a>,
+              <a href="horizon-west.php">Horizon West</a>,
+              <a href="kissimmee.php">Kissimmee</a>,
+              <a href="st-cloud.php">St. Cloud</a>,
+              <a href="oviedo.php">Oviedo</a>,
+              <a href="winter-garden.php">Winter Garden</a>,
+              <a href="clermont.php">Clermont</a>,
+              <a href="altamonte-springs.php">Altamonte Springs</a>,
+              <a href="apopka.php">Apopka</a>,
+              <a href="sanford.php">Sanford</a>,
+              <a href="lake-mary.php">Lake Mary</a>.
+              See the <a href="service-areas.php">full list of service areas we cover</a>.
+            </p>
+          </div>
           </div>
           <div class="col-lg-4 col-sm-10 col-md-7 wow fadeInRight">
             <div class="sidebar sticky_sidebar">
@@ -574,8 +606,8 @@
                     class="img-fluid w-100"
                   />
                 </div>
-                <h2>Eric Robert</h2>
-                <p>Team Leader</p>
+                <h2>Eric &amp; Glenda</h2>
+                <p>Owners, Haulin Junkies</p>
                 <ul>
                   <li>
                
@@ -583,9 +615,9 @@
                   <li>
                     <b>
                       <i class="fas fa-star"></i>
-                      Service Rating
+                      Google Rating
                     </b>
-                    <span>(4.9/5)</span>
+                    <span>(5.0/5)</span>
                   </li>
                 </ul>
                 <a href="/cdn-cgi/l/email-protection#f8b09d949497b890998d949196928d9693919d8bd69b9795"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="c880ada4a4a788a0a9bda4a1a6a2bda6a3a1adbbe6aba7a5">[email&#160;protected]</span></a
@@ -675,6 +707,41 @@
           closeBookingModal();
         }
       }
+    </script>
+
+    <!-- Junk removal cost estimator -->
+    <script>
+      (function () {
+        var STOPS = [
+          { label: "Minimum load", price: "$150 – $225", desc: "A couch, a mattress, or a few boxes.", fill: 12 },
+          { label: "⅛ truck", price: "$225 – $325", desc: "One small room or a closet purge.", fill: 24 },
+          { label: "¼ truck", price: "$325 – $450", desc: "A garage corner plus an appliance.", fill: 40 },
+          { label: "½ truck", price: "$450 – $600", desc: "A full garage or a small apartment.", fill: 58 },
+          { label: "¾ truck", price: "$600 – $775", desc: "Two to three rooms of furniture.", fill: 80 },
+          { label: "Full truck", price: "$725 – $900", desc: "A whole-home or single-load estate cleanout.", fill: 100 }
+        ];
+        var boxes = document.querySelectorAll('[data-jr-estimator]');
+        for (var i = 0; i < boxes.length; i++) {
+          (function (box) {
+            var range = box.querySelector('.jr-est-range');
+            var label = box.querySelector('.jr-est-label');
+            var price = box.querySelector('.jr-est-price');
+            var desc = box.querySelector('.jr-est-desc');
+            var fill = box.querySelector('.jr-est-fill');
+            if (!range) return;
+            function update() {
+              var s = STOPS[parseInt(range.value, 10)] || STOPS[0];
+              label.textContent = s.label;
+              price.textContent = s.price;
+              desc.textContent = s.desc;
+              fill.style.width = s.fill + '%';
+            }
+            range.addEventListener('input', update);
+            range.addEventListener('change', update);
+            update();
+          })(boxes[i]);
+        }
+      })();
     </script>
   </body>
 </html>

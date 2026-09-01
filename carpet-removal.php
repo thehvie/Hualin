@@ -657,8 +657,8 @@
                     class="img-fluid w-100"
                   />
                 </div>
-                <h2>Carlos Mendez</h2>
-                <p>Carpet Removal Specialist</p>
+                <h2>Eric &amp; Glenda</h2>
+                <p>Owners, Haulin Junkies</p>
                 <ul>
                   <li>
                     <b>
@@ -670,9 +670,9 @@
                   <li>
                     <b>
                       <i class="fas fa-star"></i>
-                      Service Rating
+                      Google Rating
                     </b>
-                    <span>(4.9/5)</span>
+                    <span>(5.0/5)</span>
                   </li>
                 </ul>
                 <a href="/cdn-cgi/l/email-protection#531b363f3f3c133b32263f3a3d39263d383a36207d303c3e"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="8cc4e9e0e0e3cce4edf9e0e5e2e6f9e2e7e5e9ffa2efe3e1">[email&#160;protected]</span></a

@@ -330,6 +330,9 @@
                   <p style="font-size: 0.85rem; color: #666; margin-top: 10px;"><strong>Sources:</strong> Aluminum Association; American Iron and Steel Institute; Florida Department of Environmental Protection (FDEP) Solid Waste Report.</p>
                 </div>
               </div>
+              <h3>Related Services</h3>
+              <p>Haulin Junkies can help with <a href="appliance-removal.php">appliance and scrap-metal removal</a>, <a href="commercial.php">commercial junk removal</a>, <a href="concrete-removal.php">construction debris removal</a>. Serving Orlando and 25+ Central Florida cities &mdash; <a href="service-areas.php">see our service areas</a>.</p>
+
             </div>
           </div>
 

@@ -181,7 +181,7 @@
         {
           "@type": "Question",
           "name": "Is junk removal worth it for just one or two items?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Our minimum load starts at $100 and covers one to two items including labor, hauling, and disposal. It's often cheaper than renting a truck yourself." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Our minimum load starts at $150 and covers one to two items including labor, hauling, and disposal. It's often cheaper than renting a truck yourself." }
         },
         {
           "@type": "Question",
@@ -320,7 +320,7 @@
                 <p>We handle these jobs with care. Our crew shows up, does the work, and leaves your space ready for whatever comes next.</p>
 
                 <h2>10. It's More Affordable Than Most People Expect</h2>
-                <p>The most common reaction we hear after a job is: "That was less than I thought." Junk removal in Orlando typically starts at $100 for one or two items and ranges up to $650 for a full truckload. Compare that to:</p>
+                <p>The most common reaction we hear after a job is: "That was less than I thought." Junk removal in Orlando typically starts around $150 for one or two items and ranges up to about $900 for a full truckload. Compare that to:</p>
                 <ul>
                   <li>Dumpster rental: $400–$450 for 3 days (you do all the loading)</li>
                   <li>Storage unit: $100–$200/month (ongoing)</li>
@@ -336,7 +336,7 @@
 
                 <p><strong>Q: Can you remove items from inside the house, not just the garage?</strong><br>Yes — attic, basement, upstairs bedrooms, anywhere. We do the hauling regardless of where it is. Difficult access (multiple flights of stairs) may carry a small upcharge.</p>
 
-                <p><strong>Q: Is junk removal worth it for just one or two items?</strong><br>Yes. Our minimum load starts at $100 and covers one to two items including labor, hauling, and disposal. It's often cheaper than renting a truck yourself.</p>
+                <p><strong>Q: Is junk removal worth it for just one or two items?</strong><br>Yes. Our minimum load starts at $150 and covers one to two items including labor, hauling, and disposal. It's often cheaper than renting a truck yourself.</p>
 
                 <p><strong>Q: Do you serve areas outside Orlando?</strong><br>Yes — Haulin Junkies serves 27+ Central Florida cities including Maitland, Winter Park, Windermere, Kissimmee, Sanford, Altamonte Springs, and more.</p>
 
@@ -351,6 +351,9 @@
                   <p style="font-size: 0.85rem; color: #666; margin-top: 10px;"><strong>Sources:</strong> UCLA Study on Clutter and Cortisol (2010); Princeton Neuroscience Institute; CDC Falls Data; U.S. Census Bureau Housing Data; Self Storage Association Industry Report; EPA Municipal Solid Waste Data; National Association of Realtors Home Staging Report.</p>
                 </div>
               </div>
+              <h3>Related Services</h3>
+              <p>Haulin Junkies can help with <a href="residential.php">residential junk removal</a>, <a href="estate-cleanout.php">estate cleanouts</a>, <a href="junk-removal-orlando.php">junk removal in Orlando</a>. Serving Orlando and 25+ Central Florida cities &mdash; <a href="service-areas.php">see our service areas</a>.</p>
+
             </div>
           </div>
 

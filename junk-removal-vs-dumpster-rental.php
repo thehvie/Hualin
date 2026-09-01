@@ -176,7 +176,7 @@
                 <table class="pricing-table">
                   <tr><th></th><th>Junk Removal</th><th>Dumpster Rental</th></tr>
                   <tr><td>Labor</td><td>✅ Crew does everything</td><td>❌ You load it yourself</td></tr>
-                  <tr><td>Cost (typical)</td><td>$100–$650</td><td>$400–$450 for 3-day rental</td></tr>
+                  <tr><td>Cost (typical)</td><td>$150–$900</td><td>$400–$450 for 3-day rental</td></tr>
                   <tr><td>Timeline</td><td>Same-day or scheduled</td><td>Keep it 3+ days</td></tr>
                   <tr><td>Best for</td><td>One-time cleanouts, estate haul-offs</td><td>Ongoing renovations, roofing</td></tr>
                   <tr><td>Weight limits</td><td>No cap for standard loads</td><td>4,000 lbs included</td></tr>
@@ -224,6 +224,9 @@
                 </div>
 
               </div>
+              <h3>Related Services</h3>
+              <p>Haulin Junkies can help with <a href="junk-removal-orlando.php">full-service junk removal</a>, <a href="dumpster-rentals.php">roll-off dumpster rental</a>, <a href="junk-removal-cost-orlando.php">a full cost breakdown</a>. Serving Orlando and 25+ Central Florida cities &mdash; <a href="service-areas.php">see our service areas</a>.</p>
+
             </div>
           </div>
 

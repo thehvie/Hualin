@@ -891,6 +891,42 @@
                 When you book <strong>junk removal in Maitland</strong> with Haulin Junkies, you're getting a crew that's familiar with this city's streets, its property access quirks, and the best Orange County disposal and donation facilities for whatever you're clearing out. That local knowledge makes every job faster, cleaner, and less disruptive for you.
               </p>
             </div>
+
+            <!-- Internal linking: services + nearby cities -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal Services in Maitland</h2>
+              <p class="section-text">
+                Every Haulin Junkies service is available in Maitland &mdash;
+                <a href="residential.php">residential junk removal</a>,
+                <a href="commercial.php">commercial junk removal</a>,
+                <a href="estate-cleanout.php">estate cleanouts</a>,
+                <a href="foreclosure-cleanout.php">foreclosure cleanouts</a>,
+                <a href="appliance-removal.php">appliance removal</a>,
+                <a href="hot-tub-removal.php">hot tub removal</a>,
+                <a href="carpet-removal.php">carpet removal</a>,
+                <a href="concrete-removal.php">concrete &amp; construction debris removal</a>, and
+                <a href="dumpster-rentals.php">dumpster rentals</a>.
+                New to us? Start with our <a href="junk-removal-orlando.php">Orlando junk removal overview</a>
+                or see <a href="junk-removal-cost-orlando.php">what junk removal costs</a>.
+              </p>
+            </div>
+
+            <!-- Nearby cities -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Nearby Cities We Serve</h2>
+              <p class="section-text">
+                Haulin Junkies also hauls junk and runs cleanouts in the communities around Maitland:
+              </p>
+              <ul class="locations-list">
+                <li><a href="winter-park.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Winter Park</a></li>
+                <li><a href="altamonte-springs.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Altamonte Springs</a></li>
+                <li><a href="college-park.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">College Park</a></li>
+                <li><a href="baldwin-park.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Baldwin Park</a></li>
+                <li><a href="downtown-orlando.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Downtown Orlando</a></li>
+                <li><a href="service-areas.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">All service areas &rarr;</a></li>
+              </ul>
+            </div>
+
           </div>
 
           <!-- Sidebar -->

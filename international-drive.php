@@ -850,6 +850,42 @@
                 <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Are you licensed and insured in International Drive?</h3>
                 <p class="section-text" style="margin-bottom: 10px;">Yes. Haulin Junkies is a fully licensed and insured junk removal company serving International Drive and all of Central Florida. Your property is protected every step of the way.</p>
               </div>
+
+              <!-- Internal linking: services + nearby cities -->
+              <div class="content-section wow fadeInUp">
+                <h2 class="section-title">Junk Removal Services in International Drive</h2>
+                <p class="section-text">
+                  Every Haulin Junkies service is available in International Drive &mdash;
+                  <a href="residential.php">residential junk removal</a>,
+                  <a href="commercial.php">commercial junk removal</a>,
+                  <a href="estate-cleanout.php">estate cleanouts</a>,
+                  <a href="foreclosure-cleanout.php">foreclosure cleanouts</a>,
+                  <a href="appliance-removal.php">appliance removal</a>,
+                  <a href="hot-tub-removal.php">hot tub removal</a>,
+                  <a href="carpet-removal.php">carpet removal</a>,
+                  <a href="concrete-removal.php">concrete &amp; construction debris removal</a>, and
+                  <a href="dumpster-rentals.php">dumpster rentals</a>.
+                  New to us? Start with our <a href="junk-removal-orlando.php">Orlando junk removal overview</a>
+                  or see <a href="junk-removal-cost-orlando.php">what junk removal costs</a>.
+                </p>
+              </div>
+
+              <!-- Nearby cities -->
+              <div class="content-section wow fadeInUp">
+                <h2 class="section-title">Nearby Cities We Serve</h2>
+                <p class="section-text">
+                  Haulin Junkies also hauls junk and runs cleanouts in the communities around International Drive:
+                </p>
+                <ul class="locations-list">
+                  <li><a href="doctor-phillips.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Dr. Phillips</a></li>
+                  <li><a href="downtown-orlando.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Downtown Orlando</a></li>
+                  <li><a href="windermere.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Windermere</a></li>
+                  <li><a href="lake-buena-vista.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Lake Buena Vista</a></li>
+                  <li><a href="hunters-creek.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">Hunter's Creek</a></li>
+                  <li><a href="service-areas.php" style="color:#ff6b35; text-decoration:none; font-weight:600;">All service areas &rarr;</a></li>
+                </ul>
+              </div>
+
             </div>
 
           <!-- Sidebar -->

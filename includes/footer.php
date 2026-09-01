@@ -52,7 +52,7 @@
       </div>
     </div>
     <div class="row justify-content-between">
-      <div class="col-md-6 col-lg-3 col-xl-3 wow fadeInUp">
+      <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp">
         <div class="footer_info">
           <a href="index.php" class="footer_logo">
             <img
@@ -66,31 +66,51 @@
           </p>
           <ul class="footer_social d-flex flex-wrap">
             <li>
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://www.facebook.com/Haulinjunkies" target="_blank" rel="noopener" aria-label="Haulin Junkies on Facebook"><i class="fab fa-facebook-f"></i></a>
             </li>
             <li>
-              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="https://www.instagram.com/haulinjunkies/" target="_blank" rel="noopener" aria-label="Haulin Junkies on Instagram"><i class="fab fa-instagram"></i></a>
             </li>
             <li>
-              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="https://www.yelp.com/biz/haulin-junkies-maitland" target="_blank" rel="noopener" aria-label="Haulin Junkies on Yelp"><i class="fab fa-yelp"></i></a>
             </li>
           </ul>
         </div>
       </div>
-      <div class="col-md-6 col-sm-6 col-lg-3 col-xl-2 wow fadeInUp">
+      <div class="col-md-6 col-sm-6 col-lg-4 col-xl-2 wow fadeInUp">
         <div class="footer_link">
           <h3>Services</h3>
           <ul>
             <li><a href="junk-removal-orlando.php">Junk Removal Orlando</a></li>
             <li><a href="residential.php">Residential Junk Removal</a></li>
             <li><a href="commercial.php">Commercial Junk Removal</a></li>
+            <li><a href="estate-cleanout.php">Estate Cleanouts</a></li>
             <li><a href="apartment-cleanouts.php">Apartment Cleanouts</a></li>
             <li><a href="concrete-removal.php">Construction Debris</a></li>
             <li><a href="appliance-removal.php">Appliance Removal</a></li>
+            <li><a href="dumpster-rentals.php">Dumpster Rentals</a></li>
           </ul>
         </div>
       </div>
-      <div class="col-md-6 col-sm-6 col-lg-2 col-xl-2 wow fadeInUp">
+      <div class="col-md-6 col-sm-6 col-lg-4 col-xl-2 wow fadeInUp">
+        <div class="footer_link">
+          <h3>Service Areas</h3>
+          <ul>
+            <li><a href="downtown-orlando.php">Orlando</a></li>
+            <li><a href="winter-park.php">Winter Park</a></li>
+            <li><a href="kissimmee.php">Kissimmee</a></li>
+            <li><a href="windermere.php">Windermere</a></li>
+            <li><a href="maitland.php">Maitland</a></li>
+            <li><a href="oviedo.php">Oviedo</a></li>
+            <li><a href="clermont.php">Clermont</a></li>
+            <li><a href="winter-garden.php">Winter Garden</a></li>
+            <li><a href="st-cloud.php">St. Cloud</a></li>
+            <li><a href="doctor-phillips.php">Dr. Phillips</a></li>
+            <li><a href="service-areas.php">View all service areas &rarr;</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6 col-lg-6 col-xl-2 wow fadeInUp">
         <div class="footer_link footer_link_padding">
           <h3>Quick links</h3>
           <ul>
@@ -101,7 +121,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-md-6 col-sm-12 col-lg-4 col-xl-3 wow fadeInUp">
+      <div class="col-md-12 col-sm-12 col-lg-6 col-xl-3 wow fadeInUp">
         <div class="footer_time">
           <h3>Working Hours:</h3>
           <ul>
@@ -120,11 +140,8 @@
           <div class="footer_copyright_text d-flex flex-wrap">
             <p>© 2026 <b>Haulin Junkies</b>. All Rights Reserved.</p>
             <ul class="d-flex flex-wrap">
-            <!--
-              <li><a href="#">Setting & Privacy </a></li>
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">Support</a></li>
-              -->
+              <li><a href="privacy_policy.php">Privacy Policy</a></li>
+              <li><a href="terms_and_conditions.php">Terms &amp; Conditions</a></li>
             </ul>
           </div>
         </div>
