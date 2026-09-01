@@ -289,7 +289,7 @@
             <div class="service_details_text">
               <div class="service_details_img">
                 <img
-                  src="assets/images/service_details_img.jpg"
+                  src="assets/images/service_details_EC_img.jpg"
                   alt="Estate Cleanout Orlando FL"
                   class="img-fluid w-100"
                 />
@@ -539,12 +539,6 @@
                   <li><a href="appliance-removal.php">Appliance Hauling</a></li>
                   <li><a href="concrete-removal.php">Construction Debris</a></li>
                 </ul>
-              </div>
-
-              <div class="sidebar_brochure mt_40">
-                <h3>Download Brochure</h3>
-                <a href="contact_us.php"><i class="far fa-file-pdf"></i> Service Guide PDF</a>
-                <a href="contact_us.php"><i class="far fa-file-word"></i> Service Info DOC</a>
               </div>
 
               <div class="sidebar_contact mt_40">
