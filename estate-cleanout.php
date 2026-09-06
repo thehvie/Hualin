@@ -204,23 +204,19 @@
       <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Service",
-      "name": "Estate Cleanout Services in Orlando, FL",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies",
-        "telephone": "+14078154926",
-        "url": "https://haulinjunkies.com/"
-      },
-      "serviceType": "Estate Cleanout",
+      "@type": "ProfessionalService",
+      "name": "Haulin Junkies",
+      "image": "https://haulinjunkies.com/assets/images/logo.png",
+      "telephone": "+14078154926",
+      "url": "https://haulinjunkies.com/estate-cleanout.php",
+      "priceRange": "$$",
       "areaServed": {"@type": "City", "name": "Orlando", "addressRegion": "FL"},
       "description": "Full-service estate cleanout in Orlando and Central Florida. We sort, donate, and responsibly dispose of entire home contents. Same-day available.",
-      "url": "https://haulinjunkies.com/estate-cleanout.php",
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "5",
         "bestRating": "5",
-        "reviewCount": "3"
+        "reviewCount": "1"
       },
       "review": {
         "@type": "Review",

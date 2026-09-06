@@ -195,32 +195,19 @@
         <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Service",
-      "name": "Junk Removal in Orlando, FL",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "Haulin Junkies",
-        "telephone": "+14078154926",
-        "url": "https://haulinjunkies.com/"
-      },
-      "serviceType": "Junk Removal",
+      "@type": "ProfessionalService",
+      "name": "Haulin Junkies",
+      "image": "https://haulinjunkies.com/assets/images/logo.png",
+      "telephone": "+14078154926",
+      "url": "https://haulinjunkies.com/junk-removal-orlando.php",
+      "priceRange": "$150-$900",
       "areaServed": {"@type": "City", "name": "Orlando", "addressRegion": "FL"},
       "description": "Same-day junk removal in Orlando, FL for homes and businesses. We haul furniture, appliances, yard waste, construction debris, and more. Upfront pricing, no hidden fees.",
-      "url": "https://haulinjunkies.com/junk-removal-orlando.php",
-      "offers": {
-        "@type": "Offer",
-        "priceSpecification": {
-          "@type": "PriceSpecification",
-          "priceCurrency": "USD",
-          "minPrice": "150",
-          "maxPrice": "900"
-        }
-      },
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "5",
         "bestRating": "5",
-        "reviewCount": "3"
+        "reviewCount": "2"
       },
       "review": [
         {
