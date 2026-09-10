@@ -1028,8 +1028,8 @@
                 <ul class="sidebar_link">
                   <li><a href="residential.php">Residential Junk Removal</a></li>
                   <li><a href="commercial.php">Commercial Cleanouts</a></li>
-                  <li><a href="apartment_cleanouts.php">Apartment Cleanouts</a></li>
-                  <li><a href="estate_cleanout.php">Estate Cleanouts</a></li>
+                  <li><a href="apartment-cleanouts.php">Apartment Cleanouts</a></li>
+                  <li><a href="estate-cleanout.php">Estate Cleanouts</a></li>
                   <li><a href="dumpster-rentals.php" class="active">Dumpster Rentals</a></li>
                   <li><a href="appliance-removal.php">Appliance Removal</a></li>
                   <li><a href="concrete-removal.php">Construction Debris</a></li>

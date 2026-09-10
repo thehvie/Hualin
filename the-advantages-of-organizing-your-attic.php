@@ -314,7 +314,7 @@
                 >
                   <h3 style="color: #007bff">Haulinjunkies to the rescue</h3>
                   <p>
-                    If you need help cleaning out your attic, our <a href="residential.php">residential junk removal service</a> will remove all unwanted items and dispose of them responsibly. For larger estate or full-home cleanouts, our <a href="estate_cleanout.php">estate cleanout service</a> is the perfect solution.
+                    If you need help cleaning out your attic, our <a href="residential.php">residential junk removal service</a> will remove all unwanted items and dispose of them responsibly. For larger estate or full-home cleanouts, our <a href="estate-cleanout.php">estate cleanout service</a> is the perfect solution.
                   </p>
                   <p>
                     Contact us at <strong>(407) 815-4926</strong> for
