@@ -180,7 +180,7 @@
                   <h4>Before Moving Anything Heavy, Call Us</h4>
                   <p>
                     The good news is that moving furniture around your house can
-                    be done safely! Simply call <strong>Haulinjunkies</strong> for a free estimate. Our <a href="residential.php">residential junk removal team in Orlando</a> handles heavy furniture, appliances, and more so you don't have to. If you need to clear out an entire room or property, check out our <a href="apartment_cleanouts.php">apartment cleanout service</a>. Contact us at <strong>(407) 815-4926</strong> right away.
+                    be done safely! Simply call <strong>Haulinjunkies</strong> for a free estimate. Our <a href="residential.php">residential junk removal team in Orlando</a> handles heavy furniture, appliances, and more so you don't have to. If you need to clear out an entire room or property, check out our <a href="apartment-cleanouts.php">apartment cleanout service</a>. Contact us at <strong>(407) 815-4926</strong> right away.
                   </p>
                 </div>
               </div>

@@ -779,16 +779,16 @@
             ></a>
           </div>
 
-          <!-- Orlando - Property Managers & Realtors -->
+          <!-- Orlando - Commercial & Property Managers -->
           <div class="service-area-card wow fadeInUp">
             <div class="service-area-header">
-              <h2 class="area-name">Orlando — Property Managers &amp; Realtors</h2>
+              <h2 class="area-name">Orlando — Commercial &amp; Property Managers</h2>
               <span class="area-badge">24/7</span>
             </div>
             <div class="service-areas-text">
               Turnover cleanouts, tenant move-outs, evictions &amp; portfolio service
             </div>
-            <a href="orlando.php" class="view-details-btn"
+            <a href="commercial.php" class="view-details-btn"
               >View Details <i class="fas fa-arrow-right"></i
             ></a>
           </div>
