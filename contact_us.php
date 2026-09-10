@@ -292,10 +292,8 @@
               </div>
               <div class="text">
                 <h2>Email Address</h2>
-                <a href="/cdn-cgi/l/email-protection#7018151c1c1f301811051c191e1a051e1b1915035e131f1d"><span class="__cf_email__" data-cfemail="bad2dfd6d6d5fad2dbcfd6d3d4d0cfd4d1d3dfc994d9d5d7">[email&#160;protected]</span></a
-                >
-                <a href="/cdn-cgi/l/email-protection#50393e363f103831253c393e3a253e3b3935237e333f3d"><span class="__cf_email__" data-cfemail="afc6c1c9c0efc7cedac3c6c1c5dac1c4c6cadc81ccc0c2">[email&#160;protected]</span></a
-                >
+                <a href="mailto:hello@haulinjunkies.com">hello@haulinjunkies.com</a>
+                <a href="mailto:info@haulinjunkies.com">info@haulinjunkies.com</a>
               </div>
             </div>
           </div>
