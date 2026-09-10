@@ -43,7 +43,7 @@
           "name": "How much does an estate cleanout cost in Orlando?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Estate cleanout costs vary based on property size, volume of items, and complexity. We provide free, no-obligation estimates with transparent, upfront pricing. Most Orlando estate cleanouts range from a few hundred to several thousand dollars depending on the scope. Call us at 407-815-4926 for your free estimate."
+            "text": "Pricing is based on volume and labor. A partial job (one room or a garage) runs about $400-$1,200; a 1-2 bedroom home or condo is typically $1,500-$2,500; a full 3+ bedroom family home is usually $2,500-$4,000; and large or hoarding estates that need multiple truckloads start around $4,000. You get one firm written price after a free on-site walk-through, with no charge for the estimate. Call 407-815-4926 to book yours."
           }
         },
         {
@@ -84,6 +84,22 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Absolutely! We frequently coordinate with estate liquidators, auction houses, and estate sale companies throughout Orlando. We can remove remaining items after sales or prepare properties for upcoming estate sales. Just let us know your timeline and requirements."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you finish before a real estate closing or listing date?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We schedule estate cleanouts around closing and listing deadlines and offer same-week and rush turnaround when time is tight. Give us the date you need the home cleared and broom-clean, and we'll build the job around it and coordinate with your real estate agent if needed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do we need to sort everything before you arrive?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Point out anything the family wants kept - documents, photos, jewelry, heirlooms - and we set those aside first. Everything else, we sort as we go: usable items to local donation partners, metal and electronics to recyclers, and only what's left to the landfill. You don't have to touch a box if you don't want to."
           }
         }
       ]
@@ -200,6 +216,26 @@
           margin: 2.5% auto;
         }
       }
+
+      /* Give the section headings real visual hierarchy (the theme flattens
+         every .service_details_text heading to 20px via a catch-all rule). */
+      .service_details_text h2 { font-size: 25px !important; margin-top: 44px !important; }
+
+      /* ===== Estate cleanout cost section ===== */
+      .ec-cost { background: #fff7f3; border: 1px solid #ffd9c7; border-radius: 10px; padding: 26px 24px; margin: 30px 0; }
+      .ec-cost h2 { margin-top: 0 !important; }
+      .ec-cost-table { width: 100%; border-collapse: collapse; margin: 14px 0 8px; }
+      .ec-cost-table th, .ec-cost-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #f0ded3; vertical-align: top; }
+      .ec-cost-table thead th { background: #fdeee5; font-weight: 700; }
+      .ec-cost-table td:last-child { font-weight: 700; color: #ff6b35; white-space: nowrap; }
+      .ec-cost-note { font-size: .86rem; color: #8a8a8a; margin: 12px 0 0; }
+      .ec-figure { margin: 24px 0; }
+      .ec-figure img { border-radius: 8px; }
+      .ec-figure figcaption { font-size: .86rem; color: #777; margin-top: 8px; }
+      @media (max-width: 480px) {
+        .ec-cost { padding: 20px 16px; }
+        .ec-cost-table th, .ec-cost-table td { padding: 9px 9px; font-size: .93rem; }
+      }
     </style>
       <script type="application/ld+json">
     {
@@ -216,14 +252,14 @@
         "@type": "AggregateRating",
         "ratingValue": "5",
         "bestRating": "5",
-        "reviewCount": "1"
+        "reviewCount": "3"
       },
       "review": {
         "@type": "Review",
         "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
         "author": {"@type": "Person", "name": "Sarah Cioppa"},
         "datePublished": "2026-02-17",
-        "reviewBody": "We needed our estate clean-out done quickly and at the last minute. Eric and Glenda came to my rescue. It is hard to express how professionally they run their business. When the job was finished there was literally not a paper clip left behind - the house was immaculate. They donate, recycle, or trash everything they haul. If you are looking for an estate cleanout company, your search is over."
+        "reviewBody": "We needed our estate clean-out done quickly and at the last minute. Eric and Glenda came to my rescue. It is hard to express how professionally they run their business. When our job was finished and we walked into the house, there was literally not a paper clip left behind - the house was immaculate. They donate, recycle, or trash everything they haul. If you are looking for an estate cleanout company, your search is over."
       }
     }
     </script>
@@ -295,7 +331,7 @@
                 Need an estate cleanout — also called an estate clean-out or estate cleanup — in Orlando, FL? When facing the emotional and overwhelming task of cleaning out a deceased loved one's home or managing property after life changes like downsizing, divorce, or foreclosure, Haulin Junkies provides compassionate and professional estate clean-out services throughout Orlando and Central Florida. Our experienced team understands the sensitive nature of estate clean-outs and handles every item with care and respect during this difficult time.
               </p>
               <p>
-                As Orlando's trusted estate cleanout company, we specialize in full-service property cleanouts for families, estate executors, real estate agents, and property managers. Whether you need to prepare a home for an estate sale, clear out a foreclosed property, or simply remove years of accumulated belongings, our comprehensive estate removal services make the process smooth and stress-free.
+                As Orlando's trusted estate cleanout company, we specialize in full-service property cleanouts for families, estate executors, real estate agents, and property managers. Whether you need to prepare a home for an estate sale, clear out a <a href="foreclosure-cleanout.php">foreclosed property</a>, help a parent <a href="senior-move-management.php">downsize into assisted living</a>, or simply remove years of accumulated belongings, our comprehensive estate removal services make the process smooth and stress-free. For a single room or a few large items, our standard <a href="junk-removal-orlando.php">Orlando junk removal</a> service may be all you need.
               </p>
 
               <blockquote style="border-left:4px solid #ff6b35; background:#fafafa; margin:24px 0; padding:18px 22px;">
@@ -304,8 +340,28 @@
                 <cite style="font-style:normal; font-weight:700; color:#333;">&mdash; Sarah Cioppa, Google review</cite>
               </blockquote>
 
+              <div class="ec-cost">
+                <h2>What Does an Estate Cleanout Cost in Orlando?</h2>
+                <p>
+                  Estate cleanouts are priced by volume and labor, not a flat fee. After a free on-site walk-through you get one firm, written price before any work starts &mdash; no hourly meter, no charge for the estimate, and no surprises on the invoice.
+                </p>
+                <table class="ec-cost-table">
+                  <thead>
+                    <tr><th>Scope</th><th>Typical price</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Partial &mdash; one room, a garage, or estate-sale leftovers</td><td>$400&ndash;$1,200</td></tr>
+                    <tr><td>Small home or condo (1&ndash;2 bedrooms), lightly furnished</td><td>$1,500&ndash;$2,500</td></tr>
+                    <tr><td>Full family home (3+ bedrooms), fully furnished</td><td>$2,500&ndash;$4,000</td></tr>
+                    <tr><td>Large estate, hoarding situation, or multiple truckloads</td><td>$4,000+</td></tr>
+                  </tbody>
+                </table>
+                <p><strong>What moves the price:</strong> how large the home is and how full it is; stairs, elevators, and long carries to the truck; how much hands-on sorting the family needs; landfill and donation-run fees for the volume hauled; and how fast you need it finished (same-week and rush scheduling are available).</p>
+                <p class="ec-cost-note">Ranges are typical for the Orlando metro and are confirmed on site. We can itemize what was donated versus hauled so the estate has documentation for its records.</p>
+              </div>
+
               <div class="service_details_feature">
-                <h3>Our Full-Service Estate Cleanout Process</h3>
+                <h2>Our Full-Service Estate Cleanout Process</h2>
                 <p>
                   Our professional estate clean out services in Orlando are designed to handle every aspect of clearing a property efficiently and respectfully. We work closely with families and estate managers to ensure the cleanout process meets your specific needs and timeline.
                 </p>
@@ -335,10 +391,16 @@
                     <p><strong>Property Preparation:</strong> We leave the estate clean and ready for sale, rental, or the next phase, including broom-clean conditions if requested</p>
                   </li>
                 </ul>
+
+                <!-- Swap in real before/after job photos as pairs; keep alt text descriptive and local. -->
+                <figure class="ec-figure">
+                  <img src="assets/images/service_details_EC_img.jpg" alt="Haulin Junkies crew clearing a furnished Orlando home during an estate cleanout" class="img-fluid w-100" loading="lazy" />
+                  <figcaption>A full-home estate cleanout in the Orlando metro &mdash; sorted, hauled, donated, and left broom-clean.</figcaption>
+                </figure>
               </div>
 
               <div class="service_details_feature mt_40">
-                <h3>Why Choose Haulin Junkies for Estate Cleanouts in Orlando?</h3>
+                <h2>Why Choose Haulin Junkies for Estate Cleanouts in Orlando?</h2>
                 <p>
                   Managing an estate cleanout requires a company that combines professional expertise with compassion and understanding. Here's what sets our Orlando estate clean out services apart:
                 </p>
@@ -375,7 +437,7 @@
               </div>
 
               <div class="service_details_work mt_40">
-                <h3>Types of Estate Cleanouts We Handle</h3>
+                <h2>Types of Estate Cleanouts We Handle</h2>
                 <p>
                   Our comprehensive property cleanout services in Orlando cover all types of estate situations. No matter your circumstances, we're here to help:
                 </p>
@@ -426,7 +488,7 @@
               </div>
 
               <div class="service_details_feature mt_40">
-                <h3>What Makes Estate Cleanouts Different?</h3>
+                <h2>What Makes Estate Cleanouts Different?</h2>
                 <p>
                   Estate cleanouts require a special approach compared to standard junk removal. Our Orlando team recognizes these unique needs:
                 </p>
@@ -445,7 +507,7 @@
               </div>
 
               <div class="service_details_feature mt_40">
-                <h3>Our Estate Cleanout Service Area</h3>
+                <h2>Our Estate Cleanout Service Area</h2>
                 <p>
                   Haulin Junkies proudly serves Orlando and all surrounding Central Florida communities with professional estate cleanout services:
                 </p>
@@ -474,10 +536,10 @@
               </div>
 
               <div class="service_details_feature mt_40">
-                <h3>Frequently Asked Questions About Estate Cleanouts</h3>
+                <h2>Frequently Asked Questions About Estate Cleanouts</h2>
                 <div class="faq-item">
                   <h5><i class="fas fa-question-circle"></i> How much does an estate cleanout cost in Orlando?</h5>
-                  <p>Estate cleanout costs vary based on property size, volume of items, and complexity. We provide free, no-obligation estimates with transparent, upfront pricing. Most Orlando estate cleanouts range from a few hundred to several thousand dollars depending on the scope. Call us at 407-815-4926 for your free estimate.</p>
+                  <p>Pricing is based on volume and labor. A partial job (one room or a garage) runs about $400&ndash;$1,200; a 1&ndash;2 bedroom home or condo is typically $1,500&ndash;$2,500; a full 3+ bedroom family home is usually $2,500&ndash;$4,000; and large or hoarding estates that need multiple truckloads start around $4,000. You get one firm written price after a free on-site walk-through, with no charge for the estimate. Call 407-815-4926 to book yours.</p>
                 </div>
                 <div class="faq-item">
                   <h5><i class="fas fa-question-circle"></i> Do I need to be present during the estate cleanout?</h5>
@@ -498,6 +560,14 @@
                 <div class="faq-item">
                   <h5><i class="fas fa-question-circle"></i> Do you work with estate sale companies?</h5>
                   <p>Absolutely! We frequently coordinate with estate liquidators, auction houses, and estate sale companies throughout Orlando. We can remove remaining items after sales or prepare properties for upcoming estate sales. Just let us know your timeline and requirements.</p>
+                </div>
+                <div class="faq-item">
+                  <h5><i class="fas fa-question-circle"></i> Can you finish before a real estate closing or listing date?</h5>
+                  <p>Yes. We schedule estate cleanouts around closing and listing deadlines and offer same-week and rush turnaround when time is tight. Give us the date you need the home cleared and broom-clean, and we'll build the job around it and coordinate with your real estate agent if needed.</p>
+                </div>
+                <div class="faq-item">
+                  <h5><i class="fas fa-question-circle"></i> Do we need to sort everything before you arrive?</h5>
+                  <p>No. Point out anything the family wants kept &mdash; documents, photos, jewelry, heirlooms &mdash; and we set those aside first. Everything else, we sort as we go: usable items to local donation partners, metal and electronics to recyclers, and only what's left to the landfill. You don't have to touch a box if you don't want to.</p>
                 </div>
               </div>
 
@@ -549,11 +619,10 @@
                 <h3>Why Choose Us?</h3>
                 <ul class="sidebar_rating">
                   <li>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
+                    <b>
+                      <i class="fas fa-star"></i>
+                      Google Rating
+                    </b>
                     <span>(5.0/5)</span>
                   </li>
                 </ul>
