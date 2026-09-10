@@ -557,8 +557,7 @@
                     <span>(5.0/5)</span>
                   </li>
                 </ul>
-                <a href="/cdn-cgi/l/email-protection#aee6cbc2c2c1eec6cfdbc2c7c0c4dbc0c5c7cbdd80cdc1c3"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="8ac2efe6e6e5cae2ebffe6e3e4e0ffe4e1e3eff9a4e9e5e7">[email&#160;protected]</span></a
-                >
+                <a href="mailto:hello@haulinjunkies.com"><i class="fas fa-envelope"></i> hello@haulinjunkies.com</a>
                 <a href="tel:+14078154926"
                   ><i class="fas fa-phone-alt"></i> +1 407.815.4926</a
                 >
