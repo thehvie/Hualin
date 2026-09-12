@@ -3,6 +3,8 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { lineItemsTotal, formatCents } from "@/lib/money";
+import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/mailgun";
 import { requireSession } from "@/lib/session";
 
 function toCents(value: string): number {
@@ -192,13 +194,65 @@ export async function markAsWon(estimateId: string) {
   redirect(`/invoices/${invoice.id}`);
 }
 
-export async function sendEstimate(estimateId: string) {
+export async function sendEstimate(
+  estimateId: string,
+): Promise<{ ok: boolean; skipped: boolean; error?: string }> {
   const { companyId } = await requireSession();
-  await prisma.estimate.updateMany({
+
+  const estimate = await prisma.estimate.findFirst({
     where: { id: estimateId, companyId },
+    include: { customer: true, lineItems: true, company: true },
+  });
+  if (!estimate) return { ok: false, skipped: false, error: "Estimate not found." };
+  if (!estimate.customer.email) {
+    return { ok: false, skipped: false, error: "This customer has no email address on file." };
+  }
+
+  const totalCents = Math.max(0, lineItemsTotal(estimate.lineItems) - estimate.discountCents);
+  const emailBody = [
+    `Hi ${estimate.customer.firstName},`,
+    "",
+    `Your estimate #${estimate.number} from ${estimate.company.name} is ready for review.`,
+    "",
+    `Total: ${formatCents(totalCents)}`,
+    "",
+    "We'll be in touch with details.",
+  ].join("\n");
+
+  let skipped = false;
+  try {
+    const { messageId } = await sendEmail({
+      to: estimate.customer.email,
+      fromName: estimate.company.name,
+      replyTo: threadReplyAddress("estimate", estimate.id) ?? undefined,
+      subject: `Estimate #${estimate.number} from ${estimate.company.name}`,
+      text: emailBody,
+    });
+    await prisma.communication.create({
+      data: {
+        companyId,
+        customerId: estimate.customerId,
+        estimateId: estimate.id,
+        channel: "EMAIL",
+        direction: "OUTBOUND",
+        body: emailBody,
+        providerId: messageId,
+      },
+    });
+  } catch (err) {
+    if (err instanceof MailgunNotConfiguredError) {
+      skipped = true;
+    } else {
+      return { ok: false, skipped: false, error: "Could not send the email. Please try again." };
+    }
+  }
+
+  await prisma.estimate.update({
+    where: { id: estimateId },
     data: { status: "SENT", sentAt: new Date() },
   });
   revalidatePath(`/estimates/${estimateId}`);
+  return { ok: true, skipped };
 }
 
 export async function deleteEstimate(estimateId: string) {

@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
+import { formatCents } from "@/lib/money";
+import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/mailgun";
 import { requireSession } from "@/lib/session";
 
 function toCents(value: string): number {
@@ -226,7 +228,7 @@ export async function removePayment(invoiceId: string, paymentId: string) {
   revalidate(invoiceId);
 }
 
-// ── Send (stage 1 stub — real Mailgun delivery lands in stage 2) ──────────
+// ── Send ─────────────────────────────────────────────────────────────────
 
 export async function sendInvoice(
   invoiceId: string,
@@ -235,11 +237,58 @@ export async function sendInvoice(
 
   const invoice = await prisma.invoice.findFirst({
     where: { id: invoiceId, companyId },
-    include: { customer: true },
+    include: { customer: true, lineItems: true, payments: true, taxRate: true, company: true },
   });
   if (!invoice) return { ok: false, skipped: false, error: "Invoice not found." };
   if (!invoice.customer.email) {
     return { ok: false, skipped: false, error: "This customer has no email address on file." };
+  }
+
+  const totals = computeInvoiceTotals({
+    lineItems: invoice.lineItems,
+    discountCents: invoice.discountCents,
+    tipCents: invoice.tipCents,
+    taxRateBps: invoice.taxRate?.rateBps ?? 0,
+    payments: invoice.payments,
+  });
+
+  const emailBody = [
+    `Hi ${invoice.customer.firstName},`,
+    "",
+    `Your invoice #${invoice.number} from ${invoice.company.name} is ready.`,
+    "",
+    `Total: ${formatCents(totals.totalCents)}`,
+    `Balance due: ${formatCents(totals.balanceCents)}`,
+    "",
+    "We'll be in touch with details on how to pay.",
+  ].join("\n");
+
+  let skipped = false;
+  try {
+    const { messageId } = await sendEmail({
+      to: invoice.customer.email,
+      fromName: invoice.company.name,
+      replyTo: threadReplyAddress("invoice", invoice.id) ?? undefined,
+      subject: `Invoice #${invoice.number} from ${invoice.company.name}`,
+      text: emailBody,
+    });
+    await prisma.communication.create({
+      data: {
+        companyId,
+        customerId: invoice.customerId,
+        invoiceId: invoice.id,
+        channel: "EMAIL",
+        direction: "OUTBOUND",
+        body: emailBody,
+        providerId: messageId,
+      },
+    });
+  } catch (err) {
+    if (err instanceof MailgunNotConfiguredError) {
+      skipped = true;
+    } else {
+      return { ok: false, skipped: false, error: "Could not send the email. Please try again." };
+    }
   }
 
   await prisma.invoice.update({
@@ -250,8 +299,7 @@ export async function sendInvoice(
     },
   });
   revalidate(invoiceId);
-  // Mailgun isn't wired yet, so nothing was actually emailed.
-  return { ok: true, skipped: true };
+  return { ok: true, skipped };
 }
 
 // ── Status recompute ─────────────────────────────────────────────────────

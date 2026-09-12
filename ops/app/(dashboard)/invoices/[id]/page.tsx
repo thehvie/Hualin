@@ -23,6 +23,7 @@ export default async function InvoiceDetailPage({
       estimate: true,
       signature: true,
       attachments: { orderBy: { createdAt: "desc" } },
+      communications: { orderBy: { createdAt: "asc" } },
     },
   });
 
@@ -116,6 +117,13 @@ export default async function InvoiceDetailPage({
             filename: a.filename,
             mimeType: a.mimeType,
             sizeBytes: a.sizeBytes,
+          })),
+          communications: invoice.communications.map((c) => ({
+            id: c.id,
+            direction: c.direction,
+            channel: c.channel,
+            body: c.body,
+            createdAt: c.createdAt.toISOString(),
           })),
         }}
         taxRates={taxRates.map((t) => ({ id: t.id, name: t.name, rateBps: t.rateBps }))}

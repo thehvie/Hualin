@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
+import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
 import {
   addLineItem,
   addLineItemFromPriceBook,
@@ -52,6 +53,7 @@ interface EstimateData {
   paymentSchedule: PaymentScheduleItem[];
   hasInvoice: boolean;
   invoiceId: string | null;
+  communications: ConversationMessage[];
 }
 
 interface PriceBookItem {
@@ -112,10 +114,17 @@ export function EstimateEditor({
   }
 
   function handleSend() {
-    startTransition(() => sendEstimate(estimate.id));
-    setNotice(
-      "Status updated to Pending. Actual email/SMS delivery isn't wired up yet (Mailgun/Twilio aren't configured), so the customer won't be notified automatically.",
-    );
+    if (!estimate.customer.email) {
+      setNotice("This customer has no email address on file — add one on the customer record first.");
+      return;
+    }
+    startTransition(async () => {
+      const res = await sendEstimate(estimate.id);
+      if (res.error) setNotice(res.error);
+      else if (res.skipped)
+        setNotice("Estimate marked as sent, but no email went out — Mailgun isn't configured for this account yet.");
+      else setNotice("Estimate emailed to the customer.");
+    });
   }
 
   function handleDelete() {
@@ -164,6 +173,9 @@ export function EstimateEditor({
           </button>
         </div>
       )}
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px] lg:items-start">
+      <div className="flex flex-col gap-4">
 
       {/* Header card */}
       <div className="grid grid-cols-1 gap-4 rounded-xl border border-zinc-200 bg-white p-5 sm:grid-cols-3">
@@ -402,6 +414,12 @@ export function EstimateEditor({
       <div className="rounded-xl border border-zinc-200 bg-white p-5">
         <h2 className="mb-2 text-sm font-semibold text-zinc-900">Description</h2>
         <NotesField estimate={estimate} onSave={() => {}} />
+      </div>
+
+      </div>
+
+      <ConversationPanel customerName={estimate.customer.name} messages={estimate.communications} />
+
       </div>
 
       {/* Add item modal */}

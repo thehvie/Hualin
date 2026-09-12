@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
+import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
 import {
   addLineItem,
   addLineItemFromPriceBook,
@@ -74,6 +75,7 @@ interface InvoiceData {
   payments: PaymentRow[];
   signature: { signerName: string; imageDataUrl: string; signedAt: string } | null;
   attachments: { id: string; filename: string; mimeType: string; sizeBytes: number }[];
+  communications: ConversationMessage[];
 }
 
 interface TaxRate {
@@ -144,9 +146,7 @@ export function InvoiceEditor({
       const res = await sendInvoice(invoice.id);
       if (res.error) setNotice(res.error);
       else if (res.skipped)
-        setNotice(
-          "Invoice marked as sent, but no email went out — Mailgun isn't configured yet. Real delivery lands in the next update.",
-        );
+        setNotice("Invoice marked as sent, but no email went out — Mailgun isn't configured for this account yet.");
       else setNotice("Invoice emailed to the customer.");
     });
   }
@@ -161,8 +161,13 @@ export function InvoiceEditor({
     startTransition(() => voidInvoice(invoice.id));
   }
 
-  const clientUrl =
-    typeof window !== "undefined" ? `${window.location.origin}/i/${invoice.publicToken}` : "";
+  // Computed after mount (not during SSR) so the server and client's first
+  // render match — window.location isn't available on the server, and
+  // branching on `typeof window` produces a hydration mismatch instead.
+  const [clientUrl, setClientUrl] = useState("");
+  useEffect(() => {
+    setClientUrl(`${window.location.origin}/i/${invoice.publicToken}`);
+  }, [invoice.publicToken]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -214,6 +219,9 @@ export function InvoiceEditor({
           </button>
         </div>
       )}
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px] lg:items-start">
+      <div className="flex flex-col gap-4">
 
       {/* Header card */}
       <div className="grid grid-cols-1 gap-4 rounded-xl border border-zinc-200 bg-white p-5 sm:grid-cols-3">
@@ -615,6 +623,12 @@ export function InvoiceEditor({
             {clientUrl || `/i/${invoice.publicToken}`}
           </a>
         </p>
+      </div>
+
+      </div>
+
+      <ConversationPanel customerName={invoice.customer.name} messages={invoice.communications} />
+
       </div>
 
       {/* Add item modal */}
