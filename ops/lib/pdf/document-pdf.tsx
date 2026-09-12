@@ -4,6 +4,16 @@ const styles = StyleSheet.create({
   page: { padding: 40, fontSize: 10, fontFamily: "Helvetica", color: "#3f3f46" },
   headerRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
   logo: { width: 120, height: 60, objectFit: "contain" },
+  logoPlaceholder: {
+    width: 120,
+    height: 60,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    borderColor: "#d4d4d8",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logoPlaceholderText: { fontSize: 8, color: "#a1a1aa" },
   kindLabel: { fontSize: 26, fontWeight: 700, color: "#52525b" },
   companyBlock: { marginTop: 12 },
   companyLine: { color: "#71717a", marginBottom: 2 },
@@ -104,7 +114,13 @@ export function DocumentPdf(props: DocumentPdfProps) {
       <Page size="LETTER" style={styles.page}>
         <View style={styles.headerRow}>
           <View>
-            {company.logoDataUrl && <Image src={company.logoDataUrl} style={styles.logo} />}
+            {company.logoDataUrl ? (
+              <Image src={company.logoDataUrl} style={styles.logo} />
+            ) : (
+              <View style={styles.logoPlaceholder}>
+                <Text style={styles.logoPlaceholderText}>Add a logo in Settings</Text>
+              </View>
+            )}
             <View style={styles.companyBlock}>
               <Text style={styles.companyLine}>{company.name}</Text>
               {company.website && <Text style={styles.companyLine}>{company.website}</Text>}
