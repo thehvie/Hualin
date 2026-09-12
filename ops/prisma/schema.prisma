@@ -27,6 +27,7 @@ model Company {
   website              String?
   email                String?
   phone                String?
+  termsText            String?            @db.Text
   stripeCustomerId     String?            @unique
   stripeSubscriptionId String?            @unique
   stripePriceId        String?

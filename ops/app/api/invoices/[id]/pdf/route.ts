@@ -53,6 +53,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
           website: invoice.company.website,
           email: invoice.company.email,
           phone: invoice.company.phone,
+          termsText: invoice.company.termsText,
         },
         customer: {
           name: `${invoice.customer.firstName} ${invoice.customer.lastName}`,

@@ -79,6 +79,7 @@ export interface DocumentPdfProps {
     website: string | null;
     email: string | null;
     phone: string | null;
+    termsText: string | null;
   };
   customer: {
     name: string;
@@ -227,7 +228,7 @@ export function DocumentPdf(props: DocumentPdfProps) {
 
         <View style={styles.section}>
           <Text style={styles.sectionHeading}>Terms:</Text>
-          <Text style={styles.sectionBody}>{DEFAULT_TERMS}</Text>
+          <Text style={styles.sectionBody}>{company.termsText || DEFAULT_TERMS}</Text>
         </View>
 
         <View style={styles.section}>

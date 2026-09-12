@@ -47,6 +47,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
           website: estimate.company.website,
           email: estimate.company.email,
           phone: estimate.company.phone,
+          termsText: estimate.company.termsText,
         },
         customer: {
           name: `${estimate.customer.firstName} ${estimate.customer.lastName}`,
