@@ -40,6 +40,10 @@ const NAV_SECTIONS = [
     title: "Insights",
     items: [{ label: "Reports", href: "/reports" }],
   },
+  {
+    title: "Account",
+    items: [{ label: "Settings", href: "/settings" }],
+  },
 ];
 
 export function DashboardNav({ companyName }: { companyName: string }) {

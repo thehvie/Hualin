@@ -23,6 +23,10 @@ enum SubscriptionStatus {
 model Company {
   id                   String             @id @default(cuid())
   name                 String
+  logoDataUrl          String?            @db.Text
+  website              String?
+  email                String?
+  phone                String?
   stripeCustomerId     String?            @unique
   stripeSubscriptionId String?            @unique
   stripePriceId        String?

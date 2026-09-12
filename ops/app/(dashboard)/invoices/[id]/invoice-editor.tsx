@@ -201,6 +201,12 @@ export function InvoiceEditor({
           >
             Delete
           </button>
+          <a
+            href={`/api/invoices/${invoice.id}/pdf`}
+            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
+          >
+            Download PDF
+          </a>
           <button
             disabled={isPending}
             onClick={handleSend}
