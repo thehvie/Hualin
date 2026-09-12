@@ -3,7 +3,12 @@ import { Document, Page, View, Text, Image, StyleSheet } from "@react-pdf/render
 const styles = StyleSheet.create({
   page: { padding: 40, fontSize: 10, fontFamily: "Helvetica", color: "#3f3f46" },
   headerRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
-  logo: { width: 120, height: 60, objectFit: "contain" },
+  // Height-only (no fixed width): react-pdf auto-scales width to the image's
+  // natural aspect ratio. A fixed width + objectFit:"contain" instead centers
+  // the image inside that wider box, which left a gap of empty space before
+  // any non-120x60 logo (e.g. a square icon) — misaligning it against the
+  // company name/contact block directly below, which starts flush left.
+  logo: { height: 60, maxWidth: 200 },
   logoPlaceholder: {
     width: 120,
     height: 60,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 const MAX_FILE_BYTES = 1.5 * 1024 * 1024; // 1.5MB source file
 
@@ -15,7 +15,6 @@ export function LogoUploadField({
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [reading, setReading] = useState(false);
-  const hiddenInputRef = useRef<HTMLInputElement>(null);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -36,8 +35,7 @@ export function LogoUploadField({
     reader.onload = () => {
       const dataUrl = String(reader.result);
       setPreview(dataUrl);
-      setSelectedFileName(file.name);
-      if (hiddenInputRef.current) hiddenInputRef.current.value = dataUrl;
+      setSelectedFileName(`${file.name} (${dataUrl.length} chars encoded)`);
       setReading(false);
       onReadingChange?.(false);
     };
@@ -76,7 +74,12 @@ export function LogoUploadField({
         </div>
       </div>
       {error && <p className="text-xs font-medium text-red-600">{error}</p>}
-      <input ref={hiddenInputRef} type="hidden" name="logoDataUrl" defaultValue="" />
+      {/* Controlled by `preview` state directly (no ref/imperative DOM write) so what's
+          submitted always matches what's shown — the field this replaced was set via a
+          ref in the FileReader callback and was arriving empty in production use for a
+          reason never fully isolated; binding it to React's own render output removes
+          that gap entirely. */}
+      <input type="hidden" name="logoDataUrl" value={preview ?? ""} readOnly />
     </div>
   );
 }
