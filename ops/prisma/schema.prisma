@@ -81,22 +81,29 @@ enum CustomerSource {
 }
 
 model Customer {
-  id        String         @id @default(cuid())
-  firstName String
-  lastName  String
-  email     String?
-  phone     String?
-  source    CustomerSource @default(OTHER)
-  notes     String?        @db.Text
+  id                String         @id @default(cuid())
+  firstName         String
+  lastName          String
+  companyName       String?
+  email             String?
+  phone             String?
+  phoneExt          String?
+  secondaryPhone    String?
+  secondaryPhoneExt String?
+  source            CustomerSource @default(OTHER)
+  notes             String?        @db.Text
 
-  smsOptIn   Boolean @default(false)
-  emailOptIn Boolean @default(true)
+  smsOptIn     Boolean @default(false)
+  emailOptIn   Boolean @default(true)
+  allowBilling Boolean @default(false)
+  taxExempt    Boolean @default(false)
 
-  properties     Property[]
-  estimates      Estimate[]
-  jobs           Job[]
-  invoices       Invoice[]
-  communications Communication[]
+  properties      Property[]
+  estimates       Estimate[]
+  jobs            Job[]
+  invoices        Invoice[]
+  communications  Communication[]
+  dumpsterRentals DumpsterRental[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -114,10 +121,14 @@ model Property {
   city         String
   state        String
   zip          String
+  country      String  @default("US")
+  latitude     Float?
+  longitude    Float?
   notes        String? @db.Text
 
-  estimates Estimate[]
-  jobs      Job[]
+  estimates       Estimate[]
+  jobs            Job[]
+  dumpsterRentals DumpsterRental[]
 
   createdAt DateTime @default(now())
 }
@@ -130,12 +141,18 @@ enum PriceBookItemType {
 }
 
 model PriceBookItem {
-  id             String            @id @default(cuid())
-  name           String
-  description    String?           @db.Text
-  type           PriceBookItemType @default(SERVICE)
-  unitPriceCents Int
-  active         Boolean           @default(true)
+  id                String            @id @default(cuid())
+  number            Int               @unique @default(autoincrement())
+  name              String
+  description       String?           @db.Text
+  type              PriceBookItemType @default(SERVICE)
+  category          String?
+  modelNumber       String?
+  unitPriceCents    Int
+  costCents         Int?
+  bookable          Boolean           @default(false)
+  bookingPriceCents Int?
+  active            Boolean           @default(true)
 
   estimateLineItems EstimateLineItem[]
   invoiceLineItems  InvoiceLineItem[]
@@ -164,10 +181,16 @@ model Estimate {
   status     EstimateStatus @default(DRAFT)
   notes      String?        @db.Text
 
-  lineItems      EstimateLineItem[]
-  job            Job?
-  invoice        Invoice?
-  communications Communication[]
+  discountCents  Int @default(0)
+  depositCents   Int @default(0)
+  laborCostCents Int @default(0)
+
+  lineItems       EstimateLineItem[]
+  paymentSchedule EstimatePaymentScheduleItem[]
+  job             Job?
+  invoice         Invoice?
+  dumpsterRental  DumpsterRental?
+  communications  Communication[]
 
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -183,10 +206,23 @@ model EstimateLineItem {
   priceBookItem   PriceBookItem? @relation(fields: [priceBookItemId], references: [id])
 
   description    String
-  quantity       Int @default(1)
+  quantity       Int    @default(1)
   unitPriceCents Int
+  costCents      Int?
 
   sortOrder Int @default(0)
+}
+
+model EstimatePaymentScheduleItem {
+  id          String    @id @default(cuid())
+  estimateId  String
+  estimate    Estimate  @relation(fields: [estimateId], references: [id], onDelete: Cascade)
+  label       String
+  amountCents Int
+  dueDate     DateTime?
+  sortOrder   Int       @default(0)
+
+  createdAt DateTime @default(now())
 }
 
 // ── Jobs / Scheduling ────────────────────────────────────────────────────
@@ -233,19 +269,36 @@ enum InvoiceStatus {
 }
 
 model Invoice {
-  id         String        @id @default(cuid())
-  number     Int           @unique @default(autoincrement())
-  customerId String
-  customer   Customer      @relation(fields: [customerId], references: [id])
-  estimateId String?       @unique
-  estimate   Estimate?     @relation(fields: [estimateId], references: [id])
-  jobId      String?       @unique
-  job        Job?          @relation(fields: [jobId], references: [id])
-  status     InvoiceStatus @default(DRAFT)
+  id               String          @id @default(cuid())
+  number           Int             @unique @default(autoincrement())
+  customerId       String
+  customer         Customer        @relation(fields: [customerId], references: [id])
+  estimateId       String?         @unique
+  estimate         Estimate?       @relation(fields: [estimateId], references: [id])
+  jobId            String?         @unique
+  job              Job?            @relation(fields: [jobId], references: [id])
+  dumpsterRentalId String?         @unique
+  dumpsterRental   DumpsterRental? @relation(fields: [dumpsterRentalId], references: [id])
+  status           InvoiceStatus   @default(DRAFT)
 
-  lineItems      InvoiceLineItem[]
-  payments       Payment[]
-  communications Communication[]
+  name        String?
+  notes       String?  @db.Text
+  invoiceDate DateTime @default(now())
+  publicToken String   @unique @default(cuid())
+
+  discountCents  Int     @default(0)
+  depositCents   Int     @default(0)
+  tipCents       Int     @default(0)
+  laborCostCents Int     @default(0)
+  taxRateId      String?
+  taxRate        TaxRate? @relation(fields: [taxRateId], references: [id])
+
+  lineItems       InvoiceLineItem[]
+  payments        Payment[]
+  communications  Communication[]
+  paymentSchedule InvoicePaymentScheduleItem[]
+  attachments     InvoiceAttachment[]
+  signature       InvoiceSignature?
 
   dueAt DateTime?
 
@@ -253,6 +306,48 @@ model Invoice {
   updatedAt DateTime  @updatedAt
   sentAt    DateTime?
   paidAt    DateTime?
+}
+
+model TaxRate {
+  id        String    @id @default(cuid())
+  name      String
+  rateBps   Int
+  active    Boolean   @default(true)
+  invoices  Invoice[]
+  createdAt DateTime  @default(now())
+}
+
+model InvoicePaymentScheduleItem {
+  id          String    @id @default(cuid())
+  invoiceId   String
+  invoice     Invoice   @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  label       String
+  amountCents Int
+  dueDate     DateTime?
+  sortOrder   Int       @default(0)
+
+  createdAt DateTime @default(now())
+}
+
+model InvoiceAttachment {
+  id        String   @id @default(cuid())
+  invoiceId String
+  invoice   Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  filename  String
+  mimeType  String
+  sizeBytes Int
+  storageKey String
+  createdAt DateTime @default(now())
+}
+
+model InvoiceSignature {
+  id           String   @id @default(cuid())
+  invoiceId    String   @unique
+  invoice      Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  signerName   String
+  imageDataUrl String   @db.Text
+  ipAddress    String?
+  signedAt     DateTime @default(now())
 }
 
 model InvoiceLineItem {
@@ -263,8 +358,10 @@ model InvoiceLineItem {
   priceBookItem   PriceBookItem? @relation(fields: [priceBookItemId], references: [id])
 
   description    String
-  quantity       Int @default(1)
+  quantity       Int     @default(1)
   unitPriceCents Int
+  costCents      Int?
+  taxable        Boolean @default(false)
 
   sortOrder Int @default(0)
 }
@@ -314,6 +411,57 @@ model EquipmentUsage {
   quantityUsed    Int
 
   createdAt DateTime @default(now())
+}
+
+// ── Dumpster Rentals ────────────────────────────────────────────────────
+
+enum DumpsterUnitStatus {
+  AVAILABLE
+  OUT
+  MAINTENANCE
+}
+
+model DumpsterUnit {
+  id         String             @id @default(cuid())
+  unitNumber String             @unique
+  size       String
+  status     DumpsterUnitStatus @default(AVAILABLE)
+  notes      String?            @db.Text
+
+  rentals DumpsterRental[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum DumpsterRentalStatus {
+  SCHEDULED
+  DELIVERED
+  PICKED_UP
+  CANCELLED
+}
+
+model DumpsterRental {
+  id             String       @id @default(cuid())
+  dumpsterUnitId String
+  dumpsterUnit   DumpsterUnit @relation(fields: [dumpsterUnitId], references: [id])
+  customerId     String
+  customer       Customer     @relation(fields: [customerId], references: [id])
+  propertyId     String?
+  property       Property?    @relation(fields: [propertyId], references: [id])
+  estimateId     String?      @unique
+  estimate       Estimate?    @relation(fields: [estimateId], references: [id])
+  invoice        Invoice?
+
+  status              DumpsterRentalStatus @default(SCHEDULED)
+  scheduledDeliveryAt DateTime?
+  deliveredAt         DateTime?
+  scheduledPickupAt   DateTime?
+  pickedUpAt          DateTime?
+  notes               String?              @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ── Communications (email/SMS log — feeds Marketing phase later) ──────────
