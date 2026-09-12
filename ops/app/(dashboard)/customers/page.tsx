@@ -1,38 +1,43 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatCents, lineItemsTotal } from "@/lib/money";
+import { requireSession } from "@/lib/session";
 
 export default async function CustomersPage({
   searchParams,
 }: {
   searchParams: Promise<{ q?: string }>;
 }) {
+  const { companyId } = await requireSession();
   const { q } = await searchParams;
   const query = (q || "").trim();
 
   const [customers, customerCount, unpaidInvoices, pendingEstimates] = await Promise.all([
     prisma.customer.findMany({
-      where: query
-        ? {
-            OR: [
-              { firstName: { contains: query, mode: "insensitive" } },
-              { lastName: { contains: query, mode: "insensitive" } },
-              { companyName: { contains: query, mode: "insensitive" } },
-              { email: { contains: query, mode: "insensitive" } },
-              { phone: { contains: query, mode: "insensitive" } },
-            ],
-          }
-        : undefined,
+      where: {
+        companyId,
+        ...(query
+          ? {
+              OR: [
+                { firstName: { contains: query, mode: "insensitive" } },
+                { lastName: { contains: query, mode: "insensitive" } },
+                { companyName: { contains: query, mode: "insensitive" } },
+                { email: { contains: query, mode: "insensitive" } },
+                { phone: { contains: query, mode: "insensitive" } },
+              ],
+            }
+          : {}),
+      },
       include: { properties: { take: 1, orderBy: { createdAt: "asc" } } },
       orderBy: { createdAt: "desc" },
     }),
-    prisma.customer.count(),
+    prisma.customer.count({ where: { companyId } }),
     prisma.invoice.findMany({
-      where: { status: { in: ["SENT", "PARTIALLY_PAID"] } },
+      where: { companyId, status: { in: ["SENT", "PARTIALLY_PAID"] } },
       include: { lineItems: true, payments: true },
     }),
     prisma.estimate.findMany({
-      where: { status: "SENT" },
+      where: { companyId, status: "SENT" },
       include: { lineItems: true },
     }),
   ]);

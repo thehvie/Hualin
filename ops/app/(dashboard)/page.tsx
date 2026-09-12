@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { requireSession } from "@/lib/session";
 
 function startOfDay(d: Date) {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -23,6 +24,7 @@ function timeAgo(date: Date) {
 }
 
 export default async function DashboardHome() {
+  const { companyId } = await requireSession();
   const today = new Date();
   const todayStart = startOfDay(today);
   const todayEnd = endOfDay(today);
@@ -42,32 +44,33 @@ export default async function DashboardHome() {
     nextJob,
     recentActivity,
   ] = await Promise.all([
-    prisma.customer.count(),
-    prisma.estimate.count(),
-    prisma.estimate.count({ where: { status: "SENT" } }),
-    prisma.invoice.count(),
-    prisma.invoice.count({ where: { status: { in: ["SENT", "PARTIALLY_PAID"] } } }),
+    prisma.customer.count({ where: { companyId } }),
+    prisma.estimate.count({ where: { companyId } }),
+    prisma.estimate.count({ where: { companyId, status: "SENT" } }),
+    prisma.invoice.count({ where: { companyId } }),
+    prisma.invoice.count({ where: { companyId, status: { in: ["SENT", "PARTIALLY_PAID"] } } }),
     prisma.payment.aggregate({
       _sum: { amountCents: true },
-      where: { createdAt: { gte: fourteenDaysAgo } },
+      where: { companyId, createdAt: { gte: fourteenDaysAgo } },
     }),
     prisma.payment.aggregate({
       _sum: { amountCents: true },
-      where: { createdAt: { gte: todayStart, lt: todayEnd } },
+      where: { companyId, createdAt: { gte: todayStart, lt: todayEnd } },
     }),
     prisma.job.count({
-      where: { status: "COMPLETED", completedAt: { gte: todayStart, lt: todayEnd } },
+      where: { companyId, status: "COMPLETED", completedAt: { gte: todayStart, lt: todayEnd } },
     }),
     prisma.job.count({
-      where: { status: "CANCELLED", updatedAt: { gte: todayStart, lt: todayEnd } },
+      where: { companyId, status: "CANCELLED", updatedAt: { gte: todayStart, lt: todayEnd } },
     }),
-    prisma.job.groupBy({ by: ["status"], _count: { _all: true } }),
+    prisma.job.groupBy({ by: ["status"], where: { companyId }, _count: { _all: true } }),
     prisma.job.findFirst({
-      where: { scheduledAt: { gte: today }, status: { in: ["SCHEDULED", "UNSCHEDULED"] } },
+      where: { companyId, scheduledAt: { gte: today }, status: { in: ["SCHEDULED", "UNSCHEDULED"] } },
       orderBy: { scheduledAt: "asc" },
       include: { customer: true },
     }),
     prisma.communication.findMany({
+      where: { companyId },
       orderBy: { createdAt: "desc" },
       take: 5,
       include: { customer: true },

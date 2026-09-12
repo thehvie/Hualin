@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
+import { requireSession } from "@/lib/session";
 
 function toCents(value: string): number {
   const n = Math.round(parseFloat(value || "0") * 100);
@@ -21,9 +22,18 @@ function revalidate(invoiceId: string) {
   revalidatePath("/invoices");
 }
 
+async function assertInvoiceOwnership(invoiceId: string, companyId: string) {
+  const invoice = await prisma.invoice.findFirst({ where: { id: invoiceId, companyId } });
+  if (!invoice) throw new Error("Invoice not found");
+  return invoice;
+}
+
 // ── Line items ───────────────────────────────────────────────────────────
 
 export async function addLineItem(invoiceId: string, formData: FormData) {
+  const { companyId } = await requireSession();
+  await assertInvoiceOwnership(invoiceId, companyId);
+
   const description = String(formData.get("description") || "").trim();
   const quantity = parseInt(String(formData.get("quantity") || "1"), 10) || 1;
   const unitPriceCents = toCents(String(formData.get("unitPrice") || "0"));
@@ -36,27 +46,41 @@ export async function addLineItem(invoiceId: string, formData: FormData) {
   let priceBookItemId: string | null = null;
   if (saveToPriceBook) {
     const priceBookItem = await prisma.priceBookItem.create({
-      data: { name: description, unitPriceCents, costCents },
+      data: { companyId, name: description, unitPriceCents, costCents },
     });
     priceBookItemId = priceBookItem.id;
   }
 
-  const count = await prisma.invoiceLineItem.count({ where: { invoiceId } });
+  const count = await prisma.invoiceLineItem.count({ where: { invoiceId, companyId } });
   await prisma.invoiceLineItem.create({
-    data: { invoiceId, description, quantity, unitPriceCents, costCents, taxable, priceBookItemId, sortOrder: count },
+    data: {
+      companyId,
+      invoiceId,
+      description,
+      quantity,
+      unitPriceCents,
+      costCents,
+      taxable,
+      priceBookItemId,
+      sortOrder: count,
+    },
   });
-  await recalcInvoiceStatus(invoiceId);
+  await recalcInvoiceStatus(invoiceId, companyId);
   revalidate(invoiceId);
   if (saveToPriceBook) revalidatePath("/price-book");
 }
 
 export async function addLineItemFromPriceBook(invoiceId: string, priceBookItemId: string) {
-  const item = await prisma.priceBookItem.findUnique({ where: { id: priceBookItemId } });
+  const { companyId } = await requireSession();
+  await assertInvoiceOwnership(invoiceId, companyId);
+
+  const item = await prisma.priceBookItem.findFirst({ where: { id: priceBookItemId, companyId } });
   if (!item) return;
 
-  const count = await prisma.invoiceLineItem.count({ where: { invoiceId } });
+  const count = await prisma.invoiceLineItem.count({ where: { invoiceId, companyId } });
   await prisma.invoiceLineItem.create({
     data: {
+      companyId,
       invoiceId,
       priceBookItemId: item.id,
       description: item.name,
@@ -66,25 +90,32 @@ export async function addLineItemFromPriceBook(invoiceId: string, priceBookItemI
       sortOrder: count,
     },
   });
-  await recalcInvoiceStatus(invoiceId);
+  await recalcInvoiceStatus(invoiceId, companyId);
   revalidate(invoiceId);
 }
 
 export async function removeLineItem(invoiceId: string, lineItemId: string) {
-  await prisma.invoiceLineItem.delete({ where: { id: lineItemId } });
-  await recalcInvoiceStatus(invoiceId);
+  const { companyId } = await requireSession();
+  await prisma.invoiceLineItem.deleteMany({ where: { id: lineItemId, invoiceId, companyId } });
+  await recalcInvoiceStatus(invoiceId, companyId);
   revalidate(invoiceId);
 }
 
 export async function setLineItemTaxable(invoiceId: string, lineItemId: string, taxable: boolean) {
-  await prisma.invoiceLineItem.update({ where: { id: lineItemId }, data: { taxable } });
-  await recalcInvoiceStatus(invoiceId);
+  const { companyId } = await requireSession();
+  await prisma.invoiceLineItem.updateMany({
+    where: { id: lineItemId, invoiceId, companyId },
+    data: { taxable },
+  });
+  await recalcInvoiceStatus(invoiceId, companyId);
   revalidate(invoiceId);
 }
 
 // ── Header ───────────────────────────────────────────────────────────────
 
 export async function updateInvoiceHeader(invoiceId: string, formData: FormData) {
+  const { companyId } = await requireSession();
+
   const status = String(formData.get("status") || "DRAFT");
   const name = String(formData.get("name") || "").trim();
   const notes = String(formData.get("notes") || "").trim();
@@ -98,8 +129,8 @@ export async function updateInvoiceHeader(invoiceId: string, formData: FormData)
 
   if (!INVOICE_STATUSES.includes(status as InvoiceStatus)) return;
 
-  await prisma.invoice.update({
-    where: { id: invoiceId },
+  await prisma.invoice.updateMany({
+    where: { id: invoiceId, companyId },
     data: {
       status: status as InvoiceStatus,
       name: name || null,
@@ -117,27 +148,33 @@ export async function updateInvoiceHeader(invoiceId: string, formData: FormData)
 }
 
 export async function voidInvoice(invoiceId: string) {
-  await prisma.invoice.update({ where: { id: invoiceId }, data: { status: "VOID" } });
+  const { companyId } = await requireSession();
+  await prisma.invoice.updateMany({ where: { id: invoiceId, companyId }, data: { status: "VOID" } });
   revalidate(invoiceId);
 }
 
 export async function deleteInvoice(invoiceId: string) {
-  await prisma.invoice.delete({ where: { id: invoiceId } });
+  const { companyId } = await requireSession();
+  await prisma.invoice.deleteMany({ where: { id: invoiceId, companyId } });
   redirect("/invoices");
 }
 
 // ── Payment schedule ─────────────────────────────────────────────────────
 
 export async function addPaymentScheduleItem(invoiceId: string, formData: FormData) {
+  const { companyId } = await requireSession();
+  await assertInvoiceOwnership(invoiceId, companyId);
+
   const label = String(formData.get("label") || "").trim();
   const amountCents = toCents(String(formData.get("amount") || "0"));
   const dueDateStr = String(formData.get("dueDate") || "");
 
   if (!label) return;
 
-  const count = await prisma.invoicePaymentScheduleItem.count({ where: { invoiceId } });
+  const count = await prisma.invoicePaymentScheduleItem.count({ where: { invoiceId, companyId } });
   await prisma.invoicePaymentScheduleItem.create({
     data: {
+      companyId,
       invoiceId,
       label,
       amountCents,
@@ -149,13 +186,19 @@ export async function addPaymentScheduleItem(invoiceId: string, formData: FormDa
 }
 
 export async function removePaymentScheduleItem(invoiceId: string, itemId: string) {
-  await prisma.invoicePaymentScheduleItem.delete({ where: { id: itemId } });
+  const { companyId } = await requireSession();
+  await prisma.invoicePaymentScheduleItem.deleteMany({
+    where: { id: itemId, invoiceId, companyId },
+  });
   revalidate(invoiceId);
 }
 
 // ── Payments ─────────────────────────────────────────────────────────────
 
 export async function addPayment(invoiceId: string, formData: FormData) {
+  const { companyId } = await requireSession();
+  await assertInvoiceOwnership(invoiceId, companyId);
+
   const amountCents = toCents(String(formData.get("amount") || "0"));
   const method = String(formData.get("method") || "OTHER");
   const reference = String(formData.get("reference") || "").trim();
@@ -165,19 +208,21 @@ export async function addPayment(invoiceId: string, formData: FormData) {
 
   await prisma.payment.create({
     data: {
+      companyId,
       invoiceId,
       amountCents,
       method: method as PaymentMethod,
       reference: reference || null,
     },
   });
-  await recalcInvoiceStatus(invoiceId);
+  await recalcInvoiceStatus(invoiceId, companyId);
   revalidate(invoiceId);
 }
 
 export async function removePayment(invoiceId: string, paymentId: string) {
-  await prisma.payment.delete({ where: { id: paymentId } });
-  await recalcInvoiceStatus(invoiceId);
+  const { companyId } = await requireSession();
+  await prisma.payment.deleteMany({ where: { id: paymentId, invoiceId, companyId } });
+  await recalcInvoiceStatus(invoiceId, companyId);
   revalidate(invoiceId);
 }
 
@@ -186,8 +231,10 @@ export async function removePayment(invoiceId: string, paymentId: string) {
 export async function sendInvoice(
   invoiceId: string,
 ): Promise<{ ok: boolean; skipped: boolean; error?: string }> {
-  const invoice = await prisma.invoice.findUnique({
-    where: { id: invoiceId },
+  const { companyId } = await requireSession();
+
+  const invoice = await prisma.invoice.findFirst({
+    where: { id: invoiceId, companyId },
     include: { customer: true },
   });
   if (!invoice) return { ok: false, skipped: false, error: "Invoice not found." };
@@ -212,10 +259,11 @@ export async function sendInvoice(
 /**
  * Recomputes PAID / PARTIALLY_PAID from payments vs. the invoice total.
  * Leaves DRAFT/SENT alone when nothing has been paid, and never touches VOID.
+ * Internal helper only — callers have already verified companyId ownership.
  */
-export async function recalcInvoiceStatus(invoiceId: string) {
-  const invoice = await prisma.invoice.findUnique({
-    where: { id: invoiceId },
+async function recalcInvoiceStatus(invoiceId: string, companyId: string) {
+  const invoice = await prisma.invoice.findFirst({
+    where: { id: invoiceId, companyId },
     include: { lineItems: true, payments: true, taxRate: true },
   });
   if (!invoice || invoice.status === "VOID") return;

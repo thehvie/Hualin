@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { requireSession } from "@/lib/session";
 import { InvoiceEditor } from "./invoice-editor";
 
 export default async function InvoiceDetailPage({
@@ -8,10 +9,11 @@ export default async function InvoiceDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const { companyId } = await requireSession();
   const { id } = await params;
 
-  const invoice = await prisma.invoice.findUnique({
-    where: { id },
+  const invoice = await prisma.invoice.findFirst({
+    where: { id, companyId },
     include: {
       customer: { include: { properties: true } },
       lineItems: { orderBy: { sortOrder: "asc" } },
@@ -27,8 +29,8 @@ export default async function InvoiceDetailPage({
   if (!invoice) notFound();
 
   const [priceBookItems, taxRates] = await Promise.all([
-    prisma.priceBookItem.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
-    prisma.taxRate.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
+    prisma.priceBookItem.findMany({ where: { companyId, active: true }, orderBy: { name: "asc" } }),
+    prisma.taxRate.findMany({ where: { companyId, active: true }, orderBy: { name: "asc" } }),
   ]);
 
   const property = invoice.customer.properties[0] ?? null;

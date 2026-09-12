@@ -3,8 +3,11 @@
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { geocodeAddress } from "@/lib/geocode";
+import { requireSession } from "@/lib/session";
 
 export async function createCustomer(formData: FormData) {
+  const { companyId } = await requireSession();
+
   const firstName = String(formData.get("firstName") || "").trim();
   const lastName = String(formData.get("lastName") || "").trim();
   const companyName = String(formData.get("companyName") || "").trim();
@@ -35,6 +38,7 @@ export async function createCustomer(formData: FormData) {
 
   const customer = await prisma.customer.create({
     data: {
+      companyId,
       firstName,
       lastName,
       companyName: companyName || null,
@@ -56,6 +60,7 @@ export async function createCustomer(formData: FormData) {
       properties: addressLine1
         ? {
             create: {
+              companyId,
               addressLine1,
               addressLine2: addressLine2 || null,
               city,

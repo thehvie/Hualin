@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/money";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
+import { requireSession } from "@/lib/session";
 import { InvoicesTable, type InvoiceRow } from "./invoices-table";
 
 const STATUS_LABELS: Record<string, string> = {
@@ -19,6 +20,7 @@ export default async function InvoicesPage({
 }: {
   searchParams: Promise<{ q?: string; status?: string }>;
 }) {
+  const { companyId } = await requireSession();
   const { q, status } = await searchParams;
   const query = (q || "").trim();
 
@@ -36,7 +38,7 @@ export default async function InvoicesPage({
 
   const [invoices, jobsNeedingInvoices] = await Promise.all([
     prisma.invoice.findMany({
-      where: searchOr ? { OR: searchOr } : undefined,
+      where: { companyId, ...(searchOr ? { OR: searchOr } : {}) },
       include: {
         customer: true,
         lineItems: true,
@@ -46,7 +48,7 @@ export default async function InvoicesPage({
       },
       orderBy: { createdAt: "desc" },
     }),
-    prisma.job.count({ where: { invoice: null, status: "COMPLETED" } }),
+    prisma.job.count({ where: { companyId, invoice: null, status: "COMPLETED" } }),
   ]);
 
   const now = Date.now();

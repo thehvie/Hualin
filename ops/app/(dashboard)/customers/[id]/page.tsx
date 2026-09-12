@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { GoogleMap } from "@/components/google-map";
 import { getHomeBaseLocation, haversineDistanceMiles } from "@/lib/geocode";
+import { requireSession } from "@/lib/session";
 
 const SOURCE_LABELS: Record<string, string> = {
   GOOGLE_ADS: "Google Ads",
@@ -23,10 +24,11 @@ export default async function CustomerDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const { companyId } = await requireSession();
   const { id } = await params;
 
-  const customer = await prisma.customer.findUnique({
-    where: { id },
+  const customer = await prisma.customer.findFirst({
+    where: { id, companyId },
     include: {
       properties: true,
       estimates: { orderBy: { createdAt: "desc" } },

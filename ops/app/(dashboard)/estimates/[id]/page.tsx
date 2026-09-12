@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { requireSession } from "@/lib/session";
 import { EstimateEditor } from "./estimate-editor";
 
 export default async function EstimateDetailPage({
@@ -8,10 +9,11 @@ export default async function EstimateDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const { companyId } = await requireSession();
   const { id } = await params;
 
-  const estimate = await prisma.estimate.findUnique({
-    where: { id },
+  const estimate = await prisma.estimate.findFirst({
+    where: { id, companyId },
     include: {
       customer: { include: { properties: true } },
       property: true,
@@ -24,7 +26,7 @@ export default async function EstimateDetailPage({
   if (!estimate) notFound();
 
   const priceBookItems = await prisma.priceBookItem.findMany({
-    where: { active: true },
+    where: { companyId, active: true },
     orderBy: { name: "asc" },
   });
 

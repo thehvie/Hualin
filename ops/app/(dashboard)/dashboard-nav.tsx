@@ -42,7 +42,7 @@ const NAV_SECTIONS = [
   },
 ];
 
-export function DashboardNav() {
+export function DashboardNav({ companyName }: { companyName: string }) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
@@ -70,7 +70,7 @@ export function DashboardNav() {
             />
           </svg>
         </button>
-        <span className="text-sm font-bold text-zinc-900">Haulin Junkies Ops</span>
+        <span className="text-sm font-bold text-zinc-900">{companyName}</span>
         <div className="w-9" />
       </div>
 
@@ -89,7 +89,7 @@ export function DashboardNav() {
       >
         <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-5">
           <div>
-            <span className="text-base font-bold text-zinc-900">Haulin Junkies</span>
+            <span className="text-base font-bold text-zinc-900">{companyName}</span>
             <span className="block text-xs font-medium text-zinc-400">Ops</span>
           </div>
           <button

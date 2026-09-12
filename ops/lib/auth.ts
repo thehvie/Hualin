@@ -2,6 +2,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import type { UserRole } from "@prisma/client";
 
 import { prisma } from "@/lib/prisma";
 
@@ -27,20 +28,30 @@ export const authOptions: NextAuthOptions = {
         const valid = await bcrypt.compare(credentials.password, user.passwordHash);
         if (!valid) return null;
 
-        return { id: user.id, name: user.name, email: user.email, role: user.role };
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          companyId: user.companyId,
+        };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as { role?: string }).role;
+        const u = user as { role?: UserRole; companyId?: string };
+        token.role = u.role as UserRole;
+        token.companyId = u.companyId as string;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as { role?: string }).role = token.role as string | undefined;
+        session.user.id = token.sub as string;
+        session.user.role = token.role;
+        session.user.companyId = token.companyId;
       }
       return session;
     },

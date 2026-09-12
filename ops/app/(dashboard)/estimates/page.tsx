@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatCents, lineItemsTotal } from "@/lib/money";
+import { requireSession } from "@/lib/session";
 import { EstimatesTable, type EstimateRow } from "./estimates-table";
 
 const STATUS_LABELS: Record<string, string> = {
@@ -19,19 +20,23 @@ export default async function EstimatesPage({
 }: {
   searchParams: Promise<{ q?: string; status?: string }>;
 }) {
+  const { companyId } = await requireSession();
   const { q, status } = await searchParams;
   const query = (q || "").trim();
 
   const estimates = await prisma.estimate.findMany({
-    where: query
-      ? {
-          OR: [
-            { customer: { firstName: { contains: query, mode: "insensitive" } } },
-            { customer: { lastName: { contains: query, mode: "insensitive" } } },
-            { customer: { companyName: { contains: query, mode: "insensitive" } } },
-          ],
-        }
-      : undefined,
+    where: {
+      companyId,
+      ...(query
+        ? {
+            OR: [
+              { customer: { firstName: { contains: query, mode: "insensitive" } } },
+              { customer: { lastName: { contains: query, mode: "insensitive" } } },
+              { customer: { companyName: { contains: query, mode: "insensitive" } } },
+            ],
+          }
+        : {}),
+    },
     include: { customer: true, lineItems: true, invoice: true },
     orderBy: { createdAt: "desc" },
   });

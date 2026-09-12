@@ -7,6 +7,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ── Tenancy / Billing ───────────────────────────────────────────────────────
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  UNPAID
+  INCOMPLETE
+  INCOMPLETE_EXPIRED
+  PAUSED
+}
+
+model Company {
+  id                   String             @id @default(cuid())
+  name                 String
+  stripeCustomerId     String?            @unique
+  stripeSubscriptionId String?            @unique
+  stripePriceId        String?
+  subscriptionStatus   SubscriptionStatus @default(TRIALING)
+  trialEndsAt          DateTime?
+
+  users                       User[]
+  customers                   Customer[]
+  properties                  Property[]
+  priceBookItems              PriceBookItem[]
+  estimates                   Estimate[]
+  estimateLineItems           EstimateLineItem[]
+  estimatePaymentScheduleItems EstimatePaymentScheduleItem[]
+  jobs                        Job[]
+  taxRates                    TaxRate[]
+  invoices                    Invoice[]
+  invoiceLineItems            InvoiceLineItem[]
+  invoicePaymentScheduleItems InvoicePaymentScheduleItem[]
+  invoiceAttachments          InvoiceAttachment[]
+  invoiceSignatures           InvoiceSignature[]
+  payments                    Payment[]
+  equipmentItems              EquipmentItem[]
+  equipmentUsage              EquipmentUsage[]
+  dumpsterUnits               DumpsterUnit[]
+  dumpsterRentals             DumpsterRental[]
+  communications              Communication[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 // ── Auth (NextAuth v4 + @auth/prisma-adapter) ──────────────────────────────
 
 enum UserRole {
@@ -17,6 +64,8 @@ enum UserRole {
 
 model User {
   id            String    @id @default(cuid())
+  companyId     String
+  company       Company   @relation(fields: [companyId], references: [id])
   name          String?
   email         String    @unique
   emailVerified DateTime?
@@ -31,6 +80,8 @@ model User {
   updatedAt DateTime @updatedAt
 
   jobsAssigned Job[] @relation("JobCrew")
+
+  @@index([companyId])
 }
 
 model Account {
@@ -82,6 +133,8 @@ enum CustomerSource {
 
 model Customer {
   id                String         @id @default(cuid())
+  companyId         String
+  company           Company        @relation(fields: [companyId], references: [id])
   firstName         String
   lastName          String
   companyName       String?
@@ -108,11 +161,13 @@ model Customer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([lastName, firstName])
+  @@index([companyId, lastName, firstName])
 }
 
 model Property {
   id         String   @id @default(cuid())
+  companyId  String
+  company    Company  @relation(fields: [companyId], references: [id])
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
 
@@ -131,6 +186,8 @@ model Property {
   dumpsterRentals DumpsterRental[]
 
   createdAt DateTime @default(now())
+
+  @@index([companyId])
 }
 
 // ── Price book ───────────────────────────────────────────────────────────
@@ -142,6 +199,8 @@ enum PriceBookItemType {
 
 model PriceBookItem {
   id                String            @id @default(cuid())
+  companyId         String
+  company           Company           @relation(fields: [companyId], references: [id])
   number            Int               @unique @default(autoincrement())
   name              String
   description       String?           @db.Text
@@ -159,6 +218,8 @@ model PriceBookItem {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([companyId])
 }
 
 // ── Estimates / Quoting ─────────────────────────────────────────────────
@@ -173,6 +234,8 @@ enum EstimateStatus {
 
 model Estimate {
   id         String         @id @default(cuid())
+  companyId  String
+  company    Company        @relation(fields: [companyId], references: [id])
   number     Int            @unique @default(autoincrement())
   customerId String
   customer   Customer       @relation(fields: [customerId], references: [id])
@@ -196,10 +259,14 @@ model Estimate {
   updatedAt   DateTime  @updatedAt
   sentAt      DateTime?
   respondedAt DateTime?
+
+  @@index([companyId])
 }
 
 model EstimateLineItem {
   id              String         @id @default(cuid())
+  companyId       String
+  company         Company        @relation(fields: [companyId], references: [id])
   estimateId      String
   estimate        Estimate       @relation(fields: [estimateId], references: [id], onDelete: Cascade)
   priceBookItemId String?
@@ -211,10 +278,14 @@ model EstimateLineItem {
   costCents      Int?
 
   sortOrder Int @default(0)
+
+  @@index([companyId])
 }
 
 model EstimatePaymentScheduleItem {
   id          String    @id @default(cuid())
+  companyId   String
+  company     Company   @relation(fields: [companyId], references: [id])
   estimateId  String
   estimate    Estimate  @relation(fields: [estimateId], references: [id], onDelete: Cascade)
   label       String
@@ -223,6 +294,8 @@ model EstimatePaymentScheduleItem {
   sortOrder   Int       @default(0)
 
   createdAt DateTime @default(now())
+
+  @@index([companyId])
 }
 
 // ── Jobs / Scheduling ────────────────────────────────────────────────────
@@ -237,6 +310,8 @@ enum JobStatus {
 
 model Job {
   id         String    @id @default(cuid())
+  companyId  String
+  company    Company   @relation(fields: [companyId], references: [id])
   customerId String
   customer   Customer  @relation(fields: [customerId], references: [id])
   propertyId String?
@@ -256,6 +331,8 @@ model Job {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([companyId])
 }
 
 // ── Invoicing ────────────────────────────────────────────────────────────
@@ -270,6 +347,8 @@ enum InvoiceStatus {
 
 model Invoice {
   id               String          @id @default(cuid())
+  companyId        String
+  company          Company         @relation(fields: [companyId], references: [id])
   number           Int             @unique @default(autoincrement())
   customerId       String
   customer         Customer        @relation(fields: [customerId], references: [id])
@@ -286,10 +365,10 @@ model Invoice {
   invoiceDate DateTime @default(now())
   publicToken String   @unique @default(cuid())
 
-  discountCents  Int     @default(0)
-  depositCents   Int     @default(0)
-  tipCents       Int     @default(0)
-  laborCostCents Int     @default(0)
+  discountCents  Int      @default(0)
+  depositCents   Int      @default(0)
+  tipCents       Int      @default(0)
+  laborCostCents Int      @default(0)
   taxRateId      String?
   taxRate        TaxRate? @relation(fields: [taxRateId], references: [id])
 
@@ -306,19 +385,27 @@ model Invoice {
   updatedAt DateTime  @updatedAt
   sentAt    DateTime?
   paidAt    DateTime?
+
+  @@index([companyId])
 }
 
 model TaxRate {
   id        String    @id @default(cuid())
+  companyId String
+  company   Company   @relation(fields: [companyId], references: [id])
   name      String
   rateBps   Int
   active    Boolean   @default(true)
   invoices  Invoice[]
   createdAt DateTime  @default(now())
+
+  @@index([companyId])
 }
 
 model InvoicePaymentScheduleItem {
   id          String    @id @default(cuid())
+  companyId   String
+  company     Company   @relation(fields: [companyId], references: [id])
   invoiceId   String
   invoice     Invoice   @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   label       String
@@ -327,31 +414,43 @@ model InvoicePaymentScheduleItem {
   sortOrder   Int       @default(0)
 
   createdAt DateTime @default(now())
+
+  @@index([companyId])
 }
 
 model InvoiceAttachment {
-  id        String   @id @default(cuid())
-  invoiceId String
-  invoice   Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
-  filename  String
-  mimeType  String
-  sizeBytes Int
+  id         String   @id @default(cuid())
+  companyId  String
+  company    Company  @relation(fields: [companyId], references: [id])
+  invoiceId  String
+  invoice    Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  filename   String
+  mimeType   String
+  sizeBytes  Int
   storageKey String
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  @@index([companyId])
 }
 
 model InvoiceSignature {
   id           String   @id @default(cuid())
+  companyId    String
+  company      Company  @relation(fields: [companyId], references: [id])
   invoiceId    String   @unique
   invoice      Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   signerName   String
   imageDataUrl String   @db.Text
   ipAddress    String?
   signedAt     DateTime @default(now())
+
+  @@index([companyId])
 }
 
 model InvoiceLineItem {
   id              String         @id @default(cuid())
+  companyId       String
+  company         Company        @relation(fields: [companyId], references: [id])
   invoiceId       String
   invoice         Invoice        @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   priceBookItemId String?
@@ -364,6 +463,8 @@ model InvoiceLineItem {
   taxable        Boolean @default(false)
 
   sortOrder Int @default(0)
+
+  @@index([companyId])
 }
 
 enum PaymentMethod {
@@ -376,6 +477,8 @@ enum PaymentMethod {
 
 model Payment {
   id          String        @id @default(cuid())
+  companyId   String
+  company     Company       @relation(fields: [companyId], references: [id])
   invoiceId   String
   invoice     Invoice       @relation(fields: [invoiceId], references: [id])
   amountCents Int
@@ -383,12 +486,16 @@ model Payment {
   reference   String?
 
   createdAt DateTime @default(now())
+
+  @@index([companyId])
 }
 
 // ── Inventory / Equipment ───────────────────────────────────────────────
 
 model EquipmentItem {
   id               String  @id @default(cuid())
+  companyId        String
+  company          Company @relation(fields: [companyId], references: [id])
   name             String
   category         String?
   quantityOnHand   Int     @default(0)
@@ -400,10 +507,14 @@ model EquipmentItem {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([companyId])
 }
 
 model EquipmentUsage {
   id              String        @id @default(cuid())
+  companyId       String
+  company         Company       @relation(fields: [companyId], references: [id])
   equipmentItemId String
   equipmentItem   EquipmentItem @relation(fields: [equipmentItemId], references: [id])
   jobId           String
@@ -411,6 +522,8 @@ model EquipmentUsage {
   quantityUsed    Int
 
   createdAt DateTime @default(now())
+
+  @@index([companyId])
 }
 
 // ── Dumpster Rentals ────────────────────────────────────────────────────
@@ -423,7 +536,9 @@ enum DumpsterUnitStatus {
 
 model DumpsterUnit {
   id         String             @id @default(cuid())
-  unitNumber String             @unique
+  companyId  String
+  company    Company            @relation(fields: [companyId], references: [id])
+  unitNumber String
   size       String
   status     DumpsterUnitStatus @default(AVAILABLE)
   notes      String?            @db.Text
@@ -432,6 +547,8 @@ model DumpsterUnit {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([companyId, unitNumber])
 }
 
 enum DumpsterRentalStatus {
@@ -443,6 +560,8 @@ enum DumpsterRentalStatus {
 
 model DumpsterRental {
   id             String       @id @default(cuid())
+  companyId      String
+  company        Company      @relation(fields: [companyId], references: [id])
   dumpsterUnitId String
   dumpsterUnit   DumpsterUnit @relation(fields: [dumpsterUnitId], references: [id])
   customerId     String
@@ -462,6 +581,8 @@ model DumpsterRental {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([companyId])
 }
 
 // ── Communications (email/SMS log — feeds Marketing phase later) ──────────
@@ -478,6 +599,8 @@ enum CommunicationDirection {
 
 model Communication {
   id         String                 @id @default(cuid())
+  companyId  String
+  company    Company                @relation(fields: [companyId], references: [id])
   customerId String
   customer   Customer               @relation(fields: [customerId], references: [id])
   estimateId String?
@@ -491,6 +614,7 @@ model Communication {
 
   createdAt DateTime @default(now())
 
+  @@index([companyId])
   @@index([estimateId])
   @@index([invoiceId])
 }

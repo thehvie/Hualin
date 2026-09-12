@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Haulin Junkies Ops",
-  description: "Internal CRM, quoting, invoicing, and dispatch for Haulin Junkies.",
+  title: "Ops",
+  description: "CRM, quoting, invoicing, and dispatch for field-service businesses.",
 };
 
 export default function RootLayout({

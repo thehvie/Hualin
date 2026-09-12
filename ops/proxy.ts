@@ -8,11 +8,11 @@ export const config = {
   matcher: [
     /*
      * Protect everything except:
-     * - /login (the sign-in page itself)
+     * - /login and /signup (unauthenticated by definition)
      * - /api/auth/* (NextAuth's own routes)
-     * - /api/deploy-webhook (GitHub deploy webhook, unauthenticated by design)
+     * - /api/deploy-webhook, /api/stripe/webhook (server-to-server, no session cookie)
      * - Next.js internals and static assets
      */
-    "/((?!login|api/auth|api/deploy-webhook|_next/static|_next/image|favicon.ico).*)",
+    "/((?!login|signup|api/auth|api/deploy-webhook|api/stripe/webhook|_next/static|_next/image|favicon.ico).*)",
   ],
 };

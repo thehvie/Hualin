@@ -1,17 +1,19 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { requireSession } from "@/lib/session";
 
 export default async function NewEstimatePage({
   searchParams,
 }: {
   searchParams: Promise<{ customerId?: string }>;
 }) {
+  const { companyId } = await requireSession();
   const { customerId } = await searchParams;
 
   if (customerId) {
-    const customer = await prisma.customer.findUnique({
-      where: { id: customerId },
+    const customer = await prisma.customer.findFirst({
+      where: { id: customerId, companyId },
       include: { properties: { take: 1, orderBy: { createdAt: "asc" } } },
     });
     if (!customer) {
@@ -19,6 +21,7 @@ export default async function NewEstimatePage({
     }
     const estimate = await prisma.estimate.create({
       data: {
+        companyId,
         customerId: customer.id,
         propertyId: customer.properties[0]?.id,
       },
@@ -28,6 +31,7 @@ export default async function NewEstimatePage({
 
   // No customer chosen yet -- show a picker.
   const customers = await prisma.customer.findMany({
+    where: { companyId },
     orderBy: { createdAt: "desc" },
     take: 50,
   });

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { requireSession } from "@/lib/session";
 
 function toCents(value: string): number {
   const n = Math.round(parseFloat(value || "0") * 100);
@@ -37,22 +38,25 @@ function readFields(formData: FormData) {
 }
 
 export async function createPriceBookItem(formData: FormData) {
+  const { companyId } = await requireSession();
   const fields = readFields(formData);
   if (!fields.name) return;
 
-  await prisma.priceBookItem.create({ data: fields });
+  await prisma.priceBookItem.create({ data: { ...fields, companyId } });
   revalidatePath("/price-book");
 }
 
 export async function updatePriceBookItem(id: string, formData: FormData) {
+  const { companyId } = await requireSession();
   const fields = readFields(formData);
   if (!fields.name) return;
 
-  await prisma.priceBookItem.update({ where: { id }, data: fields });
+  await prisma.priceBookItem.updateMany({ where: { id, companyId }, data: fields });
   revalidatePath("/price-book");
 }
 
 export async function deletePriceBookItem(id: string) {
-  await prisma.priceBookItem.delete({ where: { id } });
+  const { companyId } = await requireSession();
+  await prisma.priceBookItem.deleteMany({ where: { id, companyId } });
   revalidatePath("/price-book");
 }

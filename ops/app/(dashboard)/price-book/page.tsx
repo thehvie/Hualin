@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/money";
+import { requireSession } from "@/lib/session";
 import { AddItemButton, EditItemTrigger } from "./item-modal";
 
 export default async function PriceBookPage({
@@ -7,19 +8,23 @@ export default async function PriceBookPage({
 }: {
   searchParams: Promise<{ q?: string }>;
 }) {
+  const { companyId } = await requireSession();
   const { q } = await searchParams;
   const query = (q || "").trim();
 
   const items = await prisma.priceBookItem.findMany({
-    where: query
-      ? {
-          OR: [
-            { name: { contains: query, mode: "insensitive" } },
-            { category: { contains: query, mode: "insensitive" } },
-            { modelNumber: { contains: query, mode: "insensitive" } },
-          ],
-        }
-      : undefined,
+    where: {
+      companyId,
+      ...(query
+        ? {
+            OR: [
+              { name: { contains: query, mode: "insensitive" } },
+              { category: { contains: query, mode: "insensitive" } },
+              { modelNumber: { contains: query, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+    },
     orderBy: { number: "asc" },
   });
 

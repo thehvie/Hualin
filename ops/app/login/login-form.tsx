@@ -56,7 +56,7 @@ export function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="rounded-lg border border-zinc-300 px-4 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
-          placeholder="you@haulinjunkies.com"
+          placeholder="you@company.com"
         />
       </div>
 
