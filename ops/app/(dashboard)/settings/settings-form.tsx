@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { LogoUploadField } from "./logo-upload-field";
 import { updateCompanyProfile, removeCompanyLogo, type SettingsFormState } from "./actions";
 
@@ -23,6 +23,7 @@ export function SettingsForm({
     updateCompanyProfile,
     {},
   );
+  const [isReadingFile, setIsReadingFile] = useState(false);
 
   return (
     <form action={formAction} className="flex flex-col gap-4 rounded-xl border border-zinc-200 bg-white p-5">
@@ -32,7 +33,7 @@ export function SettingsForm({
         </div>
       )}
 
-      <LogoUploadField initialLogoDataUrl={company.logoDataUrl} />
+      <LogoUploadField initialLogoDataUrl={company.logoDataUrl} onReadingChange={setIsReadingFile} />
 
       {company.logoDataUrl && (
         <button
@@ -66,10 +67,10 @@ export function SettingsForm({
 
       <button
         type="submit"
-        disabled={isPending}
+        disabled={isPending || isReadingFile}
         className="mt-2 self-start rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isPending ? "Saving…" : "Save"}
+        {isPending ? "Saving…" : isReadingFile ? "Reading file…" : "Save"}
       </button>
     </form>
   );
