@@ -20,6 +20,7 @@ export default async function EstimateDetailPage({
       lineItems: { orderBy: { sortOrder: "asc" } },
       paymentSchedule: { orderBy: { sortOrder: "asc" } },
       invoice: true,
+      job: true,
       communications: { orderBy: { createdAt: "asc" } },
     },
   });
@@ -77,6 +78,7 @@ export default async function EstimateDetailPage({
           })),
           hasInvoice: !!estimate.invoice,
           invoiceId: estimate.invoice?.id ?? null,
+          jobId: estimate.job?.id ?? null,
           communications: estimate.communications.map((c) => ({
             id: c.id,
             direction: c.direction,

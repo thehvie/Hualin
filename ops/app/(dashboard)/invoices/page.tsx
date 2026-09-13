@@ -48,7 +48,7 @@ export default async function InvoicesPage({
       },
       orderBy: { createdAt: "desc" },
     }),
-    prisma.job.count({ where: { companyId, invoice: null, status: "COMPLETED" } }),
+    prisma.job.count({ where: { companyId, invoices: { none: {} }, status: "COMPLETED" } }),
   ]);
 
   const now = Date.now();

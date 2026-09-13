@@ -160,6 +160,7 @@ export async function markAsWon(estimateId: string) {
         companyId,
         customerId: estimate.customerId,
         estimateId: estimate.id,
+        jobId: estimate.jobId ?? undefined,
         status: "DRAFT",
         name: `Invoice for Estimate #${estimate.number}`,
         notes: estimate.notes,
@@ -191,6 +192,7 @@ export async function markAsWon(estimateId: string) {
   ]);
 
   revalidatePath(`/estimates/${estimateId}`);
+  if (estimate.jobId) revalidatePath(`/jobs/${estimate.jobId}`);
   redirect(`/invoices/${invoice.id}`);
 }
 

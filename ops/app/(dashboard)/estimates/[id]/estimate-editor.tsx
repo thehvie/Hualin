@@ -53,6 +53,7 @@ interface EstimateData {
   paymentSchedule: PaymentScheduleItem[];
   hasInvoice: boolean;
   invoiceId: string | null;
+  jobId: string | null;
   communications: ConversationMessage[];
 }
 
@@ -138,6 +139,14 @@ export function EstimateEditor({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-xl font-bold text-zinc-900">Estimate #{estimate.number}</h1>
         <div className="flex items-center gap-2">
+          {estimate.jobId && (
+            <a
+              href={`/jobs/${estimate.jobId}`}
+              className="rounded-full bg-brand/10 px-3 py-1.5 text-xs font-semibold text-brand-dark hover:bg-brand/20"
+            >
+              View job →
+            </a>
+          )}
           {estimate.hasInvoice && estimate.invoiceId && (
             <a
               href={`/invoices/${estimate.invoiceId}`}

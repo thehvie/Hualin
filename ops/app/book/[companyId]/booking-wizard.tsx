@@ -52,6 +52,8 @@ export function BookingWizard({
   const [slots, setSlots] = useState<{ hour: number; label: string }[]>([]);
   const [slotsLoading, setSlotsLoading] = useState(true);
   const [selectedHour, setSelectedHour] = useState<number | null>(null);
+  const [photos, setPhotos] = useState<File[]>([]);
+  const [isDraggingPhoto, setIsDraggingPhoto] = useState(false);
   const [contact, setContact] = useState<ContactInfo>({
     firstName: "", lastName: "", email: "", phone: "", address: "", city: "", state: "", zip: "", notes: "",
   });
@@ -84,6 +86,7 @@ export function BookingWizard({
     fd.set("notes", contact.notes);
     fd.set("dateIso", selectedDate.toISOString());
     fd.set("hour", String(selectedHour));
+    for (const photo of photos) fd.append("photos", photo);
 
     startTransition(async () => {
       const res = await submitBooking(companyId, fd);
@@ -255,6 +258,59 @@ export function BookingWizard({
               <Field label="Zip code" value={contact.zip} onChange={(v) => setContact({ ...contact, zip: v })} required />
             </div>
             <div className="mt-3 flex flex-col gap-1.5">
+              <label className="text-sm font-medium text-zinc-700">Photos (optional)</label>
+              <label
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setIsDraggingPhoto(true);
+                }}
+                onDragLeave={() => setIsDraggingPhoto(false)}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setIsDraggingPhoto(false);
+                  const files = Array.from(e.dataTransfer.files || []).filter((f) => f.type.startsWith("image/"));
+                  setPhotos((prev) => [...prev, ...files].slice(0, 5));
+                }}
+                className={`flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border-2 border-dashed px-4 py-6 text-center transition-colors ${
+                  isDraggingPhoto ? "border-brand bg-brand/10" : "border-brand/40 bg-brand/5 hover:bg-brand/10"
+                }`}
+              >
+                <span className="text-sm font-semibold text-brand-dark">Drag and drop photos here</span>
+                <span className="text-xs text-zinc-400">or</span>
+                <span className="rounded-full border border-brand/40 bg-white px-3 py-1 text-xs font-semibold text-brand-dark shadow-sm">
+                  Browse files
+                </span>
+                <span className="text-xs text-zinc-400">Up to 5 images, 8MB each</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files || []);
+                    setPhotos((prev) => [...prev, ...files].slice(0, 5));
+                    e.target.value = "";
+                  }}
+                />
+              </label>
+              {photos.length > 0 && (
+                <ul className="flex flex-wrap gap-2">
+                  {photos.map((file, i) => (
+                    <li key={`${file.name}-${i}`} className="flex items-center gap-1.5 rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-700">
+                      {file.name}
+                      <button
+                        type="button"
+                        onClick={() => setPhotos((prev) => prev.filter((_, idx) => idx !== i))}
+                        className="font-semibold text-zinc-400 hover:text-red-500"
+                      >
+                        ✕
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div className="mt-3 flex flex-col gap-1.5">
               <label className="text-sm font-medium text-zinc-700">What do you need hauled away? (optional)</label>
               <textarea
                 rows={3}
@@ -313,6 +369,12 @@ export function BookingWizard({
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Notes</p>
                 <p className="text-zinc-900">{contact.notes}</p>
+              </div>
+            )}
+            {photos.length > 0 && (
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Photos</p>
+                <p className="text-zinc-900">{photos.length} attached</p>
               </div>
             )}
           </div>

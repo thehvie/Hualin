@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { slotsForDate, slotDateTime, MAX_JOBS_PER_SLOT } from "@/lib/booking";
+import { normalizePhoto, MAX_PHOTOS } from "@/lib/photos";
 
 export async function getAvailableSlots(
   companyId: string,
@@ -57,6 +58,18 @@ export async function submitBooking(
     return { ok: false, error: "Please pick a date and time." };
   }
 
+  const photoFiles = formData.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
+  if (photoFiles.length > MAX_PHOTOS) {
+    return { ok: false, error: `Please attach at most ${MAX_PHOTOS} photos.` };
+  }
+
+  let photos: { filename: string; mimeType: string; dataUrl: string }[];
+  try {
+    photos = (await Promise.all(photoFiles.map(normalizePhoto))).filter((p) => p !== null);
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : "Could not process the uploaded photos." };
+  }
+
   const scheduledAt = slotDateTime(new Date(dateIso), hour);
 
   const conflictCount = await prisma.job.count({ where: { companyId, scheduledAt } });
@@ -75,7 +88,7 @@ export async function submitBooking(
     data: { companyId, customerId: customer.id, addressLine1, city, state, zip },
   });
 
-  await prisma.job.create({
+  const job = await prisma.job.create({
     data: {
       companyId,
       customerId: customer.id,
@@ -85,6 +98,18 @@ export async function submitBooking(
       notes: notes || null,
     },
   });
+
+  if (photos.length > 0) {
+    await prisma.jobAttachment.createMany({
+      data: photos.map((p) => ({
+        companyId,
+        jobId: job.id,
+        filename: p.filename,
+        mimeType: p.mimeType,
+        dataUrl: p.dataUrl,
+      })),
+    });
+  }
 
   return { ok: true };
 }

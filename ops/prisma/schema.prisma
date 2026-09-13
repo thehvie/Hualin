@@ -34,26 +34,27 @@ model Company {
   subscriptionStatus   SubscriptionStatus @default(TRIALING)
   trialEndsAt          DateTime?
 
-  users                       User[]
-  customers                   Customer[]
-  properties                  Property[]
-  priceBookItems              PriceBookItem[]
-  estimates                   Estimate[]
-  estimateLineItems           EstimateLineItem[]
+  users                        User[]
+  customers                    Customer[]
+  properties                   Property[]
+  priceBookItems               PriceBookItem[]
+  estimates                    Estimate[]
+  estimateLineItems            EstimateLineItem[]
   estimatePaymentScheduleItems EstimatePaymentScheduleItem[]
-  jobs                        Job[]
-  taxRates                    TaxRate[]
-  invoices                    Invoice[]
-  invoiceLineItems            InvoiceLineItem[]
-  invoicePaymentScheduleItems InvoicePaymentScheduleItem[]
-  invoiceAttachments          InvoiceAttachment[]
-  invoiceSignatures           InvoiceSignature[]
-  payments                    Payment[]
-  equipmentItems              EquipmentItem[]
-  equipmentUsage              EquipmentUsage[]
-  dumpsterUnits               DumpsterUnit[]
-  dumpsterRentals             DumpsterRental[]
-  communications              Communication[]
+  jobs                         Job[]
+  jobAttachments               JobAttachment[]
+  taxRates                     TaxRate[]
+  invoices                     Invoice[]
+  invoiceLineItems             InvoiceLineItem[]
+  invoicePaymentScheduleItems  InvoicePaymentScheduleItem[]
+  invoiceAttachments           InvoiceAttachment[]
+  invoiceSignatures            InvoiceSignature[]
+  payments                     Payment[]
+  equipmentItems               EquipmentItem[]
+  equipmentUsage               EquipmentUsage[]
+  dumpsterUnits                DumpsterUnit[]
+  dumpsterRentals              DumpsterRental[]
+  communications               Communication[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -248,6 +249,8 @@ model Estimate {
   property   Property?      @relation(fields: [propertyId], references: [id])
   status     EstimateStatus @default(DRAFT)
   notes      String?        @db.Text
+  jobId      String?
+  job        Job?           @relation(fields: [jobId], references: [id])
 
   discountCents  Int @default(0)
   depositCents   Int @default(0)
@@ -255,7 +258,6 @@ model Estimate {
 
   lineItems       EstimateLineItem[]
   paymentSchedule EstimatePaymentScheduleItem[]
-  job             Job?
   invoice         Invoice?
   dumpsterRental  DumpsterRental?
   communications  Communication[]
@@ -266,6 +268,7 @@ model Estimate {
   respondedAt DateTime?
 
   @@index([companyId])
+  @@index([jobId])
 }
 
 model EstimateLineItem {
@@ -321,23 +324,38 @@ model Job {
   customer   Customer  @relation(fields: [customerId], references: [id])
   propertyId String?
   property   Property? @relation(fields: [propertyId], references: [id])
-  estimateId String?   @unique
-  estimate   Estimate? @relation(fields: [estimateId], references: [id])
 
   status      JobStatus @default(UNSCHEDULED)
   scheduledAt DateTime?
   completedAt DateTime?
   notes       String?   @db.Text
 
-  crew    User[]   @relation("JobCrew")
-  invoice Invoice?
+  crew      User[]     @relation("JobCrew")
+  estimates Estimate[]
+  invoices  Invoice[]
 
   equipmentUsage EquipmentUsage[]
+  attachments    JobAttachment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([companyId])
+}
+
+model JobAttachment {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  filename  String
+  mimeType  String
+  dataUrl   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([companyId])
+  @@index([jobId])
 }
 
 // ── Invoicing ────────────────────────────────────────────────────────────
@@ -359,7 +377,7 @@ model Invoice {
   customer         Customer        @relation(fields: [customerId], references: [id])
   estimateId       String?         @unique
   estimate         Estimate?       @relation(fields: [estimateId], references: [id])
-  jobId            String?         @unique
+  jobId            String?
   job              Job?            @relation(fields: [jobId], references: [id])
   dumpsterRentalId String?         @unique
   dumpsterRental   DumpsterRental? @relation(fields: [dumpsterRentalId], references: [id])
@@ -392,6 +410,7 @@ model Invoice {
   paidAt    DateTime?
 
   @@index([companyId])
+  @@index([jobId])
 }
 
 model TaxRate {

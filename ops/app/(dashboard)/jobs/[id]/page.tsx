@@ -14,7 +14,12 @@ export default async function JobDetailPage({
 
   const job = await prisma.job.findFirst({
     where: { id, companyId },
-    include: { customer: true, property: true, estimate: true, invoice: true },
+    include: {
+      customer: true,
+      property: true,
+      estimates: { orderBy: { createdAt: "asc" }, include: { invoice: true } },
+      attachments: { orderBy: { createdAt: "asc" } },
+    },
   });
 
   if (!job) notFound();
@@ -46,10 +51,14 @@ export default async function JobDetailPage({
                 zip: job.property.zip,
               }
             : null,
-          estimateId: job.estimate?.id ?? null,
-          estimateNumber: job.estimate?.number ?? null,
-          invoiceId: job.invoice?.id ?? null,
-          invoiceNumber: job.invoice?.number ?? null,
+          estimates: job.estimates.map((e) => ({
+            id: e.id,
+            number: e.number,
+            status: e.status,
+            invoiceId: e.invoice?.id ?? null,
+            invoiceNumber: e.invoice?.number ?? null,
+          })),
+          attachments: job.attachments.map((a) => ({ id: a.id, filename: a.filename, dataUrl: a.dataUrl })),
         }}
       />
     </div>
