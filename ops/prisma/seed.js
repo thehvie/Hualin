@@ -36,15 +36,7 @@ async function main() {
 
   console.log(`Seeded admin user: ${user.email}`);
 
-  const existingTaxRate = await prisma.taxRate.findFirst({
-    where: { companyId: company.id, name: "FL Sales Tax" },
-  });
-  if (existingTaxRate) {
-    await prisma.taxRate.update({ where: { id: existingTaxRate.id }, data: { rateBps: 650, active: true } });
-  } else {
-    await prisma.taxRate.create({ data: { companyId: company.id, name: "FL Sales Tax", rateBps: 650 } });
-  }
-  console.log("Seeded tax rate: FL Sales Tax (6.5%)");
+  // Sales tax is set per company in Settings (0 = no tax), so nothing is seeded here.
 }
 
 main()

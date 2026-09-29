@@ -76,7 +76,7 @@ export async function addLineItem(invoiceId: string, formData: FormData) {
 
 export async function addLineItemFromPriceBook(invoiceId: string, priceBookItemId: string) {
   const { companyId } = await requireSession();
-  await assertInvoiceOwnership(invoiceId, companyId);
+  const invoice = await assertInvoiceOwnership(invoiceId, companyId);
 
   const item = await prisma.priceBookItem.findFirst({ where: { id: priceBookItemId, companyId } });
   if (!item) return;
@@ -92,6 +92,7 @@ export async function addLineItemFromPriceBook(invoiceId: string, priceBookItemI
       unitPriceCents: item.unitPriceCents,
       costCents: item.costCents,
       isRental: item.type === "RENTAL",
+      taxable: !!invoice.taxRateId,
       sortOrder: count,
     },
   });

@@ -18,6 +18,7 @@ export function SettingsForm({
     website: string | null;
     termsText: string | null;
     timezone: string;
+    salesTaxPercent: string;
     logoDataUrl: string | null;
   };
 }) {
@@ -70,6 +71,28 @@ export function SettingsForm({
         </select>
         <p className="text-xs text-zinc-400">
           Used for your schedule, online booking times, and the confirmations customers receive.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="salesTaxPercent" className="text-sm font-medium text-zinc-700">
+          Sales tax rate (%)
+        </label>
+        <input
+          id="salesTaxPercent"
+          name="salesTaxPercent"
+          type="number"
+          inputMode="decimal"
+          min={0}
+          max={20}
+          step="0.01"
+          defaultValue={company.salesTaxPercent}
+          placeholder="0"
+          className="w-40 rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+        />
+        <p className="text-xs text-zinc-400">
+          Your state or local rate, for example 6.5. Enter 0 if you don&apos;t charge sales tax. New invoices use this rate on
+          items marked taxable; invoices you&apos;ve already created keep the rate they were made with.
         </p>
       </div>
 

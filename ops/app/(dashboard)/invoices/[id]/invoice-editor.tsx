@@ -702,7 +702,7 @@ export function InvoiceEditor({
               </div>
             </div>
             <label className="flex items-center gap-2 text-sm text-zinc-600">
-              <input type="checkbox" name="taxable" className="h-4 w-4 rounded border-zinc-300" />
+              <input type="checkbox" name="taxable" defaultChecked={!!invoice.taxRateId} className="h-4 w-4 rounded border-zinc-300" />
               Taxable
             </label>
             <label className="flex items-center gap-2 text-sm text-zinc-600">

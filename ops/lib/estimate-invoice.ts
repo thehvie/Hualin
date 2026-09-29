@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getDefaultTaxRate } from "@/lib/tax";
 
 /**
  * Creates a draft invoice from an approved estimate, copying line items and the
@@ -26,9 +27,14 @@ export async function createInvoiceFromEstimate(
   }
   if (estimate.lineItems.length === 0) return { error: "This estimate has no line items." };
 
+  // With a sales tax rate set in Settings, new invoices use it and their items start out taxable
+  // (each line can still be switched off on the invoice).
+  const taxRate = await getDefaultTaxRate(companyId);
+
   const invoice = await prisma.invoice.create({
     data: {
       companyId,
+      taxRateId: taxRate?.id ?? null,
       customerId: estimate.customerId,
       estimateId: estimate.id,
       jobId: estimate.jobId ?? undefined,
@@ -45,6 +51,7 @@ export async function createInvoiceFromEstimate(
           description: li.description,
           quantity: li.quantity,
           isRental: li.isRental,
+          taxable: !!taxRate,
           unitPriceCents: li.unitPriceCents,
           costCents: li.costCents,
           sortOrder: i,

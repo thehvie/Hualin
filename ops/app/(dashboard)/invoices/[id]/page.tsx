@@ -31,7 +31,11 @@ export default async function InvoiceDetailPage({
 
   const [priceBookItems, taxRates] = await Promise.all([
     prisma.priceBookItem.findMany({ where: { companyId, active: true }, orderBy: { name: "asc" } }),
-    prisma.taxRate.findMany({ where: { companyId, active: true }, orderBy: { name: "asc" } }),
+    // Active rates, plus this invoice's own rate even if it has since been retired in Settings.
+    prisma.taxRate.findMany({
+      where: { companyId, OR: [{ active: true }, { id: invoice.taxRateId ?? "__none__" }] },
+      orderBy: { createdAt: "desc" },
+    }),
   ]);
 
   const property = invoice.customer.properties[0] ?? null;

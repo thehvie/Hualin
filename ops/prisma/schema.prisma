@@ -444,6 +444,8 @@ model TaxRate {
   name      String
   rateBps   Int
   active    Boolean   @default(true)
+  // The company's current sales tax rate (set in Settings); at most one per company.
+  isDefault Boolean   @default(false)
   invoices  Invoice[]
   createdAt DateTime  @default(now())
 
