@@ -52,8 +52,8 @@ model Company {
   payments                     Payment[]
   equipmentItems               EquipmentItem[]
   equipmentUsage               EquipmentUsage[]
-  dumpsterUnits                DumpsterUnit[]
-  dumpsterRentals              DumpsterRental[]
+  servicePlans                 ServicePlan[]
+  servicePlanSubscriptions     ServicePlanSubscription[]
   communications               Communication[]
 
   createdAt DateTime @default(now())
@@ -157,12 +157,14 @@ model Customer {
   allowBilling Boolean @default(false)
   taxExempt    Boolean @default(false)
 
-  properties      Property[]
-  estimates       Estimate[]
-  jobs            Job[]
-  invoices        Invoice[]
-  communications  Communication[]
-  dumpsterRentals DumpsterRental[]
+  stripeCustomerId String?
+
+  properties               Property[]
+  estimates                Estimate[]
+  jobs                     Job[]
+  invoices                 Invoice[]
+  communications           Communication[]
+  servicePlanSubscriptions ServicePlanSubscription[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -187,9 +189,9 @@ model Property {
   longitude    Float?
   notes        String? @db.Text
 
-  estimates       Estimate[]
-  jobs            Job[]
-  dumpsterRentals DumpsterRental[]
+  estimates                Estimate[]
+  jobs                     Job[]
+  servicePlanSubscriptions ServicePlanSubscription[]
 
   createdAt DateTime @default(now())
 
@@ -222,6 +224,7 @@ model PriceBookItem {
 
   estimateLineItems EstimateLineItem[]
   invoiceLineItems  InvoiceLineItem[]
+  servicePlans      ServicePlan[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -260,7 +263,6 @@ model Estimate {
   lineItems       EstimateLineItem[]
   paymentSchedule EstimatePaymentScheduleItem[]
   invoice         Invoice?
-  dumpsterRental  DumpsterRental?
   communications  Communication[]
 
   createdAt   DateTime  @default(now())
@@ -379,19 +381,19 @@ enum InvoiceStatus {
 }
 
 model Invoice {
-  id               String          @id @default(cuid())
-  companyId        String
-  company          Company         @relation(fields: [companyId], references: [id])
-  number           Int             @unique @default(autoincrement())
-  customerId       String
-  customer         Customer        @relation(fields: [customerId], references: [id])
-  estimateId       String?         @unique
-  estimate         Estimate?       @relation(fields: [estimateId], references: [id])
-  jobId            String?
-  job              Job?            @relation(fields: [jobId], references: [id])
-  dumpsterRentalId String?         @unique
-  dumpsterRental   DumpsterRental? @relation(fields: [dumpsterRentalId], references: [id])
-  status           InvoiceStatus   @default(DRAFT)
+  id                        String                   @id @default(cuid())
+  companyId                 String
+  company                   Company                  @relation(fields: [companyId], references: [id])
+  number                    Int                      @unique @default(autoincrement())
+  customerId                String
+  customer                  Customer                 @relation(fields: [customerId], references: [id])
+  estimateId                String?                  @unique
+  estimate                  Estimate?                @relation(fields: [estimateId], references: [id])
+  jobId                     String?
+  job                       Job?                     @relation(fields: [jobId], references: [id])
+  servicePlanSubscriptionId String?
+  servicePlanSubscription   ServicePlanSubscription? @relation(fields: [servicePlanSubscriptionId], references: [id])
+  status                    InvoiceStatus            @default(DRAFT)
 
   name        String?
   notes       String?  @db.Text
@@ -421,6 +423,7 @@ model Invoice {
 
   @@index([companyId])
   @@index([jobId])
+  @@index([servicePlanSubscriptionId])
 }
 
 model TaxRate {
@@ -520,6 +523,9 @@ model Payment {
   method      PaymentMethod
   reference   String?
 
+  stripePaymentIntentId String? @unique
+  stripeInvoiceId       String? @unique
+
   createdAt DateTime @default(now())
 
   @@index([companyId])
@@ -561,63 +567,103 @@ model EquipmentUsage {
   @@index([companyId])
 }
 
-// ── Dumpster Rentals ────────────────────────────────────────────────────
+// ── Service Plans (recurring subscriptions) ────────────────────────────────
 
-enum DumpsterUnitStatus {
-  AVAILABLE
-  OUT
-  MAINTENANCE
+enum ServicePlanDurationUnit {
+  DAY
+  WEEK
+  MONTH
+  YEAR
 }
 
-model DumpsterUnit {
-  id         String             @id @default(cuid())
-  companyId  String
-  company    Company            @relation(fields: [companyId], references: [id])
-  unitNumber String
-  size       String
-  status     DumpsterUnitStatus @default(AVAILABLE)
-  notes      String?            @db.Text
-
-  rentals DumpsterRental[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([companyId, unitNumber])
+enum ServicePlanBillingFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  ANNUALLY
 }
 
-enum DumpsterRentalStatus {
-  SCHEDULED
-  DELIVERED
-  PICKED_UP
+enum ServicePlanSubscriptionStatus {
+  DRAFT
+  ACTIVE
+  PAST_DUE
   CANCELLED
+  EXPIRED
 }
 
-model DumpsterRental {
-  id             String       @id @default(cuid())
-  companyId      String
-  company        Company      @relation(fields: [companyId], references: [id])
-  dumpsterUnitId String
-  dumpsterUnit   DumpsterUnit @relation(fields: [dumpsterUnitId], references: [id])
-  customerId     String
-  customer       Customer     @relation(fields: [customerId], references: [id])
-  propertyId     String?
-  property       Property?    @relation(fields: [propertyId], references: [id])
-  estimateId     String?      @unique
-  estimate       Estimate?    @relation(fields: [estimateId], references: [id])
-  invoice        Invoice?
+model ServicePlan {
+  id              String                  @id @default(cuid())
+  companyId       String
+  company         Company                 @relation(fields: [companyId], references: [id])
+  name            String
+  scopeOfWork     String?                 @db.Text
+  durationValue   Int
+  durationUnit    ServicePlanDurationUnit
+  autoRenew       Boolean                 @default(true)
+  visitsPerPeriod Int
+  jobTypeId       String?
+  jobType         PriceBookItem?          @relation(fields: [jobTypeId], references: [id])
+  priceCents      Int
+  archived        Boolean                 @default(false)
+  stripeProductId String?
 
-  status              DumpsterRentalStatus @default(SCHEDULED)
-  scheduledDeliveryAt DateTime?
-  deliveredAt         DateTime?
-  scheduledPickupAt   DateTime?
-  pickedUpAt          DateTime?
-  notes               String?              @db.Text
+  billingOptions ServicePlanBillingOption[]
+  subscriptions  ServicePlanSubscription[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([companyId])
+}
+
+model ServicePlanBillingOption {
+  id              String                      @id @default(cuid())
+  servicePlanId   String
+  servicePlan     ServicePlan                 @relation(fields: [servicePlanId], references: [id], onDelete: Cascade)
+  frequency       ServicePlanBillingFrequency
+  discountPercent Int?
+  amountCents     Int
+  stripePriceId   String?
+  sortOrder       Int                         @default(0)
+
+  subscriptions ServicePlanSubscription[]
+
+  @@index([servicePlanId])
+}
+
+model ServicePlanSubscription {
+  id              String                        @id @default(cuid())
+  companyId       String
+  company         Company                       @relation(fields: [companyId], references: [id])
+  servicePlanId   String
+  servicePlan     ServicePlan                   @relation(fields: [servicePlanId], references: [id])
+  billingOptionId String
+  billingOption   ServicePlanBillingOption      @relation(fields: [billingOptionId], references: [id])
+  customerId      String
+  customer        Customer                      @relation(fields: [customerId], references: [id])
+  propertyId      String?
+  property        Property?                     @relation(fields: [propertyId], references: [id])
+  status          ServicePlanSubscriptionStatus @default(DRAFT)
+
+  priceCentsSnapshot Int
+  visitsTotal        Int
+  visitsUsed         Int       @default(0)
+  startDate          DateTime?
+  endDate            DateTime?
+  nextVisitDate      DateTime?
+
+  stripeCustomerId        String?
+  stripeSubscriptionId    String? @unique
+  stripeCheckoutSessionId String?
+
+  invoices Invoice[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([customerId])
 }
 
 // ── Communications (email/SMS log — feeds Marketing phase later) ──────────

@@ -34,7 +34,7 @@ export default async function CustomerDetailPage({
       estimates: { orderBy: { createdAt: "desc" } },
       invoices: { orderBy: { createdAt: "desc" } },
       jobs: { orderBy: { createdAt: "desc" } },
-      dumpsterRentals: { orderBy: { createdAt: "desc" } },
+      servicePlanSubscriptions: { orderBy: { createdAt: "desc" }, include: { servicePlan: true } },
     },
   });
 
@@ -175,16 +175,16 @@ export default async function CustomerDetailPage({
               href: `/jobs/${j.id}`,
             }))}
           />
-          {customer.dumpsterRentals.length > 0 && (
+          {customer.servicePlanSubscriptions.length > 0 && (
             <RecordList
-              title="Dumpster Rentals"
-              emptyLabel="No rentals yet."
-              rows={customer.dumpsterRentals.map((r) => ({
-                id: r.id,
-                primary: r.scheduledDeliveryAt ? formatDate(r.scheduledDeliveryAt) : "Not scheduled",
-                secondary: r.status,
-                date: r.createdAt,
-                href: `/dumpster-rentals/${r.id}`,
+              title="Service Plans"
+              emptyLabel="No service plans yet."
+              rows={customer.servicePlanSubscriptions.map((s) => ({
+                id: s.id,
+                primary: s.servicePlan.name,
+                secondary: s.status,
+                date: s.createdAt,
+                href: `/service-plans/${s.id}`,
               }))}
             />
           )}

@@ -24,7 +24,7 @@ const NAV_SECTIONS = [
       { label: "Schedule", href: "/schedule" },
       { label: "Jobs", href: "/jobs" },
       { label: "Map", href: "/map" },
-      { label: "Dumpster Rentals", href: "/dumpster-rentals" },
+      { label: "Service Plans", href: "/service-plans" },
       { label: "Equipment", href: "/equipment" },
       { label: "Purchase Orders", href: "/purchase-orders" },
     ],
