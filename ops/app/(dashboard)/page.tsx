@@ -128,10 +128,10 @@ export default async function DashboardHome() {
               description="Start recording payments to see your business performance and trends."
             />
           )}
-          <WidgetFooter viewAllHref="/reports" addHref="/jobs/new" addLabel="Add job" />
+          <WidgetFooter viewAllHref="/invoices" addHref="/estimates/new" addLabel="New estimate" />
         </Widget>
 
-        <Widget title="Invoices" subtitle="All time" addHref="/invoices/new">
+        <Widget title="Invoices" subtitle="All time">
           {invoiceCount ? (
             <div>
               <p className="text-3xl font-bold text-zinc-900">{invoiceCount}</p>
@@ -198,8 +198,8 @@ export default async function DashboardHome() {
             </div>
           ) : (
             <EmptyState icon="📅" title="Your schedule is clear" description="" compact>
-              <Link href="/jobs/new" className="mt-2 inline-block text-sm font-medium text-brand hover:underline">
-                Schedule a job
+              <Link href="/estimates/new" className="mt-2 inline-block text-sm font-medium text-brand hover:underline">
+                Start an estimate
               </Link>
             </EmptyState>
           )}

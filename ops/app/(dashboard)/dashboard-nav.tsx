@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+// Map, Equipment, Automations and Reports aren't built yet, so they're not listed here.
 const NAV_SECTIONS = [
   {
     items: [{ label: "Home", href: "/" }],
@@ -23,9 +24,7 @@ const NAV_SECTIONS = [
     items: [
       { label: "Schedule", href: "/schedule" },
       { label: "Jobs", href: "/jobs" },
-      { label: "Map", href: "/map" },
       { label: "Service Plans", href: "/service-plans" },
-      { label: "Equipment", href: "/equipment" },
       { label: "Purchase Orders", href: "/purchase-orders" },
     ],
   },
@@ -33,12 +32,7 @@ const NAV_SECTIONS = [
     title: "Growth",
     items: [
       { label: "Online Booking", href: "/online-booking" },
-      { label: "Automations", href: "/automations" },
     ],
-  },
-  {
-    title: "Insights",
-    items: [{ label: "Reports", href: "/reports" }],
   },
   {
     title: "Account",
