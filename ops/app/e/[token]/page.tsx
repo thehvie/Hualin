@@ -35,12 +35,18 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
             // eslint-disable-next-line @next/next/no-img-element
             <img src={company.logoDataUrl} alt={company.name} className="h-10 max-w-[140px] object-contain" />
           )}
-          <div>
+          <div className="flex-1">
             <h1 className="text-lg font-bold text-zinc-900">{company.name}</h1>
             <p className="text-sm text-zinc-500">
               Estimate #{estimate.number} for {estimate.customer.firstName} {estimate.customer.lastName}
             </p>
           </div>
+          <a
+            href={`/e/${token}/pdf`}
+            className="shrink-0 rounded-full border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-white"
+          >
+            Download PDF
+          </a>
         </div>
 
         {estimate.status === "APPROVED" && (

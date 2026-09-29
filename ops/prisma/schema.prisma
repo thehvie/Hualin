@@ -55,6 +55,10 @@ model Company {
   servicePlans                 ServicePlan[]
   servicePlanSubscriptions     ServicePlanSubscription[]
   communications               Communication[]
+  vendors                      Vendor[]
+  purchaseOrders               PurchaseOrder[]
+  purchaseOrderLineItems       PurchaseOrderLineItem[]
+  purchaseOrderAttachments     PurchaseOrderAttachment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -86,6 +90,8 @@ model User {
   updatedAt DateTime @updatedAt
 
   jobsAssigned Job[] @relation("JobCrew")
+
+  purchaseOrdersRequested PurchaseOrder[]
 
   @@index([companyId])
 }
@@ -153,6 +159,8 @@ model Customer {
   notes             String?        @db.Text
 
   smsOptIn     Boolean @default(false)
+  // Set when the customer replies STOP to a text; blocks further outbound SMS.
+  smsOptedOut  Boolean @default(false)
   emailOptIn   Boolean @default(true)
   allowBilling Boolean @default(false)
   taxExempt    Boolean @default(false)
@@ -291,7 +299,7 @@ model EstimateLineItem {
   priceBookItem   PriceBookItem? @relation(fields: [priceBookItemId], references: [id])
 
   description    String
-  quantity       Int    @default(1)
+  quantity       Int     @default(1)
   unitPriceCents Int
   costCents      Int?
   // Rental items are priced per day; quantity is then the number of days.
@@ -346,8 +354,9 @@ model Job {
   estimates Estimate[]
   invoices  Invoice[]
 
-  equipmentUsage EquipmentUsage[]
-  attachments    JobAttachment[]
+  equipmentUsage         EquipmentUsage[]
+  attachments            JobAttachment[]
+  purchaseOrderLineItems PurchaseOrderLineItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -698,4 +707,112 @@ model Communication {
   @@index([companyId])
   @@index([estimateId])
   @@index([invoiceId])
+}
+
+// ── Purchase Orders ────────────────────────────────────────────────────────
+
+enum PurchaseOrderStatus {
+  DRAFT
+  SENT
+  RECEIVED
+  CANCELLED
+}
+
+enum PurchaseOrderFulfillment {
+  DELIVERY
+  PICKUP
+}
+
+model Vendor {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  name           String
+  addressLine1   String?
+  city           String?
+  state          String?
+  zip            String?
+  phone          String?
+  phoneExt       String?
+  secondaryPhone String?
+  email          String?
+  secondaryEmail String?
+  contactName    String?
+  contactTitle   String?
+  paymentTerms   String?
+  active         Boolean @default(true)
+
+  purchaseOrders PurchaseOrder[]
+
+  createdAt DateTime @default(now())
+
+  @@index([companyId])
+}
+
+model PurchaseOrder {
+  id            String  @id @default(cuid())
+  companyId     String
+  company       Company @relation(fields: [companyId], references: [id])
+  number        Int     @unique @default(autoincrement())
+  vendorId      String
+  vendor        Vendor  @relation(fields: [vendorId], references: [id])
+  requestedById String?
+  requestedBy   User?   @relation(fields: [requestedById], references: [id])
+
+  status               PurchaseOrderStatus      @default(DRAFT)
+  orderDate            DateTime                 @default(now())
+  fulfillment          PurchaseOrderFulfillment @default(DELIVERY)
+  expectedDate         DateTime?
+  deliveryAddressLine1 String?
+  deliveryCity         String?
+  deliveryState        String?
+  deliveryZip          String?
+  notes                String?                  @db.Text
+  sentAt               DateTime?
+  receivedAt           DateTime?
+  // Lets the vendor download the PO PDF from the email without an account.
+  publicToken          String?                  @unique
+
+  lineItems   PurchaseOrderLineItem[]
+  attachments PurchaseOrderAttachment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([vendorId])
+}
+
+model PurchaseOrderLineItem {
+  id              String        @id @default(cuid())
+  companyId       String
+  company         Company       @relation(fields: [companyId], references: [id])
+  purchaseOrderId String
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id], onDelete: Cascade)
+  jobId           String?
+  job             Job?          @relation(fields: [jobId], references: [id], onDelete: SetNull)
+
+  name      String
+  costCents Int
+  quantity  Int    @default(1)
+  sortOrder Int    @default(0)
+
+  @@index([companyId])
+  @@index([purchaseOrderId])
+}
+
+model PurchaseOrderAttachment {
+  id              String        @id @default(cuid())
+  companyId       String
+  company         Company       @relation(fields: [companyId], references: [id])
+  purchaseOrderId String
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id], onDelete: Cascade)
+  filename        String
+  mimeType        String
+  dataUrl         String        @db.Text
+  createdAt       DateTime      @default(now())
+
+  @@index([companyId])
+  @@index([purchaseOrderId])
 }

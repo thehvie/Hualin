@@ -1,0 +1,73 @@
+import { createHmac, timingSafeEqual } from "crypto";
+
+/**
+ * Thin wrapper around Twilio's REST API (no SDK). One shared account/number for
+ * all tenants for now, same approach as Mailgun — the tenant's Company name
+ * is put in the message body so texts still read as coming from "their" business.
+ */
+
+export class TwilioNotConfiguredError extends Error {
+  constructor() {
+    super("Twilio is not configured (TWILIO_ACCOUNT_SID / TWILIO_AUTH_TOKEN / TWILIO_FROM_NUMBER).");
+    this.name = "TwilioNotConfiguredError";
+  }
+}
+
+/** Normalizes a US phone number to E.164 (+1XXXXXXXXXX). Returns null if it can't. */
+export function toE164(raw: string | null | undefined): string | null {
+  const digits = String(raw ?? "").replace(/\D/g, "");
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+  return null;
+}
+
+/** Last 10 digits, for matching an inbound number against stored customer phones. */
+export function last10(raw: string | null | undefined): string {
+  return String(raw ?? "").replace(/\D/g, "").slice(-10);
+}
+
+export async function sendSms({ to, body }: { to: string; body: string }): Promise<{ sid: string | null }> {
+  const sid = process.env.TWILIO_ACCOUNT_SID;
+  const token = process.env.TWILIO_AUTH_TOKEN;
+  const from = process.env.TWILIO_FROM_NUMBER;
+  if (!sid || !token || !from) throw new TwilioNotConfiguredError();
+
+  const res = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${Buffer.from(`${sid}:${token}`).toString("base64")}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({ To: to, From: from, Body: body }),
+  });
+
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`Twilio send failed (${res.status}): ${detail.slice(0, 300)}`);
+  }
+  const json = (await res.json()) as { sid?: string };
+  return { sid: json.sid ?? null };
+}
+
+/** Public URL Twilio is configured to POST inbound messages to. */
+export function twilioInboundUrl(): string {
+  const origin = (process.env.NEXTAUTH_URL || "http://localhost:3000").replace(/\/$/, "");
+  return `${origin}/api/twilio/inbound`;
+}
+
+/**
+ * Verifies Twilio's X-Twilio-Signature: base64(HMAC-SHA1(authToken, url + each
+ * POST param name+value, sorted by name)).
+ */
+export function verifyTwilioSignature(url: string, params: Record<string, string>, signature: string | null): boolean {
+  const token = process.env.TWILIO_AUTH_TOKEN;
+  if (!token || !signature) return false;
+  const data = url + Object.keys(params).sort().map((k) => k + params[k]).join("");
+  const expected = createHmac("sha1", token).update(data).digest("base64");
+  const a = Buffer.from(expected);
+  const b = Buffer.from(signature);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
+export const STOP_WORDS = ["STOP", "STOPALL", "UNSUBSCRIBE", "CANCEL", "END", "QUIT"];
+export const START_WORDS = ["START", "YES", "UNSTOP"];

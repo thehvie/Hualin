@@ -191,6 +191,9 @@ export async function sendEstimate(
     "",
     "Review the details and sign to approve it here:",
     estimateSigningUrl(publicToken),
+    "",
+    "Download a PDF copy:",
+    `${estimateSigningUrl(publicToken)}/pdf`,
   ].join("\n");
 
   let skipped = false;

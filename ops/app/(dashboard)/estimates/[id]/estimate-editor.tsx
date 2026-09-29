@@ -4,6 +4,8 @@ import { useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
 import { formatUnitPrice } from "@/lib/price-book";
 import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
+import { SmsComposer } from "@/components/sms-composer";
+import { sendEstimateSms } from "../../sms-actions";
 import {
   addLineItem,
   addLineItemFromPriceBook,
@@ -142,6 +144,17 @@ export function EstimateEditor({
     });
   }
 
+  function handleTextLink() {
+    if (!estimate.customer.phone) {
+      setNotice("This customer has no phone number on file — add one on the customer record first.");
+      return;
+    }
+    startTransition(async () => {
+      const res = await sendEstimateSms(estimate.id);
+      setNotice(res.ok ? "Estimate link texted to the customer." : res.error);
+    });
+  }
+
   function handleDelete() {
     if (!confirm("Delete this estimate? This can't be undone.")) return;
     startTransition(() => deleteEstimate(estimate.id));
@@ -193,6 +206,13 @@ export function EstimateEditor({
               Copy signing link
             </button>
           )}
+          <button
+            disabled={isPending}
+            onClick={handleTextLink}
+            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
+          >
+            Text link
+          </button>
           <button
             disabled={isPending}
             onClick={handleSend}
@@ -495,7 +515,18 @@ export function EstimateEditor({
 
       </div>
 
-      <ConversationPanel customerName={estimate.customer.name} messages={estimate.communications} />
+      <ConversationPanel
+        customerName={estimate.customer.name}
+        messages={estimate.communications}
+        composer={
+          <SmsComposer
+            customerId={estimate.customer.id}
+            customerName={estimate.customer.name}
+            hasPhone={!!estimate.customer.phone}
+            estimateId={estimate.id}
+          />
+        }
+      />
 
       </div>
 

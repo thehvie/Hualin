@@ -18,9 +18,11 @@ function formatTimestamp(iso: string) {
 export function ConversationPanel({
   customerName,
   messages,
+  composer,
 }: {
   customerName: string;
   messages: ConversationMessage[];
+  composer?: React.ReactNode;
 }) {
   return (
     <div className="flex flex-col gap-4 rounded-xl border border-zinc-200 bg-white p-5 lg:sticky lg:top-6">
@@ -41,7 +43,10 @@ export function ConversationPanel({
               }`}
             >
               <p className="mb-1 text-xs text-zinc-400">
-                {m.direction === "OUTBOUND" ? `You emailed ${customerName}` : `${customerName} replied`} ·{" "}
+                {m.direction === "OUTBOUND"
+                  ? `You ${m.channel === "SMS" ? "texted" : "emailed"} ${customerName}`
+                  : `${customerName} replied${m.channel === "SMS" ? " by text" : ""}`}{" "}
+                ·{" "}
                 {formatTimestamp(m.createdAt)}
               </p>
               <p className="whitespace-pre-line text-sm text-zinc-700">{m.body}</p>
@@ -49,6 +54,8 @@ export function ConversationPanel({
           ))}
         </div>
       )}
+
+      {composer}
     </div>
   );
 }

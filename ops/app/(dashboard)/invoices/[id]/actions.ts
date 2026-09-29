@@ -233,6 +233,11 @@ export async function removePayment(invoiceId: string, paymentId: string) {
 
 // ── Send ─────────────────────────────────────────────────────────────────
 
+function invoiceUrl(token: string): string {
+  const origin = (process.env.NEXTAUTH_URL || "http://localhost:3000").replace(/\/$/, "");
+  return `${origin}/i/${token}`;
+}
+
 export async function sendInvoice(
   invoiceId: string,
 ): Promise<{ ok: boolean; skipped: boolean; error?: string }> {
@@ -262,6 +267,12 @@ export async function sendInvoice(
     "",
     `Total: ${formatCents(totals.totalCents)}`,
     `Balance due: ${formatCents(totals.balanceCents)}`,
+    "",
+    "View your invoice online:",
+    invoiceUrl(invoice.publicToken),
+    "",
+    "Download a PDF copy:",
+    `${invoiceUrl(invoice.publicToken)}/pdf`,
     "",
     "We'll be in touch with details on how to pay.",
   ].join("\n");

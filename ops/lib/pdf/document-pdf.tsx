@@ -77,7 +77,7 @@ export interface DocumentPdfLineItem {
 }
 
 export interface DocumentPdfProps {
-  kind: "ESTIMATE" | "INVOICE";
+  kind: "ESTIMATE" | "INVOICE" | "PURCHASE_ORDER";
   number: number;
   date: string;
   company: {
@@ -106,15 +106,32 @@ export interface DocumentPdfProps {
   taxCents: number;
   totalCents: number;
   notes: string | null;
+  // Only for kind === "PURCHASE_ORDER": the addressee is a vendor, not a customer,
+  // and there's delivery/pickup info instead of a service location.
+  purchaseOrder?: {
+    vendorName: string;
+    vendorLines: string[];
+    fulfillment: "DELIVERY" | "PICKUP";
+    fulfillmentLines: string[];
+    expectedDate: string | null;
+    paymentTerms: string | null;
+  };
 }
+
+const KIND_LABELS = {
+  ESTIMATE: { title: "ESTIMATE", number: "Estimate #" },
+  INVOICE: { title: "INVOICE", number: "Invoice #" },
+  PURCHASE_ORDER: { title: "PURCHASE ORDER", number: "PO #" },
+} as const;
 
 function formatCents(cents: number) {
   return (cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
 export function DocumentPdf(props: DocumentPdfProps) {
-  const { kind, number, date, company, customer, property, lineItems, subtotalCents, discountCents, taxCents, totalCents, notes } =
+  const { kind, number, date, company, customer, property, lineItems, subtotalCents, discountCents, taxCents, totalCents, notes, purchaseOrder } =
     props;
+  const isPo = kind === "PURCHASE_ORDER" && !!purchaseOrder;
   const discountPercent = subtotalCents > 0 ? (discountCents / subtotalCents) * 100 : 0;
 
   return (
@@ -137,10 +154,10 @@ export function DocumentPdf(props: DocumentPdfProps) {
             </View>
           </View>
           <View style={{ alignItems: "flex-end" }}>
-            <Text style={styles.kindLabel}>{kind === "ESTIMATE" ? "ESTIMATE" : "INVOICE"}</Text>
+            <Text style={isPo ? [styles.kindLabel, { fontSize: 22 }] : styles.kindLabel}>{KIND_LABELS[kind].title}</Text>
             <View style={styles.metaBlock}>
               <View style={styles.metaRow}>
-                <Text style={styles.metaLabel}>{kind === "ESTIMATE" ? "Estimate #" : "Invoice #"}</Text>
+                <Text style={styles.metaLabel}>{KIND_LABELS[kind].number}</Text>
                 <Text style={styles.metaValue}>{number}</Text>
               </View>
               <View style={styles.metaRow}>
@@ -155,6 +172,32 @@ export function DocumentPdf(props: DocumentPdfProps) {
           </View>
         </View>
 
+        {isPo && purchaseOrder ? (
+          <View style={styles.partiesRow}>
+            <View style={styles.partyBlock}>
+              <Text style={styles.partyHeading}>Vendor:</Text>
+              <Text style={styles.partyLine}>{purchaseOrder.vendorName}</Text>
+              {purchaseOrder.vendorLines.map((l, i) => (
+                <Text key={i} style={styles.partyLine}>
+                  {l}
+                </Text>
+              ))}
+            </View>
+            <View style={styles.partyBlock}>
+              <Text style={styles.partyHeading}>{purchaseOrder.fulfillment === "PICKUP" ? "Pickup:" : "Deliver To:"}</Text>
+              {purchaseOrder.fulfillmentLines.map((l, i) => (
+                <Text key={i} style={styles.partyLine}>
+                  {l}
+                </Text>
+              ))}
+              {purchaseOrder.expectedDate && (
+                <Text style={styles.partyLine}>
+                  {purchaseOrder.fulfillment === "PICKUP" ? "Pickup" : "Needed by"}: {purchaseOrder.expectedDate}
+                </Text>
+              )}
+            </View>
+          </View>
+        ) : (
         <View style={styles.partiesRow}>
           <View style={styles.partyBlock}>
             <Text style={styles.partyHeading}>Prepared For:</Text>
@@ -190,13 +233,14 @@ export function DocumentPdf(props: DocumentPdfProps) {
             )}
           </View>
         </View>
+        )}
 
         <View style={styles.divider} />
 
         <View style={styles.tableHeaderRow}>
           <Text style={[styles.colDescription, styles.headerCell]}>Description</Text>
           <Text style={[styles.colQty, styles.headerCell]}>QTY</Text>
-          <Text style={[styles.colPrice, styles.headerCell]}>Price</Text>
+          <Text style={[styles.colPrice, styles.headerCell]}>{isPo ? "Cost" : "Price"}</Text>
           <Text style={[styles.colAmount, styles.headerCell]}>Amount</Text>
         </View>
         {lineItems.map((li, i) => (
@@ -234,8 +278,10 @@ export function DocumentPdf(props: DocumentPdfProps) {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionHeading}>Terms:</Text>
-          <Text style={styles.sectionBody}>{company.termsText || DEFAULT_TERMS}</Text>
+          <Text style={styles.sectionHeading}>{isPo ? "Payment terms:" : "Terms:"}</Text>
+          <Text style={styles.sectionBody}>
+            {isPo ? (purchaseOrder?.paymentTerms ?? "") : company.termsText || DEFAULT_TERMS}
+          </Text>
         </View>
 
         <View style={styles.section}>
@@ -243,7 +289,7 @@ export function DocumentPdf(props: DocumentPdfProps) {
           <Text style={styles.sectionBody}>{notes || ""}</Text>
         </View>
 
-        <Text style={styles.footer}>Thank you for your business</Text>
+        <Text style={styles.footer}>{isPo ? "Thank you" : "Thank you for your business"}</Text>
       </Page>
     </Document>
   );
