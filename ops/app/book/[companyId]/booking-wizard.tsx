@@ -45,12 +45,18 @@ export function BookingWizard({
   companyId,
   companyName,
   serviceName,
+  todayYmd,
+  timezoneName,
 }: {
   companyId: string;
   companyName: string;
   serviceName: string;
+  /** "Today" as a calendar date in the business's timezone (not the visitor's). */
+  todayYmd: string;
+  timezoneName: string;
 }) {
-  const today = startOfDay(new Date());
+  const [ty, tm, td] = todayYmd.split("-").map(Number);
+  const today = new Date(ty, tm - 1, td);
   const [step, setStep] = useState(0);
   const [weekStart, setWeekStart] = useState(today);
   const [selectedDate, setSelectedDate] = useState<Date>(today);
@@ -200,7 +206,7 @@ export function BookingWizard({
               })}
             </div>
 
-            <p className="mt-4 text-xs text-zinc-400">Times are shown in {companyName}&rsquo;s local time.</p>
+            <p className="mt-4 text-xs text-zinc-400">Times are shown in {companyName}&rsquo;s local time ({timezoneName}).</p>
 
             <h4 className="mb-2 mt-4 text-sm font-semibold text-zinc-900">Select a visit time</h4>
             {slotsLoading ? (

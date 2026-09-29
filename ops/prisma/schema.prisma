@@ -33,6 +33,8 @@ model Company {
   stripePriceId        String?
   subscriptionStatus   SubscriptionStatus @default(TRIALING)
   trialEndsAt          DateTime?
+  // IANA zone the business operates in; job times are read/written in it.
+  timezone             String             @default("America/New_York")
 
   users                        User[]
   customers                    Customer[]

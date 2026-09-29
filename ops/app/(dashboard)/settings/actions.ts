@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import sharp from "sharp";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { isValidTimezone, DEFAULT_TIMEZONE } from "@/lib/tz";
 
 // A generous ceiling on the RAW upload, just to stop an absurd payload —
 // not a real quality gate. sharp always resizes the output to a small,
@@ -53,10 +54,14 @@ export async function updateCompanyProfile(
   const phone = String(formData.get("phone") || "").trim();
   const website = String(formData.get("website") || "").trim();
   const termsText = String(formData.get("termsText") || "").trim();
+  const timezone = String(formData.get("timezone") || DEFAULT_TIMEZONE);
   const rawLogoDataUrl = String(formData.get("logoDataUrl") || "").trim();
 
   if (!name) {
     return { error: "Company name is required." };
+  }
+  if (!isValidTimezone(timezone)) {
+    return { error: "Please choose a valid time zone." };
   }
 
   let logoDataUrl: string | null = null;
@@ -74,6 +79,7 @@ export async function updateCompanyProfile(
       phone: phone || null,
       website: website || null,
       termsText: termsText || null,
+      timezone,
       ...(logoDataUrl ? { logoDataUrl } : {}),
     },
   });

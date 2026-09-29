@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { LogoUploadField } from "./logo-upload-field";
+import { TIMEZONE_OPTIONS } from "@/lib/tz";
 import { updateCompanyProfile, removeCompanyLogo, type SettingsFormState } from "./actions";
 
 const DEFAULT_TERMS_PLACEHOLDER =
@@ -16,6 +17,7 @@ export function SettingsForm({
     phone: string | null;
     website: string | null;
     termsText: string | null;
+    timezone: string;
     logoDataUrl: string | null;
   };
 }) {
@@ -49,6 +51,27 @@ export function SettingsForm({
       <Field label="Email" name="email" type="email" defaultValue={company.email || ""} />
       <Field label="Phone" name="phone" type="tel" defaultValue={company.phone || ""} />
       <Field label="Website" name="website" defaultValue={company.website || ""} placeholder="haulinjunkies.com" />
+
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="timezone" className="text-sm font-medium text-zinc-700">
+          Time zone
+        </label>
+        <select
+          id="timezone"
+          name="timezone"
+          defaultValue={company.timezone}
+          className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+        >
+          {TIMEZONE_OPTIONS.map((tz) => (
+            <option key={tz.value} value={tz.value}>
+              {tz.label}
+            </option>
+          ))}
+        </select>
+        <p className="text-xs text-zinc-400">
+          Used for your schedule, online booking times, and the confirmations customers receive.
+        </p>
+      </div>
 
       <div className="flex flex-col gap-1.5">
         <label htmlFor="termsText" className="text-sm font-medium text-zinc-700">

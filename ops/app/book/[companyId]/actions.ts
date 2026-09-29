@@ -1,7 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { slotsForDate, slotDateTime, parseYmd, MAX_JOBS_PER_SLOT } from "@/lib/booking";
+import { slotsForDate, slotInstant, MAX_JOBS_PER_SLOT } from "@/lib/booking";
+import { isValidYmd, addDaysYmd, startOfDayInTz, wallParts } from "@/lib/tz";
 import { normalizePhoto, MAX_PHOTOS } from "@/lib/photos";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
 import { notifyBooking } from "@/lib/booking-notify";
@@ -16,25 +17,26 @@ export async function getAvailableSlots(
   // Availability lookups are cheap but unauthenticated; stop scripted scraping.
   if (!rateLimit(`slots:${await clientIp()}`, 120, 60_000).ok) return [];
 
-  const date = parseYmd(ymd);
-  if (!date) return [];
-  const daySlots = slotsForDate(date);
+  if (!isValidYmd(ymd)) return [];
+  const company = await prisma.company.findUnique({ where: { id: companyId }, select: { timezone: true } });
+  if (!company) return [];
+  const tz = company.timezone;
+
+  const daySlots = slotsForDate(ymd, tz);
   if (daySlots.length === 0) return [];
 
-  const dayStart = new Date(date);
-  dayStart.setHours(0, 0, 0, 0);
-  const dayEnd = new Date(date);
-  dayEnd.setHours(23, 59, 59, 999);
+  const dayStart = startOfDayInTz(ymd, tz);
+  const dayEnd = startOfDayInTz(addDaysYmd(ymd, 1), tz);
 
   const jobs = await prisma.job.findMany({
-    where: { companyId, status: { not: "CANCELLED" }, scheduledAt: { gte: dayStart, lte: dayEnd } },
+    where: { companyId, status: { not: "CANCELLED" }, scheduledAt: { gte: dayStart, lt: dayEnd } },
     select: { scheduledAt: true },
   });
 
   const countByHour = new Map<number, number>();
   for (const j of jobs) {
     if (!j.scheduledAt) continue;
-    const h = j.scheduledAt.getHours();
+    const h = wallParts(j.scheduledAt, tz).hour;
     countByHour.set(h, (countByHour.get(h) ?? 0) + 1);
   }
 
@@ -77,12 +79,11 @@ export async function submitBooking(
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return { ok: false, error: "Please enter a valid email address." };
   }
-  const date = parseYmd(ymd);
-  if (!date || !Number.isInteger(hour)) {
+  if (!isValidYmd(ymd) || !Number.isInteger(hour)) {
     return { ok: false, error: "Please pick a date and time." };
   }
   // Only accept a slot we'd actually have offered (open day, in window, in hours, not too soon).
-  if (!slotsForDate(date).some((s) => s.hour === hour)) {
+  if (!slotsForDate(ymd, company.timezone).some((s) => s.hour === hour)) {
     return { ok: false, error: "That time isn't available — please pick another." };
   }
 
@@ -98,7 +99,7 @@ export async function submitBooking(
     return { ok: false, error: err instanceof Error ? err.message : "Could not process the uploaded photos." };
   }
 
-  const scheduledAt = slotDateTime(date, hour);
+  const scheduledAt = slotInstant(ymd, hour, company.timezone);
 
   const conflictCount = await prisma.job.count({
     where: { companyId, scheduledAt, status: { not: "CANCELLED" } },

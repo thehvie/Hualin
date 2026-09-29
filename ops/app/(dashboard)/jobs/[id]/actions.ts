@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { fromDatetimeLocalInTz } from "@/lib/tz";
 import { normalizePhoto, MAX_PHOTOS } from "@/lib/photos";
 
 const JOB_STATUSES = ["UNSCHEDULED", "SCHEDULED", "IN_PROGRESS", "COMPLETED", "CANCELLED"] as const;
@@ -20,11 +21,15 @@ export async function updateJob(jobId: string, formData: FormData) {
     throw new Error(`Invalid status: ${status}`);
   }
 
+  const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
+  const scheduledAt = scheduledAtStr ? fromDatetimeLocalInTz(scheduledAtStr, timezone) : null;
+  if (scheduledAtStr && !scheduledAt) throw new Error("That date and time isn't valid.");
+
   await prisma.job.updateMany({
     where: { id: jobId, companyId },
     data: {
       status: status as JobStatusValue,
-      scheduledAt: scheduledAtStr ? new Date(scheduledAtStr) : null,
+      scheduledAt,
       completedAt: status === "COMPLETED" ? new Date() : status === "CANCELLED" ? null : undefined,
       notes: notes || null,
     },

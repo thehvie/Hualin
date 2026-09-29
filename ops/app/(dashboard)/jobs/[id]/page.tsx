@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { timezoneLabel } from "@/lib/tz";
 import { JobEditor } from "./job-editor";
 
 export default async function JobDetailPage({
@@ -15,6 +16,7 @@ export default async function JobDetailPage({
   const job = await prisma.job.findFirst({
     where: { id, companyId },
     include: {
+      company: { select: { timezone: true } },
       customer: true,
       property: true,
       estimates: { orderBy: { createdAt: "asc" }, include: { invoice: true } },
@@ -35,6 +37,8 @@ export default async function JobDetailPage({
           id: job.id,
           status: job.status,
           scheduledAt: job.scheduledAt ? job.scheduledAt.toISOString() : null,
+          timezone: job.company.timezone,
+          timezoneName: timezoneLabel(job.company.timezone),
           notes: job.notes,
           customer: {
             id: job.customer.id,

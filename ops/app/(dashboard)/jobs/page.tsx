@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { formatInTz } from "@/lib/tz";
 
 const STATUS_LABELS: Record<string, string> = {
   UNSCHEDULED: "Unscheduled",
@@ -20,6 +21,7 @@ const STATUS_COLOR: Record<string, string> = {
 
 export default async function JobsPage() {
   const { companyId } = await requireSession();
+  const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
 
   const jobs = await prisma.job.findMany({
     where: { companyId },
@@ -59,7 +61,7 @@ export default async function JobsPage() {
                   <td className="px-4 py-3">
                     <Link href={`/jobs/${job.id}`} className="font-medium text-zinc-900 hover:text-brand">
                       {job.scheduledAt
-                        ? job.scheduledAt.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })
+                        ? formatInTz(job.scheduledAt, timezone, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })
                         : "Unscheduled"}
                     </Link>
                   </td>

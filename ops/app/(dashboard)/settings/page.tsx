@@ -22,6 +22,7 @@ export default async function SettingsPage() {
           phone: company.phone,
           website: company.website,
           termsText: company.termsText,
+          timezone: company.timezone,
           logoDataUrl: company.logoDataUrl,
         }}
       />

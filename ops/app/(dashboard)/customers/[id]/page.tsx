@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { GoogleMap } from "@/components/google-map";
 import { getHomeBaseLocation, haversineDistanceMiles } from "@/lib/geocode";
 import { requireSession } from "@/lib/session";
+import { formatInTz } from "@/lib/tz";
 
 const SOURCE_LABELS: Record<string, string> = {
   GOOGLE_ADS: "Google Ads",
@@ -25,6 +26,7 @@ export default async function CustomerDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { companyId } = await requireSession();
+  const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
   const { id } = await params;
 
   const customer = await prisma.customer.findFirst({
@@ -169,7 +171,7 @@ export default async function CustomerDetailPage({
             emptyLabel="No jobs yet."
             rows={customer.jobs.map((j) => ({
               id: j.id,
-              primary: j.scheduledAt ? formatDate(j.scheduledAt) : "Unscheduled",
+              primary: j.scheduledAt ? formatInTz(j.scheduledAt, timezone, { month: "short", day: "numeric", year: "numeric" }) : "Unscheduled",
               secondary: j.status,
               date: j.createdAt,
               href: `/jobs/${j.id}`,

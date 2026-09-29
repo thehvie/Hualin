@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { toDatetimeLocalInTz } from "@/lib/tz";
 import { updateJob, createEstimateForJob, addJobAttachments, removeJobAttachment } from "./actions";
 import { createInvoiceForEstimate } from "../../estimates/[id]/actions";
 
@@ -27,17 +28,19 @@ const TABS = [
 ] as const;
 type TabId = (typeof TABS)[number]["id"];
 
-function toDatetimeLocal(iso: string | null): string {
+// The datetime input shows and edits the wall-clock time in the COMPANY's timezone,
+// not the browser's, so it matches the schedule and what customers were told.
+function toDatetimeLocal(iso: string | null, timezone: string): string {
   if (!iso) return "";
-  const d = new Date(iso);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  return toDatetimeLocalInTz(new Date(iso), timezone);
 }
 
 interface JobData {
   id: string;
   status: string;
   scheduledAt: string | null;
+  timezone: string;
+  timezoneName: string;
   notes: string | null;
   customer: { id: string; name: string; email: string | null; phone: string | null };
   property: { addressLine1: string; addressLine2: string | null; city: string; state: string; zip: string } | null;
@@ -63,7 +66,7 @@ export function JobEditor({ job }: { job: JobData }) {
   function save(overrides: Record<string, string>) {
     const fd = new FormData();
     fd.set("status", job.status);
-    fd.set("scheduledAt", toDatetimeLocal(job.scheduledAt));
+    fd.set("scheduledAt", toDatetimeLocal(job.scheduledAt, job.timezone));
     fd.set("notes", job.notes || "");
     for (const [k, v] of Object.entries(overrides)) fd.set(k, v);
     startTransition(async () => {
@@ -158,11 +161,12 @@ export function JobEditor({ job }: { job: JobData }) {
             <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">Scheduled for</p>
             <input
               type="datetime-local"
-              defaultValue={toDatetimeLocal(job.scheduledAt)}
+              defaultValue={toDatetimeLocal(job.scheduledAt, job.timezone)}
               disabled={isPending}
               onChange={(e) => save({ scheduledAt: e.target.value })}
               className="rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand"
             />
+            <p className="mt-1.5 text-xs text-zinc-400">Shown in {job.timezoneName}</p>
           </div>
 
           <div className="rounded-xl border border-zinc-200 bg-white p-5">

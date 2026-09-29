@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { formatInTz, startOfDayInTz, wallParts, wallYmd } from "@/lib/tz";
 
 type Job = Awaited<ReturnType<typeof loadJobs>>[number];
 
@@ -63,11 +64,12 @@ async function loadJobs(companyId: string, rangeStart: Date, rangeEndExclusive: 
   });
 }
 
-function groupByDay(jobs: Job[]) {
+// Keyed by the calendar date (YYYY-MM-DD) in the company's timezone.
+function groupByDay(jobs: Job[], tz: string) {
   const map = new Map<string, Job[]>();
   for (const job of jobs) {
     if (!job.scheduledAt) continue;
-    const key = job.scheduledAt.toDateString();
+    const key = wallYmd(job.scheduledAt, tz);
     if (!map.has(key)) map.set(key, []);
     map.get(key)!.push(job);
   }
@@ -85,7 +87,7 @@ function formatHourLabel(h: number) {
   return `${display} ${period}`;
 }
 
-function DayColumn({ day, jobs, showLabels }: { day: Date; jobs: Job[]; showLabels?: boolean }) {
+function DayColumn({ jobs, tz, showLabels }: { jobs: Job[]; tz: string; showLabels?: boolean }) {
   const hours = timelineHours();
   const totalHeight = (hours.length - 1) * ROW_HEIGHT;
   return (
@@ -105,7 +107,8 @@ function DayColumn({ day, jobs, showLabels }: { day: Date; jobs: Job[]; showLabe
         ))}
         {jobs.map((job) => {
           if (!job.scheduledAt) return null;
-          const hour = job.scheduledAt.getHours() + job.scheduledAt.getMinutes() / 60;
+          const wall = wallParts(job.scheduledAt, tz);
+          const hour = wall.hour + wall.minute / 60;
           if (hour < TIMELINE_START_HOUR || hour >= TIMELINE_END_HOUR) return null;
           const top = (hour - TIMELINE_START_HOUR) * ROW_HEIGHT;
           return (
@@ -117,7 +120,7 @@ function DayColumn({ day, jobs, showLabels }: { day: Date; jobs: Job[]; showLabe
             >
               <p className="truncate font-semibold">{job.customer.firstName} {job.customer.lastName}</p>
               <p className="truncate text-[11px] opacity-80">
-                {job.scheduledAt.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
+                {formatInTz(job.scheduledAt, tz, { hour: "numeric", minute: "2-digit" })}
               </p>
             </Link>
           );
@@ -133,10 +136,14 @@ export default async function SchedulePage({
   searchParams: Promise<{ view?: string; date?: string }>;
 }) {
   const { companyId } = await requireSession();
+  const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
   const { view: viewParam, date: dateParam } = await searchParams;
 
   const view: View = VIEWS.includes(viewParam as View) ? (viewParam as View) : "month";
-  const today = startOfDay(new Date());
+  // "Today" is the current date in the company's timezone, not the server's.
+  const todayYmd = wallYmd(new Date(), timezone);
+  const [ty, tm, td] = todayYmd.split("-").map(Number);
+  const today = new Date(ty, tm - 1, td);
   const anchor = dateParam ? startOfDay(new Date(dateParam + "T00:00:00")) : today;
 
   let rangeStart: Date;
@@ -170,8 +177,9 @@ export default async function SchedulePage({
     nextHref = `/schedule?view=day&date=${fmtDate(addDays(anchor, 1))}`;
   }
 
-  const jobs = await loadJobs(companyId, rangeStart, rangeEndExclusive);
-  const jobsByDay = groupByDay(jobs);
+  // The day grid uses plain calendar dates; the query needs the real instants those days start at in the company's timezone.
+  const jobs = await loadJobs(companyId, startOfDayInTz(fmtDate(rangeStart), timezone), startOfDayInTz(fmtDate(rangeEndExclusive), timezone));
+  const jobsByDay = groupByDay(jobs, timezone);
   const todayHref = `/schedule?view=${view}&date=${fmtDate(today)}`;
 
   return (
@@ -215,8 +223,8 @@ export default async function SchedulePage({
           <div className="grid grid-cols-7">
             {monthGrid(anchor.getFullYear(), anchor.getMonth()).map((day) => {
               const inMonth = day.getMonth() === anchor.getMonth();
-              const isToday = day.toDateString() === today.toDateString();
-              const dayJobs = jobsByDay.get(day.toDateString()) || [];
+              const isToday = fmtDate(day) === todayYmd;
+              const dayJobs = jobsByDay.get(fmtDate(day)) || [];
               return (
                 <div key={day.toISOString()} className={`min-h-[110px] border-b border-r border-zinc-100 p-2 ${inMonth ? "bg-white" : "bg-zinc-50"}`}>
                   <Link
@@ -232,7 +240,7 @@ export default async function SchedulePage({
                       <li key={job.id}>
                         <Link href={`/jobs/${job.id}`} className="flex items-center gap-1.5 truncate rounded px-1 py-0.5 text-xs text-zinc-700 hover:bg-zinc-100">
                           <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${STATUS_DOT[job.status]}`} />
-                          <span className="shrink-0 font-medium">{job.scheduledAt?.toLocaleTimeString("en-US", { hour: "numeric" })}</span>
+                          <span className="shrink-0 font-medium">{job.scheduledAt ? formatInTz(job.scheduledAt, timezone, { hour: "numeric" }) : ""}</span>
                           <span className="truncate">{job.customer.firstName} {job.customer.lastName}</span>
                         </Link>
                       </li>
@@ -252,7 +260,7 @@ export default async function SchedulePage({
             <div className="w-14 shrink-0" />
             <div className="grid flex-1 grid-cols-7">
               {Array.from({ length: 7 }, (_, i) => addDays(rangeStart, i)).map((day) => {
-                const isToday = day.toDateString() === today.toDateString();
+                const isToday = fmtDate(day) === todayYmd;
                 return (
                   <Link key={day.toISOString()} href={`/schedule?view=day&date=${fmtDate(day)}`} className="pb-2 text-center hover:opacity-70">
                     <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">
@@ -276,7 +284,7 @@ export default async function SchedulePage({
             </div>
             <div className="grid flex-1 grid-cols-7">
               {Array.from({ length: 7 }, (_, i) => addDays(rangeStart, i)).map((day) => (
-                <DayColumn key={day.toISOString()} day={day} jobs={jobsByDay.get(day.toDateString()) || []} />
+                <DayColumn key={day.toISOString()} tz={timezone} jobs={jobsByDay.get(fmtDate(day)) || []} />
               ))}
             </div>
           </div>
@@ -286,7 +294,7 @@ export default async function SchedulePage({
       {view === "day" && (
         <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white p-4">
           <div className="min-w-[500px]">
-            <DayColumn day={anchor} jobs={jobsByDay.get(anchor.toDateString()) || []} showLabels />
+            <DayColumn tz={timezone} jobs={jobsByDay.get(fmtDate(anchor)) || []} showLabels />
           </div>
         </div>
       )}

@@ -1,14 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { addDaysYmd, formatInTz, startOfDayInTz, wallYmd } from "@/lib/tz";
 
-function startOfDay(d: Date) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
-function endOfDay(d: Date) {
-  const s = startOfDay(d);
-  return new Date(s.getTime() + 24 * 60 * 60 * 1000);
-}
 function formatCents(cents: number) {
   return (cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
@@ -25,9 +19,12 @@ function timeAgo(date: Date) {
 
 export default async function DashboardHome() {
   const { companyId } = await requireSession();
+  const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
   const today = new Date();
-  const todayStart = startOfDay(today);
-  const todayEnd = endOfDay(today);
+  // "Today" runs midnight to midnight in the company's timezone.
+  const todayYmd = wallYmd(today, timezone);
+  const todayStart = startOfDayInTz(todayYmd, timezone);
+  const todayEnd = startOfDayInTz(addDaysYmd(todayYmd, 1), timezone);
   const fourteenDaysAgo = new Date(todayStart.getTime() - 14 * 24 * 60 * 60 * 1000);
 
   const [
@@ -186,13 +183,14 @@ export default async function DashboardHome() {
                 {nextJob.customer.firstName} {nextJob.customer.lastName}
               </p>
               <p className="mt-1 text-zinc-500">
-                {nextJob.scheduledAt?.toLocaleString("en-US", {
-                  weekday: "short",
-                  month: "short",
-                  day: "numeric",
-                  hour: "numeric",
-                  minute: "2-digit",
-                })}
+                {nextJob.scheduledAt &&
+                  formatInTz(nextJob.scheduledAt, timezone, {
+                    weekday: "short",
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}
               </p>
               <Link href={`/jobs/${nextJob.id}`} className="mt-3 inline-block text-sm font-medium text-brand hover:underline">
                 View job

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/mailgun";
 import { sendSms, toE164 } from "@/lib/twilio";
+import { formatInTz } from "@/lib/tz";
 
 interface BookingNotice {
   companyId: string;
@@ -12,10 +13,10 @@ interface BookingNotice {
   address: string;
 }
 
-const whenLong = (d: Date) =>
-  d.toLocaleString("en-US", { weekday: "long", month: "long", day: "numeric", hour: "numeric", minute: "2-digit" });
-const whenShort = (d: Date) =>
-  d.toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+const whenLong = (d: Date, tz: string) =>
+  formatInTz(d, tz, { weekday: "long", month: "long", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+const whenShort = (d: Date, tz: string) =>
+  formatInTz(d, tz, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
 
 /**
  * Confirms a new online booking to the customer (email + text) and alerts the
@@ -29,7 +30,8 @@ export async function notifyBooking(n: BookingNotice): Promise<void> {
   ]);
   if (!company || !customer) return;
 
-  const when = whenLong(n.scheduledAt);
+  const tz = company.timezone;
+  const when = whenLong(n.scheduledAt, tz);
   const origin = (process.env.NEXTAUTH_URL || "http://localhost:3000").replace(/\/$/, "");
 
   // 1. Email the customer.
@@ -51,7 +53,7 @@ export async function notifyBooking(n: BookingNotice): Promise<void> {
         to: customer.email,
         fromName: company.name,
         replyTo: company.email ?? undefined,
-        subject: `You're booked with ${company.name} — ${whenShort(n.scheduledAt)}`,
+        subject: `You're booked with ${company.name} — ${whenShort(n.scheduledAt, tz)}`,
         text,
       });
       await prisma.communication.create({
@@ -65,7 +67,7 @@ export async function notifyBooking(n: BookingNotice): Promise<void> {
   // 2. Text the customer (they gave their number on the form, with consent copy).
   const to = toE164(customer.phone);
   if (to && !customer.smsOptedOut) {
-    const body = `${company.name}: you're booked for ${whenShort(n.scheduledAt)} at ${n.address}. Reply STOP to opt out.`;
+    const body = `${company.name}: you're booked for ${whenShort(n.scheduledAt, tz)} at ${n.address}. Reply STOP to opt out.`;
     try {
       const { sid } = await sendSms({ to, body });
       await prisma.communication.create({
@@ -98,7 +100,7 @@ export async function notifyBooking(n: BookingNotice): Promise<void> {
       await sendEmail({
         to: company.email,
         fromName: "Online booking",
-        subject: `New booking: ${customer.firstName} ${customer.lastName} — ${whenShort(n.scheduledAt)}`,
+        subject: `New booking: ${customer.firstName} ${customer.lastName} — ${whenShort(n.scheduledAt, tz)}`,
         text,
       });
     } catch (err) {

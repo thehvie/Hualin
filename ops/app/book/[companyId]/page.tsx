@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { BookingWizard } from "./booking-wizard";
+import { wallYmd, timezoneLabel } from "@/lib/tz";
 
 export default async function BookingPage({
   params,
@@ -27,7 +28,13 @@ export default async function BookingPage({
         </div>
       </div>
       <div className="mx-auto mt-6 max-w-2xl">
-        <BookingWizard companyId={company.id} companyName={company.name} serviceName="Junk Removal" />
+        <BookingWizard
+          companyId={company.id}
+          companyName={company.name}
+          serviceName="Junk Removal"
+          todayYmd={wallYmd(new Date(), company.timezone)}
+          timezoneName={timezoneLabel(company.timezone)}
+        />
       </div>
     </div>
   );
