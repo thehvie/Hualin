@@ -6,6 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { lineItemsTotal, formatCents } from "@/lib/money";
 import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/mailgun";
 import { requireSession } from "@/lib/session";
+import { createInvoiceFromEstimate } from "@/lib/estimate-invoice";
+import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
 
 function toCents(value: string): number {
   const n = Math.round(parseFloat(value || "0") * 100);
@@ -137,63 +139,13 @@ export async function removePaymentScheduleItem(estimateId: string, itemId: stri
   revalidatePath(`/estimates/${estimateId}`);
 }
 
-/**
- * The core workflow: approve the estimate and one-click convert it to an Invoice,
- * copying the line items over.
- */
-export async function markAsWon(estimateId: string) {
+/** Creates the invoice once the job is complete (see createInvoiceFromEstimate). */
+export async function createInvoiceForEstimate(estimateId: string): Promise<{ error: string } | void> {
   const { companyId } = await requireSession();
-
-  const estimate = await prisma.estimate.findFirst({
-    where: { id: estimateId, companyId },
-    include: { lineItems: true, paymentSchedule: { orderBy: { sortOrder: "asc" } }, invoice: true },
-  });
-  if (!estimate) return;
-  if (estimate.invoice) {
-    redirect(`/invoices/${estimate.invoice.id}`);
-  }
-
-  const [, invoice] = await prisma.$transaction([
-    prisma.estimate.update({ where: { id: estimateId }, data: { status: "APPROVED", respondedAt: new Date() } }),
-    prisma.invoice.create({
-      data: {
-        companyId,
-        customerId: estimate.customerId,
-        estimateId: estimate.id,
-        jobId: estimate.jobId ?? undefined,
-        status: "DRAFT",
-        name: `Invoice for Estimate #${estimate.number}`,
-        notes: estimate.notes,
-        discountCents: estimate.discountCents,
-        depositCents: estimate.depositCents,
-        laborCostCents: estimate.laborCostCents,
-        lineItems: {
-          create: estimate.lineItems.map((li, i) => ({
-            companyId,
-            priceBookItemId: li.priceBookItemId,
-            description: li.description,
-            quantity: li.quantity,
-            unitPriceCents: li.unitPriceCents,
-            costCents: li.costCents,
-            sortOrder: i,
-          })),
-        },
-        paymentSchedule: {
-          create: estimate.paymentSchedule.map((p, i) => ({
-            companyId,
-            label: p.label,
-            amountCents: p.amountCents,
-            dueDate: p.dueDate,
-            sortOrder: i,
-          })),
-        },
-      },
-    }),
-  ]);
-
+  const result = await createInvoiceFromEstimate(estimateId, companyId);
+  if ("error" in result) return result;
   revalidatePath(`/estimates/${estimateId}`);
-  if (estimate.jobId) revalidatePath(`/jobs/${estimate.jobId}`);
-  redirect(`/invoices/${invoice.id}`);
+  redirect(`/invoices/${result.invoiceId}`);
 }
 
 export async function sendEstimate(
@@ -210,6 +162,15 @@ export async function sendEstimate(
     return { ok: false, skipped: false, error: "This customer has no email address on file." };
   }
 
+  if (estimate.lineItems.length === 0) {
+    return { ok: false, skipped: false, error: "Add at least one item before sending this estimate." };
+  }
+
+  const publicToken = estimate.publicToken ?? newPublicToken();
+  if (!estimate.publicToken) {
+    await prisma.estimate.update({ where: { id: estimateId }, data: { publicToken } });
+  }
+
   const totalCents = Math.max(0, lineItemsTotal(estimate.lineItems) - estimate.discountCents);
   const emailBody = [
     `Hi ${estimate.customer.firstName},`,
@@ -218,7 +179,8 @@ export async function sendEstimate(
     "",
     `Total: ${formatCents(totalCents)}`,
     "",
-    "We'll be in touch with details.",
+    "Review the details and sign to approve it here:",
+    estimateSigningUrl(publicToken),
   ].join("\n");
 
   let skipped = false;
@@ -249,9 +211,13 @@ export async function sendEstimate(
     }
   }
 
+  // Don't knock an already-approved/declined estimate back to SENT on a re-send.
   await prisma.estimate.update({
     where: { id: estimateId },
-    data: { status: "SENT", sentAt: new Date() },
+    data:
+      estimate.status === "DRAFT" || estimate.status === "SENT"
+        ? { status: "SENT", sentAt: new Date() }
+        : { sentAt: new Date() },
   });
   revalidatePath(`/estimates/${estimateId}`);
   return { ok: true, skipped };

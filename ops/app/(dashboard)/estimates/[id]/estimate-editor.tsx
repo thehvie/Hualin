@@ -10,14 +10,14 @@ import {
   updateEstimateHeader,
   addPaymentScheduleItem,
   removePaymentScheduleItem,
-  markAsWon,
+  createInvoiceForEstimate,
   sendEstimate,
   deleteEstimate,
 } from "./actions";
 
 const STATUS_LABELS: Record<string, string> = {
   DRAFT: "Unsent",
-  SENT: "Pending",
+  SENT: "Sent",
   APPROVED: "Approved",
   DECLINED: "Declined",
   EXPIRED: "Archived",
@@ -54,6 +54,10 @@ interface EstimateData {
   hasInvoice: boolean;
   invoiceId: string | null;
   jobId: string | null;
+  jobStatus: string | null;
+  signingUrl: string | null;
+  signedName: string | null;
+  signedAt: string | null;
   communications: ConversationMessage[];
 }
 
@@ -106,12 +110,19 @@ export function EstimateEditor({
     startTransition(() => updateEstimateHeader(estimate.id, fd));
   }
 
-  function handleMarkAsWon() {
-    if (estimate.lineItems.length === 0) {
-      setNotice("Add at least one item before marking this estimate as won.");
-      return;
-    }
-    startTransition(() => markAsWon(estimate.id));
+  function handleCreateInvoice() {
+    startTransition(async () => {
+      const res = await createInvoiceForEstimate(estimate.id);
+      if (res && "error" in res) setNotice(res.error);
+    });
+  }
+
+  function handleCopyLink() {
+    if (!estimate.signingUrl) return;
+    navigator.clipboard
+      .writeText(estimate.signingUrl)
+      .then(() => setNotice("Signing link copied — paste it into a text or email to the customer."))
+      .catch(() => setNotice(estimate.signingUrl));
   }
 
   function handleSend() {
@@ -170,6 +181,15 @@ export function EstimateEditor({
           >
             Download PDF
           </a>
+          {estimate.signingUrl && (
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              className="rounded-lg border border-zinc-300 px-3 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
+            >
+              Copy signing link
+            </button>
+          )}
           <button
             disabled={isPending}
             onClick={handleSend}
@@ -179,6 +199,21 @@ export function EstimateEditor({
           </button>
         </div>
       </div>
+
+      {estimate.signedAt && (
+        <div className="rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+          Signed and approved by <strong>{estimate.signedName}</strong> on{" "}
+          {new Date(estimate.signedAt).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}.
+          {estimate.status === "APPROVED" && !estimate.hasInvoice && (
+            <span>
+              {" "}
+              {estimate.jobStatus !== null && estimate.jobStatus !== "COMPLETED"
+                ? "Create the invoice once the job is complete."
+                : "The job is complete — you can create the invoice."}
+            </span>
+          )}
+        </div>
+      )}
 
       {notice && (
         <div className="flex items-start justify-between gap-3 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
@@ -221,6 +256,7 @@ export function EstimateEditor({
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Status</p>
           <select
+            key={estimate.status}
             defaultValue={estimate.status}
             disabled={isPending}
             onChange={(e) => handleStatusChange(e.target.value)}
@@ -299,13 +335,20 @@ export function EstimateEditor({
           >
             Price book
           </button>
-          <button
-            disabled={isPending || estimate.hasInvoice}
-            onClick={handleMarkAsWon}
-            className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
-          >
-            {estimate.hasInvoice ? "Already converted" : "Mark as won"}
-          </button>
+          {estimate.status === "APPROVED" && !estimate.hasInvoice && (
+            <button
+              disabled={isPending || (estimate.jobStatus !== null && estimate.jobStatus !== "COMPLETED")}
+              onClick={handleCreateInvoice}
+              title={
+                estimate.jobStatus !== null && estimate.jobStatus !== "COMPLETED"
+                  ? "Complete the job first"
+                  : undefined
+              }
+              className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
+            >
+              Create invoice
+            </button>
+          )}
         </div>
       </div>
 

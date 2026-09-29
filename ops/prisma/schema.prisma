@@ -267,6 +267,13 @@ model Estimate {
   sentAt      DateTime?
   respondedAt DateTime?
 
+  // Customer e-signature via the public /e/[token] page.
+  publicToken      String?   @unique
+  signedName       String?
+  signatureDataUrl String?   @db.Text
+  signedAt         DateTime?
+  signedIp         String?
+
   @@index([companyId])
   @@index([jobId])
 }

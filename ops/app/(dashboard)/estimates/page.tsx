@@ -6,7 +6,7 @@ import { EstimatesTable, type EstimateRow } from "./estimates-table";
 
 const STATUS_LABELS: Record<string, string> = {
   DRAFT: "Unsent",
-  SENT: "Pending",
+  SENT: "Sent",
   APPROVED: "Approved",
   DECLINED: "Declined",
   WON: "Won",

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { NewEstimateForm } from "./new-estimate-form";
 
 export default async function NewEstimatePage({
   searchParams,
@@ -11,29 +11,10 @@ export default async function NewEstimatePage({
   const { companyId } = await requireSession();
   const { customerId } = await searchParams;
 
-  if (customerId) {
-    const customer = await prisma.customer.findFirst({
-      where: { id: customerId, companyId },
-      include: { properties: { take: 1, orderBy: { createdAt: "asc" } } },
-    });
-    if (!customer) {
-      throw new Error("Customer not found");
-    }
-    const estimate = await prisma.estimate.create({
-      data: {
-        companyId,
-        customerId: customer.id,
-        propertyId: customer.properties[0]?.id,
-      },
-    });
-    redirect(`/estimates/${estimate.id}`);
-  }
-
-  // No customer chosen yet -- show a picker.
   const customers = await prisma.customer.findMany({
     where: { companyId },
-    orderBy: { createdAt: "desc" },
-    take: 50,
+    orderBy: [{ firstName: "asc" }, { lastName: "asc" }],
+    take: 500,
   });
 
   return (
@@ -45,36 +26,16 @@ export default async function NewEstimatePage({
           </Link>{" "}
           / New
         </p>
-        <h1 className="mt-1 text-2xl font-bold text-zinc-900">Who is this estimate for?</h1>
+        <h1 className="mt-1 text-2xl font-bold text-zinc-900">New estimate</h1>
       </div>
 
-      {customers.length === 0 ? (
-        <div className="rounded-xl border border-zinc-200 bg-white p-8 text-center">
-          <p className="text-sm text-zinc-500">No customers yet — add one first.</p>
-          <Link href="/customers/new" className="mt-2 inline-block text-sm font-medium text-brand hover:underline">
-            Add a customer
-          </Link>
-        </div>
-      ) : (
-        <ul className="flex flex-col divide-y divide-zinc-100 rounded-xl border border-zinc-200 bg-white">
-          {customers.map((c) => (
-            <li key={c.id}>
-              <Link
-                href={`/estimates/new?customerId=${c.id}`}
-                className="flex items-center justify-between px-4 py-3 hover:bg-zinc-50"
-              >
-                <span>
-                  <span className="font-medium text-zinc-900">
-                    {c.firstName} {c.lastName}
-                  </span>
-                  {c.companyName && <span className="ml-2 text-sm text-zinc-400">{c.companyName}</span>}
-                </span>
-                <span className="text-sm text-zinc-400">{c.phone}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      <NewEstimateForm
+        customers={customers.map((c) => ({
+          id: c.id,
+          label: `${c.firstName} ${c.lastName}${c.companyName ? ` — ${c.companyName}` : ""}`,
+        }))}
+        preselectedCustomerId={customers.some((c) => c.id === customerId) ? (customerId ?? null) : null}
+      />
     </div>
   );
 }

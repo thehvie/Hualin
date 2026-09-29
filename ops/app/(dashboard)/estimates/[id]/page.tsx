@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { estimateSigningUrl } from "@/lib/estimate-signing";
 import { EstimateEditor } from "./estimate-editor";
 
 export default async function EstimateDetailPage({
@@ -79,6 +80,10 @@ export default async function EstimateDetailPage({
           hasInvoice: !!estimate.invoice,
           invoiceId: estimate.invoice?.id ?? null,
           jobId: estimate.job?.id ?? null,
+          jobStatus: estimate.job?.status ?? null,
+          signingUrl: estimate.publicToken ? estimateSigningUrl(estimate.publicToken) : null,
+          signedName: estimate.signedName,
+          signedAt: estimate.signedAt ? estimate.signedAt.toISOString() : null,
           communications: estimate.communications.map((c) => ({
             id: c.id,
             direction: c.direction,

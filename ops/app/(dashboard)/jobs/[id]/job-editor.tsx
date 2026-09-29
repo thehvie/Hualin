@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { updateJob, createEstimateForJob, addJobAttachments, removeJobAttachment } from "./actions";
+import { createInvoiceForEstimate } from "../../estimates/[id]/actions";
 
 const STATUS_LABELS: Record<string, string> = {
   UNSCHEDULED: "Unscheduled",
@@ -13,7 +14,7 @@ const STATUS_LABELS: Record<string, string> = {
 
 const ESTIMATE_STATUS_LABELS: Record<string, string> = {
   DRAFT: "Unsent",
-  SENT: "Pending",
+  SENT: "Sent",
   APPROVED: "Approved",
   DECLINED: "Declined",
   EXPIRED: "Archived",
@@ -51,6 +52,13 @@ export function JobEditor({ job }: { job: JobData }) {
   const [isDraggingPhoto, setIsDraggingPhoto] = useState(false);
   const [photoError, setPhotoError] = useState<string | null>(null);
   const [lightboxPhoto, setLightboxPhoto] = useState<{ dataUrl: string; filename: string } | null>(null);
+
+  function handleCreateInvoice(estimateId: string) {
+    startTransition(async () => {
+      const res = await createInvoiceForEstimate(estimateId);
+      if (res && "error" in res) setNotice(res.error);
+    });
+  }
 
   function save(overrides: Record<string, string>) {
     const fd = new FormData();
@@ -197,6 +205,16 @@ export function JobEditor({ job }: { job: JobData }) {
                     <a href={`/invoices/${e.invoiceId}`} className="font-medium text-brand hover:underline">
                       Invoice #{e.invoiceNumber} →
                     </a>
+                  ) : e.status === "APPROVED" && job.status === "COMPLETED" ? (
+                    <button
+                      onClick={() => handleCreateInvoice(e.id)}
+                      disabled={isPending}
+                      className="rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
+                    >
+                      Create invoice
+                    </button>
+                  ) : e.status === "APPROVED" ? (
+                    <span className="text-zinc-400">Invoice after job is completed</span>
                   ) : (
                     <span className="text-zinc-400">No invoice yet</span>
                   )}
