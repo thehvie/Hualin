@@ -8,7 +8,7 @@ import { createHmac, timingSafeEqual } from "crypto";
 
 export class TwilioNotConfiguredError extends Error {
   constructor() {
-    super("Twilio is not configured (TWILIO_ACCOUNT_SID / TWILIO_AUTH_TOKEN / TWILIO_FROM_NUMBER).");
+    super("Twilio is not configured (TWILIO_ACCOUNT_SID, TWILIO_FROM_NUMBER, and TWILIO_AUTH_TOKEN or TWILIO_API_KEY_SID/SECRET).");
     this.name = "TwilioNotConfiguredError";
   }
 }
@@ -28,14 +28,18 @@ export function last10(raw: string | null | undefined): string {
 
 export async function sendSms({ to, body }: { to: string; body: string }): Promise<{ sid: string | null }> {
   const sid = process.env.TWILIO_ACCOUNT_SID;
-  const token = process.env.TWILIO_AUTH_TOKEN;
   const from = process.env.TWILIO_FROM_NUMBER;
-  if (!sid || !token || !from) throw new TwilioNotConfiguredError();
+  // Either an API Key (SK... + secret) or the account Auth Token can authenticate
+  // requests; the URL always uses the Account SID (AC...).
+  const authUser = process.env.TWILIO_API_KEY_SID && process.env.TWILIO_API_KEY_SECRET ? process.env.TWILIO_API_KEY_SID : sid;
+  const authPass =
+    process.env.TWILIO_API_KEY_SID && process.env.TWILIO_API_KEY_SECRET ? process.env.TWILIO_API_KEY_SECRET : process.env.TWILIO_AUTH_TOKEN;
+  if (!sid || !authUser || !authPass || !from) throw new TwilioNotConfiguredError();
 
   const res = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
     method: "POST",
     headers: {
-      Authorization: `Basic ${Buffer.from(`${sid}:${token}`).toString("base64")}`,
+      Authorization: `Basic ${Buffer.from(`${authUser}:${authPass}`).toString("base64")}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams({ To: to, From: from, Body: body }),

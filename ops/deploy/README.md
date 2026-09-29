@@ -42,7 +42,7 @@ chmod +x deploy/deploy.sh
 
 ```bash
 npm install -g pm2   # if not already installed
-pm2 start ecosystem.config.js
+pm2 start ecosystem.config.js   # runs in America/New_York; use APP_TIMEZONE=America/Chicago pm2 start ... to change
 pm2 save
 pm2 startup   # follow its printed instructions to survive reboots
 ```

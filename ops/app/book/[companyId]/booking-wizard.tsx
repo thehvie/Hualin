@@ -10,6 +10,11 @@ const US_STATES = [
   "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
 ];
 
+function toYmd(d: Date) {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
 function startOfDay(d: Date) {
   const x = new Date(d);
   x.setHours(0, 0, 0, 0);
@@ -54,6 +59,8 @@ export function BookingWizard({
   const [selectedHour, setSelectedHour] = useState<number | null>(null);
   const [photos, setPhotos] = useState<File[]>([]);
   const [isDraggingPhoto, setIsDraggingPhoto] = useState(false);
+  // Honeypot: hidden from people, filled in by bots. See submitBooking.
+  const [honeypot, setHoneypot] = useState("");
   const [contact, setContact] = useState<ContactInfo>({
     firstName: "", lastName: "", email: "", phone: "", address: "", city: "", state: "", zip: "", notes: "",
   });
@@ -64,7 +71,7 @@ export function BookingWizard({
   useEffect(() => {
     setSlotsLoading(true);
     setSelectedHour(null);
-    getAvailableSlots(companyId, selectedDate.toISOString()).then((result) => {
+    getAvailableSlots(companyId, toYmd(selectedDate)).then((result) => {
       setSlots(result);
       setSlotsLoading(false);
     });
@@ -84,8 +91,9 @@ export function BookingWizard({
     fd.set("state", contact.state);
     fd.set("zip", contact.zip);
     fd.set("notes", contact.notes);
-    fd.set("dateIso", selectedDate.toISOString());
+    fd.set("dateYmd", toYmd(selectedDate));
     fd.set("hour", String(selectedHour));
+    fd.set("companyWebsite", honeypot);
     for (const photo of photos) fd.append("photos", photo);
 
     startTransition(async () => {
@@ -107,7 +115,7 @@ export function BookingWizard({
         <h2 className="text-lg font-bold text-zinc-900">You&rsquo;re booked!</h2>
         <p className="max-w-sm text-sm text-zinc-500">
           {companyName} will see you on {selectedDate.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
-          {selectedSlotLabel ? `, ${selectedSlotLabel}` : ""}. A confirmation has been noted on your account.
+          {selectedSlotLabel ? `, ${selectedSlotLabel}` : ""}. We're sending a confirmation to {contact.email}.
         </p>
       </div>
     );
@@ -257,6 +265,15 @@ export function BookingWizard({
               </div>
               <Field label="Zip code" value={contact.zip} onChange={(v) => setContact({ ...contact, zip: v })} required />
             </div>
+            <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+              <label>
+                Company website
+                <input type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+              </label>
+            </div>
+            <p className="mt-3 text-xs text-zinc-400">
+              By booking you agree to receive a confirmation by email and text message about this appointment. Message and data rates may apply. Reply STOP to opt out of texts.
+            </p>
             <div className="mt-3 flex flex-col gap-1.5">
               <label className="text-sm font-medium text-zinc-700">Photos (optional)</label>
               <label
