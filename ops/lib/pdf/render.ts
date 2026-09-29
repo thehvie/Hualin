@@ -6,6 +6,7 @@ import { lineItemsTotal } from "@/lib/money";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
 import { poTotalCents } from "@/lib/purchase-orders";
 import { DocumentPdf } from "@/lib/pdf/document-pdf";
+import { logoSizeFor } from "@/lib/pdf/logo";
 
 // Shared by the logged-in PDF routes (scoped by id + companyId) and the
 // public customer links (scoped by an unguessable publicToken).
@@ -44,6 +45,7 @@ export async function renderEstimatePdf(where: Prisma.EstimateWhereInput): Promi
       company: {
         name: estimate.company.name,
         logoDataUrl: estimate.company.logoDataUrl,
+        logoSize: await logoSizeFor(estimate.company.logoDataUrl),
         website: estimate.company.website,
         email: estimate.company.email,
         phone: estimate.company.phone,
@@ -109,6 +111,7 @@ export async function renderInvoicePdf(where: Prisma.InvoiceWhereInput): Promise
       company: {
         name: invoice.company.name,
         logoDataUrl: invoice.company.logoDataUrl,
+        logoSize: await logoSizeFor(invoice.company.logoDataUrl),
         website: invoice.company.website,
         email: invoice.company.email,
         phone: invoice.company.phone,
@@ -165,10 +168,11 @@ export async function renderPurchaseOrderPdf(where: Prisma.PurchaseOrderWhereInp
   const deliveryCityLine = [po.deliveryCity, [po.deliveryState, po.deliveryZip].filter(Boolean).join(" ")]
     .filter(Boolean)
     .join(", ");
-  const fulfillmentLines =
+  const fulfillmentLines: string[] =
     po.fulfillment === "PICKUP"
       ? ["Pickup at vendor"]
       : [po.deliveryAddressLine1, deliveryCityLine].filter((l): l is string => !!l);
+  if (fulfillmentLines.length === 0) fulfillmentLines.push("Address to be confirmed");
 
   const buffer = await renderToBuffer(
     DocumentPdf({
@@ -178,6 +182,7 @@ export async function renderPurchaseOrderPdf(where: Prisma.PurchaseOrderWhereInp
       company: {
         name: po.company.name,
         logoDataUrl: po.company.logoDataUrl,
+        logoSize: await logoSizeFor(po.company.logoDataUrl),
         website: po.company.website,
         email: po.company.email,
         phone: po.company.phone,

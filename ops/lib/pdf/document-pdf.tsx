@@ -83,6 +83,8 @@ export interface DocumentPdfProps {
   company: {
     name: string;
     logoDataUrl: string | null;
+    // Exact box for the logo (see lib/pdf/logo.ts); without it react-pdf may stretch the image.
+    logoSize?: { width: number; height: number } | null;
     website: string | null;
     email: string | null;
     phone: string | null;
@@ -140,7 +142,7 @@ export function DocumentPdf(props: DocumentPdfProps) {
         <View style={styles.headerRow}>
           <View>
             {company.logoDataUrl ? (
-              <Image src={company.logoDataUrl} style={styles.logo} />
+              <Image src={company.logoDataUrl} style={company.logoSize ? { width: company.logoSize.width, height: company.logoSize.height } : styles.logo} />
             ) : (
               <View style={styles.logoPlaceholder}>
                 <Text style={styles.logoPlaceholderText}>Add a logo in Settings</Text>
