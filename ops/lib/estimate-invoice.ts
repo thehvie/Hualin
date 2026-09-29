@@ -44,6 +44,7 @@ export async function createInvoiceFromEstimate(
           priceBookItemId: li.priceBookItemId,
           description: li.description,
           quantity: li.quantity,
+          isRental: li.isRental,
           unitPriceCents: li.unitPriceCents,
           costCents: li.costCents,
           sortOrder: i,

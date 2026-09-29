@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatCents, lineItemsTotal } from "@/lib/money";
+import { formatQty } from "@/lib/price-book";
 import { SignForm } from "./sign-form";
 
 export const metadata = { title: "Estimate", robots: { index: false, follow: false } };
@@ -87,8 +88,13 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
             <tbody className="divide-y divide-zinc-100">
               {estimate.lineItems.map((li) => (
                 <tr key={li.id}>
-                  <td className="px-4 py-2.5 text-zinc-900">{li.description}</td>
-                  <td className="px-2 py-2.5 text-right text-zinc-500">{li.quantity}</td>
+                  <td className="px-4 py-2.5 text-zinc-900">
+                    {li.description}
+                    {li.isRental && (
+                      <span className="block text-xs text-zinc-400">{formatCents(li.unitPriceCents)} per day</span>
+                    )}
+                  </td>
+                  <td className="px-2 py-2.5 text-right text-zinc-500">{formatQty(li.quantity, li.isRental)}</td>
                   <td className="px-4 py-2.5 text-right text-zinc-900">
                     {formatCents(li.quantity * li.unitPriceCents)}
                   </td>

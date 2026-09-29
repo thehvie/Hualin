@@ -201,6 +201,7 @@ model Property {
 enum PriceBookItemType {
   SERVICE
   MATERIAL
+  RENTAL
 }
 
 model PriceBookItem {
@@ -291,6 +292,8 @@ model EstimateLineItem {
   quantity       Int    @default(1)
   unitPriceCents Int
   costCents      Int?
+  // Rental items are priced per day; quantity is then the number of days.
+  isRental       Boolean @default(false)
 
   sortOrder Int @default(0)
 
@@ -492,6 +495,7 @@ model InvoiceLineItem {
   unitPriceCents Int
   costCents      Int?
   taxable        Boolean @default(false)
+  isRental       Boolean @default(false)
 
   sortOrder Int @default(0)
 

@@ -66,6 +66,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         lineItems: estimate.lineItems.map((li) => ({
           description: li.description,
           quantity: li.quantity,
+          isRental: li.isRental,
           unitPriceCents: li.unitPriceCents,
         })),
         subtotalCents,

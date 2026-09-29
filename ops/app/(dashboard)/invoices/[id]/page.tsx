@@ -88,6 +88,7 @@ export default async function InvoiceDetailPage({
             id: li.id,
             description: li.description,
             quantity: li.quantity,
+            isRental: li.isRental,
             unitPriceCents: li.unitPriceCents,
             costCents: li.costCents,
             taxable: li.taxable,

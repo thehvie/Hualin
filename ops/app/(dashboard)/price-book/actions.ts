@@ -12,7 +12,7 @@ function toCents(value: string): number {
 function readFields(formData: FormData) {
   const name = String(formData.get("name") || "").trim();
   const description = String(formData.get("description") || "").trim();
-  const type = String(formData.get("type") || "SERVICE") as "SERVICE" | "MATERIAL";
+  const type = String(formData.get("type") || "SERVICE") as "SERVICE" | "MATERIAL" | "RENTAL";
   const category = String(formData.get("category") || "").trim();
   const modelNumber = String(formData.get("modelNumber") || "").trim();
   const unitPriceCents = toCents(String(formData.get("unitPrice") || "0"));

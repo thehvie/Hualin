@@ -2,11 +2,13 @@
 
 import { useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
+import { formatUnitPrice } from "@/lib/price-book";
 import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
 import {
   addLineItem,
   addLineItemFromPriceBook,
   removeLineItem,
+  updateLineItemQuantity,
   updateEstimateHeader,
   addPaymentScheduleItem,
   removePaymentScheduleItem,
@@ -27,6 +29,7 @@ interface LineItem {
   id: string;
   description: string;
   quantity: number;
+  isRental: boolean;
   unitPriceCents: number;
   costCents: number | null;
 }
@@ -298,8 +301,24 @@ export function EstimateEditor({
                 {estimate.lineItems.map((li) => (
                   <tr key={li.id}>
                     <td className="py-2.5 text-zinc-900">{li.description}</td>
-                    <td className="py-2.5 text-right text-zinc-900">{li.quantity}</td>
-                    <td className="py-2.5 text-right text-zinc-900">{formatCents(li.unitPriceCents)}</td>
+                    <td className="py-2.5 text-right text-zinc-900">
+                      <span className="inline-flex items-center justify-end gap-1">
+                        <input
+                          key={li.quantity}
+                          type="number"
+                          min={1}
+                          defaultValue={li.quantity}
+                          disabled={isPending}
+                          onBlur={(e) => {
+                            const q = parseInt(e.target.value, 10) || 1;
+                            if (q !== li.quantity) startTransition(() => updateLineItemQuantity(estimate.id, li.id, q));
+                          }}
+                          className="w-16 rounded border border-zinc-200 px-1.5 py-1 text-right text-sm outline-none focus:border-brand"
+                        />
+                        {li.isRental && <span className="text-xs text-zinc-500">{li.quantity === 1 ? "day" : "days"}</span>}
+                      </span>
+                    </td>
+                    <td className="py-2.5 text-right text-zinc-900">{formatUnitPrice(formatCents(li.unitPriceCents), li.isRental)}</td>
                     <td className="py-2.5 text-right text-zinc-400">
                       {li.costCents != null ? formatCents(li.costCents) : "—"}
                     </td>
@@ -500,7 +519,7 @@ export function EstimateEditor({
             />
             <div className="grid grid-cols-3 gap-2">
               <div>
-                <label className="text-xs font-medium text-zinc-500">Quantity</label>
+                <label className="text-xs font-medium text-zinc-500">Qty (days if rental)</label>
                 <input
                   name="quantity"
                   type="number"
@@ -530,6 +549,10 @@ export function EstimateEditor({
                 />
               </div>
             </div>
+            <label className="flex items-center gap-2 text-sm text-zinc-600">
+              <input type="checkbox" name="isRental" className="h-4 w-4 rounded border-zinc-300" />
+              Rental — price is per day, quantity is the number of days
+            </label>
             <label className="flex items-center gap-2 text-sm text-zinc-600">
               <input type="checkbox" name="saveToPriceBook" className="h-4 w-4 rounded border-zinc-300" />
               Save as a reusable item in the Price Book

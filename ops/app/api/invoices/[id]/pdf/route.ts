@@ -72,6 +72,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         lineItems: invoice.lineItems.map((li) => ({
           description: li.description,
           quantity: li.quantity,
+          isRental: li.isRental,
           unitPriceCents: li.unitPriceCents,
         })),
         subtotalCents: totals.subtotalCents,

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/money";
+import { PRICE_BOOK_TYPE_LABELS, formatUnitPrice } from "@/lib/price-book";
 import { requireSession } from "@/lib/session";
 import { AddItemButton, EditItemTrigger } from "./item-modal";
 
@@ -72,10 +73,10 @@ export default async function PriceBookPage({
                 <EditItemTrigger item={item}>
                   <div className="flex items-start justify-between">
                     <span className="font-semibold text-zinc-900">{item.name}</span>
-                    <span className="font-medium text-zinc-900">{formatCents(item.unitPriceCents)}</span>
+                    <span className="font-medium text-zinc-900">{formatUnitPrice(formatCents(item.unitPriceCents), item.type === "RENTAL")}</span>
                   </div>
                   <p className="mt-1 text-xs text-zinc-400">
-                    #{item.number} · {item.type === "SERVICE" ? "Service" : "Product"}
+                    #{item.number} · {PRICE_BOOK_TYPE_LABELS[item.type] ?? item.type}
                     {item.category ? ` · ${item.category}` : ""}
                     {!item.active ? " · Inactive" : ""}
                   </p>
@@ -117,12 +118,12 @@ export default async function PriceBookPage({
                     <td className="max-w-[200px] truncate px-4 py-3 text-zinc-500">
                       {item.description || "—"}
                     </td>
-                    <td className="px-4 py-3 text-zinc-900">{formatCents(item.unitPriceCents)}</td>
+                    <td className="px-4 py-3 text-zinc-900">{formatUnitPrice(formatCents(item.unitPriceCents), item.type === "RENTAL")}</td>
                     <td className="px-4 py-3 text-zinc-400">
                       {item.costCents != null ? formatCents(item.costCents) : "—"}
                     </td>
                     <td className="px-4 py-3 text-zinc-600">
-                      {item.type === "SERVICE" ? "Service" : "Product"}
+                      {PRICE_BOOK_TYPE_LABELS[item.type] ?? item.type}
                     </td>
                     <td className="px-4 py-3 text-zinc-600">{item.category || "—"}</td>
                     <td className="px-4 py-3 text-zinc-600">{item.modelNumber || "—"}</td>

@@ -97,6 +97,7 @@ function ItemModal({ item, onClose }: { item?: PriceBookItemData; onClose: () =>
               >
                 <option value="SERVICE">Service</option>
                 <option value="MATERIAL">Product</option>
+                <option value="RENTAL">Rental (price per day)</option>
               </select>
             </div>
             <div className="flex flex-col gap-1.5">

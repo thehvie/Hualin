@@ -42,13 +42,14 @@ export async function addLineItem(invoiceId: string, formData: FormData) {
   const costCents = formData.get("cost") ? toCents(String(formData.get("cost"))) : null;
   const taxable = formData.get("taxable") === "on";
   const saveToPriceBook = formData.get("saveToPriceBook") === "on";
+  const isRental = formData.get("isRental") === "on";
 
   if (!description) return;
 
   let priceBookItemId: string | null = null;
   if (saveToPriceBook) {
     const priceBookItem = await prisma.priceBookItem.create({
-      data: { companyId, name: description, unitPriceCents, costCents },
+      data: { companyId, name: description, unitPriceCents, costCents, type: isRental ? "RENTAL" : "SERVICE" },
     });
     priceBookItemId = priceBookItem.id;
   }
@@ -63,6 +64,7 @@ export async function addLineItem(invoiceId: string, formData: FormData) {
       unitPriceCents,
       costCents,
       taxable,
+      isRental,
       priceBookItemId,
       sortOrder: count,
     },
@@ -89,6 +91,7 @@ export async function addLineItemFromPriceBook(invoiceId: string, priceBookItemI
       quantity: 1,
       unitPriceCents: item.unitPriceCents,
       costCents: item.costCents,
+      isRental: item.type === "RENTAL",
       sortOrder: count,
     },
   });

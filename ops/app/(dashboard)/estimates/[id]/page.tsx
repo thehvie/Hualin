@@ -68,6 +68,7 @@ export default async function EstimateDetailPage({
             id: li.id,
             description: li.description,
             quantity: li.quantity,
+            isRental: li.isRental,
             unitPriceCents: li.unitPriceCents,
             costCents: li.costCents,
           })),

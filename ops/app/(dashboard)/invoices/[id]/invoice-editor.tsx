@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
+import { formatQty, formatUnitPrice } from "@/lib/price-book";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
 import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
 import {
@@ -33,6 +34,7 @@ interface LineItem {
   id: string;
   description: string;
   quantity: number;
+  isRental: boolean;
   unitPriceCents: number;
   costCents: number | null;
   taxable: boolean;
@@ -331,8 +333,8 @@ export function InvoiceEditor({
                 {invoice.lineItems.map((li) => (
                   <tr key={li.id}>
                     <td className="py-2.5 text-zinc-900">{li.description}</td>
-                    <td className="py-2.5 text-right text-zinc-900">{li.quantity}</td>
-                    <td className="py-2.5 text-right text-zinc-900">{formatCents(li.unitPriceCents)}</td>
+                    <td className="py-2.5 text-right text-zinc-900">{formatQty(li.quantity, li.isRental)}</td>
+                    <td className="py-2.5 text-right text-zinc-900">{formatUnitPrice(formatCents(li.unitPriceCents), li.isRental)}</td>
                     <td className="py-2.5 text-right text-zinc-400">
                       {li.costCents != null ? formatCents(li.costCents) : "—"}
                     </td>

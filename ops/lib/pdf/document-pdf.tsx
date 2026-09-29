@@ -1,4 +1,5 @@
 import { Document, Page, View, Text, Image, StyleSheet } from "@react-pdf/renderer";
+import { formatQty, formatUnitPrice } from "@/lib/price-book";
 
 const styles = StyleSheet.create({
   page: { padding: 40, fontSize: 10, fontFamily: "Helvetica", color: "#3f3f46" },
@@ -71,6 +72,7 @@ const DEFAULT_TERMS =
 export interface DocumentPdfLineItem {
   description: string;
   quantity: number;
+  isRental?: boolean;
   unitPriceCents: number;
 }
 
@@ -200,8 +202,8 @@ export function DocumentPdf(props: DocumentPdfProps) {
         {lineItems.map((li, i) => (
           <View key={i} style={styles.tableRow}>
             <Text style={[styles.colDescription, styles.descriptionCell]}>{li.description}</Text>
-            <Text style={styles.colQty}>{li.quantity}</Text>
-            <Text style={styles.colPrice}>{formatCents(li.unitPriceCents)}</Text>
+            <Text style={styles.colQty}>{formatQty(li.quantity, !!li.isRental)}</Text>
+            <Text style={styles.colPrice}>{formatUnitPrice(formatCents(li.unitPriceCents), !!li.isRental)}</Text>
             <Text style={styles.colAmount}>{formatCents(li.quantity * li.unitPriceCents)}</Text>
           </View>
         ))}

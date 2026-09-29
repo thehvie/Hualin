@@ -29,13 +29,14 @@ export async function addLineItem(estimateId: string, formData: FormData) {
   const unitPriceCents = toCents(String(formData.get("unitPrice") || "0"));
   const costCents = formData.get("cost") ? toCents(String(formData.get("cost"))) : null;
   const saveToPriceBook = formData.get("saveToPriceBook") === "on";
+  const isRental = formData.get("isRental") === "on";
 
   if (!description) return;
 
   let priceBookItemId: string | null = null;
   if (saveToPriceBook) {
     const priceBookItem = await prisma.priceBookItem.create({
-      data: { companyId, name: description, unitPriceCents, costCents },
+      data: { companyId, name: description, unitPriceCents, costCents, type: isRental ? "RENTAL" : "SERVICE" },
     });
     priceBookItemId = priceBookItem.id;
   }
@@ -49,6 +50,7 @@ export async function addLineItem(estimateId: string, formData: FormData) {
       quantity,
       unitPriceCents,
       costCents,
+      isRental,
       priceBookItemId,
       sortOrder: count,
     },
@@ -73,9 +75,17 @@ export async function addLineItemFromPriceBook(estimateId: string, priceBookItem
       description: item.name,
       quantity: 1,
       unitPriceCents: item.unitPriceCents,
+      isRental: item.type === "RENTAL",
       sortOrder: count,
     },
   });
+  revalidatePath(`/estimates/${estimateId}`);
+}
+
+export async function updateLineItemQuantity(estimateId: string, lineItemId: string, quantity: number) {
+  const { companyId } = await requireSession();
+  const qty = Math.max(1, Math.min(9999, Math.floor(quantity) || 1));
+  await prisma.estimateLineItem.updateMany({ where: { id: lineItemId, estimateId, companyId }, data: { quantity: qty } });
   revalidatePath(`/estimates/${estimateId}`);
 }
 
