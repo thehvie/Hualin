@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { sendSms, toE164, TwilioNotConfiguredError } from "@/lib/twilio";
+import { messageChannel } from "@/lib/messaging";
+import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/mailgun";
 import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
 import { formatCents, lineItemsTotal } from "@/lib/money";
 
@@ -50,7 +52,70 @@ async function deliver(opts: {
   return { ok: true };
 }
 
-/** Free-form text from the Conversation panel on an estimate or invoice. */
+/** Emails a free-form message from the Conversation panel (used when texting is not available). */
+async function deliverEmail(opts: {
+  companyId: string;
+  customerId: string;
+  body: string;
+  estimateId?: string;
+  invoiceId?: string;
+}): Promise<Result> {
+  const customer = await prisma.customer.findFirst({
+    where: { id: opts.customerId, companyId: opts.companyId },
+    include: { company: true },
+  });
+  if (!customer) return { ok: false, error: "Customer not found." };
+  if (!customer.email) return { ok: false, error: "This customer has no email address on file." };
+
+  let subject = `A message from ${customer.company.name}`;
+  let replyTo: string | undefined;
+  if (opts.estimateId) {
+    const est = await prisma.estimate.findFirst({ where: { id: opts.estimateId, companyId: opts.companyId } });
+    if (est) subject = `Estimate #${est.number} from ${customer.company.name}`;
+    replyTo = threadReplyAddress("estimate", opts.estimateId) ?? undefined;
+  } else if (opts.invoiceId) {
+    const inv = await prisma.invoice.findFirst({ where: { id: opts.invoiceId, companyId: opts.companyId } });
+    if (inv) subject = `Invoice #${inv.number} from ${customer.company.name}`;
+    replyTo = threadReplyAddress("invoice", opts.invoiceId) ?? undefined;
+  }
+
+  let messageId: string | null = null;
+  try {
+    ({ messageId } = await sendEmail({
+      to: customer.email,
+      fromName: customer.company.name,
+      replyTo,
+      subject,
+      text: opts.body,
+    }));
+  } catch (err) {
+    if (err instanceof MailgunNotConfiguredError) {
+      return { ok: false, error: "Email isn't set up yet (Mailgun isn't configured)." };
+    }
+    console.error("[email] send failed", err);
+    return { ok: false, error: "The email couldn't be sent. Please try again." };
+  }
+
+  await prisma.communication.create({
+    data: {
+      companyId: opts.companyId,
+      customerId: customer.id,
+      estimateId: opts.estimateId,
+      invoiceId: opts.invoiceId,
+      channel: "EMAIL",
+      direction: "OUTBOUND",
+      body: opts.body,
+      providerId: messageId,
+    },
+  });
+  return { ok: true };
+}
+
+/**
+ * Free-form message from the Conversation panel on an estimate or invoice.
+ * Texts the customer when Twilio is set up and they can be texted; otherwise
+ * emails them instead.
+ */
 export async function sendCustomerSms(input: {
   customerId: string;
   body: string;
@@ -70,7 +135,14 @@ export async function sendCustomerSms(input: {
     return { ok: false, error: "Invoice not found." };
   }
 
-  const res = await deliver({ companyId, customerId: input.customerId, body, estimateId: input.estimateId, invoiceId: input.invoiceId });
+  const customer = await prisma.customer.findFirst({ where: { id: input.customerId, companyId } });
+  if (!customer) return { ok: false, error: "Customer not found." };
+
+  const channel = messageChannel(customer);
+  if (!channel) return { ok: false, error: "This customer has no phone number or email address on file." };
+
+  const args = { companyId, customerId: input.customerId, body, estimateId: input.estimateId, invoiceId: input.invoiceId };
+  const res = channel === "sms" ? await deliver(args) : await deliverEmail(args);
   if (res.ok) {
     if (input.estimateId) revalidatePath(`/estimates/${input.estimateId}`);
     if (input.invoiceId) revalidatePath(`/invoices/${input.invoiceId}`);

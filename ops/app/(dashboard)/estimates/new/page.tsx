@@ -11,6 +11,11 @@ export default async function NewEstimatePage({
   const { companyId } = await requireSession();
   const { customerId } = await searchParams;
 
+  const [company, priceBook] = await Promise.all([
+    prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { state: true } }),
+    prisma.priceBookItem.findMany({ where: { companyId, active: true }, orderBy: { name: "asc" } }),
+  ]);
+
   const customers = await prisma.customer.findMany({
     where: { companyId },
     orderBy: [{ firstName: "asc" }, { lastName: "asc" }],
@@ -18,7 +23,7 @@ export default async function NewEstimatePage({
   });
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-6">
+    <div className="mx-auto flex max-w-4xl flex-col gap-6">
       <div>
         <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
           <Link href="/estimates" className="hover:text-zinc-600">
@@ -33,7 +38,16 @@ export default async function NewEstimatePage({
         customers={customers.map((c) => ({
           id: c.id,
           label: `${c.firstName} ${c.lastName}${c.companyName ? ` — ${c.companyName}` : ""}`,
+          detail: [c.email, c.phone].filter(Boolean).join(" · "),
         }))}
+        priceBookItems={priceBook.map((p) => ({
+          id: p.id,
+          name: p.name,
+          unitPriceCents: p.unitPriceCents,
+          costCents: p.costCents,
+          isRental: p.type === "RENTAL",
+        }))}
+        defaultState={company.state}
         preselectedCustomerId={customers.some((c) => c.id === customerId) ? (customerId ?? null) : null}
       />
     </div>

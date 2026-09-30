@@ -5,7 +5,7 @@ import { formatCents } from "@/lib/money";
 import { formatQty, formatUnitPrice } from "@/lib/price-book";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
 import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
-import { SmsComposer } from "@/components/sms-composer";
+import { MessageComposer } from "@/components/message-composer";
 import {
   addLineItem,
   addLineItemFromPriceBook,
@@ -71,7 +71,7 @@ interface InvoiceData {
   laborCostCents: number;
   taxRateId: string | null;
   publicToken: string;
-  customer: { id: string; name: string; companyName: string | null; email: string | null; phone: string | null };
+  customer: { id: string; name: string; companyName: string | null; email: string | null; phone: string | null; messageChannel: "sms" | "email" | null };
   property: { addressLine1: string; addressLine2: string | null; city: string; state: string; zip: string } | null;
   lineItems: LineItem[];
   paymentSchedule: PaymentScheduleItem[];
@@ -640,10 +640,10 @@ export function InvoiceEditor({
         customerName={invoice.customer.name}
         messages={invoice.communications}
         composer={
-          <SmsComposer
+          <MessageComposer
             customerId={invoice.customer.id}
             customerName={invoice.customer.name}
-            hasPhone={!!invoice.customer.phone}
+            channel={invoice.customer.messageChannel}
             invoiceId={invoice.id}
           />
         }

@@ -1,10 +1,13 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { PhotoDropzone } from "@/components/photo-dropzone";
+import { addJobAttachments, removeJobAttachment } from "../../jobs/[id]/actions";
 import { formatCents } from "@/lib/money";
 import { formatUnitPrice } from "@/lib/price-book";
 import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
-import { SmsComposer } from "@/components/sms-composer";
+import { MessageComposer } from "@/components/message-composer";
 import { sendEstimateSms } from "../../sms-actions";
 import {
   addLineItem,
@@ -52,7 +55,7 @@ interface EstimateData {
   depositCents: number;
   laborCostCents: number;
   sentAt: string | null;
-  customer: { id: string; name: string; email: string | null; phone: string | null };
+  customer: { id: string; name: string; email: string | null; phone: string | null; messageChannel: "sms" | "email" | null };
   property: { addressLine1: string; city: string; state: string; zip: string } | null;
   lineItems: LineItem[];
   paymentSchedule: PaymentScheduleItem[];
@@ -60,6 +63,7 @@ interface EstimateData {
   invoiceId: string | null;
   jobId: string | null;
   jobStatus: string | null;
+  attachments: { id: string; filename: string; dataUrl: string }[];
   signingUrl: string | null;
   signedName: string | null;
   signedAt: string | null;
@@ -84,6 +88,8 @@ export function EstimateEditor({
   const [showPriceBook, setShowPriceBook] = useState(false);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<{ dataUrl: string; filename: string } | null>(null);
+  const router = useRouter();
 
   const subtotalCents = estimate.lineItems.reduce(
     (sum, li) => sum + li.quantity * li.unitPriceCents,
@@ -152,6 +158,27 @@ export function EstimateEditor({
     startTransition(async () => {
       const res = await sendEstimateSms(estimate.id);
       setNotice(res.ok ? "Estimate link texted to the customer." : res.error);
+    });
+  }
+
+  function handleUploadPhotos(files: File[]) {
+    if (!estimate.jobId) return;
+    const jobId = estimate.jobId;
+    const fd = new FormData();
+    for (const file of files) fd.append("photos", file);
+    startTransition(async () => {
+      const res = await addJobAttachments(jobId, fd);
+      if (!res.ok) setNotice(res.error || "Could not upload photos.");
+      router.refresh();
+    });
+  }
+
+  function handleRemovePhoto(attachmentId: string) {
+    if (!estimate.jobId) return;
+    const jobId = estimate.jobId;
+    startTransition(async () => {
+      await removeJobAttachment(jobId, attachmentId);
+      router.refresh();
     });
   }
 
@@ -333,7 +360,7 @@ export function EstimateEditor({
                             const q = parseInt(e.target.value, 10) || 1;
                             if (q !== li.quantity) startTransition(() => updateLineItemQuantity(estimate.id, li.id, q));
                           }}
-                          className="w-16 rounded border border-zinc-200 px-1.5 py-1 text-right text-sm outline-none focus:border-brand"
+                          className="w-16 rounded border border-zinc-200 px-1.5 py-1 text-right text-sm text-zinc-900 outline-none focus:border-brand"
                         />
                         {li.isRental && <span className="text-xs text-zinc-500">{li.quantity === 1 ? "day" : "days"}</span>}
                       </span>
@@ -507,6 +534,38 @@ export function EstimateEditor({
         </div>
       </div>
 
+      {/* Photos (stored on the job this estimate belongs to) */}
+      {estimate.jobId && (
+        <div className="rounded-xl border border-zinc-200 bg-white p-5">
+          <h2 className="mb-3 text-sm font-semibold text-zinc-900">Photos</h2>
+          <PhotoDropzone
+            onFiles={handleUploadPhotos}
+            disabled={isPending || estimate.attachments.length >= 5}
+            hint="Up to 5 photos total, 8MB each"
+          />
+          {estimate.attachments.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-3">
+              {estimate.attachments.map((a) => (
+                <div key={a.id} className="relative overflow-hidden rounded-lg border border-zinc-200">
+                  <button type="button" onClick={() => setLightbox({ dataUrl: a.dataUrl, filename: a.filename })} className="block">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={a.dataUrl} alt={a.filename} className="h-24 w-24 object-cover" />
+                  </button>
+                  <button
+                    type="button"
+                    disabled={isPending}
+                    onClick={() => handleRemovePhoto(a.id)}
+                    className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-xs font-semibold text-white"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Notes */}
       <div className="rounded-xl border border-zinc-200 bg-white p-5">
         <h2 className="mb-2 text-sm font-semibold text-zinc-900">Description</h2>
@@ -519,16 +578,23 @@ export function EstimateEditor({
         customerName={estimate.customer.name}
         messages={estimate.communications}
         composer={
-          <SmsComposer
+          <MessageComposer
             customerId={estimate.customer.id}
             customerName={estimate.customer.name}
-            hasPhone={!!estimate.customer.phone}
+            channel={estimate.customer.messageChannel}
             estimateId={estimate.id}
           />
         }
       />
 
       </div>
+
+      {lightbox && (
+        <div onClick={() => setLightbox(null)} className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={lightbox.dataUrl} alt={lightbox.filename} className="max-h-full max-w-full rounded-lg object-contain" />
+        </div>
+      )}
 
       {/* Add item modal */}
       {showAddItem && (

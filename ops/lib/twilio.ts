@@ -13,6 +13,12 @@ export class TwilioNotConfiguredError extends Error {
   }
 }
 
+/** True when the env has everything sendSms needs. */
+export function twilioConfigured(): boolean {
+  const hasKey = !!(process.env.TWILIO_API_KEY_SID && process.env.TWILIO_API_KEY_SECRET);
+  return !!(process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_FROM_NUMBER && (hasKey || process.env.TWILIO_AUTH_TOKEN));
+}
+
 /** Normalizes a US phone number to E.164 (+1XXXXXXXXXX). Returns null if it can't. */
 export function toE164(raw: string | null | undefined): string | null {
   const digits = String(raw ?? "").replace(/\D/g, "");

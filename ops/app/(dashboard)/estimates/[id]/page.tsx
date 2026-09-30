@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { messageChannel } from "@/lib/messaging";
 import { estimateSigningUrl } from "@/lib/estimate-signing";
 import { EstimateEditor } from "./estimate-editor";
 
@@ -21,7 +22,7 @@ export default async function EstimateDetailPage({
       lineItems: { orderBy: { sortOrder: "asc" } },
       paymentSchedule: { orderBy: { sortOrder: "asc" } },
       invoice: true,
-      job: true,
+      job: { include: { attachments: { orderBy: { createdAt: "asc" } } } },
       communications: { orderBy: { createdAt: "asc" } },
     },
   });
@@ -55,6 +56,7 @@ export default async function EstimateDetailPage({
             name: `${estimate.customer.firstName} ${estimate.customer.lastName}`,
             email: estimate.customer.email,
             phone: estimate.customer.phone,
+            messageChannel: messageChannel(estimate.customer),
           },
           property: estimate.property
             ? {
@@ -82,6 +84,7 @@ export default async function EstimateDetailPage({
           invoiceId: estimate.invoice?.id ?? null,
           jobId: estimate.job?.id ?? null,
           jobStatus: estimate.job?.status ?? null,
+          attachments: (estimate.job?.attachments ?? []).map((a) => ({ id: a.id, filename: a.filename, dataUrl: a.dataUrl })),
           signingUrl: estimate.publicToken ? estimateSigningUrl(estimate.publicToken) : null,
           signedName: estimate.signedName,
           signedAt: estimate.signedAt ? estimate.signedAt.toISOString() : null,

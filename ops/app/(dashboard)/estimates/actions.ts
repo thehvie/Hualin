@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { geocodeAddress } from "@/lib/geocode";
 import { prisma } from "@/lib/prisma";
+import { normalizePhoto, MAX_PHOTOS } from "@/lib/photos";
 import { requireSession } from "@/lib/session";
 
 const VALID_STATUSES = ["DRAFT", "SENT", "APPROVED", "DECLINED", "EXPIRED"] as const;
@@ -29,33 +30,77 @@ export async function updateEstimatesStatus(ids: string[], status: string) {
   revalidatePath("/estimates");
 }
 
+export interface BuilderItem {
+  priceBookItemId: string | null;
+  description: string;
+  quantity: number;
+  unitPriceCents: number;
+  costCents: number | null;
+  isRental: boolean;
+}
+
+export interface BuilderPayload {
+  mode: "new" | "existing";
+  customerId?: string;
+  customer?: {
+    firstName: string;
+    lastName: string;
+    companyName: string;
+    email: string;
+    phone: string;
+    addressLine1: string;
+    addressLine2: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
+  jobNotes: string;
+  items: BuilderItem[];
+}
+
 /**
- * Creates (optionally) a new customer + property, a Job holding the job details,
- * and a draft Estimate linked to that job, then opens the estimate editor.
+ * Saves a whole estimate built on the "new estimate" screen in one go: creates the
+ * customer + property if it's a new customer, a Job holding the job details, and the
+ * Estimate with its line items, then opens the estimate editor.
  */
-export async function createEstimateWithJob(formData: FormData): Promise<{ error: string } | void> {
+export async function createEstimateFromBuilder(
+  payload: BuilderPayload,
+  photoData?: FormData,
+): Promise<{ error: string } | void> {
   const { companyId } = await requireSession();
 
-  const mode = String(formData.get("mode") || "existing");
-  const jobNotes = String(formData.get("jobNotes") || "").trim();
+  // Validate photos up front so a bad file does not leave a half-created customer behind.
+  const photoFiles = (photoData?.getAll("photos") ?? []).filter((f): f is File => f instanceof File && f.size > 0);
+  if (photoFiles.length > MAX_PHOTOS) return { error: `Please attach at most ${MAX_PHOTOS} photos.` };
+  let photos: { filename: string; mimeType: string; dataUrl: string }[];
+  try {
+    photos = (await Promise.all(photoFiles.map(normalizePhoto))).filter((p) => p !== null);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Could not process the uploaded photos." };
+  }
+
+  const jobNotes = String(payload.jobNotes || "").trim().slice(0, 5000);
 
   let customerId: string;
   let propertyId: string | null = null;
 
-  if (mode === "new") {
-    const firstName = String(formData.get("firstName") || "").trim();
-    const lastName = String(formData.get("lastName") || "").trim();
-    const email = String(formData.get("email") || "").trim();
-    const phone = String(formData.get("phone") || "").trim();
-    const companyName = String(formData.get("companyName") || "").trim();
-    const addressLine1 = String(formData.get("addressLine1") || "").trim();
-    const addressLine2 = String(formData.get("addressLine2") || "").trim();
-    const city = String(formData.get("city") || "").trim();
-    const state = String(formData.get("state") || "").trim();
-    const zip = String(formData.get("zip") || "").trim();
+  if (payload.mode === "new") {
+    const c = payload.customer;
+    if (!c) return { error: "Enter the customer's details." };
+    const firstName = String(c.firstName || "").trim();
+    const lastName = String(c.lastName || "").trim();
+    const email = String(c.email || "").trim();
+    const phone = String(c.phone || "").trim();
+    const companyName = String(c.companyName || "").trim();
+    const addressLine1 = String(c.addressLine1 || "").trim();
+    const addressLine2 = String(c.addressLine2 || "").trim();
+    const city = String(c.city || "").trim();
+    // The company works in one state (Settings), so use it; only fall back to the form value if unset.
+    const companyState = (await prisma.company.findUnique({ where: { id: companyId }, select: { state: true } }))?.state;
+    const state = companyState || String(c.state || "").trim();
+    const zip = String(c.zip || "").trim();
 
     if (!firstName || !lastName) return { error: "First and last name are required." };
-    if (!email) return { error: "An email is required so we can send the estimate." };
     if (!addressLine1 || !city || !state) return { error: "The job address is required." };
 
     const geo = await geocodeAddress(`${addressLine1}, ${city}, ${state} ${zip}, US`);
@@ -65,7 +110,7 @@ export async function createEstimateWithJob(formData: FormData): Promise<{ error
         firstName,
         lastName,
         companyName: companyName || null,
-        email,
+        email: email || null,
         phone: phone || null,
         source: "OTHER",
         properties: {
@@ -86,9 +131,8 @@ export async function createEstimateWithJob(formData: FormData): Promise<{ error
     customerId = customer.id;
     propertyId = customer.properties[0]?.id ?? null;
   } else {
-    const id = String(formData.get("customerId") || "");
     const customer = await prisma.customer.findFirst({
-      where: { id, companyId },
+      where: { id: String(payload.customerId || ""), companyId },
       include: { properties: { take: 1, orderBy: { createdAt: "asc" } } },
     });
     if (!customer) return { error: "Please choose a customer." };
@@ -96,12 +140,35 @@ export async function createEstimateWithJob(formData: FormData): Promise<{ error
     propertyId = customer.properties[0]?.id ?? null;
   }
 
+  const pbIds = payload.items.map((i) => i.priceBookItemId).filter((x): x is string => !!x);
+  const validPb = new Set(
+    (await prisma.priceBookItem.findMany({ where: { id: { in: pbIds }, companyId }, select: { id: true } })).map((p) => p.id),
+  );
+  const items = payload.items
+    .map((i, sortOrder) => ({
+      companyId,
+      priceBookItemId: i.priceBookItemId && validPb.has(i.priceBookItemId) ? i.priceBookItemId : null,
+      description: String(i.description || "").trim().slice(0, 300),
+      quantity: Math.max(1, Math.min(9999, Math.floor(Number(i.quantity)) || 1)),
+      unitPriceCents: Math.max(0, Math.round(Number(i.unitPriceCents)) || 0),
+      costCents: i.costCents == null ? null : Math.max(0, Math.round(Number(i.costCents)) || 0),
+      isRental: !!i.isRental,
+      sortOrder,
+    }))
+    .filter((i) => i.description);
+
   const job = await prisma.job.create({
     data: { companyId, customerId, propertyId, notes: jobNotes || null },
   });
   const estimate = await prisma.estimate.create({
-    data: { companyId, customerId, propertyId, jobId: job.id },
+    data: { companyId, customerId, propertyId, jobId: job.id, lineItems: { create: items } },
   });
+  if (photos.length > 0) {
+    await prisma.jobAttachment.createMany({
+      data: photos.map((p) => ({ companyId, jobId: job.id, filename: p.filename, mimeType: p.mimeType, dataUrl: p.dataUrl })),
+    });
+  }
 
+  revalidatePath("/estimates");
   redirect(`/estimates/${estimate.id}`);
 }
