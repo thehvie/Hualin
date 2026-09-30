@@ -67,7 +67,7 @@ export async function submitBooking(
   const phone = String(formData.get("phone") || "").trim().slice(0, 40);
   const addressLine1 = String(formData.get("address") || "").trim().slice(0, 200);
   const city = String(formData.get("city") || "").trim().slice(0, 100);
-  const state = String(formData.get("state") || "").trim().slice(0, 40);
+  const state = company.state || String(formData.get("state") || "").trim().slice(0, 40);
   const zip = String(formData.get("zip") || "").trim().slice(0, 20);
   const notes = String(formData.get("notes") || "").trim().slice(0, 2000);
   const ymd = String(formData.get("dateYmd") || "");

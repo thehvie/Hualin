@@ -25,6 +25,7 @@ export default async function SettingsPage() {
           website: company.website,
           termsText: company.termsText,
           timezone: company.timezone,
+          state: company.state,
           salesTaxPercent: bpsToPercent(defaultTax?.rateBps ?? 0),
           logoDataUrl: company.logoDataUrl,
         }}

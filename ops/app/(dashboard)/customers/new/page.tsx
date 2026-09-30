@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import { requireSession } from "@/lib/session";
+import { US_STATES } from "@/lib/us-states";
 import { createCustomer } from "../actions";
 
 const SOURCES = [
@@ -11,7 +14,10 @@ const SOURCES = [
   { value: "OTHER", label: "Other" },
 ];
 
-export default function NewCustomerPage() {
+export default async function NewCustomerPage() {
+  const { companyId } = await requireSession();
+  const company = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { state: true } });
+
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6">
       <div>
@@ -80,7 +86,27 @@ export default function NewCustomerPage() {
             <Field label="Unit" name="addressLine2" />
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="City" name="city" />
-              <Field label="Region" name="state" placeholder="FL" />
+              {/* The company works in one state (Settings); only ask if that is not set yet. */}
+              {!company.state && (
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="state" className="text-sm font-medium text-zinc-700">
+                    State
+                  </label>
+                  <select
+                    id="state"
+                    name="state"
+                    defaultValue=""
+                    className="rounded-lg border border-zinc-300 px-3 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+                  >
+                    <option value="">Select…</option>
+                    {US_STATES.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="Postal code" name="zip" />

@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import { LogoUploadField } from "./logo-upload-field";
 import { TIMEZONE_OPTIONS } from "@/lib/tz";
+import { US_STATES } from "@/lib/us-states";
 import { updateCompanyProfile, removeCompanyLogo, type SettingsFormState } from "./actions";
 
 const DEFAULT_TERMS_PLACEHOLDER =
@@ -18,6 +19,7 @@ export function SettingsForm({
     website: string | null;
     termsText: string | null;
     timezone: string;
+    state: string | null;
     salesTaxPercent: string;
     logoDataUrl: string | null;
   };
@@ -71,6 +73,28 @@ export function SettingsForm({
         </select>
         <p className="text-xs text-zinc-400">
           Used for your schedule, online booking times, and the confirmations customers receive.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="state" className="text-sm font-medium text-zinc-700">
+          State
+        </label>
+        <select
+          id="state"
+          name="state"
+          defaultValue={company.state || ""}
+          className="w-40 rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+        >
+          <option value="">Select…</option>
+          {US_STATES.map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </select>
+        <p className="text-xs text-zinc-400">
+          The state you work in. Online booking fills it in for customers so they don&apos;t have to pick one.
         </p>
       </div>
 

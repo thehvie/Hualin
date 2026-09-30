@@ -23,7 +23,8 @@ export async function createCustomer(formData: FormData) {
   const addressLine1 = String(formData.get("addressLine1") || "").trim();
   const addressLine2 = String(formData.get("addressLine2") || "").trim();
   const city = String(formData.get("city") || "").trim();
-  const state = String(formData.get("state") || "").trim();
+  const companyState = (await prisma.company.findUnique({ where: { id: companyId }, select: { state: true } }))?.state;
+  const state = companyState || String(formData.get("state") || "").trim();
   const zip = String(formData.get("zip") || "").trim();
   const country = String(formData.get("country") || "US").trim();
 

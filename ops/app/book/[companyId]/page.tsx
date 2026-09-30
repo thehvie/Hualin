@@ -33,6 +33,7 @@ export default async function BookingPage({
           companyName={company.name}
           serviceName="Junk Removal"
           todayYmd={wallYmd(new Date(), company.timezone)}
+          companyState={company.state}
           timezoneName={timezoneLabel(company.timezone)}
         />
       </div>

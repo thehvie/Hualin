@@ -5,6 +5,7 @@ import sharp from "sharp";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { isValidTimezone, DEFAULT_TIMEZONE } from "@/lib/tz";
+import { isUsState } from "@/lib/us-states";
 import { percentToBps, setDefaultTaxRate, MAX_TAX_PERCENT } from "@/lib/tax";
 
 // A generous ceiling on the RAW upload, just to stop an absurd payload —
@@ -56,6 +57,7 @@ export async function updateCompanyProfile(
   const website = String(formData.get("website") || "").trim();
   const termsText = String(formData.get("termsText") || "").trim();
   const timezone = String(formData.get("timezone") || DEFAULT_TIMEZONE);
+  const state = String(formData.get("state") || "").trim();
   const taxRateBps = percentToBps(String(formData.get("salesTaxPercent") ?? "0"));
   const rawLogoDataUrl = String(formData.get("logoDataUrl") || "").trim();
 
@@ -64,6 +66,9 @@ export async function updateCompanyProfile(
   }
   if (taxRateBps === null) {
     return { error: `Sales tax must be a number from 0 to ${MAX_TAX_PERCENT} (for example 6.5, up to two decimals).` };
+  }
+  if (state && !isUsState(state)) {
+    return { error: "Please choose a valid state." };
   }
   if (!isValidTimezone(timezone)) {
     return { error: "Please choose a valid time zone." };
@@ -85,6 +90,7 @@ export async function updateCompanyProfile(
       website: website || null,
       termsText: termsText || null,
       timezone,
+      state: state || null,
       ...(logoDataUrl ? { logoDataUrl } : {}),
     },
   });

@@ -1,14 +1,10 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
+import { US_STATES } from "@/lib/us-states";
 import { getAvailableSlots, submitBooking } from "./actions";
 
 const STEPS = ["Schedule", "Details", "Summary"] as const;
-const US_STATES = [
-  "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
-  "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
-  "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
-];
 
 function toYmd(d: Date) {
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -47,6 +43,7 @@ export function BookingWizard({
   serviceName,
   todayYmd,
   timezoneName,
+  companyState,
 }: {
   companyId: string;
   companyName: string;
@@ -54,6 +51,8 @@ export function BookingWizard({
   /** "Today" as a calendar date in the business's timezone (not the visitor's). */
   todayYmd: string;
   timezoneName: string;
+  /** The company's home state; when set, customers aren't asked for one. */
+  companyState: string | null;
 }) {
   const [ty, tm, td] = todayYmd.split("-").map(Number);
   const today = new Date(ty, tm - 1, td);
@@ -68,7 +67,7 @@ export function BookingWizard({
   // Honeypot: hidden from people, filled in by bots. See submitBooking.
   const [honeypot, setHoneypot] = useState("");
   const [contact, setContact] = useState<ContactInfo>({
-    firstName: "", lastName: "", email: "", phone: "", address: "", city: "", state: "", zip: "", notes: "",
+    firstName: "", lastName: "", email: "", phone: "", address: "", city: "", state: companyState ?? "", zip: "", notes: "",
   });
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -254,6 +253,7 @@ export function BookingWizard({
               <Field label="Phone number" type="tel" value={contact.phone} onChange={(v) => setContact({ ...contact, phone: v })} required />
               <Field label="Address" value={contact.address} onChange={(v) => setContact({ ...contact, address: v })} required />
               <Field label="City" value={contact.city} onChange={(v) => setContact({ ...contact, city: v })} required />
+              {!companyState && (
               <div className="flex flex-col gap-1.5">
                 <label className="text-sm font-medium text-zinc-700">
                   State <span className="text-red-500">*</span>
@@ -269,6 +269,7 @@ export function BookingWizard({
                   ))}
                 </select>
               </div>
+              )}
               <Field label="Zip code" value={contact.zip} onChange={(v) => setContact({ ...contact, zip: v })} required />
             </div>
             <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
