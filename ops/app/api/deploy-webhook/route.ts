@@ -3,8 +3,9 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 
-// GitHub webhook receiver. On a push to main, spawns deploy.sh in the
-// background and returns immediately so GitHub doesn't time out.
+// GitHub webhook receiver. On a push to the deploy branch (DEPLOY_BRANCH in
+// .env, default main), spawns deploy.sh in the background and returns
+// immediately so GitHub doesn't time out.
 // Configure DEPLOY_WEBHOOK_SECRET in .env and enter the same value as the
 // "Secret" field on the GitHub webhook.
 
@@ -29,8 +30,9 @@ export async function POST(req: NextRequest) {
   }
 
   const data = JSON.parse(payload) as { ref?: string };
-  if (data.ref !== "refs/heads/main") {
-    return NextResponse.json({ message: "Ignored: not a push to main" });
+  const branch = process.env.DEPLOY_BRANCH || "main";
+  if (data.ref !== `refs/heads/${branch}`) {
+    return NextResponse.json({ message: `Ignored: not a push to ${branch}` });
   }
 
   const deployScript = path.join(process.cwd(), "deploy", "deploy.sh");
