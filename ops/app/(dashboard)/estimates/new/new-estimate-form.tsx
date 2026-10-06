@@ -4,6 +4,7 @@ import { useMemo, useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
 import { formatUnitPrice } from "@/lib/price-book";
 import { PhotoDropzone } from "@/components/photo-dropzone";
+import { VoiceIntake } from "@/components/voice-intake";
 import { US_STATES } from "@/lib/us-states";
 import { createEstimateFromBuilder, type BuilderItem } from "../actions";
 
@@ -145,6 +146,8 @@ export function NewEstimateForm({
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_260px] lg:items-start">
       <div className="flex flex-col gap-6">
+        <VoiceIntake defaultState={defaultState} />
+
         {/* Customer */}
         <div className="flex flex-col gap-4 rounded-xl border border-zinc-200 bg-white p-5">
           <div className="flex items-center justify-between">

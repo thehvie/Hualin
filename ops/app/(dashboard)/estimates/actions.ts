@@ -172,3 +172,82 @@ export async function createEstimateFromBuilder(
   revalidatePath("/estimates");
   redirect(`/estimates/${estimate.id}`);
 }
+
+export interface VoiceDraftPayload {
+  /** Set when the dictated phone/email matched a customer already in the database. */
+  existingCustomerId?: string;
+  customer: NonNullable<BuilderPayload["customer"]>;
+  jobNotes: string;
+}
+
+/**
+ * Accepts the reviewed voice intake: saves the customer (or reuses the matched one),
+ * creates the Job with the dictated description and an empty draft Estimate, then opens
+ * the estimate editor so photos and services can be added.
+ */
+export async function createDraftFromVoice(payload: VoiceDraftPayload): Promise<{ error: string } | void> {
+  const { companyId } = await requireSession();
+  const jobNotes = String(payload.jobNotes || "").trim().slice(0, 5000);
+
+  let customerId: string;
+  let propertyId: string | null = null;
+
+  const existing = payload.existingCustomerId
+    ? await prisma.customer.findFirst({
+        where: { id: payload.existingCustomerId, companyId },
+        include: { properties: { take: 1, orderBy: { createdAt: "asc" } } },
+      })
+    : null;
+
+  if (existing) {
+    customerId = existing.id;
+    propertyId = existing.properties[0]?.id ?? null;
+  } else {
+    const c = payload.customer;
+    const firstName = String(c.firstName || "").trim();
+    const lastName = String(c.lastName || "").trim();
+    const addressLine1 = String(c.addressLine1 || "").trim();
+    const city = String(c.city || "").trim();
+    const companyState = (await prisma.company.findUnique({ where: { id: companyId }, select: { state: true } }))?.state;
+    const state = companyState || String(c.state || "").trim();
+    const zip = String(c.zip || "").trim();
+
+    if (!firstName || !lastName) return { error: "First and last name are required." };
+    if (!addressLine1 || !city || !state) return { error: "The job address is required." };
+
+    const geo = await geocodeAddress(`${addressLine1}, ${city}, ${state} ${zip}, US`);
+    const customer = await prisma.customer.create({
+      data: {
+        companyId,
+        firstName,
+        lastName,
+        companyName: String(c.companyName || "").trim() || null,
+        email: String(c.email || "").trim() || null,
+        phone: String(c.phone || "").trim() || null,
+        source: "OTHER",
+        properties: {
+          create: {
+            companyId,
+            addressLine1,
+            addressLine2: String(c.addressLine2 || "").trim() || null,
+            city,
+            state,
+            zip,
+            latitude: geo?.latitude ?? null,
+            longitude: geo?.longitude ?? null,
+          },
+        },
+      },
+      include: { properties: true },
+    });
+    customerId = customer.id;
+    propertyId = customer.properties[0]?.id ?? null;
+  }
+
+  const job = await prisma.job.create({ data: { companyId, customerId, propertyId, notes: jobNotes || null } });
+  const estimate = await prisma.estimate.create({ data: { companyId, customerId, propertyId, jobId: job.id } });
+
+  revalidatePath("/estimates");
+  revalidatePath("/customers");
+  redirect(`/estimates/${estimate.id}`);
+}
