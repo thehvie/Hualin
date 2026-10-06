@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { messageChannel } from "@/lib/messaging";
 import { estimateSigningUrl } from "@/lib/estimate-signing";
+import { timezoneLabel } from "@/lib/tz";
 import { EstimateEditor } from "./estimate-editor";
 
 export default async function EstimateDetailPage({
@@ -28,6 +29,8 @@ export default async function EstimateDetailPage({
   });
 
   if (!estimate) notFound();
+
+  const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
 
   const priceBookItems = await prisma.priceBookItem.findMany({
     where: { companyId, active: true },
@@ -84,6 +87,10 @@ export default async function EstimateDetailPage({
           invoiceId: estimate.invoice?.id ?? null,
           jobId: estimate.job?.id ?? null,
           jobStatus: estimate.job?.status ?? null,
+          scheduledAt: estimate.job?.scheduledAt ? estimate.job.scheduledAt.toISOString() : null,
+          scheduledEndAt: estimate.job?.scheduledEndAt ? estimate.job.scheduledEndAt.toISOString() : null,
+          timezone,
+          timezoneName: timezoneLabel(timezone),
           attachments: (estimate.job?.attachments ?? []).map((a) => ({ id: a.id, filename: a.filename, dataUrl: a.dataUrl })),
           signingUrl: estimate.publicToken ? estimateSigningUrl(estimate.publicToken) : null,
           signedName: estimate.signedName,

@@ -8,6 +8,7 @@ import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/
 import { requireSession } from "@/lib/session";
 import { createInvoiceFromEstimate } from "@/lib/estimate-invoice";
 import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
+import { fromDatetimeLocalInTz, rentalDays } from "@/lib/tz";
 
 function toCents(value: string): number {
   const n = Math.round(parseFloat(value || "0") * 100);
@@ -75,11 +76,85 @@ export async function addLineItemFromPriceBook(estimateId: string, priceBookItem
       description: item.name,
       quantity: 1,
       unitPriceCents: item.unitPriceCents,
+      costCents: item.costCents,
       isRental: item.type === "RENTAL",
       sortOrder: count,
     },
   });
   revalidatePath(`/estimates/${estimateId}`);
+}
+
+export async function addLineItemsFromPriceBook(estimateId: string, picks: { priceBookItemId: string; quantity: number }[]) {
+  const { companyId } = await requireSession();
+  await assertEstimateOwnership(estimateId, companyId);
+  if (picks.length === 0) return;
+
+  const items = await prisma.priceBookItem.findMany({
+    where: { id: { in: picks.map((p) => p.priceBookItemId) }, companyId, active: true },
+  });
+  const byId = new Map(items.map((i) => [i.id, i]));
+  let sortOrder = await prisma.estimateLineItem.count({ where: { estimateId, companyId } });
+
+  const data = picks.flatMap((p) => {
+    const item = byId.get(p.priceBookItemId);
+    if (!item) return [];
+    return [
+      {
+        companyId,
+        estimateId,
+        priceBookItemId: item.id,
+        description: item.name,
+        quantity: Math.max(1, Math.min(9999, Math.floor(Number(p.quantity)) || 1)),
+        unitPriceCents: item.unitPriceCents,
+        costCents: item.costCents,
+        isRental: item.type === "RENTAL",
+        sortOrder: sortOrder++,
+      },
+    ];
+  });
+  if (data.length > 0) await prisma.estimateLineItem.createMany({ data });
+  revalidatePath(`/estimates/${estimateId}`);
+}
+
+/**
+ * Sets (or clears) when the job is scheduled. Values are "YYYY-MM-DDTHH:mm" in the company's timezone.
+ * `end` is only for rentals: with both dates set, every rental line's quantity becomes the number of days.
+ */
+export async function updateEstimateSchedule(
+  estimateId: string,
+  start: string,
+  end: string = "",
+): Promise<{ error: string } | { days: number | null }> {
+  const { companyId } = await requireSession();
+  const estimate = await prisma.estimate.findFirst({
+    where: { id: estimateId, companyId },
+    select: { jobId: true, job: { select: { status: true } } },
+  });
+  if (!estimate?.jobId || !estimate.job) return { error: "This estimate has no job to schedule." };
+
+  const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
+  const scheduledAt = start ? fromDatetimeLocalInTz(start, timezone) : null;
+  if (start && !scheduledAt) return { error: "That date and time isn't valid." };
+  const scheduledEndAt = scheduledAt && end ? fromDatetimeLocalInTz(end, timezone) : null;
+  if (scheduledAt && end && !scheduledEndAt) return { error: "That end date isn't valid." };
+  if (scheduledAt && scheduledEndAt && scheduledEndAt < scheduledAt) return { error: "The rental can't end before it starts." };
+
+  // Setting a date schedules an unscheduled job; clearing it unschedules a scheduled one.
+  const status = scheduledAt
+    ? estimate.job.status === "UNSCHEDULED" ? "SCHEDULED" : undefined
+    : estimate.job.status === "SCHEDULED" ? "UNSCHEDULED" : undefined;
+  await prisma.job.updateMany({ where: { id: estimate.jobId, companyId }, data: { scheduledAt, scheduledEndAt, status } });
+
+  let days: number | null = null;
+  if (scheduledAt && scheduledEndAt) {
+    days = rentalDays(scheduledAt, scheduledEndAt, timezone);
+    await prisma.estimateLineItem.updateMany({ where: { estimateId, companyId, isRental: true }, data: { quantity: days } });
+  }
+
+  revalidatePath(`/estimates/${estimateId}`);
+  revalidatePath(`/jobs/${estimate.jobId}`);
+  revalidatePath("/schedule");
+  return { days };
 }
 
 export async function updateLineItemQuantity(estimateId: string, lineItemId: string, quantity: number) {

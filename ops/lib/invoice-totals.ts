@@ -44,7 +44,7 @@ export function computeInvoiceTotals({
     (sum, li) => sum + li.quantity * li.unitPriceCents,
     0,
   );
-  const itemCostCents = lineItems.reduce((sum, li) => sum + (li.costCents ?? 0), 0);
+  const itemCostCents = lineItems.reduce((sum, li) => sum + li.quantity * (li.costCents ?? 0), 0);
   const taxableSubtotalCents = lineItems.reduce(
     (sum, li) => (li.taxable ? sum + li.quantity * li.unitPriceCents : sum),
     0,

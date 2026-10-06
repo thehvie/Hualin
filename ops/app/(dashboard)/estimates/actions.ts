@@ -6,6 +6,7 @@ import { geocodeAddress } from "@/lib/geocode";
 import { prisma } from "@/lib/prisma";
 import { normalizePhoto, MAX_PHOTOS } from "@/lib/photos";
 import { requireSession } from "@/lib/session";
+import { fromDatetimeLocalInTz, rentalDays } from "@/lib/tz";
 
 const VALID_STATUSES = ["DRAFT", "SENT", "APPROVED", "DECLINED", "EXPIRED"] as const;
 type EstimateStatus = (typeof VALID_STATUSES)[number];
@@ -55,6 +56,10 @@ export interface BuilderPayload {
     zip: string;
   };
   jobNotes: string;
+  /** "YYYY-MM-DDTHH:mm" in the company's timezone; empty when not scheduled yet. */
+  scheduledAt?: string;
+  /** Rental end, only meaningful with scheduledAt. */
+  scheduledEndAt?: string;
   items: BuilderItem[];
 }
 
@@ -80,6 +85,21 @@ export async function createEstimateFromBuilder(
   }
 
   const jobNotes = String(payload.jobNotes || "").trim().slice(0, 5000);
+
+  let scheduledAt: Date | null = null;
+  let scheduledEndAt: Date | null = null;
+  let rentalDayCount: number | null = null;
+  if (payload.scheduledAt) {
+    const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
+    scheduledAt = fromDatetimeLocalInTz(payload.scheduledAt, timezone);
+    if (!scheduledAt) return { error: "That scheduled date and time isn't valid." };
+    if (payload.scheduledEndAt) {
+      scheduledEndAt = fromDatetimeLocalInTz(payload.scheduledEndAt, timezone);
+      if (!scheduledEndAt) return { error: "That end date isn't valid." };
+      if (scheduledEndAt < scheduledAt) return { error: "The rental can't end before it starts." };
+      rentalDayCount = rentalDays(scheduledAt, scheduledEndAt, timezone);
+    }
+  }
 
   let customerId: string;
   let propertyId: string | null = null;
@@ -149,7 +169,7 @@ export async function createEstimateFromBuilder(
       companyId,
       priceBookItemId: i.priceBookItemId && validPb.has(i.priceBookItemId) ? i.priceBookItemId : null,
       description: String(i.description || "").trim().slice(0, 300),
-      quantity: Math.max(1, Math.min(9999, Math.floor(Number(i.quantity)) || 1)),
+      quantity: i.isRental && rentalDayCount ? rentalDayCount : Math.max(1, Math.min(9999, Math.floor(Number(i.quantity)) || 1)),
       unitPriceCents: Math.max(0, Math.round(Number(i.unitPriceCents)) || 0),
       costCents: i.costCents == null ? null : Math.max(0, Math.round(Number(i.costCents)) || 0),
       isRental: !!i.isRental,
@@ -158,7 +178,7 @@ export async function createEstimateFromBuilder(
     .filter((i) => i.description);
 
   const job = await prisma.job.create({
-    data: { companyId, customerId, propertyId, notes: jobNotes || null },
+    data: { companyId, customerId, propertyId, notes: jobNotes || null, scheduledAt, scheduledEndAt, status: scheduledAt ? "SCHEDULED" : "UNSCHEDULED" },
   });
   const estimate = await prisma.estimate.create({
     data: { companyId, customerId, propertyId, jobId: job.id, notes: jobNotes || null, lineItems: { create: items } },
@@ -170,6 +190,7 @@ export async function createEstimateFromBuilder(
   }
 
   revalidatePath("/estimates");
+  if (scheduledAt) revalidatePath("/schedule");
   redirect(`/estimates/${estimate.id}`);
 }
 
@@ -178,6 +199,8 @@ export interface VoiceDraftPayload {
   existingCustomerId?: string;
   customer: NonNullable<BuilderPayload["customer"]>;
   jobNotes: string;
+  /** Price book items spoken in the same recording; re-read from the price book server side. */
+  items?: { priceBookItemId: string; quantity: number }[];
 }
 
 /**
@@ -245,8 +268,31 @@ export async function createDraftFromVoice(payload: VoiceDraftPayload): Promise<
   }
 
   const job = await prisma.job.create({ data: { companyId, customerId, propertyId, notes: jobNotes || null } });
+  const picks = (payload.items ?? []).slice(0, 100);
+  const priceBook = picks.length
+    ? await prisma.priceBookItem.findMany({
+        where: { id: { in: picks.map((p) => p.priceBookItemId) }, companyId, active: true },
+      })
+    : [];
+  const byId = new Map(priceBook.map((i) => [i.id, i]));
+  const lineItems = picks.flatMap((p, sortOrder) => {
+    const item = byId.get(p.priceBookItemId);
+    if (!item) return [];
+    return [
+      {
+        companyId,
+        priceBookItemId: item.id,
+        description: item.name,
+        quantity: Math.max(1, Math.min(9999, Math.floor(Number(p.quantity)) || 1)),
+        unitPriceCents: item.unitPriceCents,
+        costCents: item.costCents,
+        isRental: item.type === "RENTAL",
+        sortOrder,
+      },
+    ];
+  });
   const estimate = await prisma.estimate.create({
-    data: { companyId, customerId, propertyId, jobId: job.id, notes: jobNotes || null },
+    data: { companyId, customerId, propertyId, jobId: job.id, notes: jobNotes || null, lineItems: { create: lineItems } },
   });
 
   revalidatePath("/estimates");

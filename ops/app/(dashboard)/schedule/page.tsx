@@ -58,22 +58,74 @@ function monthGrid(year: number, month: number): Date[] {
 
 async function loadJobs(companyId: string, rangeStart: Date, rangeEndExclusive: Date) {
   return prisma.job.findMany({
-    where: { companyId, scheduledAt: { gte: rangeStart, lt: rangeEndExclusive } },
+    where: {
+      companyId,
+      scheduledAt: { lt: rangeEndExclusive },
+      OR: [{ scheduledAt: { gte: rangeStart } }, { scheduledEndAt: { gte: rangeStart } }],
+    },
     include: { customer: true },
     orderBy: { scheduledAt: "asc" },
   });
 }
 
+// A job on a calendar day: a one-visit job ("single") or one day of a rental that spans several.
+type Entry = { job: Job; kind: "single" | "start" | "middle" | "end" };
+
+function ymdAddDays(ymd: string, n: number): string {
+  const [y, m, d] = ymd.split("-").map(Number);
+  const x = new Date(Date.UTC(y, m - 1, d + n));
+  return `${x.getUTCFullYear()}-${String(x.getUTCMonth() + 1).padStart(2, "0")}-${String(x.getUTCDate()).padStart(2, "0")}`;
+}
+
 // Keyed by the calendar date (YYYY-MM-DD) in the company's timezone.
 function groupByDay(jobs: Job[], tz: string) {
-  const map = new Map<string, Job[]>();
+  const map = new Map<string, Entry[]>();
+  const add = (key: string, entry: Entry) => {
+    if (!map.has(key)) map.set(key, []);
+    map.get(key)!.push(entry);
+  };
   for (const job of jobs) {
     if (!job.scheduledAt) continue;
-    const key = wallYmd(job.scheduledAt, tz);
-    if (!map.has(key)) map.set(key, []);
-    map.get(key)!.push(job);
+    const startKey = wallYmd(job.scheduledAt, tz);
+    const endKey = job.scheduledEndAt ? wallYmd(job.scheduledEndAt, tz) : startKey;
+    if (endKey <= startKey) {
+      add(startKey, { job, kind: "single" });
+      continue;
+    }
+    // Capped so a bad end date can't loop for years.
+    for (let key = startKey, n = 0; key <= endKey && n < 120; key = ymdAddDays(key, 1), n++) {
+      add(key, { job, kind: key === startKey ? "start" : key === endKey ? "end" : "middle" });
+    }
   }
   return map;
+}
+
+function rentalLabel({ job, kind }: Entry, tz: string): string {
+  const name = `${job.customer.firstName} ${job.customer.lastName}`;
+  if (kind === "start" && job.scheduledAt)
+    return `▶ ${formatInTz(job.scheduledAt, tz, { hour: "numeric" })} ${name}`;
+  if (kind === "end" && job.scheduledEndAt)
+    return `◀ ${formatInTz(job.scheduledEndAt, tz, { hour: "numeric" })} ${name}`;
+  return `${name} (rental)`;
+}
+
+function RentalChips({ entries, tz }: { entries: Entry[]; tz: string }) {
+  if (entries.length === 0) return null;
+  return (
+    <ul className="flex flex-col gap-1 px-1">
+      {entries.map((e) => (
+        <li key={e.job.id}>
+          <Link
+            href={`/jobs/${e.job.id}`}
+            title={`Rental · ${e.job.customer.firstName} ${e.job.customer.lastName}`}
+            className={`block truncate rounded border px-1.5 py-0.5 text-xs font-medium ${STATUS_BLOCK[e.job.status]}`}
+          >
+            {rentalLabel(e, tz)}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 function timelineHours() {
@@ -87,7 +139,8 @@ function formatHourLabel(h: number) {
   return `${display} ${period}`;
 }
 
-function DayColumn({ jobs, tz, showLabels }: { jobs: Job[]; tz: string; showLabels?: boolean }) {
+function DayColumn({ entries, tz, showLabels }: { entries: Entry[]; tz: string; showLabels?: boolean }) {
+  const jobs = entries.filter((e) => e.kind === "single").map((e) => e.job);
   const hours = timelineHours();
   const totalHeight = (hours.length - 1) * ROW_HEIGHT;
   return (
@@ -236,15 +289,31 @@ export default async function SchedulePage({
                     {day.getDate()}
                   </Link>
                   <ul className="mt-1 flex flex-col gap-1">
-                    {dayJobs.slice(0, 3).map((job) => (
-                      <li key={job.id}>
-                        <Link href={`/jobs/${job.id}`} className="flex items-center gap-1.5 truncate rounded px-1 py-0.5 text-xs text-zinc-700 hover:bg-zinc-100">
-                          <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${STATUS_DOT[job.status]}`} />
-                          <span className="shrink-0 font-medium">{job.scheduledAt ? formatInTz(job.scheduledAt, timezone, { hour: "numeric" }) : ""}</span>
-                          <span className="truncate">{job.customer.firstName} {job.customer.lastName}</span>
-                        </Link>
-                      </li>
-                    ))}
+                    {dayJobs.slice(0, 3).map((entry) => {
+                      const { job, kind } = entry;
+                      if (kind !== "single") {
+                        return (
+                          <li key={job.id}>
+                            <Link
+                              href={`/jobs/${job.id}`}
+                              title="Rental"
+                              className={`block truncate rounded border px-1 py-0.5 text-xs font-medium ${STATUS_BLOCK[job.status]}`}
+                            >
+                              {rentalLabel(entry, timezone)}
+                            </Link>
+                          </li>
+                        );
+                      }
+                      return (
+                        <li key={job.id}>
+                          <Link href={`/jobs/${job.id}`} className="flex items-center gap-1.5 truncate rounded px-1 py-0.5 text-xs text-zinc-700 hover:bg-zinc-100">
+                            <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${STATUS_DOT[job.status]}`} />
+                            <span className="shrink-0 font-medium">{job.scheduledAt ? formatInTz(job.scheduledAt, timezone, { hour: "numeric" }) : ""}</span>
+                            <span className="truncate">{job.customer.firstName} {job.customer.lastName}</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
                     {dayJobs.length > 3 && <li className="px-1 text-xs text-zinc-400">+{dayJobs.length - 3} more</li>}
                   </ul>
                 </div>
@@ -274,6 +343,16 @@ export default async function SchedulePage({
               })}
             </div>
           </div>
+          {Array.from({ length: 7 }, (_, i) => jobsByDay.get(fmtDate(addDays(rangeStart, i))) || []).some((d) => d.some((e) => e.kind !== "single")) && (
+            <div className="mb-2 flex min-w-[800px] border-b border-zinc-100 pb-2">
+              <div className="w-14 shrink-0 pr-2 text-right text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Rentals</div>
+              <div className="grid flex-1 grid-cols-7">
+                {Array.from({ length: 7 }, (_, i) => addDays(rangeStart, i)).map((day) => (
+                  <RentalChips key={day.toISOString()} tz={timezone} entries={(jobsByDay.get(fmtDate(day)) || []).filter((e) => e.kind !== "single")} />
+                ))}
+              </div>
+            </div>
+          )}
           <div className="flex min-w-[800px]">
             <div className="w-14 shrink-0" style={{ marginTop: -8 }}>
               {timelineHours().map((h) => (
@@ -284,7 +363,7 @@ export default async function SchedulePage({
             </div>
             <div className="grid flex-1 grid-cols-7">
               {Array.from({ length: 7 }, (_, i) => addDays(rangeStart, i)).map((day) => (
-                <DayColumn key={day.toISOString()} tz={timezone} jobs={jobsByDay.get(fmtDate(day)) || []} />
+                <DayColumn key={day.toISOString()} tz={timezone} entries={jobsByDay.get(fmtDate(day)) || []} />
               ))}
             </div>
           </div>
@@ -294,7 +373,15 @@ export default async function SchedulePage({
       {view === "day" && (
         <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white p-4">
           <div className="min-w-[500px]">
-            <DayColumn tz={timezone} jobs={jobsByDay.get(fmtDate(anchor)) || []} showLabels />
+            {(jobsByDay.get(fmtDate(anchor)) || []).some((e) => e.kind !== "single") && (
+              <div className="mb-2 flex border-b border-zinc-100 pb-2">
+                <div className="w-14 shrink-0 pr-2 text-right text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Rentals</div>
+                <div className="flex-1">
+                  <RentalChips tz={timezone} entries={(jobsByDay.get(fmtDate(anchor)) || []).filter((e) => e.kind !== "single")} />
+                </div>
+              </div>
+            )}
+            <DayColumn tz={timezone} entries={jobsByDay.get(fmtDate(anchor)) || []} showLabels />
           </div>
         </div>
       )}

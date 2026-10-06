@@ -8,6 +8,8 @@ import { formatCents } from "@/lib/money";
 import { formatUnitPrice } from "@/lib/price-book";
 import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
 import { MessageComposer } from "@/components/message-composer";
+import { VoiceItems } from "@/components/voice-items";
+import { toDatetimeLocalInTz } from "@/lib/tz";
 import { sendEstimateSms } from "../../sms-actions";
 import {
   addLineItem,
@@ -16,6 +18,7 @@ import {
   updateLineItemQuantity,
   updateEstimateHeader,
   addPaymentScheduleItem,
+  updateEstimateSchedule,
   removePaymentScheduleItem,
   createInvoiceForEstimate,
   sendEstimate,
@@ -63,6 +66,10 @@ interface EstimateData {
   invoiceId: string | null;
   jobId: string | null;
   jobStatus: string | null;
+  scheduledAt: string | null;
+  scheduledEndAt: string | null;
+  timezone: string;
+  timezoneName: string;
   attachments: { id: string; filename: string; dataUrl: string }[];
   signingUrl: string | null;
   signedName: string | null;
@@ -86,6 +93,20 @@ export function EstimateEditor({
   const [isPending, startTransition] = useTransition();
   const [showAddItem, setShowAddItem] = useState(false);
   const [showPriceBook, setShowPriceBook] = useState(false);
+  const toLocal = (iso: string | null) => (iso ? toDatetimeLocalInTz(new Date(iso), estimate.timezone) : "");
+  const [startValue, setStartValue] = useState(toLocal(estimate.scheduledAt));
+  const [endValue, setEndValue] = useState(toLocal(estimate.scheduledEndAt));
+  const hasRental = estimate.lineItems.some((li) => li.isRental) || !!estimate.scheduledEndAt;
+
+  function saveSchedule(start: string, end: string) {
+    if (start === "") setEndValue("");
+    startTransition(async () => {
+      const res = await updateEstimateSchedule(estimate.id, start, start ? end : "");
+      if ("error" in res) setNotice(res.error);
+      else if (res.days !== null) setNotice(`Rental set to ${res.days} ${res.days === 1 ? "day" : "days"}.`);
+      else setNotice(start ? "Scheduled." : "Schedule cleared.");
+    });
+  }
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [lightbox, setLightbox] = useState<{ dataUrl: string; filename: string } | null>(null);
@@ -95,10 +116,11 @@ export function EstimateEditor({
     (sum, li) => sum + li.quantity * li.unitPriceCents,
     0,
   );
-  const itemCostCents = estimate.lineItems.reduce((sum, li) => sum + (li.costCents ?? 0), 0);
+  const itemCostCents = estimate.lineItems.reduce((sum, li) => sum + li.quantity * (li.costCents ?? 0), 0);
   const totalCents = Math.max(0, subtotalCents - estimate.discountCents);
   const depositPercent = subtotalCents > 0 ? (estimate.depositCents / subtotalCents) * 100 : 0;
   const estMarginCents = totalCents - itemCostCents - estimate.laborCostCents;
+  const marginPercent = totalCents > 0 ? (estMarginCents / totalCents) * 100 : null;
 
   function handleRemoveItem(lineItemId: string) {
     startTransition(() => removeLineItem(estimate.id, lineItemId));
@@ -325,6 +347,7 @@ export function EstimateEditor({
       {/* Items */}
       <div className="rounded-xl border border-zinc-200 bg-white p-5">
         <h2 className="mb-3 text-sm font-semibold text-zinc-900">Items</h2>
+        <VoiceItems estimateId={estimate.id} />
 
         {estimate.lineItems.length === 0 ? (
           <div className="flex flex-col items-center gap-1 py-10 text-center">
@@ -427,6 +450,8 @@ export function EstimateEditor({
             <EditableRow
               label="Discount"
               initialCents={estimate.discountCents}
+              percentOf={subtotalCents}
+              suffix={subtotalCents > 0 && estimate.discountCents > 0 ? `(${((estimate.discountCents / subtotalCents) * 100).toFixed(1)}%)` : undefined}
               onSave={(cents) => saveField(estimate, "discount", cents, startTransition)}
             />
             <Row label="Item cost" value={formatCents(itemCostCents)} muted />
@@ -447,7 +472,10 @@ export function EstimateEditor({
             </div>
             <div className="flex justify-between text-xs text-zinc-400">
               <dt>Est. margin (internal)</dt>
-              <dd>{formatCents(estMarginCents)}</dd>
+              <dd>
+                {formatCents(estMarginCents)}
+                {marginPercent !== null && ` (${marginPercent.toFixed(1)}%)`}
+              </dd>
             </div>
           </dl>
         </div>
@@ -563,6 +591,48 @@ export function EstimateEditor({
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* Schedule (stored on the job this estimate belongs to) */}
+      {estimate.jobId && (
+        <div className="rounded-xl border border-zinc-200 bg-white p-5">
+          <h2 className="mb-2 text-sm font-semibold text-zinc-900">{hasRental ? "Rental dates" : "Scheduled for"}</h2>
+          <div className="flex flex-wrap items-end gap-3">
+            <div className="flex flex-col gap-1">
+              {hasRental && <label className="text-xs text-zinc-500">Starts</label>}
+              <input
+                type="datetime-local"
+                value={startValue}
+                disabled={isPending}
+                onChange={(e) => {
+                  setStartValue(e.target.value);
+                  saveSchedule(e.target.value, endValue);
+                }}
+                className="rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+              />
+            </div>
+            {hasRental && (
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-zinc-500">Ends</label>
+                <input
+                  type="datetime-local"
+                  value={endValue}
+                  min={startValue || undefined}
+                  disabled={isPending || !startValue}
+                  onChange={(e) => {
+                    setEndValue(e.target.value);
+                    saveSchedule(startValue, e.target.value);
+                  }}
+                  className="rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:bg-zinc-50"
+                />
+              </div>
+            )}
+          </div>
+          <p className="mt-1.5 text-xs text-zinc-400">
+            Shown in {estimate.timezoneName}. Clear the start to unschedule.
+            {hasRental && " Setting both dates sets each rental item to that many days (start and end day both count)."}
+          </p>
         </div>
       )}
 
@@ -731,35 +801,75 @@ function EditableRow({
   label,
   initialCents,
   suffix,
+  percentOf,
   onSave,
 }: {
   label: string;
   initialCents: number;
   suffix?: string;
+  /** When set (the subtotal in cents), the amount can be entered as a percentage of it instead of dollars. */
+  percentOf?: number;
   onSave: (cents: number) => void;
 }) {
   const [editing, setEditing] = useState(false);
+  const [mode, setMode] = useState<"$" | "%">("$");
   const [value, setValue] = useState((initialCents / 100).toFixed(2));
+
+  function startEditing() {
+    setMode("$");
+    setValue((initialCents / 100).toFixed(2));
+    setEditing(true);
+  }
+
+  function switchMode(next: "$" | "%") {
+    if (next === mode) return;
+    const base = percentOf ?? 0;
+    const cents = mode === "$" ? Math.round(parseFloat(value || "0") * 100) : Math.round((base * parseFloat(value || "0")) / 100);
+    setMode(next);
+    setValue(next === "$" ? (cents / 100).toFixed(2) : base > 0 ? ((cents / base) * 100).toFixed(2) : "0");
+  }
+
+  function commit() {
+    const entered = parseFloat(value || "0") || 0;
+    const cents = mode === "%" ? Math.round(((percentOf ?? 0) * Math.min(100, Math.max(0, entered))) / 100) : Math.round(entered * 100);
+    onSave(cents);
+    setEditing(false);
+  }
 
   if (editing) {
     return (
       <div className="flex items-center justify-between gap-2">
         <dt className="text-zinc-500">{label}</dt>
         <dd className="flex items-center gap-1">
+          {percentOf !== undefined && (
+            <div className="inline-flex rounded-lg border border-zinc-300 p-0.5 text-xs font-semibold">
+              {(["$", "%"] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  // mousedown keeps the input from blurring (and saving) before the mode changes
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    switchMode(m);
+                  }}
+                  className={`rounded-md px-2 py-0.5 ${mode === m ? "bg-brand text-white" : "text-zinc-600"}`}
+                >
+                  {m}
+                </button>
+              ))}
+            </div>
+          )}
           <input
             autoFocus
             type="number"
             step="0.01"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            onBlur={() => {
-              onSave(Math.round(parseFloat(value || "0") * 100));
-              setEditing(false);
-            }}
+            onBlur={commit}
             onKeyDown={(e) => {
               if (e.key === "Enter") e.currentTarget.blur();
             }}
-            className="w-24 rounded-lg border border-zinc-300 px-2 py-1 text-right text-sm outline-none focus:border-brand"
+            className="w-28 rounded-lg border border-zinc-300 px-2 py-1 text-right text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
           />
         </dd>
       </div>
@@ -767,11 +877,17 @@ function EditableRow({
   }
 
   return (
-    <div className="flex justify-between">
+    <div className="flex items-center justify-between gap-2">
       <dt className="text-zinc-500">{label}</dt>
-      <dd>
-        <button onClick={() => setEditing(true)} className="font-medium text-zinc-900 hover:text-brand">
-          {formatCents(initialCents)} {suffix && <span className="text-xs text-zinc-400">{suffix}</span>}
+      <dd className="flex items-center gap-2">
+        {suffix && <span className="text-xs text-zinc-400">{suffix}</span>}
+        <button
+          type="button"
+          onClick={startEditing}
+          title="Click to edit"
+          className="w-28 cursor-text rounded-lg border border-zinc-300 bg-white px-2 py-1 text-right text-sm font-medium text-zinc-900 hover:border-brand focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+        >
+          {formatCents(initialCents)}
         </button>
       </dd>
     </div>

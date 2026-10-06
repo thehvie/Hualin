@@ -441,7 +441,11 @@ export function InvoiceEditor({
             </div>
             <div className="flex justify-between text-xs text-zinc-400">
               <dt>Est. margin (internal)</dt>
-              <dd>{formatCents(estMarginCents)}</dd>
+              <dd>
+                {formatCents(estMarginCents)}
+                {totals.totalCents - totals.taxCents > 0 &&
+                  ` (${((estMarginCents / (totals.totalCents - totals.taxCents)) * 100).toFixed(1)}%)`}
+              </dd>
             </div>
           </dl>
         </div>

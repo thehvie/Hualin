@@ -351,6 +351,8 @@ model Job {
 
   status      JobStatus @default(UNSCHEDULED)
   scheduledAt DateTime?
+  // End of a rental period (scheduledAt is the drop-off/start); null for ordinary one-visit jobs.
+  scheduledEndAt DateTime?
   completedAt DateTime?
   notes       String?   @db.Text
 

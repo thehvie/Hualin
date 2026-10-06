@@ -134,6 +134,14 @@ export function startOfDayInTz(ymd: string, tz: string): Date {
   return zonedInstant(ymd, 0, 0, tz);
 }
 
+/** Calendar days a rental runs, counting both the start and end day (Mon to Wed = 3), minimum 1. */
+export function rentalDays(start: Date, end: Date, tz: string): number {
+  const a = wallParts(start, tz);
+  const b = wallParts(end, tz);
+  const diff = Math.round((Date.UTC(b.year, b.month - 1, b.day) - Date.UTC(a.year, a.month - 1, a.day)) / 86_400_000);
+  return Math.max(1, diff + 1);
+}
+
 export function formatInTz(date: Date, tz: string, options: Intl.DateTimeFormatOptions): string {
   return date.toLocaleString("en-US", { ...options, timeZone: tz });
 }

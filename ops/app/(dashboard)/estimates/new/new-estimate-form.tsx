@@ -66,11 +66,13 @@ export function NewEstimateForm({
   priceBookItems,
   preselectedCustomerId,
   defaultState,
+  timezoneName,
 }: {
   customers: CustomerOption[];
   priceBookItems: PriceBookOption[];
   preselectedCustomerId: string | null;
   defaultState: string | null;
+  timezoneName: string;
 }) {
   const [mode, setMode] = useState<"new" | "existing">(
     preselectedCustomerId || customers.length > 0 ? "existing" : "new",
@@ -82,6 +84,8 @@ export function NewEstimateForm({
     addressLine1: "", addressLine2: "", city: "", state: defaultState ?? "", zip: "",
   });
   const [jobNotes, setJobNotes] = useState("");
+  const [scheduledAt, setScheduledAt] = useState("");
+  const [scheduledEndAt, setScheduledEndAt] = useState("");
   const [photos, setPhotos] = useState<File[]>([]);
   const [items, setItems] = useState<DraftItem[]>([]);
   const [nextKey, setNextKey] = useState(1);
@@ -98,6 +102,7 @@ export function NewEstimateForm({
     return list.slice(0, 8);
   }, [customers, query]);
 
+  const hasRental = items.some((i) => i.isRental);
   const subtotalCents = items.reduce((sum, i) => sum + i.quantity * i.unitPriceCents, 0);
 
   function addItem(item: BuilderItem) {
@@ -137,6 +142,8 @@ export function NewEstimateForm({
         customerId: customerId ?? undefined,
         customer: mode === "new" ? nc : undefined,
         jobNotes,
+        scheduledAt,
+        scheduledEndAt: hasRental ? scheduledEndAt : "",
         items: items.map(({ key: _key, ...rest }) => rest),
       }, photoData);
       if (res?.error) setError(res.error);
@@ -270,6 +277,29 @@ export function NewEstimateForm({
             placeholder="e.g. Garage cleanout, couch and two mattresses from the basement, gate code 1234…"
             className={inputClass}
           />
+          <div className="mt-2 flex flex-wrap gap-4">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium text-zinc-700">{hasRental ? "Rental starts" : "Scheduled for"}</label>
+              <input type="datetime-local" value={scheduledAt} onChange={(e) => setScheduledAt(e.target.value)} className={inputClass} />
+            </div>
+            {hasRental && (
+              <div className="flex flex-col gap-1.5">
+                <label className="text-sm font-medium text-zinc-700">Rental ends</label>
+                <input
+                  type="datetime-local"
+                  value={scheduledEndAt}
+                  min={scheduledAt || undefined}
+                  disabled={!scheduledAt}
+                  onChange={(e) => setScheduledEndAt(e.target.value)}
+                  className={inputClass}
+                />
+              </div>
+            )}
+          </div>
+          <p className="text-xs text-zinc-400">
+            Optional. Shown in {timezoneName}.
+            {hasRental && " With both dates set, rental items are charged for that many days (start and end day both count)."}
+          </p>
         </div>
 
         {/* Photos */}

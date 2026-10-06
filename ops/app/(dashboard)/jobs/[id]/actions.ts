@@ -30,6 +30,7 @@ export async function updateJob(jobId: string, formData: FormData) {
     data: {
       status: status as JobStatusValue,
       scheduledAt,
+      scheduledEndAt: scheduledAt ? undefined : null,
       completedAt: status === "COMPLETED" ? new Date() : status === "CANCELLED" ? null : undefined,
       notes: notes || null,
     },

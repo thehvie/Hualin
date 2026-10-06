@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
+import { useVoiceRecorder } from "@/components/use-voice-recorder";
+import { VoiceItemList, type ItemMatch, type ItemRow } from "@/components/voice-item-list";
 import { createDraftFromVoice } from "@/app/(dashboard)/estimates/actions";
 
-const MAX_SECONDS = 180;
 const inputClass =
   "w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20";
 
@@ -22,134 +23,39 @@ interface Intake {
   jobNotes: string;
 }
 
-// Browsers record webm/mp4; the AI endpoint wants WAV, so decode and re-encode as 16 kHz mono.
-async function toWav(blob: Blob): Promise<Blob> {
-  const ctx = new AudioContext();
-  const decoded = await ctx.decodeAudioData(await blob.arrayBuffer());
-  await ctx.close();
-  const rate = 16000;
-  const offline = new OfflineAudioContext(1, Math.ceil(decoded.duration * rate), rate);
-  const src = offline.createBufferSource();
-  src.buffer = decoded;
-  src.connect(offline.destination);
-  src.start();
-  const samples = (await offline.startRendering()).getChannelData(0);
-
-  const buf = new ArrayBuffer(44 + samples.length * 2);
-  const v = new DataView(buf);
-  const str = (o: number, s: string) => [...s].forEach((ch, i) => v.setUint8(o + i, ch.charCodeAt(0)));
-  str(0, "RIFF");
-  v.setUint32(4, 36 + samples.length * 2, true);
-  str(8, "WAVEfmt ");
-  v.setUint32(16, 16, true);
-  v.setUint16(20, 1, true);
-  v.setUint16(22, 1, true);
-  v.setUint32(24, rate, true);
-  v.setUint32(28, rate * 2, true);
-  v.setUint16(32, 2, true);
-  v.setUint16(34, 16, true);
-  str(36, "data");
-  v.setUint32(40, samples.length * 2, true);
-  samples.forEach((s, i) => v.setInt16(44 + i * 2, Math.max(-1, Math.min(1, s)) * 0x7fff, true));
-  return new Blob([buf], { type: "audio/wav" });
-}
-
 export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
-  const [phase, setPhase] = useState<"idle" | "recording" | "processing" | "review">("idle");
-  const [seconds, setSeconds] = useState(0);
+  const [processing, setProcessing] = useState(false);
   const [intake, setIntake] = useState<Intake | null>(null);
   const [match, setMatch] = useState<{ id: string; label: string } | null>(null);
   const [useMatch, setUseMatch] = useState(true);
+  const [rows, setRows] = useState<ItemRow[]>([]);
+  const [unmatched, setUnmatched] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-  const recorder = useRef<MediaRecorder | null>(null);
-  const chunks = useRef<Blob[]>([]);
-  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
-  const endTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const speech = useRef<{ stop: () => void } | null>(null);
-  const [liveText, setLiveText] = useState("");
 
-  async function start() {
-    setError(null);
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const rec = new MediaRecorder(stream);
-      chunks.current = [];
-      rec.ondataavailable = (e) => {
-        if (e.data.size > 0) chunks.current.push(e.data);
-      };
-      rec.onstop = () => {
-        stream.getTracks().forEach((t) => t.stop());
-        void process(new Blob(chunks.current, { type: rec.mimeType }));
-      };
-      rec.start();
-      recorder.current = rec;
-      startLiveText();
-      setSeconds(0);
-      setPhase("recording");
-      timer.current = setInterval(() => {
-        setSeconds((s) => {
-          if (s + 1 >= MAX_SECONDS) stop();
-          return s + 1;
-        });
-      }, 1000);
-    } catch {
-      setError("Couldn't access the microphone. Allow microphone access for this site and try again.");
-    }
-  }
-
-  // Display-only preview using the browser's own speech recognition (not available in every browser).
-  function startLiveText() {
-    setLiveText("");
-    const Ctor = (window as unknown as { SpeechRecognition?: new () => any; webkitSpeechRecognition?: new () => any })
-    const Recognition = Ctor.SpeechRecognition ?? Ctor.webkitSpeechRecognition;
-    if (!Recognition) return;
-    try {
-      const sr = new Recognition();
-      sr.continuous = true;
-      sr.interimResults = true;
-      sr.lang = "en-US";
-      sr.onresult = (e: { results: ArrayLike<{ 0: { transcript: string } }> }) => {
-        const text = Array.from(e.results, (r) => r[0].transcript).join(" ");
-        setLiveText(text);
-        // Saying "end" stops the recording. Wait a beat so "end of the driveway" doesn't trigger it.
-        if (endTimer.current) clearTimeout(endTimer.current);
-        if (/\bend[.!?]?\s*$/i.test(text.trim())) endTimer.current = setTimeout(stop, 1200);
-      };
-      sr.onerror = () => {};
-      sr.start();
-      speech.current = sr;
-    } catch {
-      speech.current = null;
-    }
-  }
-
-  function stop() {
-    if (endTimer.current) clearTimeout(endTimer.current);
-    try {
-      speech.current?.stop();
-    } catch {}
-    if (timer.current) clearInterval(timer.current);
-    if (recorder.current?.state === "recording") recorder.current.stop();
-  }
-
-  async function process(blob: Blob) {
-    setPhase("processing");
+  const rec = useVoiceRecorder(async (wav) => {
+    setProcessing(true);
     try {
       const form = new FormData();
-      form.append("audio", await toWav(blob), "intake.wav");
+      form.append("audio", wav, "intake.wav");
       const res = await fetch("/api/estimates/voice-intake", { method: "POST", body: form });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Voice intake failed.");
       setIntake({ ...data.intake, state: defaultState || data.intake.state });
       setMatch(data.match);
       setUseMatch(true);
-      setPhase("review");
+      setRows((data.items as ItemMatch[]).map((m) => ({ ...m, checked: true })));
+      setUnmatched(data.unmatched);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Voice intake failed.");
-      setPhase("idle");
+    } finally {
+      setProcessing(false);
     }
-  }
+  });
+
+  const phase = rec.recording ? "recording" : processing ? "processing" : intake ? "review" : "idle";
+  const { seconds, liveText, start, stop } = rec;
+  const shownError = error ?? rec.error;
 
   function accept() {
     if (!intake) return;
@@ -159,6 +65,7 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
         existingCustomerId: match && useMatch ? match.id : undefined,
         customer: intake,
         jobNotes: intake.jobNotes,
+        items: rows.filter((r) => r.checked).map((r) => ({ priceBookItemId: r.priceBookItemId, quantity: r.quantity })),
       });
       if (res?.error) setError(res.error);
     });
@@ -173,7 +80,7 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
         <div>
           <h2 className="text-sm font-semibold text-zinc-900">Voice intake</h2>
           <p className="text-xs text-zinc-500">
-            Say the customer&apos;s name, address, email and phone, then describe the job, and say &ldquo;end&rdquo; when you&apos;re done. Review it, accept, then add photos and services.
+            Say the customer&apos;s name, address, email and phone, describe the job, then say the services to charge (like &ldquo;3 truckload&rdquo;), and say &ldquo;end&rdquo; when you&apos;re done. Review it, accept, then add photos.
           </p>
         </div>
         {phase === "idle" && (
@@ -189,7 +96,7 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
         {phase === "processing" && <span className="text-sm text-zinc-500">Transcribing…</span>}
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {shownError && <p className="text-sm text-red-600">{shownError}</p>}
 
       {(phase === "recording" || phase === "processing") && (
         <p className="min-h-10 rounded-lg bg-white/70 px-3 py-2 text-sm italic text-zinc-600">
@@ -220,6 +127,8 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
           {!defaultState && <input className={inputClass} placeholder="State (2 letters)" value={intake.state} onChange={set("state")} />}
           <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Job details</p>
           <textarea rows={3} className={inputClass} placeholder="Job details" value={intake.jobNotes} onChange={set("jobNotes")} />
+          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Items from your price book</p>
+          <VoiceItemList rows={rows} unmatched={unmatched} onChange={setRows} />
           <details className="text-xs text-zinc-400">
             <summary className="cursor-pointer">What I heard</summary>
             <p className="mt-1 whitespace-pre-wrap">{intake.transcript}</p>
@@ -236,8 +145,8 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
             <button
               type="button"
               onClick={() => {
-                setPhase("idle");
                 setIntake(null);
+                setError(null);
               }}
               disabled={isPending}
               className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700"

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { timezoneLabel } from "@/lib/tz";
 import { NewEstimateForm } from "./new-estimate-form";
 
 export default async function NewEstimatePage({
@@ -12,7 +13,7 @@ export default async function NewEstimatePage({
   const { customerId } = await searchParams;
 
   const [company, priceBook] = await Promise.all([
-    prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { state: true } }),
+    prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { state: true, timezone: true } }),
     prisma.priceBookItem.findMany({ where: { companyId, active: true }, orderBy: { name: "asc" } }),
   ]);
 
@@ -48,6 +49,7 @@ export default async function NewEstimatePage({
           isRental: p.type === "RENTAL",
         }))}
         defaultState={company.state}
+        timezoneName={timezoneLabel(company.timezone)}
         preselectedCustomerId={customers.some((c) => c.id === customerId) ? (customerId ?? null) : null}
       />
     </div>
