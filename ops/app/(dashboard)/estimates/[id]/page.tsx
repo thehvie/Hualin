@@ -46,7 +46,7 @@ export default async function EstimateDetailPage({
           id: estimate.id,
           number: estimate.number,
           status: estimate.status,
-          notes: estimate.notes,
+          notes: estimate.job?.notes ?? estimate.notes,
           discountCents: estimate.discountCents,
           depositCents: estimate.depositCents,
           laborCostCents: estimate.laborCostCents,

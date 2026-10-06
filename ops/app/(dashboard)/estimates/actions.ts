@@ -161,7 +161,7 @@ export async function createEstimateFromBuilder(
     data: { companyId, customerId, propertyId, notes: jobNotes || null },
   });
   const estimate = await prisma.estimate.create({
-    data: { companyId, customerId, propertyId, jobId: job.id, lineItems: { create: items } },
+    data: { companyId, customerId, propertyId, jobId: job.id, notes: jobNotes || null, lineItems: { create: items } },
   });
   if (photos.length > 0) {
     await prisma.jobAttachment.createMany({
@@ -245,7 +245,9 @@ export async function createDraftFromVoice(payload: VoiceDraftPayload): Promise<
   }
 
   const job = await prisma.job.create({ data: { companyId, customerId, propertyId, notes: jobNotes || null } });
-  const estimate = await prisma.estimate.create({ data: { companyId, customerId, propertyId, jobId: job.id } });
+  const estimate = await prisma.estimate.create({
+    data: { companyId, customerId, propertyId, jobId: job.id, notes: jobNotes || null },
+  });
 
   revalidatePath("/estimates");
   revalidatePath("/customers");

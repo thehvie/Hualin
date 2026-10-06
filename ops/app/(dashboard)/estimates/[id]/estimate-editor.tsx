@@ -568,7 +568,7 @@ export function EstimateEditor({
 
       {/* Notes */}
       <div className="rounded-xl border border-zinc-200 bg-white p-5">
-        <h2 className="mb-2 text-sm font-semibold text-zinc-900">Description</h2>
+        <h2 className="mb-2 text-sm font-semibold text-zinc-900">Job details</h2>
         <NotesField estimate={estimate} onSave={() => {}} />
       </div>
 
@@ -797,7 +797,7 @@ function NotesField({ estimate }: { estimate: EstimateData; onSave: () => void }
       }}
       disabled={isPending}
       rows={3}
-      placeholder="Add a description or internal notes for this estimate…"
+      placeholder="e.g. Garage cleanout, couch and two mattresses from the basement, gate code 1234…"
       className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
     />
   );

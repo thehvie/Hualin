@@ -104,7 +104,7 @@ export async function updateEstimateHeader(estimateId: string, formData: FormDat
   const depositCents = toCents(String(formData.get("deposit") || "0"));
   const laborCostCents = toCents(String(formData.get("laborCost") || "0"));
 
-  await prisma.estimate.updateMany({
+  const updated = await prisma.estimate.updateMany({
     where: { id: estimateId, companyId },
     data: {
       status: status as "DRAFT" | "SENT" | "APPROVED" | "DECLINED" | "EXPIRED",
@@ -114,6 +114,11 @@ export async function updateEstimateHeader(estimateId: string, formData: FormDat
       laborCostCents,
     },
   });
+  // "Job details" on the estimate is the same text as the job's notes, so keep them in step.
+  if (updated.count > 0) {
+    const est = await prisma.estimate.findFirst({ where: { id: estimateId, companyId }, select: { jobId: true } });
+    if (est?.jobId) await prisma.job.updateMany({ where: { id: est.jobId, companyId }, data: { notes: notes || null } });
+  }
   revalidatePath(`/estimates/${estimateId}`);
 }
 

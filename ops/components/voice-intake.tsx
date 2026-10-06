@@ -65,6 +65,9 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
   const recorder = useRef<MediaRecorder | null>(null);
   const chunks = useRef<Blob[]>([]);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const endTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const speech = useRef<{ stop: () => void } | null>(null);
+  const [liveText, setLiveText] = useState("");
 
   async function start() {
     setError(null);
@@ -81,6 +84,7 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
       };
       rec.start();
       recorder.current = rec;
+      startLiveText();
       setSeconds(0);
       setPhase("recording");
       timer.current = setInterval(() => {
@@ -94,7 +98,37 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
     }
   }
 
+  // Display-only preview using the browser's own speech recognition (not available in every browser).
+  function startLiveText() {
+    setLiveText("");
+    const Ctor = (window as unknown as { SpeechRecognition?: new () => any; webkitSpeechRecognition?: new () => any })
+    const Recognition = Ctor.SpeechRecognition ?? Ctor.webkitSpeechRecognition;
+    if (!Recognition) return;
+    try {
+      const sr = new Recognition();
+      sr.continuous = true;
+      sr.interimResults = true;
+      sr.lang = "en-US";
+      sr.onresult = (e: { results: ArrayLike<{ 0: { transcript: string } }> }) => {
+        const text = Array.from(e.results, (r) => r[0].transcript).join(" ");
+        setLiveText(text);
+        // Saying "end" stops the recording. Wait a beat so "end of the driveway" doesn't trigger it.
+        if (endTimer.current) clearTimeout(endTimer.current);
+        if (/\bend[.!?]?\s*$/i.test(text.trim())) endTimer.current = setTimeout(stop, 1200);
+      };
+      sr.onerror = () => {};
+      sr.start();
+      speech.current = sr;
+    } catch {
+      speech.current = null;
+    }
+  }
+
   function stop() {
+    if (endTimer.current) clearTimeout(endTimer.current);
+    try {
+      speech.current?.stop();
+    } catch {}
     if (timer.current) clearInterval(timer.current);
     if (recorder.current?.state === "recording") recorder.current.stop();
   }
@@ -139,7 +173,7 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
         <div>
           <h2 className="text-sm font-semibold text-zinc-900">Voice intake</h2>
           <p className="text-xs text-zinc-500">
-            Say the customer&apos;s name, address, email and phone, then describe the job. Review it, accept, then add photos and services.
+            Say the customer&apos;s name, address, email and phone, then describe the job, and say &ldquo;end&rdquo; when you&apos;re done. Review it, accept, then add photos and services.
           </p>
         </div>
         {phase === "idle" && (
@@ -156,6 +190,12 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
       </div>
 
       {error && <p className="text-sm text-red-600">{error}</p>}
+
+      {(phase === "recording" || phase === "processing") && (
+        <p className="min-h-10 rounded-lg bg-white/70 px-3 py-2 text-sm italic text-zinc-600">
+          {liveText || (phase === "recording" ? "Listening…" : "")}
+        </p>
+      )}
 
       {phase === "review" && intake && (
         <div className="flex flex-col gap-3 rounded-lg border border-zinc-200 bg-white p-4">
@@ -178,7 +218,8 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
             <input className={inputClass} placeholder="Zip" value={intake.zip} onChange={set("zip")} />
           </div>
           {!defaultState && <input className={inputClass} placeholder="State (2 letters)" value={intake.state} onChange={set("state")} />}
-          <textarea rows={3} className={inputClass} placeholder="Job description" value={intake.jobNotes} onChange={set("jobNotes")} />
+          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Job details</p>
+          <textarea rows={3} className={inputClass} placeholder="Job details" value={intake.jobNotes} onChange={set("jobNotes")} />
           <details className="text-xs text-zinc-400">
             <summary className="cursor-pointer">What I heard</summary>
             <p className="mt-1 whitespace-pre-wrap">{intake.transcript}</p>
