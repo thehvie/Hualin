@@ -45,7 +45,14 @@ export function RouteMap({ route }: { route: RouteInfo }) {
           new maps.Polyline({ path, map, strokeColor: "#f97316", strokeWeight: 5, strokeOpacity: 0.9 });
           path.forEach((pt) => bounds.extend(pt));
         }
-        if (oLat != null) map.fitBounds(bounds, 40);
+        if (oLat != null) {
+          map.fitBounds(bounds, 40);
+          // The office and the customer can be the same spot (or very close); fitting to a single point zooms
+          // in so far that the map shows blank grey tiles, so never zoom in past street level.
+          maps.event.addListenerOnce(map, "idle", () => {
+            if ((map.getZoom() ?? 0) > 15) map.setZoom(15);
+          });
+        }
         reportMapLoad();
         setStatus("ready");
       })

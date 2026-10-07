@@ -10,6 +10,7 @@ import { ConversationPanel, type ConversationMessage } from "@/components/conver
 import { MessageComposer } from "@/components/message-composer";
 import { VoiceItems } from "@/components/voice-items";
 import { RouteMap } from "@/components/route-map";
+import { ClientDetails } from "./client-details";
 import type { RouteInfo } from "@/lib/office";
 import { toDatetimeLocalInTz } from "@/lib/tz";
 import { sendEstimateSms } from "../../sms-actions";
@@ -60,8 +61,9 @@ interface EstimateData {
   depositCents: number;
   laborCostCents: number;
   sentAt: string | null;
-  customer: { id: string; name: string; email: string | null; phone: string | null; messageChannel: "sms" | "email" | null };
-  property: { addressLine1: string; city: string; state: string; zip: string } | null;
+  customer: { id: string; firstName: string; lastName: string; companyName: string | null; name: string; email: string | null; phone: string | null; messageChannel: "sms" | "email" | null };
+  property: { addressLine1: string; addressLine2: string | null; city: string; state: string; zip: string } | null;
+  companyState: string | null;
   lineItems: LineItem[];
   paymentSchedule: PaymentScheduleItem[];
   hasInvoice: boolean;
@@ -304,30 +306,11 @@ export function EstimateEditor({
 
       {/* Header card */}
       <div className="grid grid-cols-1 gap-4 rounded-xl border border-zinc-200 bg-white p-5 sm:grid-cols-3">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Client details</p>
-          <a href={`/customers/${estimate.customer.id}`} className="mt-1 block font-medium text-zinc-900 hover:text-brand">
-            {estimate.customer.name}
-          </a>
-          {estimate.customer.email && <p className="text-sm text-zinc-500">{estimate.customer.email}</p>}
-          {estimate.customer.phone && (
-            <a href={`tel:${estimate.customer.phone}`} className="text-sm text-zinc-500 hover:text-brand">
-              {estimate.customer.phone}
-            </a>
-          )}
-        </div>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Service address</p>
-          {estimate.property ? (
-            <p className="mt-1 text-sm text-zinc-700">
-              {estimate.property.addressLine1}
-              <br />
-              {estimate.property.city}, {estimate.property.state} {estimate.property.zip}
-            </p>
-          ) : (
-            <p className="mt-1 text-sm text-zinc-400">No property on file</p>
-          )}
-        </div>
+        <ClientDetails
+          estimateId={estimate.id}
+          data={{ customer: estimate.customer, property: estimate.property }}
+          defaultState={estimate.companyState}
+        />
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Status</p>
           <select

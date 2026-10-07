@@ -35,6 +35,7 @@ export default async function EstimateDetailPage({
   const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
 
   const usage = await getUsageStatus(companyId);
+  const { state: companyState } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { state: true } });
   const office = await getOfficePoint(companyId);
   const destination = estimate.property ? await getPropertyPoint(companyId, estimate.property) : null;
   const route = buildRoute(office, destination, await getDriveRoute(companyId, office, destination), usage.capped);
@@ -63,6 +64,9 @@ export default async function EstimateDetailPage({
           sentAt: estimate.sentAt ? estimate.sentAt.toISOString() : null,
           customer: {
             id: estimate.customer.id,
+            firstName: estimate.customer.firstName,
+            lastName: estimate.customer.lastName,
+            companyName: estimate.customer.companyName,
             name: `${estimate.customer.firstName} ${estimate.customer.lastName}`,
             email: estimate.customer.email,
             phone: estimate.customer.phone,
@@ -71,6 +75,7 @@ export default async function EstimateDetailPage({
           property: estimate.property
             ? {
                 addressLine1: estimate.property.addressLine1,
+                addressLine2: estimate.property.addressLine2,
                 city: estimate.property.city,
                 state: estimate.property.state,
                 zip: estimate.property.zip,
@@ -98,6 +103,7 @@ export default async function EstimateDetailPage({
           scheduledEndAt: estimate.job?.scheduledEndAt ? estimate.job.scheduledEndAt.toISOString() : null,
           timezone,
           route,
+          companyState,
           timezoneName: timezoneLabel(timezone),
           attachments: (estimate.job?.attachments ?? []).map((a) => ({ id: a.id, filename: a.filename, dataUrl: a.dataUrl })),
           signingUrl: estimate.publicToken ? estimateSigningUrl(estimate.publicToken) : null,

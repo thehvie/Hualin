@@ -9,6 +9,8 @@ import { requireSession } from "@/lib/session";
 import { createInvoiceFromEstimate } from "@/lib/estimate-invoice";
 import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
 import { fromDatetimeLocalInTz, rentalDays } from "@/lib/tz";
+import { geocodeAddress } from "@/lib/geocode";
+import { isUsState } from "@/lib/us-states";
 
 function toCents(value: string): number {
   const n = Math.round(parseFloat(value || "0") * 100);
@@ -155,6 +157,105 @@ export async function updateEstimateSchedule(
   revalidatePath(`/jobs/${estimate.jobId}`);
   revalidatePath("/schedule");
   return { days };
+}
+
+export interface ClientEdit {
+  firstName: string;
+  lastName: string;
+  companyName: string;
+  email: string;
+  phone: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  state: string;
+  zip: string;
+}
+
+/**
+ * Edits the estimate's customer and service address from the estimate page. Customer fields change the
+ * customer record. If the address is shared with the customer's other estimates or jobs, this estimate
+ * (and its job) get a new address instead, so their other jobs keep theirs.
+ */
+export async function updateEstimateClient(estimateId: string, input: ClientEdit): Promise<{ error: string } | { ok: true }> {
+  const { companyId } = await requireSession();
+
+  const estimate = await prisma.estimate.findFirst({
+    where: { id: estimateId, companyId },
+    include: { customer: true, property: true },
+  });
+  if (!estimate) return { error: "Estimate not found." };
+
+  const clean = (v: string, max = 200) => String(v ?? "").trim().slice(0, max);
+  const firstName = clean(input.firstName, 80);
+  const lastName = clean(input.lastName, 80);
+  const addressLine1 = clean(input.addressLine1);
+  const addressLine2 = clean(input.addressLine2, 80);
+  const city = clean(input.city, 100);
+  const zip = clean(input.zip, 10);
+  const companyState = (await prisma.company.findUnique({ where: { id: companyId }, select: { state: true } }))?.state;
+  const state = companyState || clean(input.state, 2);
+
+  if (!firstName || !lastName) return { error: "First and last name are required." };
+  if (addressLine1 || city) {
+    if (!addressLine1 || !city || !state) return { error: "Enter the full service address (street, city and state)." };
+    if (!isUsState(state)) return { error: "Please choose a valid state." };
+  }
+
+  await prisma.customer.update({
+    where: { id: estimate.customerId },
+    data: {
+      firstName,
+      lastName,
+      companyName: clean(input.companyName, 120) || null,
+      email: clean(input.email) || null,
+      phone: clean(input.phone, 40) || null,
+    },
+  });
+
+  if (addressLine1 && city && state) {
+    const old = estimate.property;
+    const changed =
+      !old ||
+      old.addressLine1 !== addressLine1 ||
+      (old.addressLine2 ?? "") !== addressLine2 ||
+      old.city !== city ||
+      old.state !== state ||
+      old.zip !== zip;
+
+    if (changed) {
+      const geo = await geocodeAddress(`${addressLine1}, ${city}, ${state} ${zip}, US`, companyId);
+      const address = {
+        addressLine1,
+        addressLine2: addressLine2 || null,
+        city,
+        state,
+        zip,
+        latitude: geo?.latitude ?? null,
+        longitude: geo?.longitude ?? null,
+      };
+
+      // Is the current address also used by anything other than this estimate and its job?
+      const sharedElsewhere = old
+        ? (await prisma.estimate.count({ where: { propertyId: old.id, id: { not: estimateId } } })) +
+            (await prisma.job.count({ where: { propertyId: old.id, ...(estimate.jobId ? { id: { not: estimate.jobId } } : {}) } })) >
+          0
+        : true;
+
+      if (old && !sharedElsewhere) {
+        await prisma.property.update({ where: { id: old.id }, data: address });
+      } else {
+        const created = await prisma.property.create({ data: { companyId, customerId: estimate.customerId, ...address } });
+        await prisma.estimate.update({ where: { id: estimateId }, data: { propertyId: created.id } });
+        if (estimate.jobId) await prisma.job.updateMany({ where: { id: estimate.jobId, companyId }, data: { propertyId: created.id } });
+      }
+    }
+  }
+
+  revalidatePath(`/estimates/${estimateId}`);
+  revalidatePath(`/customers/${estimate.customerId}`);
+  if (estimate.jobId) revalidatePath(`/jobs/${estimate.jobId}`);
+  return { ok: true };
 }
 
 export async function updateLineItemQuantity(estimateId: string, lineItemId: string, quantity: number) {
