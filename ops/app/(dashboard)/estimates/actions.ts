@@ -201,6 +201,9 @@ export interface VoiceDraftPayload {
   jobNotes: string;
   /** Price book items spoken in the same recording; re-read from the price book server side. */
   items?: { priceBookItemId: string; quantity: number }[];
+  /** "YYYY-MM-DDTHH:mm" in the company's timezone. */
+  scheduledAt?: string;
+  scheduledEndAt?: string;
 }
 
 /**
@@ -211,6 +214,21 @@ export interface VoiceDraftPayload {
 export async function createDraftFromVoice(payload: VoiceDraftPayload): Promise<{ error: string } | void> {
   const { companyId } = await requireSession();
   const jobNotes = String(payload.jobNotes || "").trim().slice(0, 5000);
+
+  let scheduledAt: Date | null = null;
+  let scheduledEndAt: Date | null = null;
+  let rentalDayCount: number | null = null;
+  if (payload.scheduledAt) {
+    const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
+    scheduledAt = fromDatetimeLocalInTz(payload.scheduledAt, timezone);
+    if (!scheduledAt) return { error: "That scheduled date and time isn't valid." };
+    if (payload.scheduledEndAt) {
+      scheduledEndAt = fromDatetimeLocalInTz(payload.scheduledEndAt, timezone);
+      if (!scheduledEndAt) return { error: "That end date isn't valid." };
+      if (scheduledEndAt < scheduledAt) return { error: "The job can't end before it starts." };
+      rentalDayCount = rentalDays(scheduledAt, scheduledEndAt, timezone);
+    }
+  }
 
   let customerId: string;
   let propertyId: string | null = null;
@@ -267,7 +285,9 @@ export async function createDraftFromVoice(payload: VoiceDraftPayload): Promise<
     propertyId = customer.properties[0]?.id ?? null;
   }
 
-  const job = await prisma.job.create({ data: { companyId, customerId, propertyId, notes: jobNotes || null } });
+  const job = await prisma.job.create({
+    data: { companyId, customerId, propertyId, notes: jobNotes || null, scheduledAt, scheduledEndAt, status: scheduledAt ? "SCHEDULED" : "UNSCHEDULED" },
+  });
   const picks = (payload.items ?? []).slice(0, 100);
   const priceBook = picks.length
     ? await prisma.priceBookItem.findMany({
@@ -283,7 +303,7 @@ export async function createDraftFromVoice(payload: VoiceDraftPayload): Promise<
         companyId,
         priceBookItemId: item.id,
         description: item.name,
-        quantity: Math.max(1, Math.min(9999, Math.floor(Number(p.quantity)) || 1)),
+        quantity: item.type === "RENTAL" && rentalDayCount ? rentalDayCount : Math.max(1, Math.min(9999, Math.floor(Number(p.quantity)) || 1)),
         unitPriceCents: item.unitPriceCents,
         costCents: item.costCents,
         isRental: item.type === "RENTAL",
@@ -296,6 +316,7 @@ export async function createDraftFromVoice(payload: VoiceDraftPayload): Promise<
   });
 
   revalidatePath("/estimates");
+  if (scheduledAt) revalidatePath("/schedule");
   revalidatePath("/customers");
   redirect(`/estimates/${estimate.id}`);
 }

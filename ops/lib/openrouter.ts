@@ -1,4 +1,5 @@
 import { recordUsage, type UsageService } from "@/lib/usage";
+import { fromDatetimeLocalInTz, formatInTz, wallYmd } from "@/lib/tz";
 
 // Thin OpenRouter client. The model is an env var so we can swap to whatever is
 // cheapest without a code change; it must accept audio input (e.g. google/gemini-2.5-flash).
@@ -17,6 +18,9 @@ export interface VoiceIntake {
   state: string;
   zip: string;
   jobNotes: string;
+  /** "YYYY-MM-DDTHH:mm" in the company's timezone, or "" when no date was said. */
+  scheduledAt: string;
+  scheduledEndAt: string;
 }
 
 const PROMPT = `You are an intake assistant for a junk removal company. The audio is a staff member dictating a new customer's details and a job description.
@@ -120,6 +124,11 @@ export interface VoiceIntakeResult extends VoiceIntake {
   unmatched: string[];
 }
 
+/** Keeps a model-supplied local date-time only if it is real; otherwise "" so the user fills it in. */
+function validLocal(value: string, timezone: string): string {
+  return fromDatetimeLocalInTz(value, timezone) ? value : "";
+}
+
 function catalogText(catalog: CatalogEntry[]): string {
   return catalog.map((c) => `${c.id} | ${c.name} | ${c.type.toLowerCase()} | $${(c.unitPriceCents / 100).toFixed(2)}`).join("\n");
 }
@@ -152,8 +161,22 @@ function readItems(parsed: Record<string, unknown>, catalog: CatalogEntry[]): { 
  * One recording -> customer details, job details, and the price book items to charge.
  * `catalog` is the company's active price book.
  */
-export async function transcribeVoiceIntake(wavBase64: string, catalog: CatalogEntry[], companyId: string): Promise<VoiceIntakeResult> {
+export async function transcribeVoiceIntake(
+  wavBase64: string,
+  catalog: CatalogEntry[],
+  companyId: string,
+  timezone: string,
+): Promise<VoiceIntakeResult> {
+  const now = new Date();
+  const today = `${formatInTz(now, timezone, { weekday: "long" })}, ${wallYmd(now, timezone)}`;
   const prompt = `${PROMPT}
+
+Also pull out when the job is scheduled. Today is ${today} (${timezone}). Add two more string keys: "scheduledAt" and "scheduledEndAt".
+- Both are "YYYY-MM-DDTHH:mm" in 24-hour time, or "" if not said. Never invent a date.
+- Resolve relative dates against today ("tomorrow", "Thursday", "next Friday", "the 15th") to the next matching future date.
+- scheduledAt is the start. If only a day is given with no time, use 09:00.
+- scheduledEndAt is only for a job that runs more than one day ("Monday through Wednesday", "for 3 days", "the 12th to the 14th"), set to the last day (use the spoken end time, or 17:00). For a one-day job leave it "".
+- Do not put the date in jobNotes.
 
 Also match the services or products the speaker says to charge for against this price book (id | name | type | price):
 ${catalogText(catalog)}
@@ -177,6 +200,8 @@ ${ITEM_RULES}
     state: s("state", 2).toUpperCase(),
     zip: s("zip", 10),
     jobNotes: s("jobNotes", 5000),
+    scheduledAt: validLocal(s("scheduledAt", 16), timezone),
+    scheduledEndAt: validLocal(s("scheduledEndAt", 16), timezone),
     ...readItems(parsed, catalog),
   };
 }

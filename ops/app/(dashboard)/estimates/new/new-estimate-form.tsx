@@ -143,7 +143,7 @@ export function NewEstimateForm({
         customer: mode === "new" ? nc : undefined,
         jobNotes,
         scheduledAt,
-        scheduledEndAt: hasRental ? scheduledEndAt : "",
+        scheduledEndAt,
         items: items.map(({ key: _key, ...rest }) => rest),
       }, photoData);
       if (res?.error) setError(res.error);
@@ -282,9 +282,9 @@ export function NewEstimateForm({
               <label className="text-sm font-medium text-zinc-700">{hasRental ? "Rental starts" : "Scheduled for"}</label>
               <input type="datetime-local" value={scheduledAt} onChange={(e) => setScheduledAt(e.target.value)} className={inputClass} />
             </div>
-            {hasRental && (
+            {(
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-zinc-700">Rental ends</label>
+                <label className="text-sm font-medium text-zinc-700">{hasRental ? "Rental ends" : "Ends (multi-day jobs)"}</label>
                 <input
                   type="datetime-local"
                   value={scheduledEndAt}
@@ -297,7 +297,7 @@ export function NewEstimateForm({
             )}
           </div>
           <p className="text-xs text-zinc-400">
-            Optional. Shown in {timezoneName}.
+            Optional. Shown in {timezoneName}. Set an end date if the job takes more than one day.
             {hasRental && " With both dates set, rental items are charged for that many days (start and end day both count)."}
           </p>
         </div>

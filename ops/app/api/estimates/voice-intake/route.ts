@@ -32,9 +32,11 @@ export async function POST(req: Request) {
     take: 400,
   });
 
+  const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
+
   let intake;
   try {
-    intake = await transcribeVoiceIntake(Buffer.from(await audio.arrayBuffer()).toString("base64"), catalog, companyId);
+    intake = await transcribeVoiceIntake(Buffer.from(await audio.arrayBuffer()).toString("base64"), catalog, companyId, timezone);
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : "Voice intake failed." }, { status: 502 });
   }

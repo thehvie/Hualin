@@ -21,6 +21,8 @@ interface Intake {
   state: string;
   zip: string;
   jobNotes: string;
+  scheduledAt: string;
+  scheduledEndAt: string;
 }
 
 export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
@@ -65,6 +67,8 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
         existingCustomerId: match && useMatch ? match.id : undefined,
         customer: intake,
         jobNotes: intake.jobNotes,
+        scheduledAt: intake.scheduledAt,
+        scheduledEndAt: intake.scheduledEndAt,
         items: rows.filter((r) => r.checked).map((r) => ({ priceBookItemId: r.priceBookItemId, quantity: r.quantity })),
       });
       if (res?.error) setError(res.error);
@@ -80,7 +84,7 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
         <div>
           <h2 className="text-sm font-semibold text-zinc-900">Voice intake</h2>
           <p className="text-xs text-zinc-500">
-            Say the customer&apos;s name, address, email and phone, describe the job, then say the services to charge (like &ldquo;3 truckload&rdquo;), and say &ldquo;end&rdquo; when you&apos;re done. Review it, accept, then add photos.
+            Say the customer&apos;s name, address, email and phone, describe the job, when it&apos;s happening (like &ldquo;Thursday at 2&rdquo; or &ldquo;Monday through Wednesday&rdquo;), then the services to charge (like &ldquo;3 truckload&rdquo;), and say &ldquo;end&rdquo; when you&apos;re done. Review it, accept, then add photos.
           </p>
         </div>
         {phase === "idle" && (
@@ -127,6 +131,24 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
           {!defaultState && <input className={inputClass} placeholder="State (2 letters)" value={intake.state} onChange={set("state")} />}
           <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Job details</p>
           <textarea rows={3} className={inputClass} placeholder="Job details" value={intake.jobNotes} onChange={set("jobNotes")} />
+          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Schedule</p>
+          <div className="flex flex-wrap gap-4">
+            <label className="flex flex-col gap-1">
+              <span className="text-xs text-zinc-500">Start</span>
+              <input type="datetime-local" className={inputClass} value={intake.scheduledAt} onChange={set("scheduledAt")} />
+            </label>
+            <label className="flex flex-col gap-1">
+              <span className="text-xs text-zinc-500">End (multi-day jobs)</span>
+              <input
+                type="datetime-local"
+                className={inputClass}
+                value={intake.scheduledEndAt}
+                min={intake.scheduledAt || undefined}
+                disabled={!intake.scheduledAt}
+                onChange={set("scheduledEndAt")}
+              />
+            </label>
+          </div>
           <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Items from your price book</p>
           <VoiceItemList rows={rows} unmatched={unmatched} onChange={setRows} />
           <details className="text-xs text-zinc-400">

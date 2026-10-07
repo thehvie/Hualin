@@ -108,7 +108,7 @@ export function EstimateEditor({
     startTransition(async () => {
       const res = await updateEstimateSchedule(estimate.id, start, start ? end : "");
       if ("error" in res) setNotice(res.error);
-      else if (res.days !== null) setNotice(`Rental set to ${res.days} ${res.days === 1 ? "day" : "days"}.`);
+      else if (res.days !== null) setNotice(`${hasRental ? "Rental set to" : "Scheduled for"} ${res.days} ${res.days === 1 ? "day" : "days"}.`);
       else setNotice(start ? "Scheduled." : "Schedule cleared.");
     });
   }
@@ -583,10 +583,10 @@ export function EstimateEditor({
       {/* Schedule (stored on the job this estimate belongs to) */}
       {estimate.jobId && (
         <div className="rounded-xl border border-zinc-200 bg-white p-5">
-          <h2 className="mb-2 text-sm font-semibold text-zinc-900">{hasRental ? "Rental dates" : "Scheduled for"}</h2>
+          <h2 className="mb-2 text-sm font-semibold text-zinc-900">{hasRental ? "Rental dates" : "Schedule"}</h2>
           <div className="flex flex-wrap items-end gap-3">
             <div className="flex flex-col gap-1">
-              {hasRental && <label className="text-xs text-zinc-500">Starts</label>}
+              <label className="text-xs text-zinc-500">{hasRental ? "Starts" : "Start"}</label>
               <input
                 type="datetime-local"
                 value={startValue}
@@ -598,9 +598,9 @@ export function EstimateEditor({
                 className="rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
               />
             </div>
-            {hasRental && (
+            {(
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-zinc-500">Ends</label>
+                <label className="text-xs text-zinc-500">{hasRental ? "Ends" : "End (multi-day jobs)"}</label>
                 <input
                   type="datetime-local"
                   value={endValue}
@@ -617,7 +617,8 @@ export function EstimateEditor({
           </div>
           <p className="mt-1.5 text-xs text-zinc-400">
             Shown in {estimate.timezoneName}. Clear the start to unschedule.
-            {hasRental && " Setting both dates sets each rental item to that many days (start and end day both count)."}
+            {" Set an end date if the job takes more than one day."}
+            {hasRental && " With both dates, each rental item is set to that many days (start and end day both count)."}
           </p>
         </div>
       )}

@@ -68,7 +68,7 @@ async function loadJobs(companyId: string, rangeStart: Date, rangeEndExclusive: 
   });
 }
 
-// A job on a calendar day: a one-visit job ("single") or one day of a rental that spans several.
+// A job on a calendar day: a one-visit job ("single") or one day of a multi-day job or rental.
 type Entry = { job: Job; kind: "single" | "start" | "middle" | "end" };
 
 function ymdAddDays(ymd: string, n: number): string {
@@ -106,7 +106,7 @@ function rentalLabel({ job, kind }: Entry, tz: string): string {
     return `▶ ${formatInTz(job.scheduledAt, tz, { hour: "numeric" })} ${name}`;
   if (kind === "end" && job.scheduledEndAt)
     return `◀ ${formatInTz(job.scheduledEndAt, tz, { hour: "numeric" })} ${name}`;
-  return `${name} (rental)`;
+  return `${name} (continues)`;
 }
 
 function RentalChips({ entries, tz }: { entries: Entry[]; tz: string }) {
@@ -117,7 +117,7 @@ function RentalChips({ entries, tz }: { entries: Entry[]; tz: string }) {
         <li key={e.job.id}>
           <Link
             href={`/jobs/${e.job.id}`}
-            title={`Rental · ${e.job.customer.firstName} ${e.job.customer.lastName}`}
+            title={`Multi-day · ${e.job.customer.firstName} ${e.job.customer.lastName}`}
             className={`block truncate rounded border px-1.5 py-0.5 text-xs font-medium ${STATUS_BLOCK[e.job.status]}`}
           >
             {rentalLabel(e, tz)}
@@ -296,7 +296,7 @@ export default async function SchedulePage({
                           <li key={job.id}>
                             <Link
                               href={`/jobs/${job.id}`}
-                              title="Rental"
+                              title="Multi-day job"
                               className={`block truncate rounded border px-1 py-0.5 text-xs font-medium ${STATUS_BLOCK[job.status]}`}
                             >
                               {rentalLabel(entry, timezone)}
@@ -345,7 +345,7 @@ export default async function SchedulePage({
           </div>
           {Array.from({ length: 7 }, (_, i) => jobsByDay.get(fmtDate(addDays(rangeStart, i))) || []).some((d) => d.some((e) => e.kind !== "single")) && (
             <div className="mb-2 flex min-w-[800px] border-b border-zinc-100 pb-2">
-              <div className="w-14 shrink-0 pr-2 text-right text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Rentals</div>
+              <div className="w-14 shrink-0 pr-2 text-right text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Multi-day</div>
               <div className="grid flex-1 grid-cols-7">
                 {Array.from({ length: 7 }, (_, i) => addDays(rangeStart, i)).map((day) => (
                   <RentalChips key={day.toISOString()} tz={timezone} entries={(jobsByDay.get(fmtDate(day)) || []).filter((e) => e.kind !== "single")} />
@@ -375,7 +375,7 @@ export default async function SchedulePage({
           <div className="min-w-[500px]">
             {(jobsByDay.get(fmtDate(anchor)) || []).some((e) => e.kind !== "single") && (
               <div className="mb-2 flex border-b border-zinc-100 pb-2">
-                <div className="w-14 shrink-0 pr-2 text-right text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Rentals</div>
+                <div className="w-14 shrink-0 pr-2 text-right text-[10px] font-semibold uppercase tracking-wide text-zinc-400">Multi-day</div>
                 <div className="flex-1">
                   <RentalChips tz={timezone} entries={(jobsByDay.get(fmtDate(anchor)) || []).filter((e) => e.kind !== "single")} />
                 </div>
