@@ -1,11 +1,25 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { loadGoogleMapsScript, reportMapLoad } from "@/components/google-map";
 import type { RouteInfo } from "@/lib/office";
+import { formatCents } from "@/lib/money";
+import { fuelLineDescription, fuelSurcharge, type FuelSettings } from "@/lib/fuel";
+import { applyFuelSurcharge } from "@/app/(dashboard)/estimates/[id]/actions";
 
 /** Map of the customer's address with the driving route from the office, plus distance and drive time. */
-export function RouteMap({ route }: { route: RouteInfo }) {
+export function RouteMap({
+  route,
+  estimateId,
+  fuel,
+  fuelLine,
+}: {
+  route: RouteInfo;
+  estimateId: string;
+  fuel: FuelSettings;
+  fuelLine: { unitPriceCents: number } | null;
+}) {
+  const [applying, startApplying] = useTransition();
   const { office, destination, straightMiles, drive, paused } = route;
   const mapRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "no-key" | "error">("loading");
@@ -66,6 +80,9 @@ export function RouteMap({ route }: { route: RouteInfo }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dLat, dLng, oLat, oLng, pathKey, paused, destination?.label]);
 
+  // Road distance is typically ~25% longer than the straight line, so scale it when no drive route is available.
+  const oneWayMiles = drive ? drive.distanceMiles : straightMiles != null ? straightMiles * 1.25 : null;
+
   if (!destination) return null;
 
   const link = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination.label)}&travelmode=driving${
@@ -107,6 +124,36 @@ export function RouteMap({ route }: { route: RouteInfo }) {
           <p className="mt-1 text-xs text-zinc-400">Add your office address in Settings to see the distance.</p>
         ) : null}
       </div>
+
+      {fuel.rateCentsPerMile > 0 && oneWayMiles != null && (() => {
+        const { billableMiles, cents } = fuelSurcharge(oneWayMiles, fuel);
+        const upToDate = fuelLine?.unitPriceCents === cents;
+        return (
+          <div className="rounded-lg bg-zinc-50 p-3 text-sm">
+            <div className="flex items-baseline justify-between">
+              <span className="font-medium text-zinc-900">Fuel surcharge</span>
+              <span className="font-semibold text-zinc-900">{formatCents(cents)}</span>
+            </div>
+            <p className="mt-0.5 text-xs text-zinc-500">
+              {billableMiles.toFixed(1)} mi{fuel.roundTrip ? " round trip" : ""} × ${(fuel.rateCentsPerMile / 100).toFixed(2)}/mi
+              {fuel.freeMiles > 0 ? `, first ${fuel.freeMiles} mi free` : ""}
+              {!drive ? " (estimated from straight-line distance)" : ""}
+            </p>
+            <button
+              type="button"
+              disabled={applying || upToDate || cents === 0}
+              onClick={() =>
+                startApplying(async () => {
+                  await applyFuelSurcharge(estimateId, fuelLineDescription(oneWayMiles, fuel), cents);
+                })
+              }
+              className="mt-2 rounded-lg border border-brand px-3 py-1.5 text-xs font-semibold text-brand disabled:cursor-default disabled:border-zinc-200 disabled:text-zinc-400"
+            >
+              {applying ? "Adding…" : upToDate ? "On the estimate" : fuelLine ? "Update fuel line" : "Add to estimate"}
+            </button>
+          </div>
+        );
+      })()}
     </div>
   );
 }

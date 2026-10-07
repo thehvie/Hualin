@@ -258,6 +258,27 @@ export async function updateEstimateClient(estimateId: string, input: ClientEdit
   return { ok: true };
 }
 
+/** Adds the fuel surcharge line to the estimate, or updates it if one is already there. */
+export async function applyFuelSurcharge(estimateId: string, description: string, cents: number) {
+  const { companyId } = await requireSession();
+  await assertEstimateOwnership(estimateId, companyId);
+  const price = Math.max(0, Math.min(1_000_000, Math.round(Number(cents)) || 0));
+  const text = String(description || "Fuel surcharge").slice(0, 300);
+
+  const existing = await prisma.estimateLineItem.findFirst({
+    where: { estimateId, companyId, description: { startsWith: "Fuel surcharge" } },
+  });
+  if (existing) {
+    await prisma.estimateLineItem.update({ where: { id: existing.id }, data: { description: text, unitPriceCents: price, quantity: 1 } });
+  } else {
+    const count = await prisma.estimateLineItem.count({ where: { estimateId, companyId } });
+    await prisma.estimateLineItem.create({
+      data: { companyId, estimateId, description: text, quantity: 1, unitPriceCents: price, isRental: false, sortOrder: count },
+    });
+  }
+  revalidatePath(`/estimates/${estimateId}`);
+}
+
 export async function updateLineItemQuantity(estimateId: string, lineItemId: string, quantity: number) {
   const { companyId } = await requireSession();
   const qty = Math.max(1, Math.min(9999, Math.floor(quantity) || 1));

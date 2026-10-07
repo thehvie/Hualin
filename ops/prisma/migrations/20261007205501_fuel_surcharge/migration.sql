@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Company" ADD COLUMN     "fuelFreeMiles" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "fuelRateCentsPerMile" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "fuelRoundTrip" BOOLEAN NOT NULL DEFAULT true;

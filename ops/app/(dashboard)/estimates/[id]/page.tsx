@@ -35,7 +35,10 @@ export default async function EstimateDetailPage({
   const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
 
   const usage = await getUsageStatus(companyId);
-  const { state: companyState } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { state: true } });
+  const { state: companyState, fuelRateCentsPerMile, fuelFreeMiles, fuelRoundTrip } = await prisma.company.findUniqueOrThrow({
+    where: { id: companyId },
+    select: { state: true, fuelRateCentsPerMile: true, fuelFreeMiles: true, fuelRoundTrip: true },
+  });
   const office = await getOfficePoint(companyId);
   const destination = estimate.property ? await getPropertyPoint(companyId, estimate.property) : null;
   const route = buildRoute(office, destination, await getDriveRoute(companyId, office, destination), usage.capped);
@@ -104,6 +107,7 @@ export default async function EstimateDetailPage({
           timezone,
           route,
           companyState,
+          fuel: { rateCentsPerMile: fuelRateCentsPerMile, freeMiles: fuelFreeMiles, roundTrip: fuelRoundTrip },
           timezoneName: timezoneLabel(timezone),
           attachments: (estimate.job?.attachments ?? []).map((a) => ({ id: a.id, filename: a.filename, dataUrl: a.dataUrl })),
           signingUrl: estimate.publicToken ? estimateSigningUrl(estimate.publicToken) : null,

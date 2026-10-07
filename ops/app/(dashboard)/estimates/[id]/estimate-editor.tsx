@@ -12,6 +12,7 @@ import { VoiceItems } from "@/components/voice-items";
 import { RouteMap } from "@/components/route-map";
 import { ClientDetails } from "./client-details";
 import type { RouteInfo } from "@/lib/office";
+import { FUEL_LINE_PREFIX, type FuelSettings } from "@/lib/fuel";
 import { toDatetimeLocalInTz } from "@/lib/tz";
 import { sendEstimateSms } from "../../sms-actions";
 import {
@@ -64,6 +65,7 @@ interface EstimateData {
   customer: { id: string; firstName: string; lastName: string; companyName: string | null; name: string; email: string | null; phone: string | null; messageChannel: "sms" | "email" | null };
   property: { addressLine1: string; addressLine2: string | null; city: string; state: string; zip: string } | null;
   companyState: string | null;
+  fuel: FuelSettings;
   lineItems: LineItem[];
   paymentSchedule: PaymentScheduleItem[];
   hasInvoice: boolean;
@@ -632,7 +634,12 @@ export function EstimateEditor({
       </div>
 
       <div className="flex flex-col gap-4">
-      <RouteMap route={estimate.route} />
+      <RouteMap
+        route={estimate.route}
+        estimateId={estimate.id}
+        fuel={estimate.fuel}
+        fuelLine={estimate.lineItems.find((li) => li.description.startsWith(FUEL_LINE_PREFIX)) ?? null}
+      />
       <ConversationPanel
         customerName={estimate.customer.name}
         messages={estimate.communications}

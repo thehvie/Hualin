@@ -44,6 +44,10 @@ model Company {
   officeZip            String?
   officeLatitude       Float?
   officeLongitude      Float?
+  // Fuel surcharge: cents per mile beyond the free miles; 0 turns it off. Applied to the round trip when set.
+  fuelRateCentsPerMile Int                @default(0)
+  fuelFreeMiles        Int                @default(0)
+  fuelRoundTrip        Boolean            @default(true)
 
   users                        User[]
   customers                    Customer[]

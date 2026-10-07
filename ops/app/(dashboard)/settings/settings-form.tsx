@@ -20,6 +20,9 @@ export function SettingsForm({
     termsText: string | null;
     timezone: string;
     state: string | null;
+    fuelRate: string;
+    fuelFreeMiles: number;
+    fuelRoundTrip: boolean;
     officeAddressLine1: string | null;
     officeCity: string | null;
     officeState: string | null;
@@ -137,6 +140,41 @@ export function SettingsForm({
           />
         </div>
         <p className="text-xs text-zinc-400">Where your jobs start from. Estimates show the drive from here to the customer.</p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <p className="text-sm font-medium text-zinc-700">Fuel surcharge</p>
+        <div className="flex flex-wrap items-end gap-4">
+          <label className="flex flex-col gap-1">
+            <span className="text-xs text-zinc-500">Rate per mile ($)</span>
+            <input
+              name="fuelRate"
+              type="number"
+              step="0.01"
+              min="0"
+              defaultValue={company.fuelRate}
+              className="w-32 rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-xs text-zinc-500">Free miles (one way)</span>
+            <input
+              name="fuelFreeMiles"
+              type="number"
+              step="1"
+              min="0"
+              defaultValue={company.fuelFreeMiles}
+              className="w-32 rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+            />
+          </label>
+          <label className="flex items-center gap-2 pb-2 text-sm text-zinc-700">
+            <input name="fuelRoundTrip" type="checkbox" defaultChecked={company.fuelRoundTrip} />
+            Charge the round trip
+          </label>
+        </div>
+        <p className="text-xs text-zinc-400">
+          Estimates show a suggested fuel surcharge from your office to the job: (distance minus free miles) times the rate. Leave the rate at 0 to turn it off.
+        </p>
       </div>
 
       <div className="flex flex-col gap-1.5">

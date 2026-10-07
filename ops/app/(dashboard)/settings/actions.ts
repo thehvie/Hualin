@@ -63,6 +63,9 @@ export async function updateCompanyProfile(
   const officeCity = String(formData.get("officeCity") || "").trim();
   const officeState = String(formData.get("officeState") || "").trim();
   const officeZip = String(formData.get("officeZip") || "").trim();
+  const fuelRate = Math.round(parseFloat(String(formData.get("fuelRate") || "0")) * 100);
+  const fuelFreeMiles = Math.round(parseFloat(String(formData.get("fuelFreeMiles") || "0")));
+  const fuelRoundTrip = formData.get("fuelRoundTrip") === "on";
   const taxRateBps = percentToBps(String(formData.get("salesTaxPercent") ?? "0"));
   const rawLogoDataUrl = String(formData.get("logoDataUrl") || "").trim();
 
@@ -77,6 +80,12 @@ export async function updateCompanyProfile(
   }
   if (officeState && !isUsState(officeState)) {
     return { error: "Please choose a valid state for the office address." };
+  }
+  if (!Number.isFinite(fuelRate) || fuelRate < 0 || fuelRate > 2000) {
+    return { error: "Fuel rate must be a dollar amount per mile from 0 to 20, for example 0.65." };
+  }
+  if (!Number.isFinite(fuelFreeMiles) || fuelFreeMiles < 0 || fuelFreeMiles > 500) {
+    return { error: "Free miles must be a number from 0 to 500." };
   }
   if (!isValidTimezone(timezone)) {
     return { error: "Please choose a valid time zone." };
@@ -98,6 +107,9 @@ export async function updateCompanyProfile(
   await prisma.company.update({
     where: { id: companyId },
     data: {
+      fuelRateCentsPerMile: fuelRate,
+      fuelFreeMiles,
+      fuelRoundTrip,
       officeAddressLine1: officeAddressLine1 || null,
       officeCity: officeCity || null,
       officeState: officeState || null,
