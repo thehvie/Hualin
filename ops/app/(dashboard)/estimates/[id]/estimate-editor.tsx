@@ -305,7 +305,7 @@ export function EstimateEditor({
       <div className="flex flex-col gap-4">
 
       {/* Header card */}
-      <div className="grid grid-cols-1 gap-4 rounded-xl border border-zinc-200 bg-white p-5 sm:grid-cols-3">
+      <div className="relative grid grid-cols-1 gap-4 rounded-xl border border-zinc-200 bg-white p-5 sm:grid-cols-3">
         <ClientDetails
           estimateId={estimate.id}
           data={{ customer: estimate.customer, property: estimate.property }}

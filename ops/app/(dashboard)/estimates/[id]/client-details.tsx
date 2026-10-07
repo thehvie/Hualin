@@ -126,13 +126,16 @@ export function ClientDetails({ estimateId, data, defaultState }: { estimateId: 
 
   return (
     <>
+      {/* Positioned against the header card, which is `relative`. */}
+      <button
+        type="button"
+        onClick={() => setEditing(true)}
+        className="absolute right-5 top-4 text-sm font-medium text-brand hover:underline"
+      >
+        Edit
+      </button>
       <div>
-        <div className="flex items-center gap-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Client details</p>
-          <button type="button" onClick={() => setEditing(true)} className="text-xs font-medium text-brand hover:underline">
-            Edit
-          </button>
-        </div>
+        <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Client details</p>
         <a href={`/customers/${customer.id}`} className="mt-1 block font-medium text-zinc-900 hover:text-brand">
           {customer.firstName} {customer.lastName}
         </a>
@@ -145,12 +148,7 @@ export function ClientDetails({ estimateId, data, defaultState }: { estimateId: 
         )}
       </div>
       <div>
-        <div className="flex items-center gap-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Service address</p>
-          <button type="button" onClick={() => setEditing(true)} className="text-xs font-medium text-brand hover:underline">
-            Edit
-          </button>
-        </div>
+        <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Service address</p>
         {property ? (
           <p className="mt-1 text-sm text-zinc-700">
             {property.addressLine1}
