@@ -1,12 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { SettingsForm } from "./settings-form";
+import { UsageCard } from "./usage-card";
+import { getUsageStatus } from "@/lib/usage";
 import { getDefaultTaxRate, bpsToPercent } from "@/lib/tax";
 
 export default async function SettingsPage() {
   const { companyId } = await requireSession();
   const company = await prisma.company.findUniqueOrThrow({ where: { id: companyId } });
   const defaultTax = await getDefaultTaxRate(companyId);
+  const usage = await getUsageStatus(companyId);
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
@@ -26,10 +29,16 @@ export default async function SettingsPage() {
           termsText: company.termsText,
           timezone: company.timezone,
           state: company.state,
+          officeAddressLine1: company.officeAddressLine1,
+          officeCity: company.officeCity,
+          officeState: company.officeState,
+          officeZip: company.officeZip,
           salesTaxPercent: bpsToPercent(defaultTax?.rateBps ?? 0),
           logoDataUrl: company.logoDataUrl,
         }}
       />
+
+      <UsageCard usage={usage} />
     </div>
   );
 }

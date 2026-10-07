@@ -11,7 +11,12 @@ declare global {
 
 let scriptLoadingPromise: Promise<void> | null = null;
 
-function loadGoogleMapsScript(apiKey: string): Promise<void> {
+/** Tells the server a map was displayed so it counts toward the company's metered usage. */
+export function reportMapLoad() {
+  fetch("/api/usage/map-load", { method: "POST", keepalive: true }).catch(() => {});
+}
+
+export function loadGoogleMapsScript(apiKey: string): Promise<void> {
   if (window.google?.maps) return Promise.resolve();
   if (scriptLoadingPromise) return scriptLoadingPromise;
 
@@ -66,6 +71,7 @@ export function GoogleMap({
           zoomControl: true,
         });
         new window.google!.maps.Marker({ position, map, title: label });
+        reportMapLoad();
         setStatus("ready");
       })
       .catch(() => {

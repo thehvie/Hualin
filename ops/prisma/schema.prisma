@@ -37,6 +37,13 @@ model Company {
   timezone             String             @default("America/New_York")
   // Two-letter US state the business operates in; pre-fills the online booking address.
   state                String?
+  // Where jobs start from; the estimate map shows the drive from here to the customer. Geocoded lazily.
+  officeAddressLine1   String?
+  officeCity           String?
+  officeState          String?
+  officeZip            String?
+  officeLatitude       Float?
+  officeLongitude      Float?
 
   users                        User[]
   customers                    Customer[]
@@ -61,6 +68,8 @@ model Company {
   communications               Communication[]
   vendors                      Vendor[]
   purchaseOrders               PurchaseOrder[]
+  usageEvents                  UsageEvent[]
+  usageStatements              UsageStatement[]
   purchaseOrderLineItems       PurchaseOrderLineItem[]
   purchaseOrderAttachments     PurchaseOrderAttachment[]
 
@@ -823,4 +832,31 @@ model PurchaseOrderAttachment {
 
   @@index([companyId])
   @@index([purchaseOrderId])
+}
+
+// One row per paid third-party call (AI, Google Maps), with what it cost us. Used for the monthly
+// included allowance and overage billing.
+model UsageEvent {
+  id         String   @id @default(cuid())
+  companyId  String
+  company    Company  @relation(fields: [companyId], references: [id])
+  service    String // VOICE_INTAKE | VOICE_ITEMS | GEOCODE | ROUTE | MAP_LOAD
+  costMicros Int // our cost in millionths of a dollar
+  createdAt  DateTime @default(now())
+
+  @@index([companyId, createdAt])
+}
+
+// What was billed for a calendar month (UTC); the unique key makes the monthly billing job idempotent.
+model UsageStatement {
+  id                  String   @id @default(cuid())
+  companyId           String
+  company             Company  @relation(fields: [companyId], references: [id])
+  month               String // "2026-10"
+  usageMicros         Int
+  billedCents         Int
+  stripeInvoiceItemId String?
+  createdAt           DateTime @default(now())
+
+  @@unique([companyId, month])
 }

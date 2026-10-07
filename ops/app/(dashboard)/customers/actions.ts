@@ -34,7 +34,7 @@ export async function createCustomer(formData: FormData) {
 
   let geo: { latitude: number; longitude: number } | null = null;
   if (addressLine1 && city && state) {
-    geo = await geocodeAddress(`${addressLine1}, ${city}, ${state} ${zip}, ${country}`);
+    geo = await geocodeAddress(`${addressLine1}, ${city}, ${state} ${zip}, ${country}`, companyId);
   }
 
   const customer = await prisma.customer.create({

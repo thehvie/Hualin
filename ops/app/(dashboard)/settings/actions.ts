@@ -7,6 +7,7 @@ import { requireSession } from "@/lib/session";
 import { isValidTimezone, DEFAULT_TIMEZONE } from "@/lib/tz";
 import { isUsState } from "@/lib/us-states";
 import { percentToBps, setDefaultTaxRate, MAX_TAX_PERCENT } from "@/lib/tax";
+import { geocodeAddress } from "@/lib/geocode";
 
 // A generous ceiling on the RAW upload, just to stop an absurd payload —
 // not a real quality gate. sharp always resizes the output to a small,
@@ -58,6 +59,10 @@ export async function updateCompanyProfile(
   const termsText = String(formData.get("termsText") || "").trim();
   const timezone = String(formData.get("timezone") || DEFAULT_TIMEZONE);
   const state = String(formData.get("state") || "").trim();
+  const officeAddressLine1 = String(formData.get("officeAddressLine1") || "").trim();
+  const officeCity = String(formData.get("officeCity") || "").trim();
+  const officeState = String(formData.get("officeState") || "").trim();
+  const officeZip = String(formData.get("officeZip") || "").trim();
   const taxRateBps = percentToBps(String(formData.get("salesTaxPercent") ?? "0"));
   const rawLogoDataUrl = String(formData.get("logoDataUrl") || "").trim();
 
@@ -70,6 +75,9 @@ export async function updateCompanyProfile(
   if (state && !isUsState(state)) {
     return { error: "Please choose a valid state." };
   }
+  if (officeState && !isUsState(officeState)) {
+    return { error: "Please choose a valid state for the office address." };
+  }
   if (!isValidTimezone(timezone)) {
     return { error: "Please choose a valid time zone." };
   }
@@ -81,9 +89,21 @@ export async function updateCompanyProfile(
     return { error: err instanceof Error ? err.message : "Could not save the logo." };
   }
 
+  // Geocode the office so the estimate map can route from it (null if the address is blank or the lookup fails;
+  // it is retried when an estimate is opened).
+  const officeGeo = officeAddressLine1
+    ? await geocodeAddress(`${officeAddressLine1}, ${officeCity}, ${officeState} ${officeZip}, US`, companyId)
+    : null;
+
   await prisma.company.update({
     where: { id: companyId },
     data: {
+      officeAddressLine1: officeAddressLine1 || null,
+      officeCity: officeCity || null,
+      officeState: officeState || null,
+      officeZip: officeZip || null,
+      officeLatitude: officeGeo?.latitude ?? null,
+      officeLongitude: officeGeo?.longitude ?? null,
       name,
       email: email || null,
       phone: phone || null,

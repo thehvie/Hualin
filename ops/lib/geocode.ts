@@ -1,3 +1,5 @@
+import { GOOGLE_COST_MICROS, getUsageStatus, recordUsage } from "@/lib/usage";
+
 export const HOME_BASE_ADDRESS = "1375 Lake Shadow Cir, Maitland, FL 32751";
 
 export interface GeocodeResult {
@@ -12,9 +14,13 @@ let homeBaseCache: GeocodeResult | null = null;
  * Returns null (rather than throwing) if GOOGLE_MAPS_API_KEY isn't set or the
  * lookup fails, so callers can degrade gracefully instead of crashing pages.
  */
-export async function geocodeAddress(address: string): Promise<GeocodeResult | null> {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+export async function geocodeAddress(address: string, companyId?: string): Promise<GeocodeResult | null> {
+  // Server-side calls carry no browser referrer, so a referrer-restricted browser key is rejected;
+  // prefer a separate server key (restricted by IP) when one is set.
+  const apiKey = process.env.GOOGLE_MAPS_SERVER_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   if (!apiKey || !address.trim()) return null;
+  // With a company given, lookups are metered and stop once its monthly usage cap is reached.
+  if (companyId && (await getUsageStatus(companyId)).capped) return null;
 
   try {
     const url = new URL("https://maps.googleapis.com/maps/api/geocode/json");
@@ -22,6 +28,7 @@ export async function geocodeAddress(address: string): Promise<GeocodeResult | n
     url.searchParams.set("key", apiKey);
 
     const res = await fetch(url.toString());
+    if (companyId) await recordUsage(companyId, "GEOCODE", GOOGLE_COST_MICROS.GEOCODE);
     const data = await res.json();
 
     if (data.status !== "OK" || !data.results?.[0]?.geometry?.location) {

@@ -9,6 +9,8 @@ import { formatUnitPrice } from "@/lib/price-book";
 import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
 import { MessageComposer } from "@/components/message-composer";
 import { VoiceItems } from "@/components/voice-items";
+import { RouteMap } from "@/components/route-map";
+import type { RouteInfo } from "@/lib/office";
 import { toDatetimeLocalInTz } from "@/lib/tz";
 import { sendEstimateSms } from "../../sms-actions";
 import {
@@ -70,6 +72,7 @@ interface EstimateData {
   scheduledEndAt: string | null;
   timezone: string;
   timezoneName: string;
+  route: RouteInfo;
   attachments: { id: string; filename: string; dataUrl: string }[];
   signingUrl: string | null;
   signedName: string | null;
@@ -644,6 +647,8 @@ export function EstimateEditor({
 
       </div>
 
+      <div className="flex flex-col gap-4">
+      <RouteMap route={estimate.route} />
       <ConversationPanel
         customerName={estimate.customer.name}
         messages={estimate.communications}
@@ -656,6 +661,7 @@ export function EstimateEditor({
           />
         }
       />
+      </div>
 
       </div>
 

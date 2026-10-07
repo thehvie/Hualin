@@ -20,6 +20,10 @@ export function SettingsForm({
     termsText: string | null;
     timezone: string;
     state: string | null;
+    officeAddressLine1: string | null;
+    officeCity: string | null;
+    officeState: string | null;
+    officeZip: string | null;
     salesTaxPercent: string;
     logoDataUrl: string | null;
   };
@@ -96,6 +100,43 @@ export function SettingsForm({
         <p className="text-xs text-zinc-400">
           The state you work in. Online booking fills it in for customers so they don&apos;t have to pick one.
         </p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <p className="text-sm font-medium text-zinc-700">Office address</p>
+        <input
+          name="officeAddressLine1"
+          defaultValue={company.officeAddressLine1 || ""}
+          placeholder="Street address"
+          className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+        />
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-[2fr_1fr_1fr]">
+          <input
+            name="officeCity"
+            defaultValue={company.officeCity || ""}
+            placeholder="City"
+            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+          />
+          <select
+            name="officeState"
+            defaultValue={company.officeState || ""}
+            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+          >
+            <option value="">State</option>
+            {US_STATES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+          <input
+            name="officeZip"
+            defaultValue={company.officeZip || ""}
+            placeholder="Zip"
+            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+          />
+        </div>
+        <p className="text-xs text-zinc-400">Where your jobs start from. Estimates show the drive from here to the customer.</p>
       </div>
 
       <div className="flex flex-col gap-1.5">

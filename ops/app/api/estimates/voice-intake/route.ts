@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
+import { getUsageStatus, USAGE_PAUSED_MESSAGE } from "@/lib/usage";
 import { transcribeVoiceIntake } from "@/lib/openrouter";
 
 const MAX_BYTES = 8 * 1024 * 1024; // ~4 minutes of 16 kHz mono WAV
@@ -16,6 +17,8 @@ export async function POST(req: Request) {
 
   const limit = rateLimit(`voice-intake:${session.user.id}`, 30, 60 * 60 * 1000);
   if (!limit.ok) return NextResponse.json({ error: "Too many recordings, try again later." }, { status: 429 });
+
+  if ((await getUsageStatus(companyId)).capped) return NextResponse.json({ error: USAGE_PAUSED_MESSAGE }, { status: 429 });
 
   const form = await req.formData().catch(() => null);
   const audio = form?.get("audio");
@@ -31,7 +34,7 @@ export async function POST(req: Request) {
 
   let intake;
   try {
-    intake = await transcribeVoiceIntake(Buffer.from(await audio.arrayBuffer()).toString("base64"), catalog);
+    intake = await transcribeVoiceIntake(Buffer.from(await audio.arrayBuffer()).toString("base64"), catalog, companyId);
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : "Voice intake failed." }, { status: 502 });
   }

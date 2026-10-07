@@ -123,7 +123,7 @@ export async function createEstimateFromBuilder(
     if (!firstName || !lastName) return { error: "First and last name are required." };
     if (!addressLine1 || !city || !state) return { error: "The job address is required." };
 
-    const geo = await geocodeAddress(`${addressLine1}, ${city}, ${state} ${zip}, US`);
+    const geo = await geocodeAddress(`${addressLine1}, ${city}, ${state} ${zip}, US`, companyId);
     const customer = await prisma.customer.create({
       data: {
         companyId,
@@ -238,7 +238,7 @@ export async function createDraftFromVoice(payload: VoiceDraftPayload): Promise<
     if (!firstName || !lastName) return { error: "First and last name are required." };
     if (!addressLine1 || !city || !state) return { error: "The job address is required." };
 
-    const geo = await geocodeAddress(`${addressLine1}, ${city}, ${state} ${zip}, US`);
+    const geo = await geocodeAddress(`${addressLine1}, ${city}, ${state} ${zip}, US`, companyId);
     const customer = await prisma.customer.create({
       data: {
         companyId,

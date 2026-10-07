@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
+import { getUsageStatus, USAGE_PAUSED_MESSAGE } from "@/lib/usage";
 import { matchVoiceItems } from "@/lib/openrouter";
 
 const MAX_BYTES = 8 * 1024 * 1024;
@@ -14,6 +15,8 @@ export async function POST(req: Request) {
 
   const limit = rateLimit(`voice-items:${session.user.id}`, 60, 60 * 60 * 1000);
   if (!limit.ok) return NextResponse.json({ error: "Too many recordings, try again later." }, { status: 429 });
+
+  if ((await getUsageStatus(companyId)).capped) return NextResponse.json({ error: USAGE_PAUSED_MESSAGE }, { status: 429 });
 
   const form = await req.formData().catch(() => null);
   const audio = form?.get("audio");
@@ -29,7 +32,7 @@ export async function POST(req: Request) {
   if (catalog.length === 0) return NextResponse.json({ error: "Your price book is empty. Add items in the Price book first." }, { status: 400 });
 
   try {
-    const result = await matchVoiceItems(Buffer.from(await audio.arrayBuffer()).toString("base64"), catalog);
+    const result = await matchVoiceItems(Buffer.from(await audio.arrayBuffer()).toString("base64"), catalog, companyId);
     const byId = new Map(catalog.map((c) => [c.id, c]));
     return NextResponse.json({
       transcript: result.transcript,
