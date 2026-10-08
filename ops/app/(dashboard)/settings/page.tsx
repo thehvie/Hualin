@@ -3,6 +3,7 @@ import { requireSession } from "@/lib/session";
 import { SettingsForm } from "./settings-form";
 import { UsageCard } from "./usage-card";
 import { getUsageStatus } from "@/lib/usage";
+import { attachmentStorage } from "@/lib/comm-attachments";
 import { getDefaultTaxRate, bpsToPercent } from "@/lib/tax";
 
 export default async function SettingsPage() {
@@ -10,6 +11,7 @@ export default async function SettingsPage() {
   const company = await prisma.company.findUniqueOrThrow({ where: { id: companyId } });
   const defaultTax = await getDefaultTaxRate(companyId);
   const usage = await getUsageStatus(companyId);
+  const storage = await attachmentStorage(companyId);
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
@@ -41,7 +43,7 @@ export default async function SettingsPage() {
         }}
       />
 
-      <UsageCard usage={usage} />
+      <UsageCard usage={usage} storageUsedBytes={storage.usedBytes} />
     </div>
   );
 }

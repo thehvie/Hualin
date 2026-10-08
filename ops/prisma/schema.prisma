@@ -74,6 +74,7 @@ model Company {
   purchaseOrders               PurchaseOrder[]
   usageEvents                  UsageEvent[]
   usageStatements              UsageStatement[]
+  communicationAttachments     CommunicationAttachment[]
   purchaseOrderLineItems       PurchaseOrderLineItem[]
   purchaseOrderAttachments     PurchaseOrderAttachment[]
 
@@ -725,12 +726,39 @@ model Communication {
   direction  CommunicationDirection
   body       String                 @db.Text
   providerId String?
+  // When staff first opened a customer's inbound message; null means it is still unread.
+  readAt DateTime?
+  // False when an inbound email came from an address other than the customer's on file; staff confirm it
+  // before its attachments are shown.
+  senderVerified Boolean @default(true)
+
+  attachments CommunicationAttachment[]
 
   createdAt DateTime @default(now())
 
   @@index([companyId])
   @@index([estimateId])
   @@index([invoiceId])
+}
+
+// Files and photos on an email, sent or received. Stored in the database and only served through an
+// authenticated route (images re-encoded, documents always downloaded, never rendered).
+model CommunicationAttachment {
+  id              String        @id @default(cuid())
+  companyId       String
+  company         Company       @relation(fields: [companyId], references: [id])
+  communicationId String
+  communication   Communication @relation(fields: [communicationId], references: [id], onDelete: Cascade)
+  filename        String
+  mimeType        String
+  sizeBytes       Int
+  // Exactly one of these is set: the file in DigitalOcean Spaces (storageKey), or its bytes in the database
+  // (used when Spaces isn't configured, and for files saved before it was).
+  storageKey      String?
+  data            Bytes?
+  createdAt       DateTime      @default(now())
+
+  @@index([communicationId])
 }
 
 // ── Purchase Orders ────────────────────────────────────────────────────────

@@ -656,6 +656,7 @@ export function InvoiceEditor({
             customerId={invoice.customer.id}
             customerName={invoice.customer.name}
             channel={invoice.customer.messageChannel}
+            canEmail={!!invoice.customer.email}
             invoiceId={invoice.id}
           />
         }

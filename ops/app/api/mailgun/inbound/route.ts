@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
-import { verifyInboundSignature } from "@/lib/mailgun";
+import { sendEmail, verifyInboundSignature } from "@/lib/mailgun";
+import { MAX_ATTACHMENTS, attachmentStorage, normalizeAttachment, saveAttachments } from "@/lib/comm-attachments";
 
 // Mailgun Route webhook for inbound replies. A customer's reply lands on
 // invoice-<id>@<MAILGUN_DOMAIN> or estimate-<id>@<MAILGUN_DOMAIN> (set as the
@@ -29,11 +30,20 @@ export async function POST(req: NextRequest) {
 
   const recipient = String(form.get("recipient") || "");
   const sender = String(form.get("sender") || "");
-  const body = String(form.get("stripped-text") || form.get("body-plain") || "").trim();
+  const subject = String(form.get("subject") || "");
+  let body = String(form.get("stripped-text") || form.get("body-plain") || "").trim();
   const messageId = String(form.get("Message-Id") || "") || null;
 
+  // Files and photos the customer attached. Mailgun sends them as attachment-1, attachment-2, ...
+  const rawFiles: File[] = [];
+  const count = Math.min(parseInt(String(form.get("attachment-count") || "0"), 10) || 0, 25);
+  for (let n = 1; n <= count; n++) {
+    const f = form.get(`attachment-${n}`);
+    if (f instanceof File && f.size > 0) rawFiles.push(f);
+  }
+
   const match = recipient.match(RECIPIENT_PATTERN);
-  if (!match || !body) {
+  if (!match || (!body && rawFiles.length === 0)) {
     // Not a thread we recognize (or an empty/auto-generated message) —
     // acknowledge so Mailgun doesn't retry, but do nothing with it.
     return NextResponse.json({ received: true, matched: false });
@@ -43,14 +53,48 @@ export async function POST(req: NextRequest) {
 
   const thread =
     kind === "invoice"
-      ? await prisma.invoice.findUnique({ where: { id }, select: { id: true, companyId: true, customerId: true } })
-      : await prisma.estimate.findUnique({ where: { id }, select: { id: true, companyId: true, customerId: true } });
+      ? await prisma.invoice.findUnique({ where: { id }, select: { id: true, number: true, companyId: true, customerId: true } })
+      : await prisma.estimate.findUnique({ where: { id }, select: { id: true, number: true, companyId: true, customerId: true } });
 
   if (!thread) {
     return NextResponse.json({ received: true, matched: false });
   }
 
-  await prisma.communication.create({
+  // Is this really the customer? Anyone who learns a thread address can email it, so a message from an address
+  // other than the one on file is saved but held: its attachments stay hidden until staff confirm the sender.
+  const fromHeader = String(form.get("from") || sender);
+  const fromEmail = (fromHeader.match(/<([^>]+)>/)?.[1] ?? fromHeader).trim().toLowerCase();
+  const customerOnFile = await prisma.customer.findUnique({
+    where: { id: thread.customerId },
+    select: { firstName: true, lastName: true, email: true },
+  });
+  const senderVerified = !!customerOnFile?.email && customerOnFile.email.trim().toLowerCase() === fromEmail;
+
+  // Keep what we can accept; say so in the message if something was left out.
+  let room = (await attachmentStorage(thread.companyId)).remainingBytes;
+  const files: { filename: string; mimeType: string; data: Buffer }[] = [];
+  const skipped: string[] = [];
+  for (const f of rawFiles) {
+    if (files.length >= MAX_ATTACHMENTS) {
+      skipped.push(f.name);
+      continue;
+    }
+    try {
+      const stored = await normalizeAttachment(f.name, f.type, Buffer.from(await f.arrayBuffer()));
+      if (stored.data.byteLength > room) {
+        skipped.push(f.name);
+        continue;
+      }
+      room -= stored.data.byteLength;
+      files.push(stored);
+    } catch {
+      skipped.push(f.name);
+    }
+  }
+  if (!body) body = "(sent an attachment)";
+  if (skipped.length > 0) body += `\n\n[Not saved (too large or an unsupported type): ${skipped.join(", ")}]`;
+
+  const communication = await prisma.communication.create({
     data: {
       companyId: thread.companyId,
       customerId: thread.customerId,
@@ -58,10 +102,40 @@ export async function POST(req: NextRequest) {
       estimateId: kind === "estimate" ? thread.id : undefined,
       channel: "EMAIL",
       direction: "INBOUND",
-      body: `From: ${sender}\n\n${body}`,
+      body: `From: ${fromHeader || sender}\n\n${body}`,
       providerId: messageId,
+      senderVerified,
     },
   });
+  await saveAttachments(thread.companyId, communication.id, files);
 
-  return NextResponse.json({ received: true, matched: true });
+  // Let the company know a customer replied, so it isn't missed until someone opens the estimate.
+  try {
+    const company = await prisma.company.findUnique({ where: { id: thread.companyId }, select: { name: true, email: true } });
+    const customer = customerOnFile;
+    if (company?.email && customer) {
+      const origin = (process.env.NEXTAUTH_URL || "").replace(/\/$/, "");
+      const link = `${origin}/${kind === "invoice" ? "invoices" : "estimates"}/${thread.id}`;
+      const name = `${customer.firstName} ${customer.lastName}`;
+      await sendEmail({
+        to: company.email,
+        fromName: company.name,
+        subject: `New reply from ${name} on ${kind === "invoice" ? "invoice" : "estimate"} #${thread.number}${senderVerified ? "" : " (unverified sender)"}`,
+        text: [
+          `${name} replied${subject ? ` (${subject})` : ""}:`,
+          "",
+          senderVerified ? "" : `This came from ${fromEmail}, which isn't the email on file for ${name}. Check it before trusting it.`,
+          body.slice(0, 500),
+          files.length > 0 ? `\n${files.length} attachment${files.length === 1 ? "" : "s"} saved.` : "",
+          "",
+          `Open the conversation: ${link}`,
+        ].join("\n"),
+      });
+    }
+  } catch (err) {
+    // A failed alert must not make Mailgun retry (and duplicate) the message.
+    console.error("[mailgun inbound] notification failed", err);
+  }
+
+  return NextResponse.json({ received: true, matched: true, id: communication.id });
 }

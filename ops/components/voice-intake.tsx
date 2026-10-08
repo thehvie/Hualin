@@ -17,6 +17,9 @@ export function VoiceIntake({ defaultState }: { defaultState: string | null }) {
       const res = await fetch("/api/estimates/voice-intake", { method: "POST", body: form });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Voice intake failed.");
+      if (data.enough === false) {
+        throw new Error("Not enough information to start an estimate. Please start over: say the customer's name, the address and the job.");
+      }
       setResult({ intake: data.intake, match: data.match, items: data.items, unmatched: data.unmatched });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Voice intake failed.");

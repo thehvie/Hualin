@@ -43,6 +43,8 @@ export interface EstimateRow {
   createdAt: string;
   amountCents: number;
   displayStatus: string;
+  /** Customer messages nobody has opened yet. */
+  unread: number;
 }
 
 export function EstimatesTable({ estimates }: { estimates: EstimateRow[] }) {
@@ -193,6 +195,11 @@ export function EstimatesTable({ estimates }: { estimates: EstimateRow[] }) {
                 <td className="px-4 py-3">
                   <Link href={`/estimates/${e.id}`} className="font-medium text-zinc-900 hover:text-brand">
                     #{e.number}
+                    {e.unread > 0 && (
+                      <span title={`${e.unread} unread customer ${e.unread === 1 ? "message" : "messages"}`} className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-500 px-1.5 align-middle text-[10px] font-bold text-white">
+                        {e.unread}
+                      </span>
+                    )}
                   </Link>
                 </td>
                 <td className="px-4 py-3">

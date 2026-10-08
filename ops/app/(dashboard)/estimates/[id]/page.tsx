@@ -26,7 +26,10 @@ export default async function EstimateDetailPage({
       paymentSchedule: { orderBy: { sortOrder: "asc" } },
       invoice: true,
       job: { include: { attachments: { orderBy: { createdAt: "asc" } } } },
-      communications: { orderBy: { createdAt: "asc" } },
+      communications: {
+        orderBy: { createdAt: "asc" },
+        include: { attachments: { select: { id: true, filename: true, mimeType: true, sizeBytes: true } } },
+      },
     },
   });
 
@@ -42,6 +45,12 @@ export default async function EstimateDetailPage({
   const office = await getOfficePoint(companyId);
   const destination = estimate.property ? await getPropertyPoint(companyId, estimate.property) : null;
   const route = buildRoute(office, destination, await getDriveRoute(companyId, office, destination), usage.capped);
+
+  // Opening the estimate counts as reading the customer's messages (they're still flagged New on this visit).
+  await prisma.communication.updateMany({
+    where: { estimateId: estimate.id, companyId, direction: "INBOUND", readAt: null },
+    data: { readAt: new Date() },
+  });
 
   const priceBookItems = await prisma.priceBookItem.findMany({
     where: { companyId, active: true },
@@ -120,6 +129,9 @@ export default async function EstimateDetailPage({
             channel: c.channel,
             body: c.body,
             createdAt: c.createdAt.toISOString(),
+            attachments: c.attachments,
+            isNew: c.direction === "INBOUND" && !c.readAt,
+            senderVerified: c.senderVerified,
           })),
         }}
         priceBookItems={priceBookItems.map((p) => ({

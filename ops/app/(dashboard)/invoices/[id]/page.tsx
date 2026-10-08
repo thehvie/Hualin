@@ -24,7 +24,10 @@ export default async function InvoiceDetailPage({
       estimate: true,
       signature: true,
       attachments: { orderBy: { createdAt: "desc" } },
-      communications: { orderBy: { createdAt: "asc" } },
+      communications: {
+        orderBy: { createdAt: "asc" },
+        include: { attachments: { select: { id: true, filename: true, mimeType: true, sizeBytes: true } } },
+      },
     },
   });
 
@@ -40,6 +43,12 @@ export default async function InvoiceDetailPage({
   ]);
 
   const property = invoice.customer.properties[0] ?? null;
+
+  // Opening the invoice counts as reading the customer's messages (they're still flagged New on this visit).
+  await prisma.communication.updateMany({
+    where: { invoiceId: invoice.id, companyId, direction: "INBOUND", readAt: null },
+    data: { readAt: new Date() },
+  });
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-4">
@@ -132,6 +141,9 @@ export default async function InvoiceDetailPage({
             channel: c.channel,
             body: c.body,
             createdAt: c.createdAt.toISOString(),
+            attachments: c.attachments,
+            isNew: c.direction === "INBOUND" && !c.readAt,
+            senderVerified: c.senderVerified,
           })),
         }}
         taxRates={taxRates.map((t) => ({ id: t.id, name: t.name, rateBps: t.rateBps }))}

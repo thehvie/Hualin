@@ -38,6 +38,8 @@ export interface InvoiceRow {
   discountCents: number;
   totalCents: number;
   balanceCents: number;
+  /** Customer messages nobody has opened yet. */
+  unread: number;
 }
 
 export function InvoicesTable({ invoices }: { invoices: InvoiceRow[] }) {
@@ -200,6 +202,11 @@ export function InvoicesTable({ invoices }: { invoices: InvoiceRow[] }) {
                 <td className="px-4 py-3">
                   <Link href={`/invoices/${e.id}`} className="font-medium text-zinc-900 hover:text-brand">
                     #{e.number}
+                    {e.unread > 0 && (
+                      <span title={`${e.unread} unread customer ${e.unread === 1 ? "message" : "messages"}`} className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-500 px-1.5 align-middle text-[10px] font-bold text-white">
+                        {e.unread}
+                      </span>
+                    )}
                   </Link>
                   {e.name && <p className="text-xs text-zinc-400">{e.name}</p>}
                 </td>

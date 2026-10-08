@@ -650,11 +650,13 @@ export function EstimateEditor({
       <ConversationPanel
         customerName={estimate.customer.name}
         messages={estimate.communications}
+        jobId={estimate.jobId}
         composer={
           <MessageComposer
             customerId={estimate.customer.id}
             customerName={estimate.customer.name}
             channel={estimate.customer.messageChannel}
+            canEmail={!!estimate.customer.email}
             estimateId={estimate.id}
           />
         }

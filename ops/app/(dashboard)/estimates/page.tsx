@@ -41,6 +41,13 @@ export default async function EstimatesPage({
     orderBy: { createdAt: "desc" },
   });
 
+  const unreadRows = await prisma.communication.groupBy({
+    by: ["estimateId"],
+    where: { companyId, direction: "INBOUND", readAt: null, estimateId: { not: null } },
+    _count: { _all: true },
+  });
+  const unreadByEstimate = new Map(unreadRows.map((r) => [r.estimateId, r._count._all]));
+
   // Derive a display status: APPROVED + already has an Invoice reads as "Won".
   const withDisplayStatus: EstimateRow[] = estimates.map((e) => ({
     id: e.id,
@@ -52,6 +59,7 @@ export default async function EstimatesPage({
     createdAt: e.createdAt.toISOString(),
     amountCents: lineItemsTotal(e.lineItems),
     displayStatus: e.status === "APPROVED" && e.invoice ? "WON" : e.status,
+    unread: unreadByEstimate.get(e.id) ?? 0,
   }));
 
   const filtered = status && status !== "ALL"

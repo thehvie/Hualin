@@ -50,6 +50,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: err instanceof Error ? err.message : "Voice intake failed." }, { status: 502 });
   }
 
+  // Too little to build an estimate from (a tap, silence, one word): say so rather than show a mostly empty draft.
+  // Needs a customer name plus at least an address, a job description or an item.
+  const enough =
+    !!(intake.firstName || intake.lastName) &&
+    !!(intake.addressLine1 || intake.jobNotes || intake.matches.length > 0);
+  if (intake.intent === "new_estimate" && !enough) {
+    return NextResponse.json({ intent: intake.intent, enough: false });
+  }
+
   // Flag an existing customer with the same phone or email so we don't create a duplicate.
   let match: { id: string; label: string } | null = null;
   const phoneDigits = digits(intake.phone);
@@ -73,5 +82,5 @@ export async function POST(req: Request) {
     return { ...m, name: c.name, unitPriceCents: c.unitPriceCents, isRental: c.type === "RENTAL" };
   });
 
-  return NextResponse.json({ intent, intake: customer, match, items, unmatched });
+  return NextResponse.json({ intent, enough: true, intake: customer, match, items, unmatched });
 }

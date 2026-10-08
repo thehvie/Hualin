@@ -1,6 +1,7 @@
+import { MAX_COMPANY_ATTACHMENT_BYTES, formatBytes } from "@/lib/comm-attachment-constants";
 import { OVERAGE_CAP_CENTS, OVERAGE_MARKUP, SERVICE_LABELS, formatMicros, type UsageStatus } from "@/lib/usage";
 
-export function UsageCard({ usage }: { usage: UsageStatus }) {
+export function UsageCard({ usage, storageUsedBytes }: { usage: UsageStatus; storageUsedBytes: number }) {
   const pct = Math.min(100, Math.round((usage.usedMicros / usage.includedMicros) * 100));
   const over = usage.usedMicros > usage.includedMicros;
 
@@ -31,6 +32,10 @@ export function UsageCard({ usage }: { usage: UsageStatus }) {
           You&apos;ve reached this month&apos;s usage limit, so voice features and maps are paused until the 1st.
         </p>
       )}
+
+      <p className="text-xs text-zinc-500">
+        Email attachment storage: {formatBytes(storageUsedBytes)} of {formatBytes(MAX_COMPANY_ATTACHMENT_BYTES)} used.
+      </p>
 
       {usage.byService.length > 0 && (
         <ul className="divide-y divide-zinc-100 text-sm">

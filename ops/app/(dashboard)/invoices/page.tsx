@@ -53,6 +53,13 @@ export default async function InvoicesPage({
 
   const now = Date.now();
 
+  const unreadRows = await prisma.communication.groupBy({
+    by: ["invoiceId"],
+    where: { companyId, direction: "INBOUND", readAt: null, invoiceId: { not: null } },
+    _count: { _all: true },
+  });
+  const unreadByInvoice = new Map(unreadRows.map((r) => [r.invoiceId, r._count._all]));
+
   const rows: InvoiceRow[] = invoices.map((inv) => {
     const totals = computeInvoiceTotals({
       lineItems: inv.lineItems,
@@ -79,6 +86,7 @@ export default async function InvoicesPage({
       discountCents: totals.discountCents,
       totalCents: totals.totalCents,
       balanceCents: totals.balanceCents,
+      unread: unreadByInvoice.get(inv.id) ?? 0,
     };
   });
 

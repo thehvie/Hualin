@@ -8,6 +8,7 @@ import { messageChannel } from "@/lib/messaging";
 import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/mailgun";
 import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
 import { formatCents, lineItemsTotal } from "@/lib/money";
+import { MAX_ATTACHMENTS, attachmentStorage, normalizeAttachment, saveAttachments, type StoredFile } from "@/lib/comm-attachments";
 
 type Result = { ok: true } | { ok: false; error: string };
 
@@ -59,6 +60,7 @@ async function deliverEmail(opts: {
   body: string;
   estimateId?: string;
   invoiceId?: string;
+  files?: StoredFile[];
 }): Promise<Result> {
   const customer = await prisma.customer.findFirst({
     where: { id: opts.customerId, companyId: opts.companyId },
@@ -87,6 +89,7 @@ async function deliverEmail(opts: {
       replyTo,
       subject,
       text: opts.body,
+      attachments: opts.files?.map((f) => ({ filename: f.filename, content: f.data, contentType: f.mimeType })),
     }));
   } catch (err) {
     if (err instanceof MailgunNotConfiguredError) {
@@ -96,7 +99,7 @@ async function deliverEmail(opts: {
     return { ok: false, error: "The email couldn't be sent. Please try again." };
   }
 
-  await prisma.communication.create({
+  const sent = await prisma.communication.create({
     data: {
       companyId: opts.companyId,
       customerId: customer.id,
@@ -108,6 +111,7 @@ async function deliverEmail(opts: {
       providerId: messageId,
     },
   });
+  await saveAttachments(opts.companyId, sent.id, opts.files ?? []);
   return { ok: true };
 }
 
@@ -116,14 +120,35 @@ async function deliverEmail(opts: {
  * Texts the customer when Twilio is set up and they can be texted; otherwise
  * emails them instead.
  */
-export async function sendCustomerSms(input: {
-  customerId: string;
-  body: string;
-  estimateId?: string;
-  invoiceId?: string;
-}): Promise<Result> {
+export async function sendCustomerSms(
+  input: {
+    customerId: string;
+    body: string;
+    estimateId?: string;
+    invoiceId?: string;
+  },
+  attachmentData?: FormData,
+): Promise<Result> {
   const { companyId } = await requireSession();
-  const body = input.body.trim();
+
+  // Photos and documents can only go by email (texting can't carry them).
+  const rawFiles = (attachmentData?.getAll("files") ?? []).filter((f): f is File => f instanceof File && f.size > 0);
+  if (rawFiles.length > MAX_ATTACHMENTS) return { ok: false, error: `Attach at most ${MAX_ATTACHMENTS} files.` };
+  let files: StoredFile[];
+  try {
+    files = await Promise.all(rawFiles.map(async (f) => normalizeAttachment(f.name, f.type, Buffer.from(await f.arrayBuffer()))));
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : "Couldn't read the attachments." };
+  }
+
+  if (files.length > 0) {
+    const { remainingBytes } = await attachmentStorage(companyId);
+    if (files.reduce((sum, f) => sum + f.data.byteLength, 0) > remainingBytes) {
+      return { ok: false, error: "Your email attachment storage is full. Remove older attachments or contact support." };
+    }
+  }
+
+  const body = input.body.trim() || (files.length > 0 ? "Please see the attached." : "");
   if (!body) return { ok: false, error: "Type a message first." };
   if (body.length > MAX_BODY) return { ok: false, error: `Messages are limited to ${MAX_BODY} characters.` };
 
@@ -138,10 +163,13 @@ export async function sendCustomerSms(input: {
   const customer = await prisma.customer.findFirst({ where: { id: input.customerId, companyId } });
   if (!customer) return { ok: false, error: "Customer not found." };
 
-  const channel = messageChannel(customer);
+  if (files.length > 0 && !customer.email) {
+    return { ok: false, error: "Attachments are sent by email, and this customer has no email address on file." };
+  }
+  const channel = files.length > 0 ? "email" : messageChannel(customer);
   if (!channel) return { ok: false, error: "This customer has no phone number or email address on file." };
 
-  const args = { companyId, customerId: input.customerId, body, estimateId: input.estimateId, invoiceId: input.invoiceId };
+  const args = { companyId, customerId: input.customerId, body, estimateId: input.estimateId, invoiceId: input.invoiceId, files };
   const res = channel === "sms" ? await deliver(args) : await deliverEmail(args);
   if (res.ok) {
     if (input.estimateId) revalidatePath(`/estimates/${input.estimateId}`);

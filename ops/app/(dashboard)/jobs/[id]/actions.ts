@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { fromDatetimeLocalInTz } from "@/lib/tz";
 import { normalizePhoto, MAX_PHOTOS } from "@/lib/photos";
+import { getObjectBytes } from "@/lib/storage";
 
 const JOB_STATUSES = ["UNSCHEDULED", "SCHEDULED", "IN_PROGRESS", "COMPLETED", "CANCELLED"] as const;
 type JobStatusValue = (typeof JOB_STATUSES)[number];
@@ -90,6 +91,35 @@ export async function addJobAttachments(
   }
 
   revalidatePath(`/jobs/${jobId}`);
+  return { ok: true };
+}
+
+/** Copies a photo the customer emailed into the job's photos (shown on the estimate and the job). */
+export async function saveEmailPhotoToJob(attachmentId: string, jobId: string): Promise<{ ok: boolean; error?: string }> {
+  const { companyId } = await requireSession();
+  const [file, job] = await Promise.all([
+    prisma.communicationAttachment.findFirst({ where: { id: attachmentId, companyId } }),
+    prisma.job.findFirst({ where: { id: jobId, companyId }, include: { _count: { select: { attachments: true } } } }),
+  ]);
+  if (!file || !job) return { ok: false, error: "Not found." };
+  if (file.mimeType !== "image/jpeg") return { ok: false, error: "Only photos can be saved to the job." };
+  if (job._count.attachments >= MAX_PHOTOS) return { ok: false, error: `A job can have at most ${MAX_PHOTOS} photos.` };
+
+  const bytes = file.storageKey ? await getObjectBytes(file.storageKey) : file.data ? Buffer.from(file.data) : null;
+  if (!bytes) return { ok: false, error: "The photo file is missing." };
+
+  await prisma.jobAttachment.create({
+    data: {
+      companyId,
+      jobId,
+      filename: file.filename,
+      mimeType: file.mimeType,
+      dataUrl: `data:${file.mimeType};base64,${bytes.toString("base64")}`,
+    },
+  });
+  revalidatePath(`/jobs/${jobId}`);
+  const estimates = await prisma.estimate.findMany({ where: { jobId, companyId }, select: { id: true } });
+  for (const e of estimates) revalidatePath(`/estimates/${e.id}`);
   return { ok: true };
 }
 

@@ -17,12 +17,14 @@ export function CommandCenter({ defaultState }: { defaultState: string | null })
   const [processing, setProcessing] = useState(false);
   const [result, setResult] = useState<(IntakeResult & { viaVoice: boolean }) | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [warning, setWarning] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   async function submit(payload: { audio?: Blob; text?: string }) {
     setProcessing(true);
     setError(null);
     setNotice(null);
+    setWarning(null);
     try {
       const form = new FormData();
       if (payload.audio) form.append("audio", payload.audio, "command.wav");
@@ -32,6 +34,10 @@ export function CommandCenter({ defaultState }: { defaultState: string | null })
       if (!res.ok) throw new Error(data.error || "That didn't work. Try again.");
       if (data.intent !== "new_estimate") {
         setNotice("I can only draft estimates for now. Try something like: “New estimate for John Smith at 123 Main St…”");
+        return;
+      }
+      if (data.enough === false) {
+        setWarning("There isn't enough information to start an estimate. I need at least the customer's name and the address or what the job is.");
         return;
       }
       setResult({ intake: data.intake, match: data.match, items: data.items, unmatched: data.unmatched, viaVoice: !!payload.audio });
@@ -134,6 +140,23 @@ export function CommandCenter({ defaultState }: { defaultState: string | null })
       </div>
 
       {shownError && <p className="text-sm text-red-600">{shownError}</p>}
+      {warning && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+          <span>
+            <strong>Not enough information.</strong> {warning} Please start over: hold the button and say the customer&apos;s name, the address, and the job.
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              setWarning(null);
+              setText("");
+            }}
+            className="shrink-0 rounded-lg border border-amber-300 bg-white px-3 py-1.5 text-xs font-semibold text-amber-900"
+          >
+            Start over
+          </button>
+        </div>
+      )}
       {notice && <p className="rounded-lg bg-zinc-50 p-3 text-sm text-zinc-600">{notice}</p>}
 
       {result && (
