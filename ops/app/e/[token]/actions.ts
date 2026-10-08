@@ -49,7 +49,7 @@ export async function signEstimate(
   if (count === 0) return { ok: true };
 
   if (estimate.company.email) {
-    const total = Math.max(0, lineItemsTotal(estimate.lineItems) - estimate.discountCents);
+    const total = Math.max(0, lineItemsTotal(estimate.lineItems) - estimate.discountCents) + estimate.fuelSurchargeCents;
     try {
       await sendEmail({
         to: estimate.company.email,

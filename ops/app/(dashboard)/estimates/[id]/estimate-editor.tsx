@@ -12,7 +12,7 @@ import { VoiceItems } from "@/components/voice-items";
 import { RouteMap } from "@/components/route-map";
 import { ClientDetails } from "./client-details";
 import type { RouteInfo } from "@/lib/office";
-import { FUEL_LINE_PREFIX, type FuelSettings } from "@/lib/fuel";
+import type { FuelSettings } from "@/lib/fuel";
 import { toDatetimeLocalInTz } from "@/lib/tz";
 import { sendEstimateSms } from "../../sms-actions";
 import {
@@ -59,6 +59,7 @@ interface EstimateData {
   status: string;
   notes: string | null;
   discountCents: number;
+  fuelSurchargeCents: number;
   depositCents: number;
   laborCostCents: number;
   sentAt: string | null;
@@ -124,7 +125,7 @@ export function EstimateEditor({
     0,
   );
   const itemCostCents = estimate.lineItems.reduce((sum, li) => sum + li.quantity * (li.costCents ?? 0), 0);
-  const totalCents = Math.max(0, subtotalCents - estimate.discountCents);
+  const totalCents = Math.max(0, subtotalCents - estimate.discountCents) + estimate.fuelSurchargeCents;
   const depositPercent = subtotalCents > 0 ? (estimate.depositCents / subtotalCents) * 100 : 0;
   const estMarginCents = totalCents - itemCostCents - estimate.laborCostCents;
   const marginPercent = totalCents > 0 ? (estMarginCents / totalCents) * 100 : null;
@@ -145,6 +146,7 @@ export function EstimateEditor({
     fd.set("status", status);
     fd.set("notes", estimate.notes || "");
     fd.set("discount", (estimate.discountCents / 100).toString());
+    fd.set("fuel", (estimate.fuelSurchargeCents / 100).toString());
     fd.set("deposit", (estimate.depositCents / 100).toString());
     fd.set("laborCost", (estimate.laborCostCents / 100).toString());
     startTransition(() => updateEstimateHeader(estimate.id, fd));
@@ -442,6 +444,11 @@ export function EstimateEditor({
               suffix={subtotalCents > 0 && estimate.discountCents > 0 ? `(${((estimate.discountCents / subtotalCents) * 100).toFixed(1)}%)` : undefined}
               onSave={(cents) => saveField(estimate, "discount", cents, startTransition)}
             />
+            <EditableRow
+              label="Fuel surcharge"
+              initialCents={estimate.fuelSurchargeCents}
+              onSave={(cents) => saveField(estimate, "fuel", cents, startTransition)}
+            />
             <Row label="Item cost" value={formatCents(itemCostCents)} muted />
             <EditableRow
               label="Labor cost"
@@ -638,7 +645,7 @@ export function EstimateEditor({
         route={estimate.route}
         estimateId={estimate.id}
         fuel={estimate.fuel}
-        fuelLine={estimate.lineItems.find((li) => li.description.startsWith(FUEL_LINE_PREFIX)) ?? null}
+        currentFuelCents={estimate.fuelSurchargeCents}
       />
       <ConversationPanel
         customerName={estimate.customer.name}
@@ -772,7 +779,7 @@ export function EstimateEditor({
 
 function saveField(
   estimate: EstimateData,
-  field: "discount" | "deposit" | "laborCost",
+  field: "discount" | "deposit" | "laborCost" | "fuel",
   cents: number,
   startTransition: (cb: () => void) => void,
 ) {
@@ -780,6 +787,7 @@ function saveField(
   fd.set("status", estimate.status);
   fd.set("notes", estimate.notes || "");
   fd.set("discount", (field === "discount" ? cents : estimate.discountCents) / 100 + "");
+  fd.set("fuel", (field === "fuel" ? cents : estimate.fuelSurchargeCents) / 100 + "");
   fd.set("deposit", (field === "deposit" ? cents : estimate.depositCents) / 100 + "");
   fd.set("laborCost", (field === "laborCost" ? cents : estimate.laborCostCents) / 100 + "");
   startTransition(() => updateEstimateHeader(estimate.id, fd));
@@ -904,6 +912,7 @@ function NotesField({ estimate }: { estimate: EstimateData; onSave: () => void }
         fd.set("status", estimate.status);
         fd.set("notes", value);
         fd.set("discount", (estimate.discountCents / 100).toString());
+        fd.set("fuel", (estimate.fuelSurchargeCents / 100).toString());
         fd.set("deposit", (estimate.depositCents / 100).toString());
         fd.set("laborCost", (estimate.laborCostCents / 100).toString());
         startTransition(() => updateEstimateHeader(estimate.id, fd));

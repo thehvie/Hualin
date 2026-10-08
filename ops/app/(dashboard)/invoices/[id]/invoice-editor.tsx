@@ -66,6 +66,7 @@ interface InvoiceData {
   dueAt: string | null;
   sentAt: string | null;
   discountCents: number;
+  fuelSurchargeCents: number;
   depositCents: number;
   tipCents: number;
   laborCostCents: number;
@@ -114,6 +115,7 @@ export function InvoiceEditor({
   const totals = computeInvoiceTotals({
     lineItems: invoice.lineItems,
     discountCents: invoice.discountCents,
+    fuelSurchargeCents: invoice.fuelSurchargeCents,
     tipCents: invoice.tipCents,
     taxRateBps: activeTaxRate?.rateBps ?? 0,
     payments: invoice.payments,
@@ -129,6 +131,7 @@ export function InvoiceEditor({
     fd.set("dueAt", invoice.dueAt ? invoice.dueAt.slice(0, 10) : "");
     fd.set("taxRateId", invoice.taxRateId || "");
     fd.set("discount", (invoice.discountCents / 100).toString());
+    fd.set("fuel", (invoice.fuelSurchargeCents / 100).toString());
     fd.set("deposit", (invoice.depositCents / 100).toString());
     fd.set("tip", (invoice.tipCents / 100).toString());
     fd.set("laborCost", (invoice.laborCostCents / 100).toString());
@@ -395,6 +398,11 @@ export function InvoiceEditor({
               label="Discount"
               initialCents={invoice.discountCents}
               onSave={(cents) => saveHeader({ discount: (cents / 100).toString() })}
+            />
+            <EditableRow
+              label="Fuel surcharge"
+              initialCents={invoice.fuelSurchargeCents}
+              onSave={(cents) => saveHeader({ fuel: (cents / 100).toString() })}
             />
             <EditableRow
               label="Tip"

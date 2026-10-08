@@ -41,7 +41,7 @@ export async function toWav(blob: Blob): Promise<Blob> {
  * recognition (preview only), stops when the speaker says "end", and hands the finished recording
  * to `onAudio` as a WAV blob.
  */
-export function useVoiceRecorder(onAudio: (wav: Blob) => void) {
+export function useVoiceRecorder(onAudio: (wav: Blob) => void, options: { endCommand?: boolean; minMs?: number } = {}) {
   const [recording, setRecording] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [liveText, setLiveText] = useState("");
@@ -54,6 +54,10 @@ export function useVoiceRecorder(onAudio: (wav: Blob) => void) {
   const speech = useRef<{ stop: () => void } | null>(null);
   const onAudioRef = useRef(onAudio);
   onAudioRef.current = onAudio;
+  const endCommand = options.endCommand ?? true;
+  const minMs = options.minMs ?? 0;
+  const stopRequested = useRef(false);
+  const startedAt = useRef(0);
 
   function startLiveText() {
     setLiveText("");
@@ -73,7 +77,7 @@ export function useVoiceRecorder(onAudio: (wav: Blob) => void) {
         setLiveText(text);
         // Saying "end" stops the recording. Wait a beat so "end of the driveway" doesn't trigger it.
         if (endTimer.current) clearTimeout(endTimer.current);
-        if (/\bend[.!?]?\s*$/i.test(text.trim())) endTimer.current = setTimeout(stop, 1200);
+        if (endCommand && /\bend[.!?]?\s*$/i.test(text.trim())) endTimer.current = setTimeout(stop, 1200);
       };
       sr.onerror = () => {};
       sr.start();
@@ -85,8 +89,14 @@ export function useVoiceRecorder(onAudio: (wav: Blob) => void) {
 
   async function start() {
     setError(null);
+    stopRequested.current = false;
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Released before the microphone was ready (hold-to-talk): don't start a recording nobody will stop.
+      if (stopRequested.current) {
+        stream.getTracks().forEach((t) => t.stop());
+        return;
+      }
       const rec = new MediaRecorder(stream);
       chunks.current = [];
       rec.ondataavailable = (e) => {
@@ -95,11 +105,16 @@ export function useVoiceRecorder(onAudio: (wav: Blob) => void) {
       rec.onstop = () => {
         stream.getTracks().forEach((t) => t.stop());
         setRecording(false);
+        if (Date.now() - startedAt.current < minMs) {
+          setError("Hold the button while you speak.");
+          return;
+        }
         toWav(new Blob(chunks.current, { type: rec.mimeType }))
           .then((wav) => onAudioRef.current(wav))
           .catch(() => setError("Couldn't read that recording. Try again."));
       };
       rec.start();
+      startedAt.current = Date.now();
       recorder.current = rec;
       startLiveText();
       setSeconds(0);
@@ -122,6 +137,7 @@ export function useVoiceRecorder(onAudio: (wav: Blob) => void) {
     } catch {}
     if (timer.current) clearInterval(timer.current);
     if (recorder.current?.state === "recording") recorder.current.stop();
+    else stopRequested.current = true;
   }
 
   return { recording, seconds, liveText, error, setError, start, stop };

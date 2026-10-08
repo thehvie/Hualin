@@ -62,6 +62,7 @@ export default async function EstimateDetailPage({
           status: estimate.status,
           notes: estimate.job?.notes ?? estimate.notes,
           discountCents: estimate.discountCents,
+          fuelSurchargeCents: estimate.fuelSurchargeCents,
           depositCents: estimate.depositCents,
           laborCostCents: estimate.laborCostCents,
           sentAt: estimate.sentAt ? estimate.sentAt.toISOString() : null,

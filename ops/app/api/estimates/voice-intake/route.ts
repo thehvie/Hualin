@@ -21,9 +21,12 @@ export async function POST(req: Request) {
   if ((await getUsageStatus(companyId)).capped) return NextResponse.json({ error: USAGE_PAUSED_MESSAGE }, { status: 429 });
 
   const form = await req.formData().catch(() => null);
-  const audio = form?.get("audio");
-  if (!(audio instanceof File) || audio.size === 0) return NextResponse.json({ error: "No recording received." }, { status: 400 });
-  if (audio.size > MAX_BYTES) return NextResponse.json({ error: "Recording is too long, keep it under 3 minutes." }, { status: 413 });
+  const audioField = form?.get("audio");
+  const audio = audioField instanceof File && audioField.size > 0 ? audioField : null;
+  const rawText = form?.get("text");
+  const typed = typeof rawText === "string" ? rawText.trim().slice(0, 4000) : "";
+  if (!audio && !typed) return NextResponse.json({ error: "No recording or message received." }, { status: 400 });
+  if (audio && audio.size > MAX_BYTES) return NextResponse.json({ error: "Recording is too long, keep it under 3 minutes." }, { status: 413 });
 
   const catalog = await prisma.priceBookItem.findMany({
     where: { companyId, active: true },
@@ -36,7 +39,13 @@ export async function POST(req: Request) {
 
   let intake;
   try {
-    intake = await transcribeVoiceIntake(Buffer.from(await audio.arrayBuffer()).toString("base64"), catalog, companyId, timezone);
+    intake = await transcribeVoiceIntake(
+      audio ? Buffer.from(await audio.arrayBuffer()).toString("base64") : null,
+      catalog,
+      companyId,
+      timezone,
+      typed,
+    );
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : "Voice intake failed." }, { status: 502 });
   }
@@ -58,11 +67,11 @@ export async function POST(req: Request) {
   }
 
   const byId = new Map(catalog.map((c) => [c.id, c]));
-  const { matches, unmatched, ...customer } = intake;
+  const { matches, unmatched, intent, ...customer } = intake;
   const items = matches.map((m) => {
     const c = byId.get(m.priceBookItemId)!;
     return { ...m, name: c.name, unitPriceCents: c.unitPriceCents, isRental: c.type === "RENTAL" };
   });
 
-  return NextResponse.json({ intake: customer, match, items, unmatched });
+  return NextResponse.json({ intent, intake: customer, match, items, unmatched });
 }

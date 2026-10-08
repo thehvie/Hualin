@@ -34,7 +34,8 @@ export async function renderEstimatePdf(where: Prisma.EstimateWhereInput): Promi
 
   const subtotalCents = lineItemsTotal(estimate.lineItems);
   const discountCents = Math.min(Math.max(estimate.discountCents, 0), subtotalCents);
-  const totalCents = Math.max(0, subtotalCents - discountCents);
+  const fuelSurchargeCents = Math.max(estimate.fuelSurchargeCents, 0);
+  const totalCents = Math.max(0, subtotalCents - discountCents) + fuelSurchargeCents;
   const property = estimate.property ?? estimate.customer.properties[0] ?? null;
 
   const buffer = await renderToBuffer(
@@ -73,6 +74,7 @@ export async function renderEstimatePdf(where: Prisma.EstimateWhereInput): Promi
       })),
       subtotalCents,
       discountCents,
+      fuelSurchargeCents,
       taxCents: 0,
       totalCents,
       notes: estimate.notes,
@@ -97,6 +99,7 @@ export async function renderInvoicePdf(where: Prisma.InvoiceWhereInput): Promise
   const totals = computeInvoiceTotals({
     lineItems: invoice.lineItems,
     discountCents: invoice.discountCents,
+    fuelSurchargeCents: invoice.fuelSurchargeCents,
     tipCents: invoice.tipCents,
     taxRateBps: invoice.taxRate?.rateBps ?? 0,
     payments: invoice.payments,
@@ -139,6 +142,7 @@ export async function renderInvoicePdf(where: Prisma.InvoiceWhereInput): Promise
       })),
       subtotalCents: totals.subtotalCents,
       discountCents: totals.discountCents,
+      fuelSurchargeCents: totals.fuelSurchargeCents,
       taxCents: totals.taxCents,
       totalCents: totals.totalCents,
       notes: invoice.notes,

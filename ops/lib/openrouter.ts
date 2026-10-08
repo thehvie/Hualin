@@ -23,6 +23,8 @@ export interface VoiceIntake {
   scheduledEndAt: string;
 }
 
+export type CommandIntent = "new_estimate" | "other";
+
 const PROMPT = `You are an intake assistant for a junk removal company. The audio is a staff member dictating a new customer's details and a job description.
 
 Transcribe it, then extract the details. Respond with ONLY a JSON object, no markdown, with exactly these string keys:
@@ -52,9 +54,10 @@ function parseJson(text: string): Record<string, unknown> | null {
 
 async function askAudioModel(
   prompt: string,
-  wavBase64: string,
+  wavBase64: string | null,
   companyId: string,
   service: UsageService,
+  typedText?: string,
 ): Promise<Record<string, unknown>> {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) throw new Error("Voice features aren't configured (missing OPENROUTER_API_KEY).");
@@ -73,10 +76,17 @@ async function askAudioModel(
       messages: [
         {
           role: "user",
-          content: [
-            { type: "text", text: prompt },
-            { type: "input_audio", input_audio: { data: wavBase64, format: "wav" } },
-          ],
+          content: wavBase64
+            ? [
+                { type: "text", text: prompt },
+                { type: "input_audio", input_audio: { data: wavBase64, format: "wav" } },
+              ]
+            : [
+                {
+                  type: "text",
+                  text: `${prompt}\n\nThis message was typed, not spoken. Treat it exactly as you would the transcript of the audio:\n"""\n${typedText ?? ""}\n"""`,
+                },
+              ],
         },
       ],
     }),
@@ -120,6 +130,7 @@ export interface CatalogEntry {
 }
 
 export interface VoiceIntakeResult extends VoiceIntake {
+  intent: CommandIntent;
   matches: SpokenItemMatch[];
   unmatched: string[];
 }
@@ -162,16 +173,17 @@ function readItems(parsed: Record<string, unknown>, catalog: CatalogEntry[]): { 
  * `catalog` is the company's active price book.
  */
 export async function transcribeVoiceIntake(
-  wavBase64: string,
+  wavBase64: string | null,
   catalog: CatalogEntry[],
   companyId: string,
   timezone: string,
+  typedText?: string,
 ): Promise<VoiceIntakeResult> {
   const now = new Date();
   const today = `${formatInTz(now, timezone, { weekday: "long" })}, ${wallYmd(now, timezone)}`;
   const prompt = `${PROMPT}
 
-Also pull out when the job is scheduled. Today is ${today} (${timezone}). Add two more string keys: "scheduledAt" and "scheduledEndAt".
+Add one more key, "intent": "new_estimate" if the speaker is asking for an estimate or quote or is giving customer and job details for one, otherwise "other" (then leave every other field empty).\n\nAlso pull out when the job is scheduled. Today is ${today} (${timezone}). Add two more string keys: "scheduledAt" and "scheduledEndAt".
 - Both are "YYYY-MM-DDTHH:mm" in 24-hour time, or "" if not said. Never invent a date.
 - Resolve relative dates against today ("tomorrow", "Thursday", "next Friday", "the 15th") to the next matching future date.
 - scheduledAt is the start. If only a day is given with no time, use 09:00.
@@ -185,9 +197,10 @@ Add two more keys to the JSON object: "items": [{"id": string, "quantity": numbe
 ${ITEM_RULES}
 - Items are the things the speaker says to add or quote (e.g. "3 truckload"). Still describe the job itself in jobNotes as instructed above.`;
 
-  const parsed = await askAudioModel(prompt, wavBase64, companyId, "VOICE_INTAKE");
+  const parsed = await askAudioModel(prompt, wavBase64, companyId, wavBase64 ? "VOICE_INTAKE" : "TEXT_INTAKE", typedText);
   const s = (k: string, max = 300) => (typeof parsed[k] === "string" ? (parsed[k] as string).trim().slice(0, max) : "");
   return {
+    intent: s("intent", 20) === "other" ? "other" : "new_estimate",
     transcript: s("transcript", 5000),
     firstName: s("firstName", 80),
     lastName: s("lastName", 80),

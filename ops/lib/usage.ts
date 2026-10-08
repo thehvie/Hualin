@@ -7,7 +7,7 @@ export const INCLUDED_MICROS = 5_000_000; // $5.00
 export const OVERAGE_MARKUP = 1.5; // cost plus 50%
 export const OVERAGE_CAP_CENTS = 5000; // $50.00 of billed overage
 
-export type UsageService = "VOICE_INTAKE" | "VOICE_ITEMS" | "GEOCODE" | "ROUTE" | "MAP_LOAD";
+export type UsageService = "VOICE_INTAKE" | "TEXT_INTAKE" | "VOICE_ITEMS" | "GEOCODE" | "ROUTE" | "MAP_LOAD";
 
 // Google list prices (Essentials tier) per call, in millionths of a dollar. AI calls are metered at the
 // actual cost OpenRouter reports for each request.
@@ -15,6 +15,7 @@ export const GOOGLE_COST_MICROS = { GEOCODE: 5_000, ROUTE: 5_000, MAP_LOAD: 7_00
 
 export const SERVICE_LABELS: Record<string, string> = {
   VOICE_INTAKE: "Voice intake",
+  TEXT_INTAKE: "Typed commands",
   VOICE_ITEMS: "Voice items",
   GEOCODE: "Address lookups",
   ROUTE: "Drive routes",
@@ -63,13 +64,26 @@ export async function getUsageStatus(companyId: string, date = new Date()): Prom
   return { usedMicros, includedMicros: INCLUDED_MICROS, overageCents: overage, capped: overage >= OVERAGE_CAP_CENTS, byService };
 }
 
-export async function recordUsage(companyId: string, service: UsageService, costMicros: number) {
+export async function recordUsage(companyId: string, service: UsageService, costMicros: number, ref?: string) {
   try {
-    await prisma.usageEvent.create({ data: { companyId, service, costMicros: Math.max(0, Math.round(costMicros)) } });
+    await prisma.usageEvent.create({ data: { companyId, service, costMicros: Math.max(0, Math.round(costMicros)), ref: ref ?? null } });
   } catch (err) {
     // Metering must never break the feature the user is using.
     console.error("Failed to record usage", err);
   }
+}
+
+/**
+ * Map views are counted once per thing (an estimate, a customer) per 24 hours, so re-opening the same page
+ * doesn't keep running up the meter. Returns true if this view should be counted.
+ */
+export async function shouldCountMapView(companyId: string, ref: string): Promise<boolean> {
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const seen = await prisma.usageEvent.findFirst({
+    where: { companyId, service: "MAP_LOAD", ref, createdAt: { gte: since } },
+    select: { id: true },
+  });
+  return !seen;
 }
 
 export function formatMicros(micros: number): string {

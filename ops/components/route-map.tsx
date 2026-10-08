@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { loadGoogleMapsScript, reportMapLoad } from "@/components/google-map";
 import type { RouteInfo } from "@/lib/office";
 import { formatCents } from "@/lib/money";
-import { fuelLineDescription, fuelSurcharge, type FuelSettings } from "@/lib/fuel";
+import { fuelSurcharge, type FuelSettings } from "@/lib/fuel";
 import { applyFuelSurcharge } from "@/app/(dashboard)/estimates/[id]/actions";
 
 /** Map of the customer's address with the driving route from the office, plus distance and drive time. */
@@ -12,12 +12,12 @@ export function RouteMap({
   route,
   estimateId,
   fuel,
-  fuelLine,
+  currentFuelCents,
 }: {
   route: RouteInfo;
   estimateId: string;
   fuel: FuelSettings;
-  fuelLine: { unitPriceCents: number } | null;
+  currentFuelCents: number;
 }) {
   const [applying, startApplying] = useTransition();
   const { office, destination, straightMiles, drive, paused } = route;
@@ -67,7 +67,7 @@ export function RouteMap({
             if ((map.getZoom() ?? 0) > 15) map.setZoom(15);
           });
         }
-        reportMapLoad();
+        reportMapLoad(`estimate:${estimateId}`);
         setStatus("ready");
       })
       .catch(() => {
@@ -127,7 +127,7 @@ export function RouteMap({
 
       {fuel.rateCentsPerMile > 0 && oneWayMiles != null && (() => {
         const { billableMiles, cents } = fuelSurcharge(oneWayMiles, fuel);
-        const upToDate = fuelLine?.unitPriceCents === cents;
+        const upToDate = currentFuelCents === cents;
         return (
           <div className="rounded-lg bg-zinc-50 p-3 text-sm">
             <div className="flex items-baseline justify-between">
@@ -144,12 +144,12 @@ export function RouteMap({
               disabled={applying || upToDate || cents === 0}
               onClick={() =>
                 startApplying(async () => {
-                  await applyFuelSurcharge(estimateId, fuelLineDescription(oneWayMiles, fuel), cents);
+                  await applyFuelSurcharge(estimateId, cents);
                 })
               }
               className="mt-2 rounded-lg border border-brand px-3 py-1.5 text-xs font-semibold text-brand disabled:cursor-default disabled:border-zinc-200 disabled:text-zinc-400"
             >
-              {applying ? "Adding…" : upToDate ? "On the estimate" : fuelLine ? "Update fuel line" : "Add to estimate"}
+              {applying ? "Applying…" : upToDate ? "Applied to totals" : currentFuelCents > 0 ? "Update fuel surcharge" : "Apply to totals"}
             </button>
           </div>
         );

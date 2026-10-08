@@ -25,6 +25,7 @@ export default async function PublicInvoicePage({ params }: { params: Promise<{ 
   const totals = computeInvoiceTotals({
     lineItems: invoice.lineItems,
     discountCents: invoice.discountCents,
+    fuelSurchargeCents: invoice.fuelSurchargeCents,
     tipCents: invoice.tipCents,
     taxRateBps: invoice.taxRate?.rateBps ?? 0,
     payments: invoice.payments,
@@ -114,6 +115,12 @@ export default async function PublicInvoicePage({ params }: { params: Promise<{ 
               <div className="flex justify-between text-zinc-500">
                 <dt>Discount</dt>
                 <dd>-{formatCents(totals.discountCents)}</dd>
+              </div>
+            )}
+            {totals.fuelSurchargeCents > 0 && (
+              <div className="flex justify-between text-zinc-500">
+                <dt>Fuel surcharge</dt>
+                <dd>{formatCents(totals.fuelSurchargeCents)}</dd>
               </div>
             )}
             {totals.taxCents > 0 && (

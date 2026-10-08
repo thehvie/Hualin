@@ -105,6 +105,8 @@ export interface DocumentPdfProps {
   lineItems: DocumentPdfLineItem[];
   subtotalCents: number;
   discountCents: number;
+  /** Printed as its own line only when above $0. */
+  fuelSurchargeCents?: number;
   taxCents: number;
   totalCents: number;
   notes: string | null;
@@ -131,7 +133,7 @@ function formatCents(cents: number) {
 }
 
 export function DocumentPdf(props: DocumentPdfProps) {
-  const { kind, number, date, company, customer, property, lineItems, subtotalCents, discountCents, taxCents, totalCents, notes, purchaseOrder } =
+  const { kind, number, date, company, customer, property, lineItems, subtotalCents, discountCents, fuelSurchargeCents = 0, taxCents, totalCents, notes, purchaseOrder } =
     props;
   const isPo = kind === "PURCHASE_ORDER" && !!purchaseOrder;
   const discountPercent = subtotalCents > 0 ? (discountCents / subtotalCents) * 100 : 0;
@@ -265,6 +267,12 @@ export function DocumentPdf(props: DocumentPdfProps) {
               <Text style={styles.totalsValue}>
                 {formatCents(discountCents)} ({discountPercent.toFixed(2)}%)
               </Text>
+            </View>
+          )}
+          {fuelSurchargeCents > 0 && (
+            <View style={styles.totalsRow}>
+              <Text style={styles.totalsLabel}>Fuel surcharge</Text>
+              <Text style={styles.totalsValue}>{formatCents(fuelSurchargeCents)}</Text>
             </View>
           )}
           {taxCents > 0 && (

@@ -68,6 +68,7 @@ export default async function InvoiceDetailPage({
           dueAt: invoice.dueAt ? invoice.dueAt.toISOString() : null,
           sentAt: invoice.sentAt ? invoice.sentAt.toISOString() : null,
           discountCents: invoice.discountCents,
+          fuelSurchargeCents: invoice.fuelSurchargeCents,
           depositCents: invoice.depositCents,
           tipCents: invoice.tipCents,
           laborCostCents: invoice.laborCostCents,

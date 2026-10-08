@@ -165,7 +165,7 @@ export async function sendEstimateSms(estimateId: string): Promise<Result> {
     await prisma.estimate.update({ where: { id: estimateId }, data: { publicToken } });
   }
 
-  const total = Math.max(0, lineItemsTotal(estimate.lineItems) - estimate.discountCents);
+  const total = Math.max(0, lineItemsTotal(estimate.lineItems) - estimate.discountCents) + estimate.fuelSurchargeCents;
   const body = `Hi ${estimate.customer.firstName}, your estimate #${estimate.number} from ${estimate.company.name} is ready (${formatCents(total)}). Review and sign here: ${estimateSigningUrl(publicToken)}`;
 
   const res = await deliver({ companyId, customerId: estimate.customerId, body, estimateId });

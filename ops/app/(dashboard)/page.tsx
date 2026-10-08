@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { CommandCenter } from "@/components/command-center";
 import { addDaysYmd, formatInTz, startOfDayInTz, wallYmd } from "@/lib/tz";
 
 function formatCents(cents: number) {
@@ -19,7 +20,10 @@ function timeAgo(date: Date) {
 
 export default async function DashboardHome() {
   const { companyId } = await requireSession();
-  const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
+  const { timezone, state: companyState } = await prisma.company.findUniqueOrThrow({
+    where: { id: companyId },
+    select: { timezone: true, state: true },
+  });
   const today = new Date();
   // "Today" runs midnight to midnight in the company's timezone.
   const todayYmd = wallYmd(today, timezone);
@@ -83,6 +87,8 @@ export default async function DashboardHome() {
         <h1 className="text-2xl font-bold text-zinc-900">Home</h1>
         <p className="mt-1 text-sm text-zinc-500">Everything starts with a customer.</p>
       </div>
+
+      <CommandCenter defaultState={companyState} />
 
       {!hasAnyCustomer && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">

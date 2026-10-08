@@ -24,7 +24,8 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
   const { company } = estimate;
   const subtotal = lineItemsTotal(estimate.lineItems);
   const discount = Math.min(Math.max(estimate.discountCents, 0), subtotal);
-  const total = Math.max(0, subtotal - discount);
+  const fuel = Math.max(estimate.fuelSurchargeCents, 0);
+  const total = Math.max(0, subtotal - discount) + fuel;
   const open = estimate.status === "DRAFT" || estimate.status === "SENT";
 
   return (
@@ -113,6 +114,12 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
               <dt>Subtotal</dt>
               <dd>{formatCents(subtotal)}</dd>
             </div>
+            {fuel > 0 && (
+              <div className="flex justify-between text-zinc-500">
+                <dt>Fuel surcharge</dt>
+                <dd>{formatCents(fuel)}</dd>
+              </div>
+            )}
             {discount > 0 && (
               <div className="flex justify-between text-zinc-500">
                 <dt>Discount</dt>

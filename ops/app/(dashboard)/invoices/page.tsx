@@ -57,6 +57,7 @@ export default async function InvoicesPage({
     const totals = computeInvoiceTotals({
       lineItems: inv.lineItems,
       discountCents: inv.discountCents,
+      fuelSurchargeCents: inv.fuelSurchargeCents,
       tipCents: inv.tipCents,
       taxRateBps: inv.taxRate?.rateBps ?? 0,
       payments: inv.payments,

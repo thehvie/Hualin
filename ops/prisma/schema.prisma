@@ -284,6 +284,8 @@ model Estimate {
   discountCents  Int @default(0)
   depositCents   Int @default(0)
   laborCostCents Int @default(0)
+  // Fuel surcharge for the trip to the job; shown on the PDF only when above $0. Not taxed.
+  fuelSurchargeCents Int @default(0)
 
   lineItems       EstimateLineItem[]
   paymentSchedule EstimatePaymentScheduleItem[]
@@ -432,6 +434,7 @@ model Invoice {
   depositCents   Int      @default(0)
   tipCents       Int      @default(0)
   laborCostCents Int      @default(0)
+  fuelSurchargeCents Int  @default(0)
   taxRateId      String?
   taxRate        TaxRate? @relation(fields: [taxRateId], references: [id])
 
@@ -846,9 +849,11 @@ model UsageEvent {
   company    Company  @relation(fields: [companyId], references: [id])
   service    String // VOICE_INTAKE | VOICE_ITEMS | GEOCODE | ROUTE | MAP_LOAD
   costMicros Int // our cost in millionths of a dollar
+  ref        String? // what it was for (e.g. an estimate id), so repeat map views of the same thing count once a day
   createdAt  DateTime @default(now())
 
   @@index([companyId, createdAt])
+  @@index([companyId, service, ref, createdAt])
 }
 
 // What was billed for a calendar month (UTC); the unique key makes the monthly billing job idempotent.

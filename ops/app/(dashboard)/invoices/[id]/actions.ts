@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
+import { renderInvoicePdf } from "@/lib/pdf/render";
 import { formatCents } from "@/lib/money";
 import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/mailgun";
 import { requireSession } from "@/lib/session";
@@ -130,6 +131,7 @@ export async function updateInvoiceHeader(invoiceId: string, formData: FormData)
   const taxRateId = String(formData.get("taxRateId") || "");
   const discountCents = toCents(String(formData.get("discount") || "0"));
   const depositCents = toCents(String(formData.get("deposit") || "0"));
+  const fuelSurchargeCents = toCents(String(formData.get("fuel") || "0"));
   const tipCents = toCents(String(formData.get("tip") || "0"));
   const laborCostCents = toCents(String(formData.get("laborCost") || "0"));
 
@@ -145,6 +147,7 @@ export async function updateInvoiceHeader(invoiceId: string, formData: FormData)
       dueAt: dueDateStr ? new Date(dueDateStr) : null,
       taxRateId: taxRateId || null,
       discountCents,
+      fuelSurchargeCents,
       depositCents,
       tipCents,
       laborCostCents,
@@ -256,6 +259,7 @@ export async function sendInvoice(
   const totals = computeInvoiceTotals({
     lineItems: invoice.lineItems,
     discountCents: invoice.discountCents,
+    fuelSurchargeCents: invoice.fuelSurchargeCents,
     tipCents: invoice.tipCents,
     taxRateBps: invoice.taxRate?.rateBps ?? 0,
     payments: invoice.payments,
@@ -278,6 +282,9 @@ export async function sendInvoice(
     "We'll be in touch with details on how to pay.",
   ].join("\n");
 
+  // Attach the PDF too; if it can't be rendered the email still goes out with the download link.
+  const pdf = await renderInvoicePdf({ id: invoiceId, companyId }).catch(() => null);
+
   let skipped = false;
   try {
     const { messageId } = await sendEmail({
@@ -286,6 +293,7 @@ export async function sendInvoice(
       replyTo: threadReplyAddress("invoice", invoice.id) ?? undefined,
       subject: `Invoice #${invoice.number} from ${invoice.company.name}`,
       text: emailBody,
+      attachments: pdf ? [{ filename: pdf.filename, content: pdf.buffer, contentType: "application/pdf" }] : undefined,
     });
     await prisma.communication.create({
       data: {
@@ -334,6 +342,7 @@ async function recalcInvoiceStatus(invoiceId: string, companyId: string) {
   const totals = computeInvoiceTotals({
     lineItems: invoice.lineItems,
     discountCents: invoice.discountCents,
+    fuelSurchargeCents: invoice.fuelSurchargeCents,
     tipCents: invoice.tipCents,
     taxRateBps: invoice.taxRate?.rateBps ?? 0,
     payments: invoice.payments,

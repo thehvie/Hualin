@@ -12,8 +12,13 @@ declare global {
 let scriptLoadingPromise: Promise<void> | null = null;
 
 /** Tells the server a map was displayed so it counts toward the company's metered usage. */
-export function reportMapLoad() {
-  fetch("/api/usage/map-load", { method: "POST", keepalive: true }).catch(() => {});
+export function reportMapLoad(ref: string) {
+  fetch("/api/usage/map-load", {
+    method: "POST",
+    keepalive: true,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ref }),
+  }).catch(() => {});
 }
 
 export function loadGoogleMapsScript(apiKey: string): Promise<void> {
@@ -36,11 +41,14 @@ export function GoogleMap({
   latitude,
   longitude,
   label,
+  usageRef,
   height = 220,
 }: {
   latitude: number | null;
   longitude: number | null;
   label?: string;
+  /** Identifies what this map shows (e.g. "customer:<id>"); repeat views within a day count once toward usage. */
+  usageRef?: string;
   height?: number;
 }) {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -71,7 +79,7 @@ export function GoogleMap({
           zoomControl: true,
         });
         new window.google!.maps.Marker({ position, map, title: label });
-        reportMapLoad();
+        reportMapLoad(usageRef ?? `map:${label ?? latitude},${longitude}`);
         setStatus("ready");
       })
       .catch(() => {

@@ -18,12 +18,14 @@ export async function sendEmail({
   text,
   fromName,
   replyTo,
+  attachments,
 }: {
   to: string;
   subject: string;
   text: string;
   fromName?: string;
   replyTo?: string;
+  attachments?: { filename: string; content: Buffer; contentType: string }[];
 }): Promise<{ messageId: string | null }> {
   const apiKey = process.env.MAILGUN_API_KEY;
   const domain = process.env.MAILGUN_DOMAIN;
@@ -36,16 +38,23 @@ export async function sendEmail({
   const from = fromName ? `${fromName} <${fromEmail}>` : fromEmail;
   const params: Record<string, string> = { from, to, subject, text };
   if (replyTo) params["h:Reply-To"] = replyTo;
-  const body = new URLSearchParams(params);
+  const headers: Record<string, string> = { Authorization: `Basic ${Buffer.from(`api:${apiKey}`).toString("base64")}` };
 
-  const res = await fetch(`https://api.mailgun.net/v3/${domain}/messages`, {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${Buffer.from(`api:${apiKey}`).toString("base64")}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body,
-  });
+  // Attachments need a multipart body; plain messages keep the simple form-encoded one.
+  let body: URLSearchParams | FormData;
+  if (attachments && attachments.length > 0) {
+    const form = new FormData();
+    for (const [k, v] of Object.entries(params)) form.append(k, v);
+    for (const a of attachments) {
+      form.append("attachment", new Blob([new Uint8Array(a.content)], { type: a.contentType }), a.filename);
+    }
+    body = form; // fetch sets the multipart Content-Type (with boundary) itself
+  } else {
+    headers["Content-Type"] = "application/x-www-form-urlencoded";
+    body = new URLSearchParams(params);
+  }
+
+  const res = await fetch(`https://api.mailgun.net/v3/${domain}/messages`, { method: "POST", headers, body });
 
   if (!res.ok) {
     const errorText = await res.text().catch(() => "");

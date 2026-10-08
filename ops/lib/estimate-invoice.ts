@@ -42,6 +42,7 @@ export async function createInvoiceFromEstimate(
       name: `Invoice for Estimate #${estimate.number}`,
       notes: estimate.notes,
       discountCents: estimate.discountCents,
+      fuelSurchargeCents: estimate.fuelSurchargeCents,
       depositCents: estimate.depositCents,
       laborCostCents: estimate.laborCostCents,
       lineItems: {

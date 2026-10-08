@@ -10,6 +10,7 @@ import { createInvoiceFromEstimate } from "@/lib/estimate-invoice";
 import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
 import { fromDatetimeLocalInTz, rentalDays } from "@/lib/tz";
 import { geocodeAddress } from "@/lib/geocode";
+import { renderEstimatePdf } from "@/lib/pdf/render";
 import { isUsState } from "@/lib/us-states";
 
 function toCents(value: string): number {
@@ -258,24 +259,12 @@ export async function updateEstimateClient(estimateId: string, input: ClientEdit
   return { ok: true };
 }
 
-/** Adds the fuel surcharge line to the estimate, or updates it if one is already there. */
-export async function applyFuelSurcharge(estimateId: string, description: string, cents: number) {
+/** Sets the estimate's fuel surcharge (the Totals field); it prints on the PDF only when above $0. */
+export async function applyFuelSurcharge(estimateId: string, cents: number) {
   const { companyId } = await requireSession();
   await assertEstimateOwnership(estimateId, companyId);
-  const price = Math.max(0, Math.min(1_000_000, Math.round(Number(cents)) || 0));
-  const text = String(description || "Fuel surcharge").slice(0, 300);
-
-  const existing = await prisma.estimateLineItem.findFirst({
-    where: { estimateId, companyId, description: { startsWith: "Fuel surcharge" } },
-  });
-  if (existing) {
-    await prisma.estimateLineItem.update({ where: { id: existing.id }, data: { description: text, unitPriceCents: price, quantity: 1 } });
-  } else {
-    const count = await prisma.estimateLineItem.count({ where: { estimateId, companyId } });
-    await prisma.estimateLineItem.create({
-      data: { companyId, estimateId, description: text, quantity: 1, unitPriceCents: price, isRental: false, sortOrder: count },
-    });
-  }
+  const fuelSurchargeCents = Math.max(0, Math.min(1_000_000, Math.round(Number(cents)) || 0));
+  await prisma.estimate.updateMany({ where: { id: estimateId, companyId }, data: { fuelSurchargeCents } });
   revalidatePath(`/estimates/${estimateId}`);
 }
 
@@ -298,6 +287,7 @@ export async function updateEstimateHeader(estimateId: string, formData: FormDat
   const status = String(formData.get("status") || "DRAFT");
   const notes = String(formData.get("notes") || "").trim();
   const discountCents = toCents(String(formData.get("discount") || "0"));
+  const fuelSurchargeCents = toCents(String(formData.get("fuel") || "0"));
   const depositCents = toCents(String(formData.get("deposit") || "0"));
   const laborCostCents = toCents(String(formData.get("laborCost") || "0"));
 
@@ -307,6 +297,7 @@ export async function updateEstimateHeader(estimateId: string, formData: FormDat
       status: status as "DRAFT" | "SENT" | "APPROVED" | "DECLINED" | "EXPIRED",
       notes: notes || null,
       discountCents,
+      fuelSurchargeCents,
       depositCents,
       laborCostCents,
     },
@@ -383,7 +374,7 @@ export async function sendEstimate(
     await prisma.estimate.update({ where: { id: estimateId }, data: { publicToken } });
   }
 
-  const totalCents = Math.max(0, lineItemsTotal(estimate.lineItems) - estimate.discountCents);
+  const totalCents = Math.max(0, lineItemsTotal(estimate.lineItems) - estimate.discountCents) + estimate.fuelSurchargeCents;
   const emailBody = [
     `Hi ${estimate.customer.firstName},`,
     "",
@@ -398,6 +389,9 @@ export async function sendEstimate(
     `${estimateSigningUrl(publicToken)}/pdf`,
   ].join("\n");
 
+  // Attach the PDF too; if it can't be rendered the email still goes out with the download link.
+  const pdf = await renderEstimatePdf({ id: estimateId, companyId }).catch(() => null);
+
   let skipped = false;
   try {
     const { messageId } = await sendEmail({
@@ -406,6 +400,7 @@ export async function sendEstimate(
       replyTo: threadReplyAddress("estimate", estimate.id) ?? undefined,
       subject: `Estimate #${estimate.number} from ${estimate.company.name}`,
       text: emailBody,
+      attachments: pdf ? [{ filename: pdf.filename, content: pdf.buffer, contentType: "application/pdf" }] : undefined,
     });
     await prisma.communication.create({
       data: {

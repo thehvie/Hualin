@@ -115,6 +115,7 @@ export default async function CustomerDetailPage({
                   latitude={primaryProperty.latitude}
                   longitude={primaryProperty.longitude}
                   label={primaryProperty.addressLine1}
+                  usageRef={`customer:${customer.id}`}
                 />
                 {distanceFromBase != null && (
                   <p className="mt-2 text-xs text-zinc-500">

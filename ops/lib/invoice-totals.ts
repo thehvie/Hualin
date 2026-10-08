@@ -16,6 +16,8 @@ export interface TotalsLineItem {
 export interface InvoiceTotalsInput {
   lineItems: TotalsLineItem[];
   discountCents: number;
+  /** Fuel surcharge; added to the total and not taxed. */
+  fuelSurchargeCents?: number;
   tipCents: number;
   taxRateBps: number;
   payments: { amountCents: number }[];
@@ -25,6 +27,7 @@ export interface InvoiceTotals {
   subtotalCents: number;
   itemCostCents: number;
   discountCents: number;
+  fuelSurchargeCents: number;
   taxableBaseCents: number;
   taxCents: number;
   tipCents: number;
@@ -36,6 +39,7 @@ export interface InvoiceTotals {
 export function computeInvoiceTotals({
   lineItems,
   discountCents,
+  fuelSurchargeCents = 0,
   tipCents,
   taxRateBps,
   payments,
@@ -60,7 +64,8 @@ export function computeInvoiceTotals({
   const taxCents = Math.round((taxableBaseCents * Math.max(taxRateBps, 0)) / 10000);
   const tip = Math.max(tipCents, 0);
 
-  const totalCents = subtotalCents - discount + taxCents + tip;
+  const fuel = Math.max(fuelSurchargeCents, 0);
+  const totalCents = subtotalCents - discount + fuel + taxCents + tip;
   const paidCents = payments.reduce((sum, p) => sum + p.amountCents, 0);
   const balanceCents = totalCents - paidCents;
 
@@ -68,6 +73,7 @@ export function computeInvoiceTotals({
     subtotalCents,
     itemCostCents,
     discountCents: discount,
+    fuelSurchargeCents: fuel,
     taxableBaseCents,
     taxCents,
     tipCents: tip,
