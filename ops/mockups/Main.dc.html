@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #fafafa;
+      color: #18181b;
+    }
+    a { color: #ff6b35; text-decoration: none; }
+    a:hover { color: #e2551f; text-decoration: underline; }
+  </style>
+</helmet>
+
+<div style="padding: 32px; max-width: 896px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
+
+  <!-- Top bar (context) -->
+  <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+    <div>
+      <h1 style="margin: 0; font-size: 20px; font-weight: 700; color: #18181b;">Invoice #1042</h1>
+      <p style="margin: 2px 0 0; font-size: 14px; color: #71717a;">Mattress + junk pickup</p>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="border-radius: 9999px; background: #f4f4f5; padding: 6px 12px; font-size: 12px; font-weight: 600; color: #52525b;">Sent</span>
+      <button style="border-radius: 8px; border: 1px solid #d4d4d8; background: #fff; padding: 8px 12px; font-size: 14px; font-weight: 600; color: #3f3f46; cursor: pointer;">Void</button>
+      <button style="border-radius: 8px; border: 1px solid #d4d4d8; background: #fff; padding: 8px 12px; font-size: 14px; font-weight: 600; color: #dc2626; cursor: pointer;">Delete</button>
+      <button style="border-radius: 8px; border: none; background: #ff6b35; padding: 8px 16px; font-size: 14px; font-weight: 600; color: #fff; cursor: pointer;">Send</button>
+    </div>
+  </div>
+
+  <!-- Payments card (context above) -->
+  <div style="border-radius: 12px; border: 1px solid #e4e4e7; background: #fff; padding: 20px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+      <h2 style="margin: 0; font-size: 14px; font-weight: 600; color: #18181b;">Payments</h2>
+      <button style="border-radius: 9999px; border: none; background: #ff6b35; padding: 6px 12px; font-size: 12px; font-weight: 600; color: #fff; cursor: pointer;">Add payment</button>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; font-size: 14px; border-top: 1px solid #f4f4f5;">
+      <span>
+        <span style="font-weight: 500; color: #18181b;">$200.00</span>
+        <span style="margin-left: 8px; color: #71717a;">CASH</span>
+      </span>
+      <span style="font-size: 12px; color: #a1a1aa;">Sep 9, 2026</span>
+    </div>
+  </div>
+
+  <!-- Conversation card (NEW — the subject of this mockup) -->
+  <div style="border-radius: 12px; border: 1px solid #e4e4e7; background: #fff; padding: 20px;">
+    <h2 style="margin: 0 0 12px; font-size: 14px; font-weight: 600; color: #18181b;">Conversation</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+
+      <!-- Outbound: system send -->
+      <div style="border-left: 2px solid rgba(255,107,53,0.4); padding-left: 12px;">
+        <p style="margin: 0 0 4px; font-size: 12px; color: #a1a1aa;">You emailed Jane Doe · Sep 10, 2:15 PM</p>
+        <p style="margin: 0; font-size: 14px; color: #3f3f46; white-space: pre-line;">Hi Jane,
+
+Your invoice #1042 from Haulin Junkies is ready.
+
+Total: $450.00
+Balance due: $450.00
+
+We'll be in touch with details on how to pay.</p>
+      </div>
+
+      <!-- Inbound: customer reply -->
+      <div style="border-left: 2px solid #34d399; padding-left: 12px;">
+        <p style="margin: 0 0 4px; font-size: 12px; color: #a1a1aa;">Jane Doe replied · Sep 10, 4:47 PM</p>
+        <p style="margin: 0; font-size: 14px; color: #3f3f46;">Thanks! Can I pay with a check when your crew arrives?</p>
+      </div>
+
+      <!-- Inbound: customer follow-up -->
+      <div style="border-left: 2px solid #34d399; padding-left: 12px;">
+        <p style="margin: 0 0 4px; font-size: 12px; color: #a1a1aa;">Jane Doe replied · Sep 11, 9:12 AM</p>
+        <p style="margin: 0; font-size: 14px; color: #3f3f46;">Just following up — also, is the $450 total including the extra mattress pickup we discussed?</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Notes card (context below) -->
+  <div style="border-radius: 12px; border: 1px solid #e4e4e7; background: #fff; padding: 20px;">
+    <h2 style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #18181b;">Notes</h2>
+    <div style="width: 100%; border-radius: 8px; border: 1px solid #d4d4d8; padding: 8px 12px; font-size: 14px; color: #a1a1aa; min-height: 20px;">Add notes for this invoice…</div>
+  </div>
+
+  <!-- Client link card (context below) -->
+  <div style="border-radius: 12px; border: 1px solid #e4e4e7; background: #fff; padding: 20px; font-size: 14px;">
+    <h2 style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #18181b;">Client link</h2>
+    <p style="margin: 0; color: #71717a;">Share this read-only link with the customer: <a href="#">yourapp.com/i/8f2k...</a></p>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

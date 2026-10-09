@@ -1,0 +1,11 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 960, "h": 900, "title": "Option A — In-flow card" },
+    { "file": "SidebarLayout.dc.html", "x": 1060, "y": 0, "w": 1320, "h": 900, "title": "Option B — Sidebar panel" }
+  ],
+  "annotations": [
+    { "id": "note-option-a", "x": 260, "y": -90, "w": 320, "text": "Option A: Conversation stacks in the main column like Payments/Notes. Simple, but scrolls out of view as the invoice grows." },
+    { "id": "note-option-b", "x": 1380, "y": -90, "w": 320, "text": "Option B: Conversation lives in a persistent side panel next to the invoice — stays visible while you scroll, matches the original plan for a document-scoped thread." }
+  ],
+  "launch": { "view": "canvas" }
+}

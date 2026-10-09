@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "haulin-ops-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "ops", "run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "haulin-site-php",
+      "runtimeExecutable": "C:\\xampp\\php\\php.exe",
+      "runtimeArgs": ["-S", "127.0.0.1:8899", "-t", "."],
+      "port": 8899
+    }
+  ]
+}
