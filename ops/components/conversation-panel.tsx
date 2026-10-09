@@ -16,6 +16,8 @@ export interface ConversationMessage {
   isNew: boolean;
   /** False for an inbound email from an address other than the customer's on file. */
   senderVerified: boolean;
+  /** The estimate or invoice this message belongs to; shown as a link when a thread spans several. */
+  context?: { label: string; href: string };
 }
 
 export interface ComposerTarget {
@@ -113,6 +115,14 @@ export function ConversationPanel({
               <p className="mb-1 text-xs text-zinc-400">
                 {m.direction === "OUTBOUND" ? `You ${m.channel === "SMS" ? "texted" : "emailed"} ${customerName}` : `${customerName} replied`}{" "}
                 · {formatTimestamp(m.createdAt)}
+                {m.context && (
+                  <>
+                    {" · "}
+                    <a href={m.context.href} className="font-medium text-brand hover:underline">
+                      {m.context.label}
+                    </a>
+                  </>
+                )}
                 {m.isNew && <span className="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">New</span>}
               </p>
               <p className="whitespace-pre-line text-sm text-zinc-700 [overflow-wrap:anywhere]">

@@ -13,6 +13,7 @@ const NAV_SECTIONS = [
   {
     title: "CRM & Billing",
     items: [
+      { label: "Inbox", href: "/inbox" },
       { label: "Customers", href: "/customers" },
       { label: "Estimates", href: "/estimates" },
       { label: "Invoices", href: "/invoices" },
@@ -40,7 +41,7 @@ const NAV_SECTIONS = [
   },
 ];
 
-export function DashboardNav({ companyName }: { companyName: string }) {
+export function DashboardNav({ companyName, unreadMessages = 0 }: { companyName: string; unreadMessages?: number }) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
@@ -128,7 +129,14 @@ export function DashboardNav({ companyName }: { companyName: string }) {
                             : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
                         }`}
                       >
-                        {item.label}
+                        <span className="flex items-center justify-between">
+                          {item.label}
+                          {item.href === "/inbox" && unreadMessages > 0 && (
+                            <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                              {unreadMessages > 99 ? "99+" : unreadMessages}
+                            </span>
+                          )}
+                        </span>
                       </Link>
                     </li>
                   );

@@ -181,6 +181,7 @@ export async function sendCustomerSms(
   if (res.ok) {
     if (input.estimateId) revalidatePath(`/estimates/${input.estimateId}`);
     if (input.invoiceId) revalidatePath(`/invoices/${input.invoiceId}`);
+    revalidatePath("/inbox");
   }
   return res;
 }
