@@ -8,6 +8,7 @@ import { messageChannel } from "@/lib/messaging";
 import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/mailgun";
 import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
 import { formatCents, lineItemsTotal } from "@/lib/money";
+import { emailLimitMessage } from "@/lib/email-limits";
 import { MAX_ATTACHMENTS, attachmentStorage, normalizeAttachment, saveAttachments, type StoredFile } from "@/lib/comm-attachments";
 
 type Result = { ok: true } | { ok: false; error: string };
@@ -68,6 +69,9 @@ async function deliverEmail(opts: {
   });
   if (!customer) return { ok: false, error: "Customer not found." };
   if (!customer.email) return { ok: false, error: "This customer has no email address on file." };
+
+  const limited = await emailLimitMessage(opts.companyId, customer.id);
+  if (limited) return { ok: false, error: limited };
 
   let subject = `A message from ${customer.company.name}`;
   let replyTo: string | undefined;

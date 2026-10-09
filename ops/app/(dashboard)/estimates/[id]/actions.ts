@@ -10,6 +10,7 @@ import { createInvoiceFromEstimate } from "@/lib/estimate-invoice";
 import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
 import { fromDatetimeLocalInTz, rentalDays } from "@/lib/tz";
 import { geocodeAddress } from "@/lib/geocode";
+import { emailLimitMessage } from "@/lib/email-limits";
 import { renderEstimatePdf } from "@/lib/pdf/render";
 import { isUsState } from "@/lib/us-states";
 
@@ -368,6 +369,9 @@ export async function sendEstimate(
   if (estimate.lineItems.length === 0) {
     return { ok: false, skipped: false, error: "Add at least one item before sending this estimate." };
   }
+
+  const limited = await emailLimitMessage(companyId, estimate.customerId);
+  if (limited) return { ok: false, skipped: false, error: limited };
 
   const publicToken = estimate.publicToken ?? newPublicToken();
   if (!estimate.publicToken) {

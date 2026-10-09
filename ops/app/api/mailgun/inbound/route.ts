@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { sendEmail, verifyInboundSignature } from "@/lib/mailgun";
+import { rateLimit } from "@/lib/rate-limit";
 import { MAX_ATTACHMENTS, attachmentStorage, normalizeAttachment, saveAttachments } from "@/lib/comm-attachments";
 
 // Mailgun Route webhook for inbound replies. A customer's reply lands on
@@ -58,6 +59,12 @@ export async function POST(req: NextRequest) {
 
   if (!thread) {
     return NextResponse.json({ received: true, matched: false });
+  }
+
+  // Cap what any one conversation (and any one company) can take in per hour, so spam aimed at a thread address
+  // can't fill the inbox or the attachment storage. Acknowledged with 200 so Mailgun doesn't retry it.
+  if (!rateLimit(`inbound-thread:${thread.id}`, 30, 60 * 60 * 1000).ok || !rateLimit(`inbound-company:${thread.companyId}`, 200, 60 * 60 * 1000).ok) {
+    return NextResponse.json({ received: true, matched: false, limited: true });
   }
 
   // Is this really the customer? Anyone who learns a thread address can email it, so a message from an address

@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
 import { renderInvoicePdf } from "@/lib/pdf/render";
+import { emailLimitMessage } from "@/lib/email-limits";
 import { formatCents } from "@/lib/money";
 import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/mailgun";
 import { requireSession } from "@/lib/session";
@@ -255,6 +256,9 @@ export async function sendInvoice(
   if (!invoice.customer.email) {
     return { ok: false, skipped: false, error: "This customer has no email address on file." };
   }
+
+  const limited = await emailLimitMessage(companyId, invoice.customerId);
+  if (limited) return { ok: false, skipped: false, error: limited };
 
   const totals = computeInvoiceTotals({
     lineItems: invoice.lineItems,
