@@ -28,6 +28,8 @@ export interface ComposerTarget {
   canEmail: boolean;
   estimateId?: string;
   invoiceId?: string;
+  /** In the Inbox, the customer's estimates and invoices, so the reply can be tied to the right one. */
+  documents?: { kind: "estimate" | "invoice"; id: string; label: string }[];
 }
 
 function formatTimestamp(iso: string) {
@@ -75,6 +77,18 @@ export function ConversationPanel({
   const last = messages[messages.length - 1];
   const [tab, setTab] = useState<Tab>(last ? last.channel : composer?.canText ? "SMS" : "EMAIL");
 
+  // Which estimate or invoice a reply is about (Inbox only): defaults to what the composer was given.
+  const [docKey, setDocKey] = useState(
+    composer?.estimateId ? `estimate:${composer.estimateId}` : composer?.invoiceId ? `invoice:${composer.invoiceId}` : "",
+  );
+  const docs = composer?.documents ?? [];
+  const chosenDoc = docs.find((d) => `${d.kind}:${d.id}` === docKey);
+  const target = composer
+    ? chosenDoc
+      ? { ...composer, estimateId: chosenDoc.kind === "estimate" ? chosenDoc.id : undefined, invoiceId: chosenDoc.kind === "invoice" ? chosenDoc.id : undefined }
+      : composer
+    : undefined;
+
   const shown = messages.filter((m) => m.channel === tab);
   const count = (c: Tab) => messages.filter((m) => m.channel === c).length;
   const unread = (c: Tab) => messages.filter((m) => m.channel === c && m.isNew).length;
@@ -112,17 +126,19 @@ export function ConversationPanel({
               key={m.id}
               className={`min-w-0 border-l-2 pl-3 ${m.direction === "OUTBOUND" ? "border-brand/40" : "border-emerald-400"}`}
             >
+              {m.context && (
+                <a
+                  href={m.context.href}
+                  className={`mb-1 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold hover:opacity-80 ${
+                    m.context.label.startsWith("Invoice") ? "bg-amber-100 text-amber-800" : "bg-sky-100 text-sky-800"
+                  }`}
+                >
+                  📄 {m.context.label}
+                </a>
+              )}
               <p className="mb-1 text-xs text-zinc-400">
                 {m.direction === "OUTBOUND" ? `You ${m.channel === "SMS" ? "texted" : "emailed"} ${customerName}` : `${customerName} replied`}{" "}
                 · {formatTimestamp(m.createdAt)}
-                {m.context && (
-                  <>
-                    {" · "}
-                    <a href={m.context.href} className="font-medium text-brand hover:underline">
-                      {m.context.label}
-                    </a>
-                  </>
-                )}
                 {m.isNew && <span className="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">New</span>}
               </p>
               <p className="whitespace-pre-line text-sm text-zinc-700 [overflow-wrap:anywhere]">
@@ -138,7 +154,25 @@ export function ConversationPanel({
         </div>
       )}
 
-      {composer && <MessageComposer key={tab} mode={tab} customerName={customerName} {...composer} />}
+      {docs.length > 0 && (
+        <label className="flex items-center gap-2 text-xs text-zinc-500">
+          <span className="shrink-0 font-medium">Replying about</span>
+          <select
+            value={docKey}
+            onChange={(e) => setDocKey(e.target.value)}
+            className="min-w-0 flex-1 rounded-lg border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-900 outline-none focus:border-brand"
+          >
+            {!chosenDoc && <option value="">No estimate or invoice</option>}
+            {docs.map((d) => (
+              <option key={`${d.kind}:${d.id}`} value={`${d.kind}:${d.id}`}>
+                {d.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
+
+      {target && <MessageComposer key={`${tab}-${docKey}`} mode={tab} customerName={customerName} {...target} />}
     </div>
   );
 }

@@ -27,7 +27,11 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
       orderBy: { createdAt: "desc" },
       distinct: ["customerId"],
       take: THREAD_LIMIT,
-      include: { customer: true },
+      include: {
+        customer: true,
+        estimate: { select: { number: true } },
+        invoice: { select: { number: true } },
+      },
     }),
     prisma.communication.groupBy({
       by: ["customerId"],
@@ -82,6 +86,17 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
       }
     }
 
+    const [estimates, invoices] = await Promise.all([
+      prisma.estimate.findMany({ where: { customerId: selected.id, companyId }, orderBy: { createdAt: "desc" }, take: 20, select: { id: true, number: true, createdAt: true } }),
+      prisma.invoice.findMany({ where: { customerId: selected.id, companyId }, orderBy: { createdAt: "desc" }, take: 20, select: { id: true, number: true, createdAt: true } }),
+    ]);
+    const documents = [
+      ...estimates.map((e) => ({ kind: "estimate" as const, id: e.id, label: `Estimate #${e.number}`, at: e.createdAt.getTime() })),
+      ...invoices.map((i) => ({ kind: "invoice" as const, id: i.id, label: `Invoice #${i.number}`, at: i.createdAt.getTime() })),
+    ]
+      .sort((a, b) => b.at - a.at)
+      .map(({ kind, id, label }) => ({ kind, id, label }));
+
     panel = (
       <ConversationPanel
         customerName={`${selected.firstName} ${selected.lastName}`}
@@ -106,6 +121,7 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
           canEmail: !!selected.email,
           estimateId,
           invoiceId,
+          documents,
         }}
       />
     );
@@ -160,6 +176,11 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
                       </span>
                       <span className="shrink-0 text-xs text-zinc-400">{ago(m.createdAt)}</span>
                     </span>
+                    {(m.estimate || m.invoice) && (
+                      <span className="text-[11px] font-semibold text-sky-700">
+                        📄 {m.estimate ? `Estimate #${m.estimate.number}` : `Invoice #${m.invoice!.number}`}
+                      </span>
+                    )}
                     <span className="flex items-center justify-between gap-2">
                       <span className="truncate text-xs text-zinc-500">
                         {m.channel === "SMS" ? "💬" : "✉"} {m.direction === "OUTBOUND" ? "You: " : ""}
