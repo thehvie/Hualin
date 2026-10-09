@@ -5,7 +5,6 @@ import { formatCents } from "@/lib/money";
 import { formatQty, formatUnitPrice } from "@/lib/price-book";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
 import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
-import { MessageComposer } from "@/components/message-composer";
 import {
   addLineItem,
   addLineItemFromPriceBook,
@@ -651,15 +650,12 @@ export function InvoiceEditor({
       <ConversationPanel
         customerName={invoice.customer.name}
         messages={invoice.communications}
-        composer={
-          <MessageComposer
-            customerId={invoice.customer.id}
-            customerName={invoice.customer.name}
-            channel={invoice.customer.messageChannel}
-            canEmail={!!invoice.customer.email}
-            invoiceId={invoice.id}
-          />
-        }
+        composer={{
+          customerId: invoice.customer.id,
+          canText: invoice.customer.messageChannel === "sms",
+          canEmail: !!invoice.customer.email,
+          invoiceId: invoice.id,
+        }}
       />
 
       </div>

@@ -7,7 +7,6 @@ import { addJobAttachments, removeJobAttachment } from "../../jobs/[id]/actions"
 import { formatCents } from "@/lib/money";
 import { formatUnitPrice } from "@/lib/price-book";
 import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
-import { MessageComposer } from "@/components/message-composer";
 import { VoiceItems } from "@/components/voice-items";
 import { RouteMap } from "@/components/route-map";
 import { ClientDetails } from "./client-details";
@@ -651,15 +650,12 @@ export function EstimateEditor({
         customerName={estimate.customer.name}
         messages={estimate.communications}
         jobId={estimate.jobId}
-        composer={
-          <MessageComposer
-            customerId={estimate.customer.id}
-            customerName={estimate.customer.name}
-            channel={estimate.customer.messageChannel}
-            canEmail={!!estimate.customer.email}
-            estimateId={estimate.id}
-          />
-        }
+        composer={{
+          customerId: estimate.customer.id,
+          canText: estimate.customer.messageChannel === "sms",
+          canEmail: !!estimate.customer.email,
+          estimateId: estimate.id,
+        }}
       />
       </div>
 

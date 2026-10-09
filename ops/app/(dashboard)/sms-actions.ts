@@ -126,6 +126,8 @@ export async function sendCustomerSms(
     body: string;
     estimateId?: string;
     invoiceId?: string;
+    /** Which tab the message was written in. Left out, it texts when possible and otherwise emails. */
+    channel?: "sms" | "email";
   },
   attachmentData?: FormData,
 ): Promise<Result> {
@@ -166,7 +168,12 @@ export async function sendCustomerSms(
   if (files.length > 0 && !customer.email) {
     return { ok: false, error: "Attachments are sent by email, and this customer has no email address on file." };
   }
-  const channel = files.length > 0 ? "email" : messageChannel(customer);
+  const available = messageChannel(customer);
+  if (input.channel === "email" && !customer.email) return { ok: false, error: "This customer has no email address on file." };
+  if (input.channel === "sms" && available !== "sms") {
+    return { ok: false, error: "Texting isn't available for this customer (no phone number, or texting isn't set up yet)." };
+  }
+  const channel = input.channel ?? (files.length > 0 ? "email" : available);
   if (!channel) return { ok: false, error: "This customer has no phone number or email address on file." };
 
   const args = { companyId, customerId: input.customerId, body, estimateId: input.estimateId, invoiceId: input.invoiceId, files };
