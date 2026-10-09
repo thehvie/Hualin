@@ -87,13 +87,19 @@ export async function verifyInboundSignature(
   token: string,
   signature: string,
 ): Promise<boolean> {
-  const apiKey = process.env.MAILGUN_API_KEY;
-  if (!apiKey) return false;
+  // Mailgun signs with the account's HTTP webhook signing key on newer accounts and with the API key on older ones,
+  // so accept either. Set MAILGUN_WEBHOOK_SIGNING_KEY to the signing key (Mailgun > Settings > API Security).
+  const keys = [process.env.MAILGUN_WEBHOOK_SIGNING_KEY, process.env.MAILGUN_API_KEY].filter((k): k is string => !!k);
+  if (keys.length === 0 || !timestamp || !token || !signature) return false;
+
+  // Reject old messages so a captured request can't be replayed later (Mailgun retries for up to a few hours).
+  const ageSeconds = Math.abs(Date.now() / 1000 - Number(timestamp));
+  if (!Number.isFinite(ageSeconds) || ageSeconds > 24 * 60 * 60) return false;
 
   const { createHmac, timingSafeEqual } = await import("node:crypto");
-  const expected = createHmac("sha256", apiKey).update(timestamp + token).digest("hex");
-
-  const expectedBuf = Buffer.from(expected);
   const givenBuf = Buffer.from(signature);
-  return expectedBuf.length === givenBuf.length && timingSafeEqual(expectedBuf, givenBuf);
+  return keys.some((key) => {
+    const expectedBuf = Buffer.from(createHmac("sha256", key).update(timestamp + token).digest("hex"));
+    return expectedBuf.length === givenBuf.length && timingSafeEqual(expectedBuf, givenBuf);
+  });
 }
