@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MessageAttachments, type MessageAttachment } from "@/components/message-attachments";
 import { MessageComposer } from "@/components/message-composer";
 import { SenderWarning } from "@/components/sender-warning";
@@ -89,7 +89,14 @@ export function ConversationPanel({
       : composer
     : undefined;
 
+  // The message list scrolls inside the card (so the page doesn't keep growing) and stays pinned to the newest message.
+  const listRef = useRef<HTMLDivElement>(null);
   const shown = messages.filter((m) => m.channel === tab);
+  const lastShownId = shown[shown.length - 1]?.id;
+  useEffect(() => {
+    const el = listRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [tab, lastShownId]);
   const count = (c: Tab) => messages.filter((m) => m.channel === c).length;
   const unread = (c: Tab) => messages.filter((m) => m.channel === c && m.isNew).length;
 
@@ -120,7 +127,7 @@ export function ConversationPanel({
           <p className="text-sm text-zinc-400">{tab === "EMAIL" ? "No emails yet" : "No text messages yet"}</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-4">
+        <div ref={listRef} className="flex max-h-[min(30rem,60vh)] flex-col gap-4 overflow-y-auto pr-2">
           {shown.map((m) => (
             <div
               key={m.id}
