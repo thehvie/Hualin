@@ -7,7 +7,8 @@ import { computeInvoiceTotals } from "@/lib/invoice-totals";
 import { renderInvoicePdf } from "@/lib/pdf/render";
 import { emailLimitMessage } from "@/lib/email-limits";
 import { formatCents } from "@/lib/money";
-import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/mailgun";
+import { sendEmail, MailgunNotConfiguredError } from "@/lib/mailgun";
+import { SharedEmailExpiredError } from "@/lib/mail-config";
 import { requireSession } from "@/lib/session";
 
 function toCents(value: string): number {
@@ -294,7 +295,8 @@ export async function sendInvoice(
     const { messageId } = await sendEmail({
       to: invoice.customer.email,
       fromName: invoice.company.name,
-      replyTo: threadReplyAddress("invoice", invoice.id) ?? undefined,
+      replyThread: { kind: "invoice", id: invoice.id },
+      companyId,
       subject: `Invoice #${invoice.number} from ${invoice.company.name}`,
       text: emailBody,
       attachments: pdf ? [{ filename: pdf.filename, content: pdf.buffer, contentType: "application/pdf" }] : undefined,
@@ -311,7 +313,9 @@ export async function sendInvoice(
       },
     });
   } catch (err) {
-    if (err instanceof MailgunNotConfiguredError) {
+    if (err instanceof SharedEmailExpiredError) {
+      return { ok: false, skipped: false, error: err.message };
+    } else if (err instanceof MailgunNotConfiguredError) {
       skipped = true;
     } else {
       return { ok: false, skipped: false, error: "Could not send the email. Please try again." };

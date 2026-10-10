@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { SettingsForm } from "./settings-form";
 import { UsageCard } from "./usage-card";
+import { EmailCard, type EmailState } from "./email-card";
+import { sharedEmailStatusOf } from "@/lib/mail-config";
 import { getUsageStatus } from "@/lib/usage";
 import { attachmentStorage } from "@/lib/comm-attachments";
 import { getDefaultTaxRate, bpsToPercent } from "@/lib/tax";
@@ -12,6 +14,11 @@ export default async function SettingsPage() {
   const defaultTax = await getDefaultTaxRate(companyId);
   const usage = await getUsageStatus(companyId);
   const storage = await attachmentStorage(companyId);
+  const mail = sharedEmailStatusOf(company);
+  const emailState: EmailState =
+    mail.mode === "own"
+      ? { mode: "own", domain: mail.domain, fromEmail: company.mailFromEmail || `noreply@${mail.domain}`, region: company.mailgunRegion, hasSigningKey: !!company.mailgunSigningKeyEnc }
+      : mail;
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
@@ -42,6 +49,8 @@ export default async function SettingsPage() {
           logoDataUrl: company.logoDataUrl,
         }}
       />
+
+      <EmailCard state={emailState} appUrl={(process.env.NEXTAUTH_URL || "").replace(/\/$/, "")} />
 
       <UsageCard usage={usage} storageUsedBytes={storage.usedBytes} />
     </div>

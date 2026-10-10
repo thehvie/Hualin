@@ -33,6 +33,14 @@ model Company {
   stripePriceId        String?
   subscriptionStatus   SubscriptionStatus @default(TRIALING)
   trialEndsAt          DateTime?
+  // Email. Every company starts on the shared platform sender for 60 days after signup; after that it must connect
+  // its own Mailgun account (or be exempt, e.g. the platform owner's own company). Secrets are stored encrypted.
+  sharedEmailExempt    Boolean            @default(false)
+  mailgunDomain        String?
+  mailgunRegion        String             @default("us")
+  mailgunApiKeyEnc     String?
+  mailgunSigningKeyEnc String?
+  mailFromEmail        String?
   // IANA zone the business operates in; job times are read/written in it.
   timezone             String             @default("America/New_York")
   // Two-letter US state the business operates in; pre-fills the online booking address.

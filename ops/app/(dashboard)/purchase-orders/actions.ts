@@ -232,6 +232,7 @@ async function emailPurchaseOrder(poId: string, companyId: string): Promise<{ ok
       to: po.vendor.email,
       fromName: po.company.name,
       replyTo: po.company.email ?? undefined,
+      companyId: po.companyId,
       subject: `Purchase order #${po.number} from ${po.company.name}`,
       text,
     });

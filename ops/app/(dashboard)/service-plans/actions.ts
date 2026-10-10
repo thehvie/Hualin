@@ -87,6 +87,7 @@ export async function emailCheckoutLink(subscriptionId: string, checkoutUrl: str
   try {
     await sendEmail({
       to: subscription.customer.email,
+      companyId,
       subject: `Subscribe to ${subscription.servicePlan.name}`,
       text: `Hi ${subscription.customer.firstName},\n\nComplete your subscription to ${subscription.servicePlan.name} here:\n${checkoutUrl}\n`,
     });

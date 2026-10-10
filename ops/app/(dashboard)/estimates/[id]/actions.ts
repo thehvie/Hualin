@@ -4,7 +4,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { lineItemsTotal, formatCents } from "@/lib/money";
-import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/mailgun";
+import { sendEmail, MailgunNotConfiguredError } from "@/lib/mailgun";
+import { SharedEmailExpiredError } from "@/lib/mail-config";
 import { requireSession } from "@/lib/session";
 import { createInvoiceFromEstimate } from "@/lib/estimate-invoice";
 import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
@@ -401,7 +402,8 @@ export async function sendEstimate(
     const { messageId } = await sendEmail({
       to: estimate.customer.email,
       fromName: estimate.company.name,
-      replyTo: threadReplyAddress("estimate", estimate.id) ?? undefined,
+      replyThread: { kind: "estimate", id: estimate.id },
+      companyId,
       subject: `Estimate #${estimate.number} from ${estimate.company.name}`,
       text: emailBody,
       attachments: pdf ? [{ filename: pdf.filename, content: pdf.buffer, contentType: "application/pdf" }] : undefined,
@@ -418,7 +420,9 @@ export async function sendEstimate(
       },
     });
   } catch (err) {
-    if (err instanceof MailgunNotConfiguredError) {
+    if (err instanceof SharedEmailExpiredError) {
+      return { ok: false, skipped: false, error: err.message };
+    } else if (err instanceof MailgunNotConfiguredError) {
       skipped = true;
     } else {
       return { ok: false, skipped: false, error: "Could not send the email. Please try again." };

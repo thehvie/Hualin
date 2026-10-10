@@ -1,9 +1,9 @@
 /**
- * Thin wrapper around Mailgun's HTTP API. Shared across tenants for now — one
- * verified sending domain/from-address for the whole app, with the tenant's
- * Company name used as the display name so mail still reads as coming from
- * "their" business rather than a generic sender.
+ * Thin wrapper around Mailgun's HTTP API. A company's mail goes through its own Mailgun account once it has connected
+ * one (Settings → Email); until then it uses the shared platform sender, for a limited time (see lib/mail-config.ts).
+ * The company's name is the display name either way, so mail reads as coming from "their" business.
  */
+import { getMailConfig } from "@/lib/mail-config";
 
 export class MailgunNotConfiguredError extends Error {
   constructor() {
@@ -18,6 +18,8 @@ export async function sendEmail({
   text,
   fromName,
   replyTo,
+  replyThread,
+  companyId,
   attachments,
 }: {
   to: string;
@@ -25,20 +27,20 @@ export async function sendEmail({
   text: string;
   fromName?: string;
   replyTo?: string;
+  /** Route the customer's reply back to this estimate/invoice (the address is built on the sending domain used). */
+  replyThread?: { kind: "invoice" | "estimate"; id: string };
+  /** The company sending this mail. Leave out for internal notices to staff, which always use the platform sender. */
+  companyId?: string;
   attachments?: { filename: string; content: Buffer; contentType: string }[];
 }): Promise<{ messageId: string | null }> {
-  const apiKey = process.env.MAILGUN_API_KEY;
-  const domain = process.env.MAILGUN_DOMAIN;
-  const fromEmail = process.env.MAILGUN_FROM_EMAIL;
+  const config = await getMailConfig(companyId);
+  if (!config) throw new MailgunNotConfiguredError();
 
-  if (!apiKey || !domain || !fromEmail) {
-    throw new MailgunNotConfiguredError();
-  }
-
-  const from = fromName ? `${fromName} <${fromEmail}>` : fromEmail;
+  const from = fromName ? `${fromName} <${config.fromEmail}>` : config.fromEmail;
   const params: Record<string, string> = { from, to, subject, text };
-  if (replyTo) params["h:Reply-To"] = replyTo;
-  const headers: Record<string, string> = { Authorization: `Basic ${Buffer.from(`api:${apiKey}`).toString("base64")}` };
+  const reply = replyThread ? `${replyThread.kind}-${replyThread.id}@${config.domain}` : replyTo;
+  if (reply) params["h:Reply-To"] = reply;
+  const headers: Record<string, string> = { Authorization: `Basic ${Buffer.from(`api:${config.apiKey}`).toString("base64")}` };
 
   // Attachments need a multipart body; plain messages keep the simple form-encoded one.
   let body: URLSearchParams | FormData;
@@ -54,7 +56,7 @@ export async function sendEmail({
     body = new URLSearchParams(params);
   }
 
-  const res = await fetch(`https://api.mailgun.net/v3/${domain}/messages`, { method: "POST", headers, body });
+  const res = await fetch(`${config.apiBase}/v3/${config.domain}/messages`, { method: "POST", headers, body });
 
   if (!res.ok) {
     const errorText = await res.text().catch(() => "");
@@ -66,30 +68,16 @@ export async function sendEmail({
 }
 
 /**
- * Builds a thread-specific reply address on the Mailgun sending domain, e.g.
- * "invoice-<id>@mg.example.com". A customer's mail client replies to this
- * address (not the visible From address), which Mailgun forwards to
- * /api/mailgun/inbound so the reply lands on the right thread automatically.
- */
-export function threadReplyAddress(kind: "invoice" | "estimate", id: string): string | null {
-  const domain = process.env.MAILGUN_DOMAIN;
-  if (!domain) return null;
-  return `${kind}-${id}@${domain}`;
-}
-
-/**
- * Verifies Mailgun's inbound-route webhook signature: HMAC-SHA256 of
- * `timestamp + token` keyed with the Mailgun API key, per Mailgun's
- * (legacy but still current) webhook signing scheme.
+ * Verifies Mailgun's inbound-route webhook signature: HMAC-SHA256 of `timestamp + token`. Mailgun signs with the
+ * account's HTTP webhook signing key on newer accounts and with the API key on older ones, so the caller passes every
+ * key that may be valid for the conversation (the company's own Mailgun keys, then the platform's).
  */
 export async function verifyInboundSignature(
   timestamp: string,
   token: string,
   signature: string,
+  keys: string[],
 ): Promise<boolean> {
-  // Mailgun signs with the account's HTTP webhook signing key on newer accounts and with the API key on older ones,
-  // so accept either. Set MAILGUN_WEBHOOK_SIGNING_KEY to the signing key (Mailgun > Settings > API Security).
-  const keys = [process.env.MAILGUN_WEBHOOK_SIGNING_KEY, process.env.MAILGUN_API_KEY].filter((k): k is string => !!k);
   if (keys.length === 0 || !timestamp || !token || !signature) return false;
 
   // Reject old messages so a captured request can't be replayed later (Mailgun retries for up to a few hours).

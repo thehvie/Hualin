@@ -5,7 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { sendSms, toE164, TwilioNotConfiguredError } from "@/lib/twilio";
 import { messageChannel } from "@/lib/messaging";
-import { sendEmail, threadReplyAddress, MailgunNotConfiguredError } from "@/lib/mailgun";
+import { sendEmail, MailgunNotConfiguredError } from "@/lib/mailgun";
+import { SharedEmailExpiredError } from "@/lib/mail-config";
 import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
 import { formatCents, lineItemsTotal } from "@/lib/money";
 import { emailLimitMessage } from "@/lib/email-limits";
@@ -74,15 +75,15 @@ async function deliverEmail(opts: {
   if (limited) return { ok: false, error: limited };
 
   let subject = `A message from ${customer.company.name}`;
-  let replyTo: string | undefined;
+  let replyThread: { kind: "estimate" | "invoice"; id: string } | undefined;
   if (opts.estimateId) {
     const est = await prisma.estimate.findFirst({ where: { id: opts.estimateId, companyId: opts.companyId } });
     if (est) subject = `Estimate #${est.number} from ${customer.company.name}`;
-    replyTo = threadReplyAddress("estimate", opts.estimateId) ?? undefined;
+    replyThread = { kind: "estimate", id: opts.estimateId };
   } else if (opts.invoiceId) {
     const inv = await prisma.invoice.findFirst({ where: { id: opts.invoiceId, companyId: opts.companyId } });
     if (inv) subject = `Invoice #${inv.number} from ${customer.company.name}`;
-    replyTo = threadReplyAddress("invoice", opts.invoiceId) ?? undefined;
+    replyThread = { kind: "invoice", id: opts.invoiceId };
   }
 
   let messageId: string | null = null;
@@ -90,12 +91,14 @@ async function deliverEmail(opts: {
     ({ messageId } = await sendEmail({
       to: customer.email,
       fromName: customer.company.name,
-      replyTo,
+      replyThread,
+      companyId: opts.companyId,
       subject,
       text: opts.body,
       attachments: opts.files?.map((f) => ({ filename: f.filename, content: f.data, contentType: f.mimeType })),
     }));
   } catch (err) {
+    if (err instanceof SharedEmailExpiredError) return { ok: false, error: err.message };
     if (err instanceof MailgunNotConfiguredError) {
       return { ok: false, error: "Email isn't set up yet (Mailgun isn't configured)." };
     }

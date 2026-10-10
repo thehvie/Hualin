@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { sendEmail, verifyInboundSignature } from "@/lib/mailgun";
+import { inboundSigningKeys } from "@/lib/mail-config";
 import { rateLimit } from "@/lib/rate-limit";
 import { MAX_ATTACHMENTS, attachmentStorage, normalizeAttachment, saveAttachments } from "@/lib/comm-attachments";
 
@@ -23,11 +24,6 @@ export async function POST(req: NextRequest) {
   const timestamp = String(form.get("timestamp") || "");
   const token = String(form.get("token") || "");
   const signature = String(form.get("signature") || "");
-
-  const valid = await verifyInboundSignature(timestamp, token, signature);
-  if (!valid) {
-    return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
-  }
 
   const recipient = String(form.get("recipient") || "");
   const sender = String(form.get("sender") || "");
@@ -56,6 +52,15 @@ export async function POST(req: NextRequest) {
     kind === "invoice"
       ? await prisma.invoice.findUnique({ where: { id }, select: { id: true, number: true, companyId: true, customerId: true } })
       : await prisma.estimate.findUnique({ where: { id }, select: { id: true, number: true, companyId: true, customerId: true } });
+
+  // Verify the signature with the keys that can legitimately sign for this conversation's company (its own Mailgun
+  // account, then the platform's). Nothing is written before this passes.
+  const keys = thread
+    ? await inboundSigningKeys(thread.companyId)
+    : [process.env.MAILGUN_WEBHOOK_SIGNING_KEY, process.env.MAILGUN_API_KEY].filter((k): k is string => !!k);
+  if (!(await verifyInboundSignature(timestamp, token, signature, keys))) {
+    return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+  }
 
   if (!thread) {
     return NextResponse.json({ received: true, matched: false });

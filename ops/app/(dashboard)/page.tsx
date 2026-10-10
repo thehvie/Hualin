@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { CommandCenter } from "@/components/command-center";
+import { SharedEmailBanner } from "@/components/shared-email-banner";
+import { sharedEmailStatus } from "@/lib/mail-config";
 import { addDaysYmd, formatInTz, startOfDayInTz, wallYmd } from "@/lib/tz";
 
 function formatCents(cents: number) {
@@ -87,6 +89,8 @@ export default async function DashboardHome() {
         <h1 className="text-2xl font-bold text-zinc-900">Home</h1>
         <p className="mt-1 text-sm text-zinc-500">Everything starts with a customer.</p>
       </div>
+
+      <SharedEmailBanner status={await sharedEmailStatus(companyId)} />
 
       <CommandCenter defaultState={companyState} />
 

@@ -53,6 +53,7 @@ export async function notifyBooking(n: BookingNotice): Promise<void> {
         to: customer.email,
         fromName: company.name,
         replyTo: company.email ?? undefined,
+        companyId: n.companyId,
         subject: `You're booked with ${company.name} — ${whenShort(n.scheduledAt, tz)}`,
         text,
       });
