@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { timezoneLabel } from "@/lib/tz";
 import { JobEditor } from "./job-editor";
+import { jobBookings, toStops } from "@/lib/rental-stops";
+import { RentalRow } from "@/components/rental-row";
 
 export default async function JobDetailPage({
   params,
@@ -26,11 +28,24 @@ export default async function JobDetailPage({
 
   if (!job) notFound();
 
+  const rentalStops = toStops(await jobBookings(companyId, job.id), job.company.timezone);
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
         <Link href="/schedule" className="hover:text-zinc-600">Schedule</Link>
       </p>
+
+      {rentalStops.length > 0 && (
+        <section>
+          <h2 className="mb-2 text-sm font-semibold text-zinc-900">Dumpster rentals</h2>
+          <ul className="divide-y divide-zinc-100 overflow-hidden rounded-xl border border-zinc-200 bg-white">
+            {rentalStops.map((s) => (
+              <RentalRow key={s.id} stop={s} />
+            ))}
+          </ul>
+        </section>
+      )}
 
       <JobEditor
         job={{

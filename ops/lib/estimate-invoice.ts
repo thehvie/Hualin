@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getDefaultTaxRate } from "@/lib/tax";
+import { rentalCharges } from "@/lib/rental-charges";
 
 /**
  * Creates a draft invoice from an approved estimate, copying line items and the
@@ -69,5 +70,36 @@ export async function createInvoiceFromEstimate(
       },
     },
   });
+
+  // Dumpsters that came back: bill the days kept past the package and any weight over the allowance.
+  if (estimate.jobId) {
+    const [bookings, company] = await Promise.all([
+      prisma.rentalBooking.findMany({ where: { jobId: estimate.jobId, companyId, status: "PICKED_UP" }, orderBy: { createdAt: "asc" } }),
+      prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } }),
+    ]);
+    const itemIds = [...new Set(bookings.map((b) => b.priceBookItemId).filter((x): x is string => !!x))];
+    const items = itemIds.length
+      ? await prisma.priceBookItem.findMany({ where: { id: { in: itemIds }, companyId } })
+      : [];
+    const extra = bookings.flatMap((b) => {
+      const item = items.find((i) => i.id === b.priceBookItemId) ?? null;
+      return rentalCharges(b, item, company.timezone)?.lines ?? [];
+    });
+    if (extra.length > 0) {
+      await prisma.invoiceLineItem.createMany({
+        data: extra.map((l, i) => ({
+          companyId,
+          invoiceId: invoice.id,
+          description: l.description,
+          quantity: l.quantity,
+          unitPriceCents: l.unitPriceCents,
+          isRental: false,
+          taxable: !!taxRate,
+          sortOrder: estimate.lineItems.length + i,
+        })),
+      });
+    }
+  }
+
   return { invoiceId: invoice.id };
 }
