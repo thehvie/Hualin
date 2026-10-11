@@ -83,6 +83,8 @@ model Company {
   usageEvents                  UsageEvent[]
   usageStatements              UsageStatement[]
   communicationAttachments     CommunicationAttachment[]
+  rentalAssets                 RentalAsset[]
+  rentalBookings               RentalBooking[]
   purchaseOrderLineItems       PurchaseOrderLineItem[]
   purchaseOrderAttachments     PurchaseOrderAttachment[]
 
@@ -256,6 +258,15 @@ model PriceBookItem {
   bookingPriceCents Int?
   active            Boolean           @default(true)
 
+  // Rental packages (dumpsters): the price covers `packageDays` days and `includedTons` tons; extra days and weight
+  // over the allowance are charged at the rates below. All empty means plain per-day rental pricing.
+  packageDays        Int?
+  extraDayCents      Int?
+  includedTons       Float?
+  overageCentsPerTon Int?
+  // Which fleet units can fill this item, matched to RentalAsset.category (e.g. "20 yd").
+  assetCategory      String?
+
   estimateLineItems EstimateLineItem[]
   invoiceLineItems  InvoiceLineItem[]
   servicePlans      ServicePlan[]
@@ -385,6 +396,7 @@ model Job {
   invoices  Invoice[]
 
   equipmentUsage         EquipmentUsage[]
+  rentals                RentalBooking[]
   attachments            JobAttachment[]
   purchaseOrderLineItems PurchaseOrderLineItem[]
 
@@ -904,4 +916,78 @@ model UsageStatement {
   createdAt           DateTime @default(now())
 
   @@unique([companyId, month])
+}
+
+// ── Rentals: fleet and bookings ────────────────────────────────────────────
+
+enum AssetKind {
+  DUMPSTER
+  EQUIPMENT
+}
+
+enum AssetStatus {
+  AVAILABLE
+  ON_RENT
+  MAINTENANCE
+  RETIRED
+}
+
+// One rentable unit: a specific dumpster (or, later, a piece of equipment).
+model RentalAsset {
+  id        String      @id @default(cuid())
+  companyId String
+  company   Company     @relation(fields: [companyId], references: [id])
+  kind      AssetKind   @default(DUMPSTER)
+  label     String // "D-12", painted on the unit
+  category  String? // size or type, e.g. "20 yd"
+  status    AssetStatus @default(AVAILABLE)
+  notes     String?     @db.Text
+
+  bookings RentalBooking[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, label])
+  @@index([companyId])
+}
+
+enum RentalStatus {
+  RESERVED
+  DELIVERED
+  PICKUP_REQUESTED
+  PICKED_UP
+  CANCELLED
+}
+
+// One unit on rent for a job: a drop-off, a planned pickup, and what actually happened.
+model RentalBooking {
+  id        String      @id @default(cuid())
+  companyId String
+  company   Company     @relation(fields: [companyId], references: [id])
+  jobId     String
+  job       Job         @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  // Empty until a specific unit is assigned; `category` says what was ordered meanwhile.
+  assetId   String?
+  asset     RentalAsset? @relation(fields: [assetId], references: [id])
+  category  String?
+  priceBookItemId String?
+
+  startAt DateTime // planned delivery
+  endAt   DateTime // planned pickup
+  status  RentalStatus @default(RESERVED)
+
+  deliveredAt        DateTime?
+  pickupRequestedAt  DateTime?
+  pickedUpAt         DateTime?
+  placementNotes     String?   @db.Text
+  weightTons         Float?
+  ticketNumber       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([jobId])
+  @@index([assetId, startAt, endAt])
 }

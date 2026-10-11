@@ -16,6 +16,11 @@ export interface PriceBookItemData {
   bookable: boolean;
   bookingPriceCents: number | null;
   active: boolean;
+  packageDays: number | null;
+  extraDayCents: number | null;
+  includedTons: number | null;
+  overageCentsPerTon: number | null;
+  assetCategory: string | null;
 }
 
 function centsToStr(cents: number | null | undefined) {
@@ -52,6 +57,7 @@ export function EditItemTrigger({ item, children }: { item: PriceBookItemData; c
 function ItemModal({ item, onClose }: { item?: PriceBookItemData; onClose: () => void }) {
   const [isPending, startTransition] = useTransition();
   const [bookable, setBookable] = useState(item?.bookable ?? false);
+  const [type, setType] = useState(item?.type ?? "SERVICE");
 
   function handleSubmit(fd: FormData) {
     startTransition(async () => {
@@ -92,12 +98,13 @@ function ItemModal({ item, onClose }: { item?: PriceBookItemData; onClose: () =>
               <label className="text-sm font-medium text-zinc-700">Item type</label>
               <select
                 name="type"
-                defaultValue={item?.type ?? "SERVICE"}
+                value={type}
+                onChange={(e) => setType(e.target.value)}
                 className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand"
               >
                 <option value="SERVICE">Service</option>
                 <option value="MATERIAL">Product</option>
-                <option value="RENTAL">Rental (price per day)</option>
+                <option value="RENTAL">Rental (dumpster or equipment)</option>
               </select>
             </div>
             <div className="flex flex-col gap-1.5">
@@ -115,6 +122,22 @@ function ItemModal({ item, onClose }: { item?: PriceBookItemData; onClose: () =>
           <div className="flex flex-col gap-3">
             <Field label="Price" name="unitPrice" type="number" step="0.01" defaultValue={centsToStr(item?.unitPriceCents ?? 0)} />
             <Field label="Unit cost" name="cost" type="number" step="0.01" defaultValue={centsToStr(item?.costCents)} placeholder="Optional" />
+
+            {type === "RENTAL" && (
+              <div className="flex flex-col gap-3 rounded-lg border border-sky-200 bg-sky-50 p-3">
+                <p className="text-xs font-semibold text-sky-900">Rental package (for dumpsters)</p>
+                <p className="text-xs text-sky-800">
+                  The price above covers the included days and tons. Leave these empty to charge the price per day instead.
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="Included days" name="packageDays" type="number" step="1" defaultValue={String(item?.packageDays ?? "")} placeholder="e.g. 7" />
+                  <Field label="Extra day price" name="extraDay" type="number" step="0.01" defaultValue={centsToStr(item?.extraDayCents)} placeholder="per day" />
+                  <Field label="Included tons" name="includedTons" type="number" step="0.01" defaultValue={String(item?.includedTons ?? "")} placeholder="e.g. 2" />
+                  <Field label="Over-weight price" name="overagePerTon" type="number" step="0.01" defaultValue={centsToStr(item?.overageCentsPerTon)} placeholder="per ton" />
+                </div>
+                <Field label="Fleet size" name="assetCategory" defaultValue={item?.assetCategory ?? ""} placeholder="e.g. 20 yd, matches your Fleet units" />
+              </div>
+            )}
 
             <label className="flex items-center justify-between text-sm font-medium text-zinc-700">
               Active item

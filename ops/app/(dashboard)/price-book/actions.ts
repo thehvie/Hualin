@@ -23,7 +23,30 @@ function readFields(formData: FormData) {
   const bookingPriceCents = bookable && bookingPriceRaw ? toCents(bookingPriceRaw) : null;
   const active = formData.get("active") === "on";
 
+  // Dumpster-style rental package; only kept for rentals.
+  const isRental = type === "RENTAL";
+  const intOrNull = (key: string) => {
+    const raw = String(formData.get(key) || "").trim();
+    const n = Math.round(parseFloat(raw));
+    return isRental && raw && Number.isFinite(n) && n >= 0 ? n : null;
+  };
+  const floatOrNull = (key: string) => {
+    const raw = String(formData.get(key) || "").trim();
+    const n = parseFloat(raw);
+    return isRental && raw && Number.isFinite(n) && n >= 0 ? n : null;
+  };
+  const centsOrNull = (key: string) => {
+    const raw = String(formData.get(key) || "").trim();
+    return isRental && raw ? toCents(raw) : null;
+  };
+  const assetCategory = String(formData.get("assetCategory") || "").trim();
+
   return {
+    packageDays: intOrNull("packageDays"),
+    extraDayCents: centsOrNull("extraDay"),
+    includedTons: floatOrNull("includedTons"),
+    overageCentsPerTon: centsOrNull("overagePerTon"),
+    assetCategory: isRental && assetCategory ? assetCategory : null,
     name,
     description: description || null,
     type,
