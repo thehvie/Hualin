@@ -9,6 +9,8 @@ import { formatUnitPrice } from "@/lib/price-book";
 import { ConversationPanel, type ConversationMessage } from "@/components/conversation-panel";
 import { VoiceItems } from "@/components/voice-items";
 import { RouteMap } from "@/components/route-map";
+import { RentalsCard } from "@/components/rentals-card";
+import type { RentalCardData } from "@/lib/rentals";
 import { ClientDetails } from "./client-details";
 import type { RouteInfo } from "@/lib/office";
 import type { FuelSettings } from "@/lib/fuel";
@@ -77,6 +79,7 @@ interface EstimateData {
   timezone: string;
   timezoneName: string;
   route: RouteInfo;
+  rentals: RentalCardData;
   attachments: { id: string; filename: string; dataUrl: string }[];
   signingUrl: string | null;
   signedName: string | null;
@@ -630,6 +633,9 @@ export function EstimateEditor({
           </p>
         </div>
       )}
+
+      {/* Dumpster rentals: reserve units for the job's dates */}
+      {estimate.jobId && <RentalsCard estimateId={estimate.id} data={estimate.rentals} />}
 
       {/* Notes */}
       <div className="rounded-xl border border-zinc-200 bg-white p-5">

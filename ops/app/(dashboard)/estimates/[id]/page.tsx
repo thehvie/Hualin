@@ -6,6 +6,7 @@ import { messageChannel } from "@/lib/messaging";
 import { estimateSigningUrl } from "@/lib/estimate-signing";
 import { timezoneLabel } from "@/lib/tz";
 import { getUsageStatus } from "@/lib/usage";
+import { loadRentalCard } from "@/lib/rentals";
 import { buildRoute, getDriveRoute, getOfficePoint, getPropertyPoint } from "@/lib/office";
 import { EstimateEditor } from "./estimate-editor";
 
@@ -38,6 +39,7 @@ export default async function EstimateDetailPage({
   const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
 
   const usage = await getUsageStatus(companyId);
+  const rentals = await loadRentalCard(companyId, estimate, estimate.job);
   const { state: companyState, fuelRateCentsPerMile, fuelFreeMiles, fuelRoundTrip } = await prisma.company.findUniqueOrThrow({
     where: { id: companyId },
     select: { state: true, fuelRateCentsPerMile: true, fuelFreeMiles: true, fuelRoundTrip: true },
@@ -116,6 +118,7 @@ export default async function EstimateDetailPage({
           scheduledEndAt: estimate.job?.scheduledEndAt ? estimate.job.scheduledEndAt.toISOString() : null,
           timezone,
           route,
+          rentals,
           companyState,
           fuel: { rateCentsPerMile: fuelRateCentsPerMile, freeMiles: fuelFreeMiles, roundTrip: fuelRoundTrip },
           timezoneName: timezoneLabel(timezone),

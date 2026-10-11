@@ -94,7 +94,7 @@ export async function addLineItemFromPriceBook(invoiceId: string, priceBookItemI
       quantity: 1,
       unitPriceCents: item.unitPriceCents,
       costCents: item.costCents,
-      isRental: item.type === "RENTAL",
+      isRental: item.type === "RENTAL" && item.packageDays == null,
       taxable: !!invoice.taxRateId,
       sortOrder: count,
     },

@@ -73,7 +73,7 @@ export default async function PriceBookPage({
                 <EditItemTrigger item={item}>
                   <div className="flex items-start justify-between">
                     <span className="font-semibold text-zinc-900">{item.name}</span>
-                    <span className="font-medium text-zinc-900">{formatUnitPrice(formatCents(item.unitPriceCents), item.type === "RENTAL")}</span>
+                    <span className="font-medium text-zinc-900">{formatUnitPrice(formatCents(item.unitPriceCents), (item.type === "RENTAL" && item.packageDays == null))}</span>
                   </div>
                   <p className="mt-1 text-xs text-zinc-400">
                     #{item.number} · {PRICE_BOOK_TYPE_LABELS[item.type] ?? item.type}
@@ -118,7 +118,7 @@ export default async function PriceBookPage({
                     <td className="max-w-[200px] truncate px-4 py-3 text-zinc-500">
                       {item.description || "—"}
                     </td>
-                    <td className="px-4 py-3 text-zinc-900">{formatUnitPrice(formatCents(item.unitPriceCents), item.type === "RENTAL")}</td>
+                    <td className="px-4 py-3 text-zinc-900">{formatUnitPrice(formatCents(item.unitPriceCents), (item.type === "RENTAL" && item.packageDays == null))}</td>
                     <td className="px-4 py-3 text-zinc-400">
                       {item.costCents != null ? formatCents(item.costCents) : "—"}
                     </td>

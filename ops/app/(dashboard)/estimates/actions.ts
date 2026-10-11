@@ -303,10 +303,10 @@ export async function createDraftFromVoice(payload: VoiceDraftPayload): Promise<
         companyId,
         priceBookItemId: item.id,
         description: item.name,
-        quantity: item.type === "RENTAL" && rentalDayCount ? rentalDayCount : Math.max(1, Math.min(9999, Math.floor(Number(p.quantity)) || 1)),
+        quantity: item.type === "RENTAL" && item.packageDays == null && rentalDayCount ? rentalDayCount : Math.max(1, Math.min(9999, Math.floor(Number(p.quantity)) || 1)),
         unitPriceCents: item.unitPriceCents,
         costCents: item.costCents,
-        isRental: item.type === "RENTAL",
+        isRental: item.type === "RENTAL" && item.packageDays == null,
         sortOrder,
       },
     ];

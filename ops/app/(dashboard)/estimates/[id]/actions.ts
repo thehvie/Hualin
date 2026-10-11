@@ -11,6 +11,7 @@ import { createInvoiceFromEstimate } from "@/lib/estimate-invoice";
 import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
 import { fromDatetimeLocalInTz, rentalDays } from "@/lib/tz";
 import { geocodeAddress } from "@/lib/geocode";
+import { syncBookingDates } from "@/lib/rentals";
 import { emailLimitMessage } from "@/lib/email-limits";
 import { renderEstimatePdf } from "@/lib/pdf/render";
 import { isUsState } from "@/lib/us-states";
@@ -82,7 +83,7 @@ export async function addLineItemFromPriceBook(estimateId: string, priceBookItem
       quantity: 1,
       unitPriceCents: item.unitPriceCents,
       costCents: item.costCents,
-      isRental: item.type === "RENTAL",
+      isRental: item.type === "RENTAL" && item.packageDays == null,
       sortOrder: count,
     },
   });
@@ -112,7 +113,7 @@ export async function addLineItemsFromPriceBook(estimateId: string, picks: { pri
         quantity: Math.max(1, Math.min(9999, Math.floor(Number(p.quantity)) || 1)),
         unitPriceCents: item.unitPriceCents,
         costCents: item.costCents,
-        isRental: item.type === "RENTAL",
+        isRental: item.type === "RENTAL" && item.packageDays == null,
         sortOrder: sortOrder++,
       },
     ];
@@ -149,6 +150,9 @@ export async function updateEstimateSchedule(
     ? estimate.job.status === "UNSCHEDULED" ? "SCHEDULED" : undefined
     : estimate.job.status === "SCHEDULED" ? "UNSCHEDULED" : undefined;
   await prisma.job.updateMany({ where: { id: estimate.jobId, companyId }, data: { scheduledAt, scheduledEndAt, status } });
+
+  // Dumpsters already reserved for this job follow the new dates (and give up a unit that's no longer free).
+  await syncBookingDates(companyId, estimate.jobId, scheduledAt, scheduledEndAt);
 
   let days: number | null = null;
   if (scheduledAt && scheduledEndAt) {

@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 
   const catalog = await prisma.priceBookItem.findMany({
     where: { companyId, active: true },
-    select: { id: true, name: true, type: true, unitPriceCents: true },
+    select: { id: true, name: true, type: true, unitPriceCents: true, packageDays: true },
     orderBy: { name: "asc" },
     take: 400,
   });
@@ -79,7 +79,7 @@ export async function POST(req: Request) {
   const { matches, unmatched, intent, ...customer } = intake;
   const items = matches.map((m) => {
     const c = byId.get(m.priceBookItemId)!;
-    return { ...m, name: c.name, unitPriceCents: c.unitPriceCents, isRental: c.type === "RENTAL" };
+    return { ...m, name: c.name, unitPriceCents: c.unitPriceCents, isRental: c.type === "RENTAL" && c.packageDays == null };
   });
 
   return NextResponse.json({ intent, enough: true, intake: customer, match, items, unmatched });

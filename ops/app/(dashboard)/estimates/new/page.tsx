@@ -46,7 +46,7 @@ export default async function NewEstimatePage({
           name: p.name,
           unitPriceCents: p.unitPriceCents,
           costCents: p.costCents,
-          isRental: p.type === "RENTAL",
+          isRental: p.type === "RENTAL" && p.packageDays == null,
         }))}
         defaultState={company.state}
         timezoneName={timezoneLabel(company.timezone)}
