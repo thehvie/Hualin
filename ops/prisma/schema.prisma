@@ -93,6 +93,7 @@ model Company {
   communicationAttachments     CommunicationAttachment[]
   rentalAssets                 RentalAsset[]
   rentalBookings               RentalBooking[]
+  mapLookups                   MapLookup[]
   purchaseOrderLineItems       PurchaseOrderLineItem[]
   purchaseOrderAttachments     PurchaseOrderAttachment[]
 
@@ -1005,4 +1006,17 @@ model RentalBooking {
   @@index([companyId])
   @@index([jobId])
   @@index([assetId, startAt, endAt])
+}
+
+// The last few addresses looked up on the Map page, so they can be reopened without retyping (kept to the latest 10).
+model MapLookup {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+  label     String
+  latitude  Float
+  longitude Float
+  createdAt DateTime @default(now())
+
+  @@index([companyId, createdAt])
 }

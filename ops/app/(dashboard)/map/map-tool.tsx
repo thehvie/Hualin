@@ -2,23 +2,28 @@
 
 import { useState, useTransition } from "react";
 import { RouteMap } from "@/components/route-map";
-import { lookupAddress, type LookupResult } from "./actions";
+import { clearRecent, lookupAddress, lookupRecent, type LookupResult } from "./actions";
 
-/** Address search box with the map, route, distance and fuel charge underneath. */
-export function MapTool({ officeLabel }: { officeLabel: string | null }) {
+export interface RecentAddress {
+  id: string;
+  label: string;
+}
+
+/** Address search box with the map, route, distance and fuel charge underneath, and the last 10 addresses. */
+export function MapTool({ officeLabel, recent }: { officeLabel: string | null; recent: RecentAddress[] }) {
   const [address, setAddress] = useState("");
   const [result, setResult] = useState<LookupResult | null>(null);
-  const [recent, setRecent] = useState<string[]>([]);
   const [pending, startTransition] = useTransition();
 
-  function search(value = address) {
-    const query = value.trim();
+  function search() {
+    const query = address.trim();
     if (!query) return;
-    startTransition(async () => {
-      const res = await lookupAddress(query);
-      setResult(res);
-      if (res.ok) setRecent((prev) => [res.route.destination?.label ?? query, ...prev.filter((r) => r !== (res.route.destination?.label ?? query))].slice(0, 6));
-    });
+    startTransition(async () => setResult(await lookupAddress(query)));
+  }
+
+  function reopen(item: RecentAddress) {
+    setAddress(item.label);
+    startTransition(async () => setResult(await lookupRecent(item.id)));
   }
 
   return (
@@ -54,22 +59,31 @@ export function MapTool({ officeLabel }: { officeLabel: string | null }) {
         />
       )}
 
-      {recent.length > 1 && (
-        <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-          <span>Recent:</span>
-          {recent.slice(1).map((r) => (
+      {recent.length > 0 && (
+        <div className="rounded-xl border border-zinc-200 bg-white p-4">
+          <div className="mb-2 flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-zinc-900">Recent addresses</h2>
             <button
-              key={r}
               type="button"
+              disabled={pending}
               onClick={() => {
-                setAddress(r);
-                search(r);
+                if (confirm("Clear your recent addresses?")) startTransition(async () => void (await clearRecent()));
               }}
-              className="max-w-xs truncate rounded-full border border-zinc-300 px-2.5 py-1 hover:bg-zinc-50"
+              className="text-xs text-zinc-400 hover:text-red-600 disabled:opacity-50"
             >
-              {r}
+              Clear
             </button>
-          ))}
+          </div>
+          <ul className="divide-y divide-zinc-100">
+            {recent.map((r) => (
+              <li key={r.id}>
+                <button type="button" disabled={pending} onClick={() => reopen(r)} className="flex w-full items-center gap-2 py-2 text-left text-sm text-zinc-700 hover:text-brand disabled:opacity-60">
+                  <span className="text-zinc-300">📍</span>
+                  <span className="truncate">{r.label}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

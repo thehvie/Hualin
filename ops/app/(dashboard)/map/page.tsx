@@ -27,6 +27,7 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
   const tz = company.timezone;
   const todayYmd = wallYmd(new Date(), tz);
   const ymd = dateParam && /^\d{4}-\d{2}-\d{2}$/.test(dateParam) ? dateParam : todayYmd;
+  const recent = tab === "lookup" ? await prisma.mapLookup.findMany({ where: { companyId }, orderBy: { createdAt: "desc" }, take: 10, select: { id: true, label: true } }) : [];
   const paused = tab !== "lookup" ? (await getUsageStatus(companyId)).capped : false;
 
   let result: PinResult | null = null;
@@ -63,7 +64,7 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
               Add your office address in Settings to get distances. Without it you can still look up where an address is.
             </p>
           )}
-          <MapTool officeLabel={office?.label ?? null} />
+          <MapTool officeLabel={office?.label ?? null} recent={recent} />
         </>
       )}
 

@@ -33,9 +33,6 @@ export function RouteMap({
   const oLat = office?.latitude ?? null;
   const oLng = office?.longitude ?? null;
   const pathKey = drive ? `${drive.path.length}:${drive.distanceMiles}` : "";
-  // On a long trip, fitting the whole route zooms out to a continent where the address is a speck, so open on the address.
-  const longTrip = (drive ? drive.distanceMiles : (straightMiles ?? 0) * 1.25) > 40;
-
   /** Moves the map to the office, the customer's address, or the whole route. */
   function showView(next: "route" | "address" | "office") {
     const map = mapObj.current;
@@ -88,20 +85,14 @@ export function RouteMap({
         mapObj.current = map;
         boundsObj.current = bounds;
         if (oLat != null) {
-          if (longTrip) {
-            // Open on the selected address; the buttons above the map switch to the office or the whole route.
-            map.setCenter(dest);
-            map.setZoom(15);
-            setView("address");
-          } else {
-            map.fitBounds(bounds, 40);
-            setView("route");
-            // The office and the customer can be the same spot (or very close); fitting to a single point zooms
-            // in so far that the map shows blank grey tiles, so never zoom in past street level.
-            maps.event.addListenerOnce(map, "idle", () => {
-              if ((map.getZoom() ?? 0) > 15) map.setZoom(15);
-            });
-          }
+          // Show the office, the route and the address together. The office and the customer can be the same spot
+          // (or very close); fitting to a single point zooms in so far that the map shows blank grey tiles, so
+          // never zoom in past street level.
+          map.fitBounds(bounds, 40);
+          setView("route");
+          maps.event.addListenerOnce(map, "idle", () => {
+            if ((map.getZoom() ?? 0) > 15) map.setZoom(15);
+          });
         }
         reportMapLoad(estimateId ? `estimate:${estimateId}` : `lookup:${destination?.label ?? ""}`.slice(0, 80));
         setStatus("ready");
