@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { formatPhone } from "@/lib/phone";
 import { revalidatePath } from "next/cache";
 import { geocodeAddress } from "@/lib/geocode";
 import { prisma } from "@/lib/prisma";
@@ -110,7 +111,7 @@ export async function createEstimateFromBuilder(
     const firstName = String(c.firstName || "").trim();
     const lastName = String(c.lastName || "").trim();
     const email = String(c.email || "").trim();
-    const phone = String(c.phone || "").trim();
+    const phone = formatPhone(String(c.phone || ""));
     const companyName = String(c.companyName || "").trim();
     const addressLine1 = String(c.addressLine1 || "").trim();
     const addressLine2 = String(c.addressLine2 || "").trim();
@@ -264,7 +265,7 @@ export async function createDraftFromVoice(payload: VoiceDraftPayload): Promise<
         lastName,
         companyName: String(c.companyName || "").trim() || null,
         email: String(c.email || "").trim() || null,
-        phone: String(c.phone || "").trim() || null,
+        phone: formatPhone(String(c.phone || "")) || null,
         source: "OTHER",
         properties: {
           create: {

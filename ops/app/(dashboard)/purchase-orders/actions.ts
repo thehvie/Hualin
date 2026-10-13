@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { formatPhone } from "@/lib/phone";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
@@ -50,9 +51,9 @@ export async function createVendor(
       city: str(formData, "city"),
       state: str(formData, "state"),
       zip: str(formData, "zip"),
-      phone: str(formData, "phone"),
+      phone: formatPhone(str(formData, "phone")) || null,
       phoneExt: str(formData, "phoneExt"),
-      secondaryPhone: str(formData, "secondaryPhone"),
+      secondaryPhone: formatPhone(str(formData, "secondaryPhone")) || null,
       email: str(formData, "email"),
       secondaryEmail: str(formData, "secondaryEmail"),
       contactName: str(formData, "contactName"),

@@ -103,6 +103,9 @@ export default async function InvoicesPage({
     <div className="mx-auto flex max-w-6xl flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-zinc-900">Invoices</h1>
+        <Link href="/invoices/new" className="rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark">
+          + New invoice
+        </Link>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">

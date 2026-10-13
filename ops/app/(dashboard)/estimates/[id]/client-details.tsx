@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { phoneHref } from "@/lib/phone";
 import { US_STATES } from "@/lib/us-states";
 import { updateEstimateClient } from "./actions";
 
@@ -142,7 +143,7 @@ export function ClientDetails({ estimateId, data, defaultState }: { estimateId: 
         {customer.companyName && <p className="text-sm text-zinc-500">{customer.companyName}</p>}
         {customer.email && <p className="text-sm text-zinc-500">{customer.email}</p>}
         {customer.phone && (
-          <a href={`tel:${customer.phone}`} className="text-sm text-zinc-500 hover:text-brand">
+          <a href={phoneHref(customer.phone)} className="text-sm text-zinc-500 hover:text-brand">
             {customer.phone}
           </a>
         )}

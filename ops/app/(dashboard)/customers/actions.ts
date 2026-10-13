@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { formatPhone } from "@/lib/phone";
 import { geocodeAddress } from "@/lib/geocode";
 import { requireSession } from "@/lib/session";
 
@@ -12,9 +13,9 @@ export async function createCustomer(formData: FormData) {
   const lastName = String(formData.get("lastName") || "").trim();
   const companyName = String(formData.get("companyName") || "").trim();
   const email = String(formData.get("email") || "").trim();
-  const phone = String(formData.get("phone") || "").trim();
+  const phone = formatPhone(String(formData.get("phone") || ""));
   const phoneExt = String(formData.get("phoneExt") || "").trim();
-  const secondaryPhone = String(formData.get("secondaryPhone") || "").trim();
+  const secondaryPhone = formatPhone(String(formData.get("secondaryPhone") || ""));
   const secondaryPhoneExt = String(formData.get("secondaryPhoneExt") || "").trim();
   const source = String(formData.get("source") || "OTHER");
   const allowBilling = formData.get("allowBilling") === "on";

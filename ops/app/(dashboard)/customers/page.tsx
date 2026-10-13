@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { phoneHref } from "@/lib/phone";
 import { prisma } from "@/lib/prisma";
 import { formatCents, lineItemsTotal } from "@/lib/money";
 import { requireSession } from "@/lib/session";
@@ -118,7 +119,7 @@ export default async function CustomersPage({
                   </Link>
                   {c.phone && (
                     <a
-                      href={`tel:${c.phone}`}
+                      href={phoneHref(c.phone)}
                       className="rounded-lg bg-brand/10 px-3 py-1.5 text-xs font-semibold text-brand-dark"
                     >
                       Call
@@ -129,7 +130,7 @@ export default async function CustomersPage({
                 <dl className="mt-2 flex flex-col gap-1 text-sm text-zinc-600">
                   {c.phone && (
                     <div>
-                      <a href={`tel:${c.phone}`} className="hover:text-brand">
+                      <a href={phoneHref(c.phone)} className="hover:text-brand">
                         {c.phone}
                       </a>
                     </div>
@@ -168,7 +169,7 @@ export default async function CustomersPage({
                     <td className="px-4 py-3 text-zinc-600">{c.companyName || "—"}</td>
                     <td className="px-4 py-3 text-zinc-600">
                       {c.phone ? (
-                        <a href={`tel:${c.phone}`} className="hover:text-brand">
+                        <a href={phoneHref(c.phone)} className="hover:text-brand">
                           {c.phone}
                         </a>
                       ) : (

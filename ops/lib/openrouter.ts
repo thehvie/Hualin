@@ -1,4 +1,5 @@
 import { recordUsage, type UsageService } from "@/lib/usage";
+import { formatPhone } from "@/lib/phone";
 import { fromDatetimeLocalInTz, formatInTz, wallYmd } from "@/lib/tz";
 
 // Thin OpenRouter client. The model is an env var so we can swap to whatever is
@@ -33,7 +34,7 @@ transcript, firstName, lastName, companyName, email, phone, addressLine1, addres
 Rules:
 - Use "" for anything not said. Never invent values.
 - email: write it in normal form (e.g. "john dot smith at gmail dot com" -> "john.smith@gmail.com").
-- phone: digits only, formatted like 407-555-0123.
+- phone: formatted like 407.555.0123.
 - state: 2-letter US abbreviation.
 - addressLine1: street number and name only; unit/apt/suite goes in addressLine2.
 - jobNotes: EVERYTHING said that is not the customer's name, company, email, phone or address. That is the job description: items to remove, quantities, locations in the property, access details (gate codes, stairs, parking), timing and special requests. Keep the speaker's details, only tidy the wording into short plain sentences. If the speaker described a job at all, jobNotes must not be empty. Do not repeat the customer's contact details in it.
@@ -207,7 +208,7 @@ ${ITEM_RULES}
     lastName: s("lastName", 80),
     companyName: s("companyName", 120),
     email: s("email", 200),
-    phone: s("phone", 40),
+    phone: formatPhone(s("phone", 40)),
     addressLine1: s("addressLine1", 200),
     addressLine2: s("addressLine2", 80),
     city: s("city", 100),

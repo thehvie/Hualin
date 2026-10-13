@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { formatPhone } from "@/lib/phone";
 import sharp from "sharp";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
@@ -8,6 +9,7 @@ import { isValidTimezone, DEFAULT_TIMEZONE } from "@/lib/tz";
 import { isUsState } from "@/lib/us-states";
 import { percentToBps, setDefaultTaxRate, MAX_TAX_PERCENT } from "@/lib/tax";
 import { geocodeAddress } from "@/lib/geocode";
+import { normalizePaymentUrl } from "@/lib/payment-link";
 
 // A generous ceiling on the RAW upload, just to stop an absurd payload —
 // not a real quality gate. sharp always resizes the output to a small,
@@ -54,11 +56,14 @@ export async function updateCompanyProfile(
 
   const name = String(formData.get("name") || "").trim();
   const email = String(formData.get("email") || "").trim();
-  const phone = String(formData.get("phone") || "").trim();
+  const phone = formatPhone(String(formData.get("phone") || ""));
   const website = String(formData.get("website") || "").trim();
   const termsText = String(formData.get("termsText") || "").trim();
   const timezone = String(formData.get("timezone") || DEFAULT_TIMEZONE);
   const state = String(formData.get("state") || "").trim();
+  const rawPaymentLink = String(formData.get("paymentLinkUrl") || "").trim();
+  const paymentLinkUrl = rawPaymentLink ? normalizePaymentUrl(rawPaymentLink) : null;
+  const paymentLinkLabel = String(formData.get("paymentLinkLabel") || "").trim().slice(0, 40);
   const officeAddressLine1 = String(formData.get("officeAddressLine1") || "").trim();
   const officeCity = String(formData.get("officeCity") || "").trim();
   const officeState = String(formData.get("officeState") || "").trim();
@@ -77,6 +82,9 @@ export async function updateCompanyProfile(
   }
   if (state && !isUsState(state)) {
     return { error: "Please choose a valid state." };
+  }
+  if (rawPaymentLink && !paymentLinkUrl) {
+    return { error: "The payment link has to be a full web address, like https://pay.example.com/yourbusiness." };
   }
   if (officeState && !isUsState(officeState)) {
     return { error: "Please choose a valid state for the office address." };
@@ -107,6 +115,10 @@ export async function updateCompanyProfile(
   await prisma.company.update({
     where: { id: companyId },
     data: {
+      paymentLinkUrl,
+      paymentLinkLabel: paymentLinkLabel || null,
+      paymentLinkOnEstimates: formData.get("paymentLinkOnEstimates") === "on",
+      paymentLinkOnInvoices: formData.get("paymentLinkOnInvoices") === "on",
       fuelRateCentsPerMile: fuelRate,
       fuelFreeMiles,
       fuelRoundTrip,

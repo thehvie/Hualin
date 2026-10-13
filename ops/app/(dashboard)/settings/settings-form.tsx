@@ -20,6 +20,10 @@ export function SettingsForm({
     termsText: string | null;
     timezone: string;
     state: string | null;
+    paymentLinkUrl: string | null;
+    paymentLinkLabel: string | null;
+    paymentLinkOnEstimates: boolean;
+    paymentLinkOnInvoices: boolean;
     fuelRate: string;
     fuelFreeMiles: number;
     fuelRoundTrip: boolean;
@@ -140,6 +144,39 @@ export function SettingsForm({
           />
         </div>
         <p className="text-xs text-zinc-400">Where your jobs start from. Estimates show the drive from here to the customer.</p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <p className="text-sm font-medium text-zinc-700">Payment link</p>
+        <input
+          name="paymentLinkUrl"
+          defaultValue={company.paymentLinkUrl || ""}
+          placeholder="https://… your Square, Stripe, PayPal or other payment page"
+          className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+        />
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <input
+            name="paymentLinkLabel"
+            defaultValue={company.paymentLinkLabel || ""}
+            maxLength={40}
+            placeholder="Button text (default: Pay online)"
+            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+          />
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-zinc-700">
+            <label className="flex items-center gap-2">
+              <input name="paymentLinkOnEstimates" type="checkbox" defaultChecked={company.paymentLinkOnEstimates} />
+              Show on estimates
+            </label>
+            <label className="flex items-center gap-2">
+              <input name="paymentLinkOnInvoices" type="checkbox" defaultChecked={company.paymentLinkOnInvoices} />
+              Show on invoices
+            </label>
+          </div>
+        </div>
+        <p className="text-xs text-zinc-400">
+          Customers see a pay button under the total on their estimate and invoice page, and a link on the PDF and in invoice emails. It
+          disappears once an invoice is paid.
+        </p>
       </div>
 
       <div className="flex flex-col gap-3">

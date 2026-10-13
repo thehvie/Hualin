@@ -1,4 +1,4 @@
-import { Document, Page, View, Text, Image, StyleSheet } from "@react-pdf/renderer";
+import { Document, Page, View, Text, Image, Link, StyleSheet } from "@react-pdf/renderer";
 import { formatQty, formatUnitPrice } from "@/lib/price-book";
 
 const styles = StyleSheet.create({
@@ -89,6 +89,8 @@ export interface DocumentPdfProps {
     email: string | null;
     phone: string | null;
     termsText: string | null;
+    /** Printed under the totals when set (only for documents that can still be paid). */
+    paymentLink?: { url: string; label: string } | null;
   };
   customer: {
     name: string;
@@ -107,6 +109,9 @@ export interface DocumentPdfProps {
   discountCents: number;
   /** Printed as its own line only when above $0. */
   fuelSurchargeCents?: number;
+  /** Amount already paid (a deposit, or invoice payments); the PDF then shows what's still owed. */
+  paidCents?: number;
+  paidLabel?: string;
   taxCents: number;
   totalCents: number;
   notes: string | null;
@@ -133,7 +138,7 @@ function formatCents(cents: number) {
 }
 
 export function DocumentPdf(props: DocumentPdfProps) {
-  const { kind, number, date, company, customer, property, lineItems, subtotalCents, discountCents, fuelSurchargeCents = 0, taxCents, totalCents, notes, purchaseOrder } =
+  const { kind, number, date, company, customer, property, lineItems, subtotalCents, discountCents, fuelSurchargeCents = 0, paidCents = 0, paidLabel = "Paid", taxCents, totalCents, notes, purchaseOrder } =
     props;
   const isPo = kind === "PURCHASE_ORDER" && !!purchaseOrder;
   const discountPercent = subtotalCents > 0 ? (discountCents / subtotalCents) * 100 : 0;
@@ -285,7 +290,27 @@ export function DocumentPdf(props: DocumentPdfProps) {
             <Text style={styles.grandTotalLabel}>Total</Text>
             <Text style={styles.grandTotalValue}>{formatCents(totalCents)}</Text>
           </View>
+          {paidCents > 0 && (
+            <>
+              <View style={styles.totalsRow}>
+                <Text style={styles.totalsLabel}>{paidLabel}</Text>
+                <Text style={styles.totalsValue}>-{formatCents(paidCents)}</Text>
+              </View>
+              <View style={styles.grandTotalRow}>
+                <Text style={styles.grandTotalLabel}>Balance due</Text>
+                <Text style={styles.grandTotalValue}>{formatCents(Math.max(0, totalCents - paidCents))}</Text>
+              </View>
+            </>
+          )}
         </View>
+
+        {company.paymentLink && (
+          <View style={{ marginTop: 10, alignItems: "flex-end" }}>
+            <Link src={company.paymentLink.url} style={{ fontSize: 11, fontWeight: 700, color: "#c2410c", textDecoration: "underline" }}>
+              {company.paymentLink.label}: {company.paymentLink.url}
+            </Link>
+          </View>
+        )}
 
         <View style={styles.section}>
           <Text style={styles.sectionHeading}>{isPo ? "Payment terms:" : "Terms:"}</Text>

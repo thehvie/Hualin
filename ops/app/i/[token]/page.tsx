@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/money";
 import { formatQty } from "@/lib/price-book";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
+import { companyPaymentLink } from "@/lib/payment-link";
+import { PayButton } from "@/components/pay-button";
 
 export const metadata = { title: "Invoice", robots: { index: false, follow: false } };
 
@@ -31,6 +33,7 @@ export default async function PublicInvoicePage({ params }: { params: Promise<{ 
     payments: invoice.payments,
   });
   const property = invoice.customer.properties[0] ?? null;
+  const payLink = invoice.status === "VOID" || totals.balanceCents <= 0 ? null : companyPaymentLink(company, "invoice");
   const paidInFull = totals.balanceCents <= 0 && totals.totalCents > 0;
 
   return (
@@ -151,6 +154,8 @@ export default async function PublicInvoicePage({ params }: { params: Promise<{ 
             </div>
           </dl>
         </div>
+
+        {payLink && <PayButton url={payLink.url} label={payLink.label} note={`Balance due: ${formatCents(Math.max(0, totals.balanceCents))}`} />}
 
         {invoice.notes && (
           <div className="rounded-xl border border-zinc-200 bg-white p-5 text-sm text-zinc-700">

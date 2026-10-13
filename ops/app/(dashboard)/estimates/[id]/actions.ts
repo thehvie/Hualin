@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { formatPhone } from "@/lib/phone";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { lineItemsTotal, formatCents } from "@/lib/money";
@@ -13,6 +14,7 @@ import { fromDatetimeLocalInTz, rentalDays } from "@/lib/tz";
 import { geocodeAddress } from "@/lib/geocode";
 import { syncBookingDates } from "@/lib/rentals";
 import { emailLimitMessage } from "@/lib/email-limits";
+import { companyPaymentLink } from "@/lib/payment-link";
 import { renderEstimatePdf } from "@/lib/pdf/render";
 import { isUsState } from "@/lib/us-states";
 
@@ -216,7 +218,7 @@ export async function updateEstimateClient(estimateId: string, input: ClientEdit
       lastName,
       companyName: clean(input.companyName, 120) || null,
       email: clean(input.email) || null,
-      phone: clean(input.phone, 40) || null,
+      phone: formatPhone(clean(input.phone, 40)) || null,
     },
   });
 
@@ -357,6 +359,59 @@ export async function createInvoiceForEstimate(estimateId: string): Promise<{ er
   redirect(`/invoices/${result.invoiceId}`);
 }
 
+const DEPOSIT_METHODS = ["CARD", "CASH", "CHECK", "ACH", "OTHER"] as const;
+
+/** Records that the customer paid their deposit, so the estimate shows the right balance and it carries to the invoice. */
+export async function recordDepositPaid(
+  estimateId: string,
+  input: { amount: string; method: string; reference: string },
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const { companyId } = await requireSession();
+  const estimate = await prisma.estimate.findFirst({ where: { id: estimateId, companyId }, include: { invoice: { select: { id: true } } } });
+  if (!estimate) return { ok: false, error: "Estimate not found." };
+  if (estimate.invoice) return { ok: false, error: "This estimate already has an invoice. Record the payment on the invoice instead." };
+
+  const cents = toCents(input.amount);
+  if (cents <= 0) return { ok: false, error: "Enter the amount you received." };
+  if (!DEPOSIT_METHODS.includes(input.method as (typeof DEPOSIT_METHODS)[number])) return { ok: false, error: "Choose how it was paid." };
+
+  await prisma.estimate.update({
+    where: { id: estimate.id },
+    data: {
+      depositPaidCents: cents,
+      depositPaidAt: new Date(),
+      depositPaidMethod: input.method as (typeof DEPOSIT_METHODS)[number],
+      depositPaidReference: input.reference.trim().slice(0, 80) || null,
+      // Remember what was asked for if nothing was set, so the deposit row isn't left at $0.
+      ...(estimate.depositCents === 0 ? { depositCents: cents } : {}),
+    },
+  });
+  revalidatePath(`/estimates/${estimateId}`);
+  return { ok: true };
+}
+
+export async function clearDepositPaid(estimateId: string): Promise<{ ok: true } | { ok: false; error: string }> {
+  const { companyId } = await requireSession();
+  const result = await prisma.estimate.updateMany({
+    where: { id: estimateId, companyId, invoice: null },
+    data: { depositPaidCents: 0, depositPaidAt: null, depositPaidMethod: null, depositPaidReference: null },
+  });
+  if (result.count === 0) return { ok: false, error: "This deposit can't be undone here." };
+  revalidatePath(`/estimates/${estimateId}`);
+  return { ok: true };
+}
+
+/** Converts the estimate straight to an invoice at any point: no signature or completed job needed. */
+export async function convertEstimateToInvoice(estimateId: string): Promise<{ error: string } | void> {
+  const { companyId } = await requireSession();
+  const result = await createInvoiceFromEstimate(estimateId, companyId, { force: true });
+  if ("error" in result) return result;
+  revalidatePath(`/estimates/${estimateId}`);
+  revalidatePath("/estimates");
+  revalidatePath("/invoices");
+  redirect(`/invoices/${result.invoiceId}`);
+}
+
 export async function sendEstimate(
   estimateId: string,
 ): Promise<{ ok: boolean; skipped: boolean; error?: string }> {
@@ -396,6 +451,10 @@ export async function sendEstimate(
     "",
     "Download a PDF copy:",
     `${estimateSigningUrl(publicToken)}/pdf`,
+    ...(() => {
+      const pay = companyPaymentLink(estimate.company, "estimate");
+      return pay ? ["", `${pay.label}:`, pay.url] : [];
+    })(),
   ].join("\n");
 
   // Attach the PDF too; if it can't be rendered the email still goes out with the download link.

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { phoneHref } from "@/lib/phone";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { GoogleMap } from "@/components/google-map";
@@ -73,6 +74,12 @@ export default async function CustomerDetailPage({
             >
               + Estimate
             </Link>
+            <Link
+              href={`/invoices/new?customerId=${customer.id}`}
+              className="rounded-lg border border-zinc-300 px-3 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
+            >
+              + Invoice
+            </Link>
           </div>
         </div>
         {customer.companyName && <p className="text-sm text-zinc-500">{customer.companyName}</p>}
@@ -85,13 +92,13 @@ export default async function CustomerDetailPage({
               <InfoRow
                 label="Phone"
                 value={customer.phone ? `${customer.phone}${customer.phoneExt ? ` ext. ${customer.phoneExt}` : ""}` : "—"}
-                href={customer.phone ? `tel:${customer.phone}` : undefined}
+                href={customer.phone ? phoneHref(customer.phone) : undefined}
               />
               {customer.secondaryPhone && (
                 <InfoRow
                   label="Secondary phone"
                   value={`${customer.secondaryPhone}${customer.secondaryPhoneExt ? ` ext. ${customer.secondaryPhoneExt}` : ""}`}
-                  href={`tel:${customer.secondaryPhone}`}
+                  href={phoneHref(customer.secondaryPhone)}
                 />
               )}
               <InfoRow label="Email" value={customer.email || "—"} />

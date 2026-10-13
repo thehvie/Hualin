@@ -41,6 +41,12 @@ model Company {
   mailgunApiKeyEnc     String?
   mailgunSigningKeyEnc String?
   mailFromEmail        String?
+  // Link to the company's own payment page (Square, Stripe payment link, PayPal, etc.), shown to customers under the
+  // total on estimates and invoices.
+  paymentLinkUrl         String?
+  paymentLinkLabel       String?
+  paymentLinkOnEstimates Boolean @default(true)
+  paymentLinkOnInvoices  Boolean @default(true)
   // IANA zone the business operates in; job times are read/written in it.
   timezone             String             @default("America/New_York")
   // Two-letter US state the business operates in; pre-fills the online booking address.
@@ -303,6 +309,11 @@ model Estimate {
 
   discountCents  Int @default(0)
   depositCents   Int @default(0)
+  // A deposit actually received (as opposed to depositCents, the amount requested). Carried onto the invoice as a payment.
+  depositPaidCents     Int            @default(0)
+  depositPaidAt        DateTime?
+  depositPaidMethod    PaymentMethod?
+  depositPaidReference String?
   laborCostCents Int @default(0)
   // Fuel surcharge for the trip to the job; shown on the PDF only when above $0. Not taxed.
   fuelSurchargeCents Int @default(0)

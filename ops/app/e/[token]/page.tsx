@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatCents, lineItemsTotal } from "@/lib/money";
+import { companyPaymentLink } from "@/lib/payment-link";
+import { PayButton } from "@/components/pay-button";
 import { formatQty } from "@/lib/price-book";
 import { SignForm } from "./sign-form";
 
@@ -27,6 +29,7 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
   const fuel = Math.max(estimate.fuelSurchargeCents, 0);
   const total = Math.max(0, subtotal - discount) + fuel;
   const open = estimate.status === "DRAFT" || estimate.status === "SENT";
+  const payLink = estimate.status === "DECLINED" || estimate.status === "EXPIRED" ? null : companyPaymentLink(company, "estimate");
 
   return (
     <div className="min-h-screen bg-zinc-50 px-4 py-8">
@@ -130,7 +133,19 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
               <dt>Total</dt>
               <dd>{formatCents(total)}</dd>
             </div>
-            {estimate.depositCents > 0 && (
+            {estimate.depositPaidCents > 0 && (
+              <>
+                <div className="flex justify-between text-zinc-500">
+                  <dt>Deposit paid</dt>
+                  <dd>-{formatCents(estimate.depositPaidCents)}</dd>
+                </div>
+                <div className="flex justify-between font-semibold text-zinc-900">
+                  <dt>Balance due</dt>
+                  <dd>{formatCents(Math.max(0, total - estimate.depositPaidCents))}</dd>
+                </div>
+              </>
+            )}
+            {estimate.depositCents > 0 && estimate.depositPaidCents === 0 && (
               <div className="flex justify-between text-zinc-500">
                 <dt>Deposit due</dt>
                 <dd>{formatCents(estimate.depositCents)}</dd>
@@ -138,6 +153,8 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
             )}
           </dl>
         </div>
+
+        {payLink && <PayButton url={payLink.url} label={payLink.label} note={estimate.depositPaidCents > 0 ? `Balance due: ${formatCents(Math.max(0, total - estimate.depositPaidCents))}` : estimate.depositCents > 0 ? `Deposit due: ${formatCents(estimate.depositCents)}` : undefined} />}
 
         {estimate.paymentSchedule.length > 0 && (
           <div className="rounded-xl border border-zinc-200 bg-white p-5 text-sm">

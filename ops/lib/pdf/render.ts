@@ -4,6 +4,7 @@ import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { lineItemsTotal } from "@/lib/money";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
+import { companyPaymentLink } from "@/lib/payment-link";
 import { poTotalCents } from "@/lib/purchase-orders";
 import { DocumentPdf } from "@/lib/pdf/document-pdf";
 import { logoSizeFor } from "@/lib/pdf/logo";
@@ -51,6 +52,7 @@ export async function renderEstimatePdf(where: Prisma.EstimateWhereInput): Promi
         email: estimate.company.email,
         phone: estimate.company.phone,
         termsText: estimate.company.termsText,
+        paymentLink: estimate.status === "DECLINED" || estimate.status === "EXPIRED" ? null : companyPaymentLink(estimate.company, "estimate"),
       },
       customer: {
         name: `${estimate.customer.firstName} ${estimate.customer.lastName}`,
@@ -75,6 +77,8 @@ export async function renderEstimatePdf(where: Prisma.EstimateWhereInput): Promi
       subtotalCents,
       discountCents,
       fuelSurchargeCents,
+      paidCents: estimate.depositPaidCents,
+      paidLabel: "Deposit paid",
       taxCents: 0,
       totalCents,
       notes: estimate.notes,
@@ -119,6 +123,7 @@ export async function renderInvoicePdf(where: Prisma.InvoiceWhereInput): Promise
         email: invoice.company.email,
         phone: invoice.company.phone,
         termsText: invoice.company.termsText,
+        paymentLink: invoice.status === "VOID" || totals.balanceCents <= 0 ? null : companyPaymentLink(invoice.company, "invoice"),
       },
       customer: {
         name: `${invoice.customer.firstName} ${invoice.customer.lastName}`,
@@ -143,6 +148,8 @@ export async function renderInvoicePdf(where: Prisma.InvoiceWhereInput): Promise
       subtotalCents: totals.subtotalCents,
       discountCents: totals.discountCents,
       fuelSurchargeCents: totals.fuelSurchargeCents,
+      paidCents: totals.paidCents,
+      paidLabel: "Payments received",
       taxCents: totals.taxCents,
       totalCents: totals.totalCents,
       notes: invoice.notes,

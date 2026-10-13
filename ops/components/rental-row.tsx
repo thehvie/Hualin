@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { phoneHref } from "@/lib/phone";
 import { useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
 import { markDelivered, markPickedUp, requestPickup, undoRentalStep } from "@/app/(dashboard)/dispatch/actions";
@@ -78,7 +79,7 @@ export function RentalRow({ stop }: { stop: RentalStop }) {
             </a>
           ) : null)}
         {stop.phone && (
-          <a href={`tel:${stop.phone}`} className="hover:text-brand">
+          <a href={phoneHref(stop.phone)} className="hover:text-brand">
             📞 {stop.phone}
           </a>
         )}

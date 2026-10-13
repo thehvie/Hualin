@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { phoneHref } from "@/lib/phone";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { formatCents } from "@/lib/money";
@@ -180,7 +181,7 @@ export default async function PurchaseOrdersPage({
                       </td>
                       <td className="px-4 py-3 text-zinc-600">
                         {v.phone ? (
-                          <a href={`tel:${v.phone}`} className="text-brand hover:underline">
+                          <a href={phoneHref(v.phone)} className="text-brand hover:underline">
                             {v.phone}
                             {v.phoneExt ? ` x${v.phoneExt}` : ""}
                           </a>

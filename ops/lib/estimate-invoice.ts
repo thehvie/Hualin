@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getDefaultTaxRate } from "@/lib/tax";
 import { rentalCharges } from "@/lib/rental-charges";
+import { recalcInvoiceStatus } from "@/lib/invoice-status";
 
 /**
  * Creates a draft invoice from an approved estimate, copying line items and the
@@ -10,6 +11,8 @@ import { rentalCharges } from "@/lib/rental-charges";
 export async function createInvoiceFromEstimate(
   estimateId: string,
   companyId: string,
+  // `force` is for "Convert to invoice": it skips the approved-and-job-complete checks (cash jobs, work done without a signature).
+  options: { force?: boolean } = {},
 ): Promise<{ invoiceId: string } | { error: string }> {
   const estimate = await prisma.estimate.findFirst({
     where: { id: estimateId, companyId },
@@ -22,9 +25,15 @@ export async function createInvoiceFromEstimate(
   });
   if (!estimate) return { error: "Estimate not found." };
   if (estimate.invoice) return { invoiceId: estimate.invoice.id };
-  if (estimate.status !== "APPROVED") return { error: "Only approved estimates can be invoiced." };
-  if (estimate.job && estimate.job.status !== "COMPLETED") {
-    return { error: "Mark the job as completed before creating the invoice." };
+  if (options.force) {
+    if (estimate.status === "DECLINED" || estimate.status === "EXPIRED") {
+      return { error: "This estimate is marked declined or archived. Change its status first, then convert it." };
+    }
+  } else {
+    if (estimate.status !== "APPROVED") return { error: "Only approved estimates can be invoiced." };
+    if (estimate.job && estimate.job.status !== "COMPLETED") {
+      return { error: "Mark the job as completed before creating the invoice." };
+    }
   }
   if (estimate.lineItems.length === 0) return { error: "This estimate has no line items." };
 
@@ -71,6 +80,10 @@ export async function createInvoiceFromEstimate(
     },
   });
 
+  if (options.force && estimate.status !== "APPROVED") {
+    await prisma.estimate.update({ where: { id: estimateId }, data: { status: "APPROVED" } });
+  }
+
   // Dumpsters that came back: bill the days kept past the package and any weight over the allowance.
   if (estimate.jobId) {
     const [bookings, company] = await Promise.all([
@@ -99,6 +112,21 @@ export async function createInvoiceFromEstimate(
         })),
       });
     }
+  }
+
+  // A deposit the customer already paid becomes a payment on the invoice, so it shows the balance still owed.
+  if (estimate.depositPaidCents > 0) {
+    await prisma.payment.create({
+      data: {
+        companyId,
+        invoiceId: invoice.id,
+        amountCents: estimate.depositPaidCents,
+        method: estimate.depositPaidMethod ?? "OTHER",
+        reference: `Deposit from estimate #${estimate.number}${estimate.depositPaidReference ? `: ${estimate.depositPaidReference}` : ""}`,
+        createdAt: estimate.depositPaidAt ?? new Date(),
+      },
+    });
+    await recalcInvoiceStatus(invoice.id, companyId);
   }
 
   return { invoiceId: invoice.id };

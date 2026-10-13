@@ -10,6 +10,7 @@ import { ConversationPanel, type ConversationMessage } from "@/components/conver
 import { VoiceItems } from "@/components/voice-items";
 import { RouteMap } from "@/components/route-map";
 import { RentalsCard } from "@/components/rentals-card";
+import { DepositPaid } from "@/components/deposit-paid";
 import type { RentalCardData } from "@/lib/rentals";
 import { ClientDetails } from "./client-details";
 import type { RouteInfo } from "@/lib/office";
@@ -25,7 +26,7 @@ import {
   addPaymentScheduleItem,
   updateEstimateSchedule,
   removePaymentScheduleItem,
-  createInvoiceForEstimate,
+  convertEstimateToInvoice,
   sendEstimate,
   deleteEstimate,
 } from "./actions";
@@ -62,6 +63,9 @@ interface EstimateData {
   discountCents: number;
   fuelSurchargeCents: number;
   depositCents: number;
+  depositPaidCents: number;
+  depositPaidAt: string | null;
+  depositPaidMethod: string | null;
   laborCostCents: number;
   sentAt: string | null;
   customer: { id: string; firstName: string; lastName: string; companyName: string | null; name: string; email: string | null; phone: string | null; messageChannel: "sms" | "email" | null };
@@ -129,6 +133,7 @@ export function EstimateEditor({
   const itemCostCents = estimate.lineItems.reduce((sum, li) => sum + li.quantity * (li.costCents ?? 0), 0);
   const totalCents = Math.max(0, subtotalCents - estimate.discountCents) + estimate.fuelSurchargeCents;
   const depositPercent = subtotalCents > 0 ? (estimate.depositCents / subtotalCents) * 100 : 0;
+  const balanceDueCents = Math.max(0, totalCents - estimate.depositPaidCents);
   const estMarginCents = totalCents - itemCostCents - estimate.laborCostCents;
   const marginPercent = totalCents > 0 ? (estMarginCents / totalCents) * 100 : null;
 
@@ -154,9 +159,14 @@ export function EstimateEditor({
     startTransition(() => updateEstimateHeader(estimate.id, fd));
   }
 
-  function handleCreateInvoice() {
+  function handleConvert() {
+    const notDone = estimate.jobStatus !== null && estimate.jobStatus !== "COMPLETED";
+    const message = notDone
+      ? "The job isn't marked complete yet. Convert this estimate to an invoice anyway? You can still edit the invoice."
+      : "Convert this estimate to an invoice? You can still edit the invoice.";
+    if (!confirm(message)) return;
     startTransition(async () => {
-      const res = await createInvoiceForEstimate(estimate.id);
+      const res = await convertEstimateToInvoice(estimate.id);
       if (res && "error" in res) setNotice(res.error);
     });
   }
@@ -273,6 +283,15 @@ export function EstimateEditor({
           >
             Text link
           </button>
+          {!estimate.hasInvoice && (
+            <button
+              disabled={isPending}
+              onClick={handleConvert}
+              className="rounded-lg border border-brand px-3 py-2 text-sm font-semibold text-brand hover:bg-brand/5 disabled:opacity-50"
+            >
+              Convert to invoice
+            </button>
+          )}
           <button
             disabled={isPending}
             onClick={handleSend}
@@ -291,8 +310,8 @@ export function EstimateEditor({
             <span>
               {" "}
               {estimate.jobStatus !== null && estimate.jobStatus !== "COMPLETED"
-                ? "Create the invoice once the job is complete."
-                : "The job is complete — you can create the invoice."}
+                ? "When the work is done, use Convert to invoice."
+                : "The job is complete. Use Convert to invoice."}
             </span>
           )}
         </div>
@@ -416,20 +435,6 @@ export function EstimateEditor({
           >
             Price book
           </button>
-          {estimate.status === "APPROVED" && !estimate.hasInvoice && (
-            <button
-              disabled={isPending || (estimate.jobStatus !== null && estimate.jobStatus !== "COMPLETED")}
-              onClick={handleCreateInvoice}
-              title={
-                estimate.jobStatus !== null && estimate.jobStatus !== "COMPLETED"
-                  ? "Complete the job first"
-                  : undefined
-              }
-              className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
-            >
-              Create invoice
-            </button>
-          )}
         </div>
       </div>
 
@@ -463,10 +468,30 @@ export function EstimateEditor({
               suffix={`(${depositPercent.toFixed(1)}%)`}
               onSave={(cents) => saveField(estimate, "deposit", cents, startTransition)}
             />
+            <DepositPaid
+              estimateId={estimate.id}
+              requestedCents={estimate.depositCents}
+              paidCents={estimate.depositPaidCents}
+              paidAt={estimate.depositPaidAt}
+              method={estimate.depositPaidMethod}
+              hasInvoice={estimate.hasInvoice}
+            />
             <div className="mt-2 flex justify-between border-t border-zinc-200 pt-2 text-base font-bold text-zinc-900">
               <dt>Total</dt>
               <dd>{formatCents(totalCents)}</dd>
             </div>
+            {estimate.depositPaidCents > 0 && (
+              <>
+                <div className="flex justify-between text-zinc-500">
+                  <dt>Deposit paid</dt>
+                  <dd>-{formatCents(estimate.depositPaidCents)}</dd>
+                </div>
+                <div className="flex justify-between text-base font-bold text-zinc-900">
+                  <dt>Balance due</dt>
+                  <dd>{formatCents(balanceDueCents)}</dd>
+                </div>
+              </>
+            )}
             <div className="flex justify-between text-xs text-zinc-400">
               <dt>Est. margin (internal)</dt>
               <dd>

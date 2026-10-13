@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { formatPhone } from "@/lib/phone";
 import { slotsForDate, slotInstant, MAX_JOBS_PER_SLOT } from "@/lib/booking";
 import { isValidYmd, addDaysYmd, startOfDayInTz, wallParts } from "@/lib/tz";
 import { normalizePhoto, MAX_PHOTOS } from "@/lib/photos";
@@ -64,7 +65,7 @@ export async function submitBooking(
   const firstName = String(formData.get("firstName") || "").trim().slice(0, 80);
   const lastName = String(formData.get("lastName") || "").trim().slice(0, 80);
   const email = String(formData.get("email") || "").trim().toLowerCase().slice(0, 200);
-  const phone = String(formData.get("phone") || "").trim().slice(0, 40);
+  const phone = formatPhone(String(formData.get("phone") || "").slice(0, 40));
   const addressLine1 = String(formData.get("address") || "").trim().slice(0, 200);
   const city = String(formData.get("city") || "").trim().slice(0, 100);
   const state = company.state || String(formData.get("state") || "").trim().slice(0, 40);

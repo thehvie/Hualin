@@ -75,6 +75,9 @@ export default async function EstimateDetailPage({
           discountCents: estimate.discountCents,
           fuelSurchargeCents: estimate.fuelSurchargeCents,
           depositCents: estimate.depositCents,
+          depositPaidCents: estimate.depositPaidCents,
+          depositPaidAt: estimate.depositPaidAt ? estimate.depositPaidAt.toISOString() : null,
+          depositPaidMethod: estimate.depositPaidMethod,
           laborCostCents: estimate.laborCostCents,
           sentAt: estimate.sentAt ? estimate.sentAt.toISOString() : null,
           customer: {
