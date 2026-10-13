@@ -28,6 +28,8 @@ model Company {
   email                String?
   phone                String?
   termsText            String?            @db.Text
+  // Extra terms added on estimates and invoices that include a rental (dumpster or equipment).
+  rentalTermsText      String?            @db.Text
   stripeCustomerId     String?            @unique
   stripeSubscriptionId String?            @unique
   stripePriceId        String?
@@ -314,6 +316,8 @@ model Estimate {
   depositPaidAt        DateTime?
   depositPaidMethod    PaymentMethod?
   depositPaidReference String?
+  // The terms the customer agreed to when they signed, so later edits in Settings don't rewrite signed paperwork.
+  termsSnapshot        String?        @db.Text
   laborCostCents Int @default(0)
   // Fuel surcharge for the trip to the job; shown on the PDF only when above $0. Not taxed.
   fuelSurchargeCents Int @default(0)

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { SettingsForm } from "./settings-form";
 import { UsageCard } from "./usage-card";
+import { TermsCard } from "./terms-card";
 import { EmailCard, type EmailState } from "./email-card";
 import { sharedEmailStatusOf } from "@/lib/mail-config";
 import { getUsageStatus } from "@/lib/usage";
@@ -35,7 +36,6 @@ export default async function SettingsPage() {
           email: company.email,
           phone: company.phone,
           website: company.website,
-          termsText: company.termsText,
           timezone: company.timezone,
           state: company.state,
           paymentLinkUrl: company.paymentLinkUrl,
@@ -53,6 +53,8 @@ export default async function SettingsPage() {
           logoDataUrl: company.logoDataUrl,
         }}
       />
+
+      <TermsCard termsText={company.termsText ?? ""} rentalTermsText={company.rentalTermsText ?? ""} />
 
       <EmailCard state={emailState} appUrl={(process.env.NEXTAUTH_URL || "").replace(/\/$/, "")} />
 

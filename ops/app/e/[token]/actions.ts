@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/mailgun";
 import { lineItemsTotal, formatCents } from "@/lib/money";
+import { documentTerms, hasRentalItems } from "@/lib/terms";
 
 const MAX_SIGNATURE_LENGTH = 400_000;
 
@@ -44,6 +45,7 @@ export async function signEstimate(
       signedName: name,
       signatureDataUrl: input.signatureDataUrl,
       signedIp: ip,
+      termsSnapshot: documentTerms(estimate.company, await hasRentalItems(estimate.companyId, estimate.lineItems)),
     },
   });
   if (count === 0) return { ok: true };

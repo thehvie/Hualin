@@ -58,7 +58,6 @@ export async function updateCompanyProfile(
   const email = String(formData.get("email") || "").trim();
   const phone = formatPhone(String(formData.get("phone") || ""));
   const website = String(formData.get("website") || "").trim();
-  const termsText = String(formData.get("termsText") || "").trim();
   const timezone = String(formData.get("timezone") || DEFAULT_TIMEZONE);
   const state = String(formData.get("state") || "").trim();
   const rawPaymentLink = String(formData.get("paymentLinkUrl") || "").trim();
@@ -132,7 +131,6 @@ export async function updateCompanyProfile(
       email: email || null,
       phone: phone || null,
       website: website || null,
-      termsText: termsText || null,
       timezone,
       state: state || null,
       ...(logoDataUrl ? { logoDataUrl } : {}),
@@ -151,4 +149,16 @@ export async function removeCompanyLogo() {
   await prisma.company.update({ where: { id: companyId }, data: { logoDataUrl: null } });
   revalidatePath("/settings");
   revalidatePath("/", "layout");
+}
+
+/** Saves the terms & conditions that appear on estimates, invoices and their PDFs. */
+export async function saveTerms(input: { termsText: string; rentalTermsText: string }): Promise<{ ok: true } | { ok: false; error: string }> {
+  const { companyId } = await requireSession();
+  const termsText = String(input.termsText ?? "").trim();
+  const rentalTermsText = String(input.rentalTermsText ?? "").trim();
+  if (termsText.length > 20000 || rentalTermsText.length > 20000) return { ok: false, error: "That's too long. Keep each part under 20,000 characters." };
+
+  await prisma.company.update({ where: { id: companyId }, data: { termsText: termsText || null, rentalTermsText: rentalTermsText || null } });
+  revalidatePath("/settings");
+  return { ok: true };
 }

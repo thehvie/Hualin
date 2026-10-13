@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { formatCents, lineItemsTotal } from "@/lib/money";
 import { companyPaymentLink } from "@/lib/payment-link";
 import { PayButton } from "@/components/pay-button";
+import { documentTerms, hasRentalItems } from "@/lib/terms";
+import { TermsView } from "@/components/terms-view";
 import { formatQty } from "@/lib/price-book";
 import { SignForm } from "./sign-form";
 
@@ -29,6 +31,7 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
   const fuel = Math.max(estimate.fuelSurchargeCents, 0);
   const total = Math.max(0, subtotal - discount) + fuel;
   const open = estimate.status === "DRAFT" || estimate.status === "SENT";
+  const terms = estimate.termsSnapshot ?? documentTerms(company, await hasRentalItems(estimate.companyId, estimate.lineItems));
   const payLink = estimate.status === "DECLINED" || estimate.status === "EXPIRED" ? null : companyPaymentLink(company, "estimate");
 
   return (
@@ -180,12 +183,10 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
           </div>
         )}
 
-        {company.termsText && (
-          <div className="rounded-xl border border-zinc-200 bg-white p-5 text-xs text-zinc-500">
-            <p className="mb-1 font-semibold uppercase tracking-wide text-zinc-400">Terms &amp; conditions</p>
-            <p className="whitespace-pre-wrap">{company.termsText}</p>
-          </div>
-        )}
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 text-xs text-zinc-500">
+          <p className="mb-1 font-semibold uppercase tracking-wide text-zinc-400">Terms &amp; conditions</p>
+          <TermsView text={terms} />
+        </div>
 
         {open && <SignForm token={token} />}
 

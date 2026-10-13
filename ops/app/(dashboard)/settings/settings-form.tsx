@@ -17,7 +17,6 @@ export function SettingsForm({
     email: string | null;
     phone: string | null;
     website: string | null;
-    termsText: string | null;
     timezone: string;
     state: string | null;
     paymentLinkUrl: string | null;
@@ -234,21 +233,6 @@ export function SettingsForm({
           Your state or local rate, for example 6.5. Enter 0 if you don&apos;t charge sales tax. New invoices use this rate on
           items marked taxable; invoices you&apos;ve already created keep the rate they were made with.
         </p>
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="termsText" className="text-sm font-medium text-zinc-700">
-          Terms &amp; Conditions
-        </label>
-        <textarea
-          id="termsText"
-          name="termsText"
-          rows={4}
-          defaultValue={company.termsText || ""}
-          placeholder={DEFAULT_TERMS_PLACEHOLDER}
-          className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
-        />
-        <p className="text-xs text-zinc-400">Shown on estimate and invoice PDFs. Leave blank to use the default wording.</p>
       </div>
 
       <button

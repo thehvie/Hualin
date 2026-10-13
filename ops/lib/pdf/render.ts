@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { lineItemsTotal } from "@/lib/money";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
 import { companyPaymentLink } from "@/lib/payment-link";
+import { documentTerms, hasRentalItems } from "@/lib/terms";
 import { poTotalCents } from "@/lib/purchase-orders";
 import { DocumentPdf } from "@/lib/pdf/document-pdf";
 import { logoSizeFor } from "@/lib/pdf/logo";
@@ -51,7 +52,7 @@ export async function renderEstimatePdf(where: Prisma.EstimateWhereInput): Promi
         website: estimate.company.website,
         email: estimate.company.email,
         phone: estimate.company.phone,
-        termsText: estimate.company.termsText,
+        termsText: estimate.termsSnapshot ?? documentTerms(estimate.company, await hasRentalItems(estimate.companyId, estimate.lineItems)),
         paymentLink: estimate.status === "DECLINED" || estimate.status === "EXPIRED" ? null : companyPaymentLink(estimate.company, "estimate"),
       },
       customer: {
@@ -122,7 +123,7 @@ export async function renderInvoicePdf(where: Prisma.InvoiceWhereInput): Promise
         website: invoice.company.website,
         email: invoice.company.email,
         phone: invoice.company.phone,
-        termsText: invoice.company.termsText,
+        termsText: documentTerms(invoice.company, await hasRentalItems(invoice.companyId, invoice.lineItems)),
         paymentLink: invoice.status === "VOID" || totals.balanceCents <= 0 ? null : companyPaymentLink(invoice.company, "invoice"),
       },
       customer: {

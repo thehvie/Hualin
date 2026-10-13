@@ -1,5 +1,6 @@
 import { Document, Page, View, Text, Image, Link, StyleSheet } from "@react-pdf/renderer";
 import { formatQty, formatUnitPrice } from "@/lib/price-book";
+import { parseTerms } from "@/lib/terms-format";
 
 const styles = StyleSheet.create({
   page: { padding: 40, fontSize: 10, fontFamily: "Helvetica", color: "#3f3f46" },
@@ -314,9 +315,41 @@ export function DocumentPdf(props: DocumentPdfProps) {
 
         <View style={styles.section}>
           <Text style={styles.sectionHeading}>{isPo ? "Payment terms:" : "Terms:"}</Text>
-          <Text style={styles.sectionBody}>
-            {isPo ? (purchaseOrder?.paymentTerms ?? "") : company.termsText || DEFAULT_TERMS}
-          </Text>
+          {isPo ? (
+            <Text style={styles.sectionBody}>{purchaseOrder?.paymentTerms ?? ""}</Text>
+          ) : (
+            <View>
+              {parseTerms(company.termsText || DEFAULT_TERMS).map((b, i) => {
+                if (b.kind === "space") return <View key={i} style={{ height: 5 }} />;
+                const runs = b.runs.map((r, j) => (
+                  <Text key={j} style={r.bold ? { fontWeight: 700, color: "#3f3f46" } : undefined}>
+                    {r.text}
+                  </Text>
+                ));
+                if (b.kind === "numbered") {
+                  return (
+                    <View key={i} style={{ flexDirection: "row", marginTop: 2 }}>
+                      <Text style={[styles.sectionBody, { width: 16, fontWeight: 700, color: "#3f3f46" }]}>{b.label}</Text>
+                      <Text style={[styles.sectionBody, { flex: 1 }]}>{runs}</Text>
+                    </View>
+                  );
+                }
+                if (b.kind === "bullet") {
+                  return (
+                    <View key={i} style={{ flexDirection: "row", marginTop: 1, paddingLeft: b.depth ? 30 : 16 }}>
+                      <Text style={[styles.sectionBody, { width: 8 }]}>•</Text>
+                      <Text style={[styles.sectionBody, { flex: 1 }]}>{runs}</Text>
+                    </View>
+                  );
+                }
+                return (
+                  <Text key={i} style={[styles.sectionBody, b.kind === "heading" ? { marginTop: 3, fontWeight: 700, color: "#3f3f46" } : {}]}>
+                    {runs}
+                  </Text>
+                );
+              })}
+            </View>
+          )}
         </View>
 
         <View style={styles.section}>
