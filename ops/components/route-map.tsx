@@ -15,9 +15,10 @@ export function RouteMap({
   currentFuelCents,
 }: {
   route: RouteInfo;
-  estimateId: string;
-  fuel: FuelSettings;
-  currentFuelCents: number;
+  /** Without an estimate (the Map page) the fuel fee is shown but can't be applied to anything. */
+  estimateId?: string;
+  fuel?: FuelSettings;
+  currentFuelCents?: number;
 }) {
   const [applying, startApplying] = useTransition();
   const { office, destination, straightMiles, drive, paused } = route;
@@ -67,7 +68,7 @@ export function RouteMap({
             if ((map.getZoom() ?? 0) > 15) map.setZoom(15);
           });
         }
-        reportMapLoad(`estimate:${estimateId}`);
+        reportMapLoad(estimateId ? `estimate:${estimateId}` : `lookup:${destination?.label ?? ""}`.slice(0, 80));
         setStatus("ready");
       })
       .catch(() => {
@@ -125,9 +126,10 @@ export function RouteMap({
         ) : null}
       </div>
 
-      {fuel.rateCentsPerMile > 0 && oneWayMiles != null && (() => {
+      {fuel && fuel.rateCentsPerMile > 0 && oneWayMiles != null && (() => {
         const { billableMiles, cents } = fuelSurcharge(oneWayMiles, fuel);
         const upToDate = currentFuelCents === cents;
+        const fuelNow = currentFuelCents ?? 0;
         return (
           <div className="rounded-lg bg-zinc-50 p-3 text-sm">
             <div className="flex items-baseline justify-between">
@@ -139,6 +141,7 @@ export function RouteMap({
               {fuel.freeMiles > 0 ? `, first ${fuel.freeMiles} mi free` : ""}
               {!drive ? " (estimated from straight-line distance)" : ""}
             </p>
+            {estimateId && (
             <button
               type="button"
               disabled={applying || upToDate || cents === 0}
@@ -149,8 +152,9 @@ export function RouteMap({
               }
               className="mt-2 rounded-lg border border-brand px-3 py-1.5 text-xs font-semibold text-brand disabled:cursor-default disabled:border-zinc-200 disabled:text-zinc-400"
             >
-              {applying ? "Applying…" : upToDate ? "Applied to totals" : currentFuelCents > 0 ? "Update fuel surcharge" : "Apply to totals"}
+              {applying ? "Applying…" : upToDate ? "Applied to totals" : fuelNow > 0 ? "Update fuel surcharge" : "Apply to totals"}
             </button>
+            )}
           </div>
         );
       })()}

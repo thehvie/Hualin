@@ -5,6 +5,8 @@ export const HOME_BASE_ADDRESS = "1375 Lake Shadow Cir, Maitland, FL 32751";
 export interface GeocodeResult {
   latitude: number;
   longitude: number;
+  /** Google's formatted address for what was found, when known. */
+  formatted?: string;
 }
 
 let homeBaseCache: GeocodeResult | null = null;
@@ -36,7 +38,7 @@ export async function geocodeAddress(address: string, companyId?: string): Promi
     }
 
     const { lat, lng } = data.results[0].geometry.location;
-    return { latitude: lat, longitude: lng };
+    return { latitude: lat, longitude: lng, formatted: data.results[0].formatted_address };
   } catch {
     return null;
   }
