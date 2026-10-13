@@ -24,12 +24,37 @@ export function RouteMap({
   const { office, destination, straightMiles, drive, paused } = route;
   const mapRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "no-key" | "error">("loading");
+  const mapObj = useRef<google.maps.Map | null>(null);
+  const boundsObj = useRef<google.maps.LatLngBounds | null>(null);
+  const [view, setView] = useState<"route" | "address" | "office">("route");
 
   const dLat = destination?.latitude ?? null;
   const dLng = destination?.longitude ?? null;
   const oLat = office?.latitude ?? null;
   const oLng = office?.longitude ?? null;
   const pathKey = drive ? `${drive.path.length}:${drive.distanceMiles}` : "";
+  // On a long trip, fitting the whole route zooms out to a continent where the address is a speck, so open on the address.
+  const longTrip = (drive ? drive.distanceMiles : (straightMiles ?? 0) * 1.25) > 40;
+
+  /** Moves the map to the office, the customer's address, or the whole route. */
+  function showView(next: "route" | "address" | "office") {
+    const map = mapObj.current;
+    const maps = window.google?.maps;
+    if (!map || !maps) return;
+    setView(next);
+    if (next === "address" && dLat != null && dLng != null) {
+      map.setCenter({ lat: dLat, lng: dLng });
+      map.setZoom(15);
+    } else if (next === "office" && oLat != null && oLng != null) {
+      map.setCenter({ lat: oLat, lng: oLng });
+      map.setZoom(15);
+    } else if (boundsObj.current) {
+      map.fitBounds(boundsObj.current, 40);
+      maps.event.addListenerOnce(map, "idle", () => {
+        if ((map.getZoom() ?? 0) > 15) map.setZoom(15);
+      });
+    }
+  }
 
   useEffect(() => {
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -60,13 +85,23 @@ export function RouteMap({
           new maps.Polyline({ path, map, strokeColor: "#f97316", strokeWeight: 5, strokeOpacity: 0.9 });
           path.forEach((pt) => bounds.extend(pt));
         }
+        mapObj.current = map;
+        boundsObj.current = bounds;
         if (oLat != null) {
-          map.fitBounds(bounds, 40);
-          // The office and the customer can be the same spot (or very close); fitting to a single point zooms
-          // in so far that the map shows blank grey tiles, so never zoom in past street level.
-          maps.event.addListenerOnce(map, "idle", () => {
-            if ((map.getZoom() ?? 0) > 15) map.setZoom(15);
-          });
+          if (longTrip) {
+            // Open on the selected address; the buttons above the map switch to the office or the whole route.
+            map.setCenter(dest);
+            map.setZoom(15);
+            setView("address");
+          } else {
+            map.fitBounds(bounds, 40);
+            setView("route");
+            // The office and the customer can be the same spot (or very close); fitting to a single point zooms
+            // in so far that the map shows blank grey tiles, so never zoom in past street level.
+            maps.event.addListenerOnce(map, "idle", () => {
+              if ((map.getZoom() ?? 0) > 15) map.setZoom(15);
+            });
+          }
         }
         reportMapLoad(estimateId ? `estimate:${estimateId}` : `lookup:${destination?.label ?? ""}`.slice(0, 80));
         setStatus("ready");
@@ -98,6 +133,27 @@ export function RouteMap({
           Open in Google Maps ↗
         </a>
       </div>
+
+      {oLat != null && dLat != null && !paused && status === "ready" && (
+        <div className="flex gap-1 self-start rounded-lg bg-zinc-100 p-0.5 text-xs font-semibold">
+          {(
+            [
+              ["office", "Office"],
+              ["address", "Address"],
+              ["route", "Whole route"],
+            ] as const
+          ).map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => showView(key)}
+              className={`rounded-md px-3 py-1 ${view === key ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-700"}`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {dLat != null && dLng != null && !paused && status !== "no-key" && status !== "error" ? (
         <div ref={mapRef} style={{ height: 240 }} className="w-full rounded-lg bg-zinc-100" />
