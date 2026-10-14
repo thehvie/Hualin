@@ -91,6 +91,8 @@ No new link or login: the private estimate link (`/e/<token>`) shows a "Your ren
 
 **Swap pricing** (Settings > Swap-outs, `Company.swapPolicy`): Off (default, the button is hidden), Free, Flat fee, or Full package rate. The fee is fixed on the booking when the office confirms the swap (`RentalBooking.swapFeeCents`) and becomes a "swap-out" line on the invoice with the extra-day and overweight lines. The replacement dumpster is still scheduled by hand; the owner must not also add a package for it. Migration `swap_policy`.
 
+**Waiving charges**: on Dispatch, "Confirm, no charge" confirms a swap with the fee at $0. On a picked-up dumpster each automatic charge (swap, extra days, overweight) has "Don't charge this" / "Charge it again" (`RentalBooking.waivedCharges`, `setChargeWaived`); it only affects invoices not yet created, so on an existing invoice remove the line there. Migration `waived_charges`. Typechecked and the charge maths checked on sample numbers; the Dispatch buttons were not driven in a browser (needs login).
+
 ## Other open decisions
 - Whether the platform takes a Stripe fee, hosted website vs widget only (see ROADMAP.md).
 - Whether voice should be added to the New invoice page and invoice editor (offered, not requested yet).

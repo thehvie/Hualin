@@ -9,7 +9,10 @@ export interface PackageTerms {
   overageCentsPerTon: number | null;
 }
 
+export type ChargeKind = "SWAP" | "EXTRA_DAYS" | "OVERWEIGHT";
+
 export interface RentalChargeLine {
+  kind: ChargeKind;
   description: string;
   quantity: number;
   unitPriceCents: number;
@@ -20,7 +23,10 @@ export interface RentalCharges {
   daysOut: number;
   extraDays: number;
   overTons: number;
+  /** What will be billed. */
   lines: RentalChargeLine[];
+  /** Charges the office chose not to bill. */
+  waived: RentalChargeLine[];
   totalCents: number;
 }
 
@@ -35,36 +41,43 @@ function daysBetween(a: Date, b: Date, tz: string): number {
  * included tons. Needs the pickup to have happened; items with no extra-day or overweight rates add nothing.
  */
 export function rentalCharges(
-  booking: { deliveredAt: Date | null; pickedUpAt: Date | null; weightTons: number | null; swapFeeCents?: number },
+  booking: { deliveredAt: Date | null; pickedUpAt: Date | null; weightTons: number | null; swapFeeCents?: number; waivedCharges?: string[] },
   terms: PackageTerms | null,
   tz: string,
 ): RentalCharges | null {
   if (!booking.deliveredAt || !booking.pickedUpAt) return null;
 
   const daysOut = daysBetween(booking.deliveredAt, booking.pickedUpAt, tz);
-  const lines: RentalChargeLine[] = [];
+  const all: RentalChargeLine[] = [];
 
   if (booking.swapFeeCents && booking.swapFeeCents > 0) {
-    lines.push({ description: `${terms?.name ?? "Dumpster"}: swap-out`, quantity: 1, unitPriceCents: booking.swapFeeCents });
+    all.push({ kind: "SWAP", description: `${terms?.name ?? "Dumpster"}: swap-out`, quantity: 1, unitPriceCents: booking.swapFeeCents });
   }
 
-  if (!terms) return { daysOut, extraDays: 0, overTons: 0, lines, totalCents: lines.reduce((s, l) => s + l.quantity * l.unitPriceCents, 0) };
+  if (!terms) return finish(daysOut, 0, 0, all, booking.waivedCharges);
 
   const extraDays = terms.packageDays != null && terms.extraDayCents ? Math.max(0, daysOut - terms.packageDays) : 0;
   if (extraDays > 0 && terms.extraDayCents) {
-    lines.push({ description: `${terms.name}: extra rental days (${daysOut} days out, ${terms.packageDays} included)`, quantity: extraDays, unitPriceCents: terms.extraDayCents });
+    all.push({ kind: "EXTRA_DAYS", description: `${terms.name}: extra rental days (${daysOut} days out, ${terms.packageDays} included)`, quantity: extraDays, unitPriceCents: terms.extraDayCents });
   }
 
   const overTons =
     terms.includedTons != null && terms.overageCentsPerTon && booking.weightTons != null ? Math.max(0, booking.weightTons - terms.includedTons) : 0;
   if (overTons > 0 && terms.overageCentsPerTon) {
     const cents = Math.round(overTons * terms.overageCentsPerTon);
-    lines.push({
+    all.push({
+      kind: "OVERWEIGHT",
       description: `${terms.name}: overweight (${booking.weightTons} tons, ${terms.includedTons} included, ${overTons.toFixed(2)} over at $${(terms.overageCentsPerTon / 100).toFixed(2)}/ton)`,
       quantity: 1,
       unitPriceCents: cents,
     });
   }
 
-  return { daysOut, extraDays, overTons, lines, totalCents: lines.reduce((s, l) => s + l.quantity * l.unitPriceCents, 0) };
+  return finish(daysOut, extraDays, overTons, all, booking.waivedCharges);
+}
+
+function finish(daysOut: number, extraDays: number, overTons: number, all: RentalChargeLine[], waivedCharges: string[] = []): RentalCharges {
+  const lines = all.filter((l) => !waivedCharges.includes(l.kind));
+  const waived = all.filter((l) => waivedCharges.includes(l.kind));
+  return { daysOut, extraDays, overTons, lines, waived, totalCents: lines.reduce((s, l) => s + l.quantity * l.unitPriceCents, 0) };
 }

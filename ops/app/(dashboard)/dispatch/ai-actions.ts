@@ -40,7 +40,7 @@ export async function dismissReminder(reminderId: string): Promise<Result> {
 }
 
 /** Owner confirms what the AI read in a customer's reply: move the pickup date, or mark the pickup as requested. */
-export async function applyProposal(proposalId: string): Promise<Result> {
+export async function applyProposal(proposalId: string, opts?: { waiveFee?: boolean }): Promise<Result> {
   const { companyId } = await requireSession();
   const p = await prisma.rentalProposal.findFirst({
     where: { id: proposalId, companyId, status: "PENDING" },
@@ -56,7 +56,7 @@ export async function applyProposal(proposalId: string): Promise<Result> {
   const company = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
   const estimateId = b.job.estimates[0]?.id ?? null;
   let confirmation: string | null = null;
-  const swapCents = p.kind === "SWAP" ? await swapChargeCents(companyId, b.priceBookItemId) : 0;
+  const swapCents = p.kind === "SWAP" && !opts?.waiveFee ? await swapChargeCents(companyId, b.priceBookItemId) : 0;
 
   if (p.kind === "SWAP") {
     await prisma.rentalBooking.update({ where: { id: b.id }, data: { status: "PICKUP_REQUESTED", pickupRequestedAt: new Date(), swapRequested: true, swapFeeCents: swapCents } });

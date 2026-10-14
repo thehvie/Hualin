@@ -74,6 +74,11 @@ function Proposal({ p }: { p: ProposalItem }) {
         <button type="button" disabled={pending} onClick={() => run(() => applyProposal(p.id))} className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-50">
           {pending ? "Working…" : p.kind === "PICKUP" ? "Confirm pickup request" : p.kind === "SWAP" ? "Confirm swap" : "Confirm extension"}
         </button>
+        {p.kind === "SWAP" && p.swapCents > 0 && (
+          <button type="button" disabled={pending} onClick={() => run(() => applyProposal(p.id, { waiveFee: true }))} className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-semibold text-zinc-800 disabled:opacity-50">
+            Confirm, no charge
+          </button>
+        )}
         <button type="button" disabled={pending} onClick={() => run(() => dismissProposal(p.id))} className="text-xs text-zinc-400 hover:text-zinc-700">
           Ignore
         </button>

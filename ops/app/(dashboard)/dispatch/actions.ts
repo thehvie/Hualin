@@ -19,6 +19,20 @@ async function refresh(jobId: string) {
   for (const e of estimates) revalidatePath(`/estimates/${e.id}`);
 }
 
+/** Skip (or restore) one automatic charge on a returned dumpster. Applies when the invoice is created. */
+export async function setChargeWaived(bookingId: string, kind: string, waived: boolean): Promise<Result> {
+  const { companyId } = await requireSession();
+  if (!["SWAP", "EXTRA_DAYS", "OVERWEIGHT"].includes(kind)) return { ok: false, error: "Unknown charge." };
+  const b = await loadBooking(bookingId, companyId);
+  if (!b) return { ok: false, error: "Rental not found." };
+  const next = new Set(b.waivedCharges);
+  if (waived) next.add(kind);
+  else next.delete(kind);
+  await prisma.rentalBooking.update({ where: { id: b.id }, data: { waivedCharges: [...next] } });
+  await refresh(b.jobId);
+  return { ok: true };
+}
+
 /** The dumpster is on the customer's site. */
 export async function markDelivered(bookingId: string, placementNotes: string): Promise<Result> {
   const { companyId } = await requireSession();

@@ -23,6 +23,8 @@ export interface ProposalItem {
   summary: string;
   /** Asked for on the customer's rental page, not read from a reply by the AI. */
   fromCustomer: boolean;
+  /** A swap's charge in cents under the current policy (0 when free or not a swap), so the office can waive it. */
+  swapCents: number;
 }
 
 /** What is waiting for the owner on the Dispatch page: reminder drafts to approve and AI readings of customer replies. */
@@ -65,6 +67,7 @@ export async function loadRentalAiQueue(companyId: string, tz: string): Promise<
       kind: p.kind,
       message: p.message,
       fromCustomer: p.fromCustomer,
+      swapCents: swapCents.get(p.id) ?? 0,
       summary:
         p.kind === "PICKUP"
           ? "Wants the dumpster picked up. Confirm to mark pickup requested."

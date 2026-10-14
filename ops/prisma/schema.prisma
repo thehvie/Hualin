@@ -1047,6 +1047,8 @@ model RentalBooking {
   swapRequested     Boolean   @default(false)
   // What the swap costs, fixed when the office confirmed it so a later policy change can't reprice it.
   swapFeeCents      Int       @default(0)
+  // Charges the office chose not to bill: any of SWAP, EXTRA_DAYS, OVERWEIGHT. Applied when the invoice is created.
+  waivedCharges     String[]  @default([])
   pickedUpAt        DateTime?
   placementNotes    String?   @db.Text
   weightTons        Float?

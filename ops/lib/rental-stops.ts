@@ -56,7 +56,9 @@ export function toStops(bookings: BookingWithContext[], tz: string): RentalStop[
       },
       charges: (() => {
         const c = b.status === "PICKED_UP" ? rentalCharges(b, b.terms, tz) : null;
-        return c && c.totalCents > 0 ? { summary: c.lines.map((l) => l.description).join("; "), totalCents: c.totalCents } : null;
+        if (!c || (c.lines.length === 0 && c.waived.length === 0)) return null;
+        const row = (l: (typeof c.lines)[number], waived: boolean) => ({ kind: l.kind, description: l.description, cents: l.quantity * l.unitPriceCents, waived });
+        return { totalCents: c.totalCents, lines: [...c.lines.map((l) => row(l, false)), ...c.waived.map((l) => row(l, true))] };
       })(),
     };
   });

@@ -5,7 +5,7 @@ import { phoneHref } from "@/lib/phone";
 import { useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
 import { RentalCountdown, type CountdownData } from "@/components/rental-countdown";
-import { markDelivered, markPickedUp, requestPickup, undoRentalStep } from "@/app/(dashboard)/dispatch/actions";
+import { markDelivered, markPickedUp, requestPickup, setChargeWaived, undoRentalStep } from "@/app/(dashboard)/dispatch/actions";
 
 export interface RentalStop {
   id: string;
@@ -26,7 +26,7 @@ export interface RentalStop {
   weightTons: number | null;
   ticketNumber: string | null;
   /** Extra days or overweight owed beyond the package price; added to the invoice when it's created. */
-  charges: { summary: string; totalCents: number } | null;
+  charges: { totalCents: number; lines: { kind: "SWAP" | "EXTRA_DAYS" | "OVERWEIGHT"; description: string; cents: number; waived: boolean }[] } | null;
 }
 
 const STATUS_LABEL = { RESERVED: "Scheduled", DELIVERED: "On site", PICKUP_REQUESTED: "Pickup requested", PICKED_UP: "Picked up" } as const;
@@ -99,9 +99,24 @@ export function RentalRow({ stop }: { stop: RentalStop }) {
       </div>
 
       {stop.charges && (
-        <p className="rounded-lg bg-amber-50 p-2 text-xs text-amber-900">
-          <strong>Extra charges {formatCents(stop.charges.totalCents)}</strong> will be added to the invoice: {stop.charges.summary}
-        </p>
+        <div className="rounded-lg bg-amber-50 p-2 text-xs text-amber-900">
+          <p>
+            <strong>Extra charges {formatCents(stop.charges.totalCents)}</strong> will be added when the invoice is created. If it already exists, remove the line there.
+          </p>
+          <ul className="mt-1 flex flex-col gap-1">
+            {stop.charges.lines.map((l) => (
+              <li key={l.kind} className="flex flex-wrap items-center gap-x-2">
+                <span className={l.waived ? "text-zinc-500 line-through" : ""}>
+                  {formatCents(l.cents)} {l.description}
+                </span>
+                {l.waived && <span className="font-semibold text-emerald-700">Not charged</span>}
+                <button type="button" disabled={pending} onClick={() => run(() => setChargeWaived(stop.id, l.kind, !l.waived))} className="font-semibold text-amber-900 underline disabled:opacity-50">
+                  {l.waived ? "Charge it again" : "Don't charge this"}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
       <div className="flex flex-wrap items-center gap-2">
