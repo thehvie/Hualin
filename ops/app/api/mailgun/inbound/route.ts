@@ -79,9 +79,11 @@ export async function POST(req: NextRequest) {
   const fromEmail = (fromHeader.match(/<([^>]+)>/)?.[1] ?? fromHeader).trim().toLowerCase();
   const customerOnFile = await prisma.customer.findUnique({
     where: { id: thread.customerId },
-    select: { firstName: true, lastName: true, email: true },
+    select: { firstName: true, lastName: true, email: true, contacts: { select: { email: true } } },
   });
-  const senderVerified = !!customerOnFile?.email && customerOnFile.email.trim().toLowerCase() === fromEmail;
+  // The customer's own address, or any staff contact saved on them, counts as the customer.
+  const knownEmails = [customerOnFile?.email, ...(customerOnFile?.contacts.map((c) => c.email) ?? [])].filter((e): e is string => !!e).map((e) => e.trim().toLowerCase());
+  const senderVerified = knownEmails.includes(fromEmail);
 
   // Keep what we can accept; say so in the message if something was left out.
   let room = (await attachmentStorage(thread.companyId)).remainingBytes;

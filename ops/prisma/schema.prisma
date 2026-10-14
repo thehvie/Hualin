@@ -125,6 +125,7 @@ model Company {
   usageStatements              UsageStatement[]
   smsPackPurchases             SmsPackPurchase[]
   messageTemplates             MessageTemplate[]
+  customerContacts             CustomerContact[]
   communicationAttachments     CommunicationAttachment[]
   rentalAssets                 RentalAsset[]
   rentalBookings               RentalBooking[]
@@ -247,11 +248,33 @@ model Customer {
   invoices                 Invoice[]
   communications           Communication[]
   servicePlanSubscriptions ServicePlanSubscription[]
+  contacts                 CustomerContact[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([companyId, lastName, firstName])
+}
+
+// Other people at a customer (staff, a property manager, an accountant) to reach or assign to an estimate or invoice.
+model CustomerContact {
+  id         String   @id @default(cuid())
+  companyId  String
+  company    Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  name       String
+  title      String?
+  email      String?
+  phone      String?
+  notes      String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  estimates Estimate[]
+  invoices  Invoice[]
+
+  @@index([customerId])
+  @@index([companyId])
 }
 
 model Property {
@@ -334,18 +357,21 @@ enum EstimateStatus {
 }
 
 model Estimate {
-  id         String         @id @default(cuid())
+  id         String           @id @default(cuid())
   companyId  String
-  company    Company        @relation(fields: [companyId], references: [id])
-  number     Int            @unique @default(autoincrement())
+  company    Company          @relation(fields: [companyId], references: [id])
+  number     Int              @unique @default(autoincrement())
   customerId String
-  customer   Customer       @relation(fields: [customerId], references: [id])
+  customer   Customer         @relation(fields: [customerId], references: [id])
+  // Who at the customer this estimate is for; its email and text go to them instead of the main contact.
+  contactId  String?
+  contact    CustomerContact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
   propertyId String?
-  property   Property?      @relation(fields: [propertyId], references: [id])
-  status     EstimateStatus @default(DRAFT)
-  notes      String?        @db.Text
+  property   Property?        @relation(fields: [propertyId], references: [id])
+  status     EstimateStatus   @default(DRAFT)
+  notes      String?          @db.Text
   jobId      String?
-  job        Job?           @relation(fields: [jobId], references: [id])
+  job        Job?             @relation(fields: [jobId], references: [id])
 
   discountCents        Int            @default(0)
   depositCents         Int            @default(0)
@@ -491,6 +517,8 @@ model Invoice {
   number                    Int                      @unique @default(autoincrement())
   customerId                String
   customer                  Customer                 @relation(fields: [customerId], references: [id])
+  contactId                 String?
+  contact                   CustomerContact?         @relation(fields: [contactId], references: [id], onDelete: SetNull)
   estimateId                String?                  @unique
   estimate                  Estimate?                @relation(fields: [estimateId], references: [id])
   jobId                     String?
@@ -1138,20 +1166,20 @@ enum RentalProposalStatus {
 
 // What the AI thinks a customer's reply means ("keep it till Friday", "ready for pickup"), held for one-tap confirmation.
 model RentalProposal {
-  id         String               @id @default(cuid())
-  companyId  String
-  company    Company              @relation(fields: [companyId], references: [id])
-  bookingId  String
-  booking    RentalBooking        @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  kind       RentalProposalKind
-  newEndAt   DateTime? // EXTEND: the new planned pickup
-  extraDays  Int                  @default(0)
-  priceCents Int? // EXTEND: what the extra days cost, when the package has a rate
-  message    String               @db.Text // the customer's words
+  id           String               @id @default(cuid())
+  companyId    String
+  company      Company              @relation(fields: [companyId], references: [id])
+  bookingId    String
+  booking      RentalBooking        @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  kind         RentalProposalKind
+  newEndAt     DateTime? // EXTEND: the new planned pickup
+  extraDays    Int                  @default(0)
+  priceCents   Int? // EXTEND: what the extra days cost, when the package has a rate
+  message      String               @db.Text // the customer's words
   // Made from the customer's rental page rather than read from a reply by the AI.
-  fromCustomer Boolean             @default(false)
-  status     RentalProposalStatus @default(PENDING)
-  createdAt  DateTime             @default(now())
+  fromCustomer Boolean              @default(false)
+  status       RentalProposalStatus @default(PENDING)
+  createdAt    DateTime             @default(now())
 
   @@index([companyId, status])
   @@index([bookingId])

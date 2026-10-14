@@ -22,7 +22,7 @@ export default async function EstimateDetailPage({
   const estimate = await prisma.estimate.findFirst({
     where: { id, companyId },
     include: {
-      customer: { include: { properties: true } },
+      customer: { include: { properties: true, contacts: { orderBy: { createdAt: "asc" } } } },
       property: true,
       lineItems: { orderBy: { sortOrder: "asc" } },
       paymentSchedule: { orderBy: { sortOrder: "asc" } },
@@ -125,6 +125,8 @@ export default async function EstimateDetailPage({
           route,
           rentals,
           companyState,
+          contactId: estimate.contactId,
+          contacts: estimate.customer.contacts.map((c) => ({ id: c.id, name: c.name, title: c.title, email: c.email, phone: c.phone })),
           fuel: { rateCentsPerMile: fuelOn ? fuelRateCentsPerMile : 0, freeMiles: fuelFreeMiles, roundTrip: fuelRoundTrip },
           timezoneName: timezoneLabel(timezone),
           attachments: (estimate.job?.attachments ?? []).map((a) => ({ id: a.id, filename: a.filename, dataUrl: a.dataUrl })),

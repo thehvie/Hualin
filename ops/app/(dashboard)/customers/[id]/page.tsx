@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { GoogleMap } from "@/components/google-map";
 import { getHomeBaseLocation, haversineDistanceMiles } from "@/lib/geocode";
 import { requireSession } from "@/lib/session";
+import { ContactsCard } from "@/components/contacts-card";
 import { formatInTz } from "@/lib/tz";
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -34,6 +35,7 @@ export default async function CustomerDetailPage({
     where: { id, companyId },
     include: {
       properties: true,
+      contacts: { orderBy: { createdAt: "asc" } },
       estimates: { orderBy: { createdAt: "desc" } },
       invoices: { orderBy: { createdAt: "desc" } },
       jobs: { orderBy: { createdAt: "desc" } },
@@ -112,6 +114,8 @@ export default async function CustomerDetailPage({
               </div>
             )}
           </Card>
+
+          <ContactsCard customerId={customer.id} contacts={customer.contacts.map((c) => ({ id: c.id, name: c.name, title: c.title, email: c.email, phone: c.phone, notes: c.notes }))} />
 
           <Card title="Properties">
             {customer.properties.length === 0 ? (

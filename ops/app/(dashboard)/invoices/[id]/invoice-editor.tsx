@@ -1,5 +1,6 @@
 "use client";
 
+import { ContactPicker, type PickerContact } from "@/components/contact-picker";
 import { useEffect, useState, useTransition } from "react";
 import { PriceInput } from "@/components/price-input";
 import { formatCents } from "@/lib/money";
@@ -72,6 +73,8 @@ interface InvoiceData {
   tipCents: number;
   laborCostCents: number;
   taxRateId: string | null;
+  contactId: string | null;
+  contacts: PickerContact[];
   publicToken: string;
   customer: { id: string; name: string; companyName: string | null; email: string | null; phone: string | null; messageChannel: "sms" | "email" | null };
   property: { addressLine1: string; addressLine2: string | null; city: string; state: string; zip: string } | null;
@@ -145,7 +148,8 @@ export function InvoiceEditor({
   }
 
   function handleSend() {
-    if (!invoice.customer.email) {
+    const contact = invoice.contacts.find((c) => c.id === invoice.contactId);
+    if (!contact?.email && !invoice.customer.email) {
       setNotice("This customer has no email address on file — add one on the customer record first.");
       return;
     }
@@ -310,6 +314,8 @@ export function InvoiceEditor({
           </div>
         </div>
       </div>
+
+      <ContactPicker kind="invoice" documentId={invoice.id} contacts={invoice.contacts} contactId={invoice.contactId} customerName={invoice.customer.name} />
 
       {/* Items */}
       <div className="rounded-xl border border-zinc-200 bg-white p-5">

@@ -261,10 +261,13 @@ export async function sendInvoice(
 
   const invoice = await prisma.invoice.findFirst({
     where: { id: invoiceId, companyId },
-    include: { customer: true, lineItems: true, payments: true, taxRate: true, company: true },
+    include: { customer: true, contact: true, lineItems: true, payments: true, taxRate: true, company: true },
   });
   if (!invoice) return { ok: false, skipped: false, error: "Invoice not found." };
-  if (!invoice.customer.email) {
+  // Goes to the contact assigned to this invoice when they have an email, otherwise to the customer.
+  const sendTo = invoice.contact?.email || invoice.customer.email;
+  const greetName = invoice.contact?.email ? invoice.contact.name.split(" ")[0] : invoice.customer.firstName;
+  if (!sendTo) {
     return { ok: false, skipped: false, error: "This customer has no email address on file." };
   }
 
@@ -281,7 +284,7 @@ export async function sendInvoice(
   });
 
   const emailBody = [
-    `Hi ${invoice.customer.firstName},`,
+    `Hi ${greetName},`,
     "",
     `Your invoice #${invoice.number} from ${invoice.company.name} is ready.`,
     "",
@@ -306,7 +309,7 @@ export async function sendInvoice(
   let skipped = false;
   try {
     const { messageId } = await sendEmail({
-      to: invoice.customer.email,
+      to: sendTo,
       fromName: invoice.company.name,
       replyThread: { kind: "invoice", id: invoice.id },
       companyId,

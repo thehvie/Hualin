@@ -23,6 +23,8 @@ async function deliver(opts: {
   body: string;
   estimateId?: string;
   invoiceId?: string;
+  /** Text this number instead of the customer's own (an assigned contact's). */
+  toPhone?: string | null;
 }): Promise<Result> {
   const customer = await prisma.customer.findFirst({ where: { id: opts.customerId, companyId: opts.companyId } });
   if (!customer) return { ok: false, error: "Customer not found." };
@@ -30,7 +32,7 @@ async function deliver(opts: {
     return { ok: false, error: "This customer replied STOP and has opted out of texts." };
   }
   if (!(await canSendText(opts.companyId))) return { ok: false, error: TEXT_BLOCKED_MESSAGE };
-  const to = toE164(customer.phone);
+  const to = toE164(opts.toPhone || customer.phone);
   if (!to) return { ok: false, error: "This customer has no valid US mobile number on file." };
 
   let sid: string | null = null;
@@ -201,7 +203,7 @@ export async function sendEstimateSms(estimateId: string): Promise<Result> {
   const { companyId } = await requireSession();
   const estimate = await prisma.estimate.findFirst({
     where: { id: estimateId, companyId },
-    include: { customer: true, company: true, lineItems: true },
+    include: { customer: true, contact: true, company: true, lineItems: true },
   });
   if (!estimate) return { ok: false, error: "Estimate not found." };
   if (estimate.lineItems.length === 0) return { ok: false, error: "Add at least one item before sending this estimate." };
@@ -212,9 +214,11 @@ export async function sendEstimateSms(estimateId: string): Promise<Result> {
   }
 
   const total = Math.max(0, lineItemsTotal(estimate.lineItems) - estimate.discountCents) + estimate.fuelSurchargeCents;
-  const body = `Hi ${estimate.customer.firstName}, your estimate #${estimate.number} from ${estimate.company.name} is ready (${formatCents(total)}). Review and sign here: ${estimateSigningUrl(publicToken)}`;
+  const contactPhone = estimate.contact?.phone && toE164(estimate.contact.phone) ? estimate.contact.phone : null;
+  const greetName = contactPhone && estimate.contact ? estimate.contact.name.split(" ")[0] : estimate.customer.firstName;
+  const body = `Hi ${greetName}, your estimate #${estimate.number} from ${estimate.company.name} is ready (${formatCents(total)}). Review and sign here: ${estimateSigningUrl(publicToken)}`;
 
-  const res = await deliver({ companyId, customerId: estimate.customerId, body, estimateId });
+  const res = await deliver({ companyId, customerId: estimate.customerId, body, estimateId, toPhone: contactPhone });
   if (res.ok) {
     if (estimate.status === "DRAFT") {
       await prisma.estimate.update({ where: { id: estimateId }, data: { status: "SENT", sentAt: new Date() } });

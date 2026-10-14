@@ -40,7 +40,14 @@ export async function POST(req: NextRequest) {
     where: { phone: { contains: digits.slice(-4) } },
     select: { id: true, companyId: true, phone: true },
   });
-  const matches = candidates.filter((c) => last10(c.phone) === digits);
+  const direct = candidates.filter((c) => last10(c.phone) === digits);
+  // A text from a staff contact's number belongs to their customer's conversation.
+  const contactRows = await prisma.customerContact.findMany({
+    where: { phone: { contains: digits.slice(-4) } },
+    select: { customerId: true, companyId: true, phone: true },
+  });
+  const viaContact = contactRows.filter((c) => last10(c.phone) === digits).map((c) => ({ id: c.customerId, companyId: c.companyId, phone: c.phone }));
+  const matches = [...direct, ...viaContact.filter((c) => !direct.some((d) => d.id === c.id))];
   if (matches.length === 0) return twiml();
 
   const recentOutbound = await prisma.communication.findFirst({

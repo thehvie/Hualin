@@ -17,7 +17,7 @@ export default async function InvoiceDetailPage({
   const invoice = await prisma.invoice.findFirst({
     where: { id, companyId },
     include: {
-      customer: { include: { properties: true } },
+      customer: { include: { properties: true, contacts: { orderBy: { createdAt: "asc" } } } },
       lineItems: { orderBy: { sortOrder: "asc" } },
       paymentSchedule: { orderBy: { sortOrder: "asc" } },
       payments: { orderBy: { createdAt: "desc" } },
@@ -83,6 +83,8 @@ export default async function InvoiceDetailPage({
           tipCents: invoice.tipCents,
           laborCostCents: invoice.laborCostCents,
           taxRateId: invoice.taxRateId,
+          contactId: invoice.contactId,
+          contacts: invoice.customer.contacts.map((c) => ({ id: c.id, name: c.name, title: c.title, email: c.email, phone: c.phone })),
           publicToken: invoice.publicToken,
           customer: {
             id: invoice.customer.id,

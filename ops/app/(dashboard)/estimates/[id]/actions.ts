@@ -426,10 +426,13 @@ export async function sendEstimate(
 
   const estimate = await prisma.estimate.findFirst({
     where: { id: estimateId, companyId },
-    include: { customer: true, lineItems: true, company: true },
+    include: { customer: true, contact: true, lineItems: true, company: true },
   });
   if (!estimate) return { ok: false, skipped: false, error: "Estimate not found." };
-  if (!estimate.customer.email) {
+  // Goes to the contact assigned to this estimate when they have an email, otherwise to the customer.
+  const sendTo = estimate.contact?.email || estimate.customer.email;
+  const greetName = estimate.contact?.email ? estimate.contact.name.split(" ")[0] : estimate.customer.firstName;
+  if (!sendTo) {
     return { ok: false, skipped: false, error: "This customer has no email address on file." };
   }
 
@@ -447,7 +450,7 @@ export async function sendEstimate(
 
   const totalCents = Math.max(0, lineItemsTotal(estimate.lineItems) - estimate.discountCents) + estimate.fuelSurchargeCents;
   const emailBody = [
-    `Hi ${estimate.customer.firstName},`,
+    `Hi ${greetName},`,
     "",
     `Your estimate #${estimate.number} from ${estimate.company.name} is ready for review.`,
     "",
@@ -471,7 +474,7 @@ export async function sendEstimate(
   let skipped = false;
   try {
     const { messageId } = await sendEmail({
-      to: estimate.customer.email,
+      to: sendTo,
       fromName: estimate.company.name,
       replyThread: { kind: "estimate", id: estimate.id },
       companyId,

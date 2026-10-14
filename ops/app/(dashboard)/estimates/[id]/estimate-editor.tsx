@@ -15,6 +15,7 @@ import { RentalCountdown, type CountdownData } from "@/components/rental-countdo
 import { DepositPaid } from "@/components/deposit-paid";
 import type { RentalCardData } from "@/lib/rentals";
 import { ClientDetails } from "./client-details";
+import { ContactPicker, type PickerContact } from "@/components/contact-picker";
 import type { RouteInfo } from "@/lib/office";
 import type { FuelSettings } from "@/lib/fuel";
 import { toDatetimeLocalInTz } from "@/lib/tz";
@@ -74,6 +75,8 @@ interface EstimateData {
   customer: { id: string; firstName: string; lastName: string; companyName: string | null; name: string; email: string | null; phone: string | null; messageChannel: "sms" | "email" | null };
   property: { addressLine1: string; addressLine2: string | null; city: string; state: string; zip: string } | null;
   companyState: string | null;
+  contactId: string | null;
+  contacts: PickerContact[];
   fuel: FuelSettings;
   lineItems: LineItem[];
   paymentSchedule: PaymentScheduleItem[];
@@ -199,7 +202,8 @@ export function EstimateEditor({
   }
 
   function handleSend() {
-    if (!estimate.customer.email) {
+    const contact = estimate.contacts.find((c) => c.id === estimate.contactId);
+    if (!contact?.email && !estimate.customer.email) {
       setNotice("This customer has no email address on file — add one on the customer record first.");
       return;
     }
@@ -213,7 +217,8 @@ export function EstimateEditor({
   }
 
   function handleTextLink() {
-    if (!estimate.customer.phone) {
+    const contact = estimate.contacts.find((c) => c.id === estimate.contactId);
+    if (!contact?.phone && !estimate.customer.phone) {
       setNotice("This customer has no phone number on file — add one on the customer record first.");
       return;
     }
@@ -373,6 +378,8 @@ export function EstimateEditor({
           <p className="mt-2 text-xs text-zinc-400">Estimate no. {estimate.number}</p>
         </div>
       </div>
+
+      <ContactPicker kind="estimate" documentId={estimate.id} contacts={estimate.contacts} contactId={estimate.contactId} customerName={estimate.customer.name} />
 
       {/* Items */}
       <div className="rounded-xl border border-zinc-200 bg-white p-5">
