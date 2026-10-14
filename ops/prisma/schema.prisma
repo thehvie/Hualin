@@ -1032,6 +1032,8 @@ model RentalBooking {
 
   deliveredAt       DateTime?
   pickupRequestedAt DateTime?
+  // The pickup was requested as a swap: a replacement dumpster still has to be booked.
+  swapRequested     Boolean   @default(false)
   pickedUpAt        DateTime?
   placementNotes    String?   @db.Text
   weightTons        Float?
@@ -1089,6 +1091,7 @@ model RentalReminder {
 enum RentalProposalKind {
   EXTEND
   PICKUP
+  SWAP // customer's dumpster is full: pick it up and bring an empty one
 }
 
 enum RentalProposalStatus {
@@ -1109,6 +1112,8 @@ model RentalProposal {
   extraDays  Int                  @default(0)
   priceCents Int? // EXTEND: what the extra days cost, when the package has a rate
   message    String               @db.Text // the customer's words
+  // Made from the customer's rental page rather than read from a reply by the AI.
+  fromCustomer Boolean             @default(false)
   status     RentalProposalStatus @default(PENDING)
   createdAt  DateTime             @default(now())
 

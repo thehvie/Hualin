@@ -19,6 +19,8 @@ export interface RentalStop {
   startLabel: string;
   endLabel: string;
   overdue: boolean;
+  /** The customer asked for a swap: after pickup a replacement dumpster is needed. */
+  swap: boolean;
   countdown: CountdownData;
   placementNotes: string | null;
   weightTons: number | null;
@@ -62,7 +64,7 @@ export function RentalRow({ stop }: { stop: RentalStop }) {
         <Link href={`/jobs/${stop.jobId}`} className="font-semibold text-zinc-900 hover:text-brand">
           {stop.customer}
         </Link>
-        <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${STATUS_STYLE[stop.status]}`}>{STATUS_LABEL[stop.status]}</span>
+        <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${STATUS_STYLE[stop.status]}`}>{stop.swap && stop.status === "PICKUP_REQUESTED" ? "Swap requested" : STATUS_LABEL[stop.status]}</span>
         <span className="text-sm text-zinc-600">
           {stop.category ?? "Dumpster"}
           {stop.unit ? ` · ${stop.unit}` : " · no unit assigned"}

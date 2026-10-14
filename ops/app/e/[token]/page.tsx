@@ -8,6 +8,9 @@ import { documentTerms, hasRentalItems } from "@/lib/terms";
 import { TermsView } from "@/components/terms-view";
 import { formatQty } from "@/lib/price-book";
 import { SignForm } from "./sign-form";
+import { PortalRentals } from "@/components/portal-rentals";
+import { companyHasFeature } from "@/lib/plan-access";
+import { loadPortalRentals } from "@/lib/rental-portal";
 
 export const metadata = { title: "Estimate", robots: { index: false, follow: false } };
 
@@ -33,6 +36,7 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
   const total = Math.max(0, subtotal - discount) + fuel;
   const open = estimate.status === "DRAFT" || estimate.status === "SENT";
   const terms = estimate.termsSnapshot ?? documentTerms(company, await hasRentalItems(estimate.companyId, estimate.lineItems));
+  const rentals = (await companyHasFeature(company.id, "RENTALS")) ? await loadPortalRentals(company.id, estimate.jobId, company.timezone) : [];
   const payLink = estimate.status === "DECLINED" || estimate.status === "EXPIRED" ? null : companyPaymentLink(company, "estimate");
 
   return (
@@ -66,6 +70,7 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
             . We&apos;ll be in touch to schedule your job.
           </div>
         )}
+        {estimate.status === "APPROVED" && <PortalRentals token={token} rentals={rentals} />}
         {estimate.status === "DECLINED" && (
           <div className="rounded-xl border border-zinc-300 bg-zinc-100 px-4 py-3 text-sm text-zinc-700">
             This estimate was declined. Contact {company.name}

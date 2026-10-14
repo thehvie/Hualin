@@ -86,6 +86,9 @@ Three plans, all defined in `lib/plans.ts` (prices, features, AI allowance, seat
 - Pages: Settings > Plan and billing (`/settings/plan`), Settings > Team (`/settings/team`). Webhook sets `Company.plan` from the price id.
 - **To go live**: run migrations `saas_plans` and `sms_packs`, create the Stripe prices (`node scripts/setup-stripe-plans.mjs` with a test key first), set the six `STRIPE_PRICE_*` env vars (adds `STRIPE_PRICE_SMS_PACK`), enable the Stripe customer portal, register `/api/stripe/webhook`. Existing companies are migrated to Plus with the brand upgrade.
 
+## Customer rental page (2026-10-15)
+No new link or login: the private estimate link (`/e/<token>`) shows a "Your rental" card once the estimate is approved and a rental exists (Base/Plus/trial). The customer can request **pickup**, **more time (1-14 days)** or a **swap** (new `SWAP` proposal kind, `RentalBooking.swapRequested`). Requests never change a rental by themselves: they become pending proposals (`fromCustomer`) in the Dispatch approval box, the office is emailed, and confirming sends the customer a confirmation. Rental reminders and the estimate email now carry the link. Migration `rental_customer_requests`. Tested in the browser with seeded data (swap and extension requests created); the office confirm step (Dispatch, needs login) was not driven.
+
 ## Other open decisions
 - Whether the platform takes a Stripe fee, hosted website vs widget only (see ROADMAP.md).
 - Whether voice should be added to the New invoice page and invoice editor (offered, not requested yet).

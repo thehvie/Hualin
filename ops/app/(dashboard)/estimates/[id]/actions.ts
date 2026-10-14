@@ -458,6 +458,7 @@ export async function sendEstimate(
     "",
     "Download a PDF copy:",
     `${estimateSigningUrl(publicToken)}/pdf`,
+    ...(estimate.jobId ? ["", "If you rent a dumpster from us, keep this email. The same link lets you request a pickup, more time, or a swap once it is delivered."] : []),
     ...(() => {
       const pay = companyPaymentLink(estimate.company, "estimate");
       return pay ? ["", `${pay.label}:`, pay.url] : [];

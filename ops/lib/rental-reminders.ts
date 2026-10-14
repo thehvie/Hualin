@@ -101,6 +101,7 @@ async function buildReminder(
     category: string | null;
     endAt: Date;
     priceBookItemId: string | null;
+    jobId: string;
     job: { customer: { firstName: string; phone: string | null; email: string | null; smsOptedOut: boolean } };
   },
   company: { id: string; name: string; timezone: string; rentalReminderAi: boolean },
@@ -109,6 +110,8 @@ async function buildReminder(
     ? await prisma.priceBookItem.findFirst({ where: { id: booking.priceBookItemId, companyId: company.id }, select: { extraDayCents: true } })
     : null;
   const channel = messageChannel(booking.job.customer, await canSendText(company.id)) ?? "email";
+  const estimate = await prisma.estimate.findFirst({ where: { jobId: booking.jobId, companyId: company.id, publicToken: { not: null } }, orderBy: { createdAt: "desc" }, select: { publicToken: true } });
+  const link = estimate?.publicToken ? `${(process.env.NEXTAUTH_URL || "").replace(/\/$/, "")}/e/${estimate.publicToken}` : null;
   const facts: Facts = {
     firstName: booking.job.customer.firstName,
     company: company.name,
@@ -117,7 +120,10 @@ async function buildReminder(
     extraDay: item?.extraDayCents ? formatCents(item.extraDayCents) : null,
     channel,
   };
-  return { channel, ...(await writeMessage(company.id, company.rentalReminderAi, facts)) };
+  const written = await writeMessage(company.id, company.rentalReminderAi, facts);
+  // The private link lets the customer request a pickup, more time or a swap without replying.
+  const body = link ? `${written.body}\n\n${channel === "sms" ? "Manage your rental:" : "Request a pickup, more time or a swap here:"} ${link}` : written.body;
+  return { channel, ...written, body };
 }
 
 /** Sends a stored reminder now. Used for automatic sending and for the owner's approval. */

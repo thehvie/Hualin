@@ -42,6 +42,7 @@ export function toStops(bookings: BookingWithContext[], tz: string): RentalStop[
       startLabel: label(b.startAt),
       endLabel: label(b.endAt),
       overdue: b.status === "RESERVED" ? b.startAt.getTime() < todayStart : out && b.endAt.getTime() < todayStart,
+      swap: b.swapRequested,
       placementNotes: b.placementNotes,
       weightTons: b.weightTons,
       ticketNumber: b.ticketNumber,

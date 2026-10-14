@@ -56,7 +56,10 @@ export async function applyProposal(proposalId: string): Promise<Result> {
   const estimateId = b.job.estimates[0]?.id ?? null;
   let confirmation: string | null = null;
 
-  if (p.kind === "PICKUP") {
+  if (p.kind === "SWAP") {
+    await prisma.rentalBooking.update({ where: { id: b.id }, data: { status: "PICKUP_REQUESTED", pickupRequestedAt: new Date(), swapRequested: true } });
+    confirmation = `Thanks! We'll swap your ${b.category ? `${b.category} ` : ""}dumpster for an empty one and will be in touch about timing.`;
+  } else if (p.kind === "PICKUP") {
     await prisma.rentalBooking.update({ where: { id: b.id }, data: { status: "PICKUP_REQUESTED", pickupRequestedAt: new Date() } });
     confirmation = `Thanks! We have you down for a pickup of your ${b.category ? `${b.category} ` : ""}dumpster and will be in touch about timing.`;
   } else {

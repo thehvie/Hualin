@@ -17,9 +17,11 @@ export interface ProposalItem {
   jobId: string;
   customer: string;
   unit: string;
-  kind: "EXTEND" | "PICKUP";
+  kind: "EXTEND" | "PICKUP" | "SWAP";
   message: string;
   summary: string;
+  /** Asked for on the customer's rental page, not read from a reply by the AI. */
+  fromCustomer: boolean;
 }
 
 /** What is waiting for the owner on the Dispatch page: reminder drafts to approve and AI readings of customer replies. */
@@ -58,10 +60,13 @@ export async function loadRentalAiQueue(companyId: string, tz: string): Promise<
       unit: unitOf(p.booking),
       kind: p.kind,
       message: p.message,
+      fromCustomer: p.fromCustomer,
       summary:
         p.kind === "PICKUP"
           ? "Wants the dumpster picked up. Confirm to mark pickup requested."
-          : `Wants ${p.extraDays} more day${p.extraDays === 1 ? "" : "s"}: move pickup from ${label(p.booking.endAt)} to ${p.newEndAt ? label(p.newEndAt) : "?"}${p.priceCents ? ` (${formatCents(p.priceCents)} extra)` : ""}.`,
+          : p.kind === "SWAP"
+            ? "Dumpster is full and they want an empty one. Confirm to mark pickup requested as a swap, then book the replacement on the estimate."
+            : `Wants ${p.extraDays} more day${p.extraDays === 1 ? "" : "s"}: move pickup from ${label(p.booking.endAt)} to ${p.newEndAt ? label(p.newEndAt) : "?"}${p.priceCents ? ` (${formatCents(p.priceCents)} extra)` : ""}.`,
     })),
   };
 }

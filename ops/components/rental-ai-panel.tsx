@@ -67,12 +67,12 @@ function Proposal({ p }: { p: ProposalItem }) {
       </div>
       <p className="rounded-lg bg-zinc-50 p-2 text-sm italic text-zinc-600">&ldquo;{p.message}&rdquo;</p>
       <p className="text-sm text-zinc-800">
-        <span className="mr-1 rounded bg-violet-100 px-1.5 py-0.5 text-xs font-semibold text-violet-800">AI read</span>
+        <span className={`mr-1 rounded px-1.5 py-0.5 text-xs font-semibold ${p.fromCustomer ? "bg-sky-100 text-sky-800" : "bg-violet-100 text-violet-800"}`}>{p.fromCustomer ? "Customer request" : "AI read"}</span>
         {p.summary}
       </p>
       <div className="flex items-center gap-2">
         <button type="button" disabled={pending} onClick={() => run(() => applyProposal(p.id))} className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-50">
-          {pending ? "Working…" : p.kind === "PICKUP" ? "Confirm pickup request" : "Confirm extension"}
+          {pending ? "Working…" : p.kind === "PICKUP" ? "Confirm pickup request" : p.kind === "SWAP" ? "Confirm swap" : "Confirm extension"}
         </button>
         <button type="button" disabled={pending} onClick={() => run(() => dismissProposal(p.id))} className="text-xs text-zinc-400 hover:text-zinc-700">
           Ignore
