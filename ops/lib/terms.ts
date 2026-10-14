@@ -19,5 +19,5 @@ export async function hasRentalItems(
 export function documentTerms(company: { termsText: string | null; rentalTermsText: string | null }, hasRental: boolean): string {
   const base = company.termsText?.trim() || DEFAULT_TERMS;
   const rental = hasRental ? company.rentalTermsText?.trim() : "";
-  return rental ? `${base}\n\nRental terms\n${rental}` : base;
+  return rental ? `${base}\n\n### Rental terms\n${rental}` : base;
 }

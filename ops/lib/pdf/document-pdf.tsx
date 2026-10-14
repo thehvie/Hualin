@@ -3,7 +3,7 @@ import { formatQty, formatUnitPrice } from "@/lib/price-book";
 import { parseTerms } from "@/lib/terms-format";
 
 const styles = StyleSheet.create({
-  page: { padding: 40, fontSize: 10, fontFamily: "Helvetica", color: "#3f3f46" },
+  page: { padding: 34, fontSize: 10, fontFamily: "Helvetica", color: "#3f3f46" },
   headerRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
   // Height-only (no fixed width): react-pdf auto-scales width to the image's
   // natural aspect ratio. A fixed width + objectFit:"contain" instead centers
@@ -22,17 +22,17 @@ const styles = StyleSheet.create({
   },
   logoPlaceholderText: { fontSize: 8, color: "#a1a1aa" },
   kindLabel: { fontSize: 26, fontWeight: 700, color: "#52525b" },
-  companyBlock: { marginTop: 12 },
+  companyBlock: { marginTop: 8 },
   companyLine: { color: "#71717a", marginBottom: 2 },
   metaBlock: { alignItems: "flex-end", marginTop: 4 },
   metaRow: { flexDirection: "row", gap: 16, marginBottom: 3 },
   metaLabel: { fontWeight: 700, color: "#3f3f46" },
   metaValue: { color: "#3f3f46" },
-  partiesRow: { flexDirection: "row", justifyContent: "space-between", marginTop: 28 },
+  partiesRow: { flexDirection: "row", justifyContent: "space-between", marginTop: 16 },
   partyBlock: { width: "48%" },
   partyHeading: { fontWeight: 700, color: "#3f3f46", marginBottom: 4 },
   partyLine: { color: "#71717a", marginBottom: 2 },
-  divider: { borderBottomWidth: 2, borderBottomColor: "#3f3f46", marginTop: 20, marginBottom: 8 },
+  divider: { borderBottomWidth: 2, borderBottomColor: "#3f3f46", marginTop: 12, marginBottom: 6 },
   tableHeaderRow: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#a1a1aa", paddingBottom: 6 },
   tableRow: {
     flexDirection: "row",
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   colAmount: { width: "24%", textAlign: "right" },
   headerCell: { fontWeight: 700, color: "#52525b" },
   descriptionCell: { fontWeight: 700, color: "#3f3f46" },
-  totalsBlock: { alignSelf: "flex-end", width: "45%", marginTop: 12 },
+  totalsBlock: { alignSelf: "flex-end", width: "45%", marginTop: 8 },
   totalsRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4 },
   totalsLabel: { color: "#71717a" },
   totalsValue: { color: "#3f3f46" },
@@ -61,10 +61,11 @@ const styles = StyleSheet.create({
   },
   grandTotalLabel: { fontWeight: 700, color: "#18181b" },
   grandTotalValue: { fontWeight: 700, color: "#18181b" },
-  section: { marginTop: 24 },
-  sectionHeading: { fontWeight: 700, color: "#3f3f46", marginBottom: 4 },
-  sectionBody: { color: "#52525b", lineHeight: 1.4 },
-  footer: { marginTop: 60, textAlign: "center", fontSize: 16, fontWeight: 700, color: "#18181b" },
+  section: { marginTop: 10 },
+  sectionHeading: { fontWeight: 700, color: "#000000", marginBottom: 3 },
+  sectionBody: { color: "#000000", lineHeight: 1.3 },
+  termsText: { color: "#000000", fontSize: 7.5, lineHeight: 1.15 },
+  footer: { marginTop: 12, textAlign: "center", fontSize: 13, fontWeight: 700, color: "#18181b" },
 });
 
 const DEFAULT_TERMS =
@@ -313,49 +314,53 @@ export function DocumentPdf(props: DocumentPdfProps) {
           </View>
         )}
 
-        <View style={styles.section}>
-          <Text style={styles.sectionHeading}>{isPo ? "Payment terms:" : "Terms:"}</Text>
-          {isPo ? (
+        {isPo && (
+          <View style={styles.section}>
+            <Text style={styles.sectionHeading}>Payment terms:</Text>
             <Text style={styles.sectionBody}>{purchaseOrder?.paymentTerms ?? ""}</Text>
-          ) : (
-            <View>
-              {parseTerms(company.termsText || DEFAULT_TERMS).map((b, i) => {
-                if (b.kind === "space") return <View key={i} style={{ height: 5 }} />;
-                const runs = b.runs.map((r, j) => (
-                  <Text key={j} style={r.bold ? { fontWeight: 700, color: "#3f3f46" } : undefined}>
-                    {r.text}
-                  </Text>
-                ));
-                if (b.kind === "numbered") {
-                  return (
-                    <View key={i} style={{ flexDirection: "row", marginTop: 2 }}>
-                      <Text style={[styles.sectionBody, { width: 16, fontWeight: 700, color: "#3f3f46" }]}>{b.label}</Text>
-                      <Text style={[styles.sectionBody, { flex: 1 }]}>{runs}</Text>
-                    </View>
-                  );
-                }
-                if (b.kind === "bullet") {
-                  return (
-                    <View key={i} style={{ flexDirection: "row", marginTop: 1, paddingLeft: b.depth ? 30 : 16 }}>
-                      <Text style={[styles.sectionBody, { width: 8 }]}>•</Text>
-                      <Text style={[styles.sectionBody, { flex: 1 }]}>{runs}</Text>
-                    </View>
-                  );
-                }
-                return (
-                  <Text key={i} style={[styles.sectionBody, b.kind === "heading" ? { marginTop: 3, fontWeight: 700, color: "#3f3f46" } : {}]}>
-                    {runs}
-                  </Text>
-                );
-              })}
-            </View>
-          )}
-        </View>
+          </View>
+        )}
 
         <View style={styles.section}>
           <Text style={styles.sectionHeading}>Notes:</Text>
           <Text style={styles.sectionBody}>{notes || ""}</Text>
         </View>
+
+        {!isPo && (
+          // Small, tight black type so the terms fit under the totals on the first page; longer terms flow onto the next.
+          <View style={styles.section}>
+            <Text style={styles.sectionHeading}>Terms:</Text>
+            {parseTerms(company.termsText || DEFAULT_TERMS).map((b, i) => {
+              if (b.kind === "space") return <View key={i} style={{ height: 2 }} />;
+              const runs = b.runs.map((r, j) => (
+                <Text key={j} style={r.bold ? { fontWeight: 700 } : undefined}>
+                  {r.text}
+                </Text>
+              ));
+              if (b.kind === "numbered") {
+                return (
+                  <View key={i} style={{ flexDirection: "row", marginTop: 1 }}>
+                    <Text style={[styles.termsText, { width: 14, fontWeight: 700 }]}>{b.label}</Text>
+                    <Text style={[styles.termsText, { flex: 1 }]}>{runs}</Text>
+                  </View>
+                );
+              }
+              if (b.kind === "bullet") {
+                return (
+                  <View key={i} style={{ flexDirection: "row", paddingLeft: b.depth ? 24 : 12 }}>
+                    <Text style={[styles.termsText, { width: 7 }]}>•</Text>
+                    <Text style={[styles.termsText, { flex: 1 }]}>{runs}</Text>
+                  </View>
+                );
+              }
+              return (
+                <Text key={i} style={[styles.termsText, b.kind === "heading" ? { marginTop: 3, fontWeight: 700 } : {}]}>
+                  {runs}
+                </Text>
+              );
+            })}
+          </View>
+        )}
 
         <Text style={styles.footer}>{isPo ? "Thank you" : "Thank you for your business"}</Text>
       </Page>
