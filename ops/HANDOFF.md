@@ -93,6 +93,9 @@ No new link or login: the private estimate link (`/e/<token>`) shows a "Your ren
 
 **Waiving charges**: on Dispatch, "Confirm, no charge" confirms a swap with the fee at $0. On a picked-up dumpster each automatic charge (swap, extra days, overweight) has "Don't charge this" / "Charge it again" (`RentalBooking.waivedCharges`, `setChargeWaived`); it only affects invoices not yet created, so on an existing invoice remove the line there. Migration `waived_charges`. Typechecked and the charge maths checked on sample numbers; the Dispatch buttons were not driven in a browser (needs login).
 
+## Customer request messages (2026-10-17)
+Settings > Customer requests (`/settings/customer-requests`) edits three templates, each with its own email and text switch: **Request received** (sent to the customer when they ask on their rental page), **Request approved** (when the office confirms on Dispatch) and **Request declined** (new Decline button, asks for a reason). Variables like `{{customer_name}}` are listed on the page. Defaults live in `lib/message-templates.ts`; saved wording is in `MessageTemplate`. Email goes out as branded HTML (logo, headline, details card, button, footer; same builder renders the Settings preview), texts follow the plan's text cap. Logo is served publicly from `/api/logo/<companyId>` because mail clients block data URLs. Defaults: email on, text off. Online-booking confirmations and the estimate/invoice emails still use their own fixed wording. Migration `message_templates`. Typechecked and the email layout checked in a browser from a rendered file; the Settings page, test-email button and Dispatch Decline button were not driven (need a login), and no real email was sent.
+
 ## Other open decisions
 - Whether the platform takes a Stripe fee, hosted website vs widget only (see ROADMAP.md).
 - Whether voice should be added to the New invoice page and invoice editor (offered, not requested yet).

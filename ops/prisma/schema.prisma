@@ -124,6 +124,7 @@ model Company {
   usageEvents                  UsageEvent[]
   usageStatements              UsageStatement[]
   smsPackPurchases             SmsPackPurchase[]
+  messageTemplates             MessageTemplate[]
   communicationAttachments     CommunicationAttachment[]
   rentalAssets                 RentalAsset[]
   rentalBookings               RentalBooking[]
@@ -954,6 +955,24 @@ model UsageEvent {
 
   @@index([companyId, createdAt])
   @@index([companyId, service, ref, createdAt])
+}
+
+// A company's edited wording for a customer message (email and text). No row means the built-in default
+// from lib/message-templates.ts is used.
+model MessageTemplate {
+  id            String   @id @default(cuid())
+  companyId     String
+  company       Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  key           String // REQUEST_RECEIVED, REQUEST_APPROVED, REQUEST_DECLINED
+  emailOn       Boolean  @default(true)
+  emailSubject  String
+  emailHeadline String
+  emailBody     String   @db.Text
+  smsOn         Boolean  @default(false)
+  smsBody       String   @db.Text
+  updatedAt     DateTime @updatedAt
+
+  @@unique([companyId, key])
 }
 
 // One row per paid text pack. The id is the Stripe Checkout session id, so a retried webhook can't add credits twice.

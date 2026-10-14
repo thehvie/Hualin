@@ -16,6 +16,7 @@ export async function sendEmail({
   to,
   subject,
   text,
+  html,
   fromName,
   replyTo,
   replyThread,
@@ -25,6 +26,8 @@ export async function sendEmail({
   to: string;
   subject: string;
   text: string;
+  /** Optional HTML version; the plain text stays as the fallback part. */
+  html?: string;
   fromName?: string;
   replyTo?: string;
   /** Route the customer's reply back to this estimate/invoice (the address is built on the sending domain used). */
@@ -38,6 +41,7 @@ export async function sendEmail({
 
   const from = fromName ? `${fromName} <${config.fromEmail}>` : config.fromEmail;
   const params: Record<string, string> = { from, to, subject, text };
+  if (html) params.html = html;
   const reply = replyThread ? `${replyThread.kind}-${replyThread.id}@${config.domain}` : replyTo;
   if (reply) params["h:Reply-To"] = reply;
   const headers: Record<string, string> = { Authorization: `Basic ${Buffer.from(`api:${config.apiKey}`).toString("base64")}` };

@@ -8,6 +8,7 @@ import { companyHasFeature } from "@/lib/plan-access";
 import { MAX_EXTENSION_DAYS } from "@/lib/rental-portal";
 import { addDaysYmd, formatInTz, wallParts, wallYmd, zonedInstant } from "@/lib/tz";
 import { formatCents } from "@/lib/money";
+import { buildRequestContext, sendTemplateToCustomer } from "@/lib/customer-messages";
 
 // Requests from the customer's private estimate link. They never change a rental directly: each one becomes a
 // pending proposal that the office confirms on the Dispatch page, same as an AI-read reply.
@@ -104,6 +105,15 @@ async function create(token: string, bookingId: string, kind: Kind, extra?: { da
       },
     });
     await tellOffice(estimate, booking.jobId, kind === "PICKUP" ? `${who} is done with the ${unit} and wants it picked up.` : `${who}'s ${unit} is full. They want it swapped for an empty one.`);
+  }
+
+  // Tell the customer we have it. A failure here must not undo the request.
+  try {
+    const proposal = await prisma.rentalProposal.findFirst({ where: { bookingId: booking.id, kind, status: "PENDING" }, orderBy: { createdAt: "desc" } });
+    const ctx = await buildRequestContext(booking.id, estimate.companyId, { kind, newEndAt: proposal?.newEndAt, extraDays: proposal?.extraDays, chargeCents: proposal?.priceCents });
+    await sendTemplateToCustomer({ companyId: estimate.companyId, customerId: ctx.customerId, key: "REQUEST_RECEIVED", vars: ctx.vars, estimateId: ctx.estimateId });
+  } catch (err) {
+    console.error("[rental request] customer confirmation failed", err);
   }
 
   revalidatePath("/dispatch");

@@ -37,6 +37,9 @@ export default async function SettingsPage() {
         <Link href="/settings/plan" className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-50">
           Plan and billing
         </Link>
+        <Link href="/settings/customer-requests" className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-50">
+          Customer requests
+        </Link>
         <Link href="/settings/team" className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-50">
           Team
         </Link>

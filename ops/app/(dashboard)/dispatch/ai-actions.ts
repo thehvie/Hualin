@@ -5,9 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { availableAssets } from "@/lib/rentals";
 import { swapChargeCents } from "@/lib/rental-portal";
-import { deliverReminder, whenText } from "@/lib/rental-reminders";
-import { sendToCustomer } from "@/lib/outbound";
-import { formatCents } from "@/lib/money";
+import { deliverReminder } from "@/lib/rental-reminders";
+import { buildRequestContext, sendTemplateToCustomer } from "@/lib/customer-messages";
 
 type Result = { ok: true; note?: string } | { ok: false; error: string };
 
@@ -53,17 +52,12 @@ export async function applyProposal(proposalId: string, opts?: { waiveFee?: bool
     await refresh(b.jobId);
     return { ok: false, error: "This dumpster isn't out on site any more, so the suggestion was cleared." };
   }
-  const company = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
-  const estimateId = b.job.estimates[0]?.id ?? null;
-  let confirmation: string | null = null;
   const swapCents = p.kind === "SWAP" && !opts?.waiveFee ? await swapChargeCents(companyId, b.priceBookItemId) : 0;
 
   if (p.kind === "SWAP") {
     await prisma.rentalBooking.update({ where: { id: b.id }, data: { status: "PICKUP_REQUESTED", pickupRequestedAt: new Date(), swapRequested: true, swapFeeCents: swapCents } });
-    confirmation = `Thanks! We'll swap your ${b.category ? `${b.category} ` : ""}dumpster for an empty one and will be in touch about timing.${swapCents ? ` The swap is ${formatCents(swapCents)} on your invoice.` : ""}`;
   } else if (p.kind === "PICKUP") {
     await prisma.rentalBooking.update({ where: { id: b.id }, data: { status: "PICKUP_REQUESTED", pickupRequestedAt: new Date() } });
-    confirmation = `Thanks! We have you down for a pickup of your ${b.category ? `${b.category} ` : ""}dumpster and will be in touch about timing.`;
   } else {
     if (!p.newEndAt) return { ok: false, error: "This suggestion has no new date." };
     // The unit must be free for the longer period.
@@ -77,17 +71,21 @@ export async function applyProposal(proposalId: string, opts?: { waiveFee?: bool
     const latest = await prisma.rentalBooking.aggregate({ where: { jobId: b.jobId, companyId, status: { not: "CANCELLED" } }, _max: { endAt: true } });
     await prisma.job.update({ where: { id: b.jobId }, data: { scheduledEndAt: latest._max.endAt ?? p.newEndAt } });
     await prisma.rentalProposal.updateMany({ where: { bookingId: b.id, status: "PENDING", id: { not: p.id }, kind: "EXTEND" }, data: { status: "DISMISSED" } });
-    const cost = p.priceCents ? ` The ${p.extraDays} extra day${p.extraDays === 1 ? "" : "s"} will be ${formatCents(p.priceCents)} on your invoice.` : "";
-    confirmation = `Got it! Your pickup is now ${whenText(p.newEndAt, company.timezone)}.${cost} Reply if anything changes.`;
   }
 
   await prisma.rentalProposal.update({ where: { id: p.id }, data: { status: "APPLIED" } });
   await prisma.rentalReminder.updateMany({ where: { bookingId: b.id, status: "DRAFT" }, data: { status: "DISMISSED", note: "Handled by the customer's reply." } });
 
-  // Tell the customer what was done. A failure here must not undo the change.
+  // Tell the customer what was done, with the company's approval template. A failure here must not undo the change.
   let note: string | undefined;
-  const sent = await sendToCustomer({ companyId, customerId: b.job.customerId, body: confirmation, subject: "Your dumpster rental", estimateId });
-  if (!sent.ok) note = `Applied, but the confirmation to the customer wasn't sent: ${sent.error}`;
+  try {
+    const ctx = await buildRequestContext(b.id, companyId, { kind: p.kind, newEndAt: p.newEndAt, extraDays: p.extraDays, chargeCents: p.kind === "SWAP" ? swapCents : p.priceCents });
+    const sent = await sendTemplateToCustomer({ companyId, customerId: ctx.customerId, key: "REQUEST_APPROVED", vars: ctx.vars, estimateId: ctx.estimateId });
+    if (!sent.ok) note = `Applied, but the confirmation to the customer wasn't sent: ${sent.error}`;
+  } catch (err) {
+    console.error("[rental] approval message failed", err);
+    note = "Applied, but the confirmation to the customer wasn't sent.";
+  }
 
   await refresh(b.jobId);
   return { ok: true, note };
@@ -100,4 +98,24 @@ export async function dismissProposal(proposalId: string): Promise<Result> {
   await prisma.rentalProposal.update({ where: { id: p.id }, data: { status: "DISMISSED" } });
   await refresh(p.booking.jobId);
   return { ok: true };
+}
+
+/** Owner turns a customer's request down. The customer gets the decline template, with the reason if one is given. */
+export async function declineProposal(proposalId: string, reason: string): Promise<Result> {
+  const { companyId } = await requireSession();
+  const p = await prisma.rentalProposal.findFirst({ where: { id: proposalId, companyId, status: "PENDING" }, include: { booking: { select: { id: true, jobId: true } } } });
+  if (!p) return { ok: false, error: "This request is no longer pending." };
+  await prisma.rentalProposal.update({ where: { id: p.id }, data: { status: "DISMISSED" } });
+
+  let note: string | undefined;
+  try {
+    const ctx = await buildRequestContext(p.booking.id, companyId, { kind: p.kind, newEndAt: p.newEndAt, extraDays: p.extraDays, reason: reason.slice(0, 300) });
+    const sent = await sendTemplateToCustomer({ companyId, customerId: ctx.customerId, key: "REQUEST_DECLINED", vars: ctx.vars, estimateId: ctx.estimateId });
+    if (!sent.ok) note = `Declined, but the customer wasn't told: ${sent.error}`;
+  } catch (err) {
+    console.error("[rental] decline message failed", err);
+    note = "Declined, but the customer wasn't told.";
+  }
+  await refresh(p.booking.jobId);
+  return { ok: true, note };
 }

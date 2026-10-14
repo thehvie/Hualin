@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import { applyProposal, dismissProposal, dismissReminder, sendReminder } from "@/app/(dashboard)/dispatch/ai-actions";
+import { applyProposal, declineProposal, dismissProposal, dismissReminder, sendReminder } from "@/app/(dashboard)/dispatch/ai-actions";
 import type { DraftItem, ProposalItem } from "@/lib/rental-ai-queue";
 
 function Draft({ d }: { d: DraftItem }) {
@@ -79,10 +79,23 @@ function Proposal({ p }: { p: ProposalItem }) {
             Confirm, no charge
           </button>
         )}
+        {p.fromCustomer && (
+          <button
+            type="button"
+            disabled={pending}
+            onClick={() => {
+              const reason = window.prompt("Why are you declining? The customer will see this (optional).", "");
+              if (reason !== null) run(() => declineProposal(p.id, reason));
+            }}
+            className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-semibold text-zinc-800 disabled:opacity-50"
+          >
+            Decline
+          </button>
+        )}
         <button type="button" disabled={pending} onClick={() => run(() => dismissProposal(p.id))} className="text-xs text-zinc-400 hover:text-zinc-700">
           Ignore
         </button>
-        <span className="text-xs text-zinc-400">The customer gets a short confirmation text or email.</span>
+        <span className="text-xs text-zinc-400">The customer gets your confirmation message. Ignore sends nothing.</span>
         {error && <span className="text-xs text-red-600">{error}</span>}
         {note && <span className="text-xs text-amber-700">{note}</span>}
       </div>
