@@ -150,6 +150,7 @@ export type CompanyPlanFields = {
   stripeSubscriptionId: string | null;
   trialEndsAt: Date | null;
   brandUpgrade: boolean;
+  freeUnlimited: boolean;
 };
 
 export interface PlanAccess {
@@ -174,6 +175,22 @@ export interface PlanAccess {
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 export function accessFor(company: CompanyPlanFields, now = new Date()): PlanAccess {
+  // The owner's own company: everything on, nothing metered into a limit, no trial clock.
+  if (company.freeUnlimited) {
+    return {
+      plan: company.plan,
+      onTrial: false,
+      expired: false,
+      trialEndsAt: null,
+      trialDaysLeft: 0,
+      features: new Set<Feature>(ALL_FEATURES),
+      smsPerMonth: 1_000_000,
+      includedMicros: 1_000_000_000_000,
+      overageCapCents: 0,
+      maxOfficeUsers: null,
+      branded: true,
+    };
+  }
   const def = PLANS[company.plan];
   const noSubscription = !company.stripeSubscriptionId && company.subscriptionStatus === "TRIALING";
   const trialEndsAt = company.trialEndsAt;
@@ -232,6 +249,7 @@ export const COMPANY_PLAN_SELECT = {
   stripeSubscriptionId: true,
   trialEndsAt: true,
   brandUpgrade: true,
+  freeUnlimited: true,
 } as const;
 
 // ── Stripe price ids (set in the environment; see .env.example) ──────────────

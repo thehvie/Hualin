@@ -54,6 +54,8 @@ model Company {
   plan                   Plan               @default(STARTER)
   // One-time $100 brand upgrade: own logo on documents and no "Powered by" line. Base and Plus include it.
   brandUpgrade           Boolean            @default(false)
+  // The platform owner's own company: every feature, no text or usage limits, no seat limit, never billed or locked.
+  freeUnlimited          Boolean            @default(false)
   // Extra texts bought in packs. Used only after the plan's monthly texts run out; they carry over month to month.
   smsCredits             Int                @default(0)
   // Email. Every company starts on the shared platform sender for 60 days after signup; after that it must connect

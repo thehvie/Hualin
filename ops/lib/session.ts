@@ -30,7 +30,7 @@ export async function requireSession(): Promise<AuthedSession> {
   });
 
   // A signup trial that ran out without a subscription is locked until a plan is chosen.
-  if (!company || !ACTIVE_STATUSES.has(company.subscriptionStatus) || accessFor(company).expired) {
+  if (!company || (!company.freeUnlimited && (!ACTIVE_STATUSES.has(company.subscriptionStatus) || accessFor(company).expired))) {
     redirect("/billing/expired");
   }
 
