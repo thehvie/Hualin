@@ -44,9 +44,11 @@ function Rental({ token, r }: { token: string; r: PortalRental }) {
             <button type="button" disabled={pending || r.pending.PICKUP} className={btn} onClick={() => run("Pickup requested.", () => requestPickup(token, r.id))}>
               {r.pending.PICKUP ? "Pickup requested" : "I'm done, pick it up"}
             </button>
-            <button type="button" disabled={pending || r.pending.SWAP} className={btn} onClick={() => run("Swap requested.", () => requestSwap(token, r.id))}>
-              {r.pending.SWAP ? "Swap requested" : "It's full, swap for an empty one"}
-            </button>
+            {r.swapNote && (
+              <button type="button" disabled={pending || r.pending.SWAP} className={btn} onClick={() => run("Swap requested.", () => requestSwap(token, r.id))}>
+                {r.pending.SWAP ? "Swap requested" : `It's full, swap for an empty one (${r.swapNote})`}
+              </button>
+            )}
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <label className="text-sm text-zinc-700" htmlFor={`days-${r.id}`}>

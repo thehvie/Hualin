@@ -62,6 +62,10 @@ async function create(token: string, bookingId: string, kind: Kind, extra?: { da
     return { ok: false, error: booking.status === "PICKUP_REQUESTED" ? "A pickup is already requested for this dumpster." : "This dumpster isn't on site yet." };
   }
   if (booking.proposals.some((p) => p.kind === kind)) return { ok: true }; // already waiting on the office
+  if (kind === "SWAP") {
+    const policy = await prisma.company.findUniqueOrThrow({ where: { id: estimate.companyId }, select: { swapPolicy: true } });
+    if (policy.swapPolicy === "OFF") return { ok: false, error: "Please call us to arrange a swap." };
+  }
 
   const tz = estimate.company.timezone;
   const who = `${estimate.customer.firstName} ${estimate.customer.lastName}`;

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { formatInTz } from "@/lib/tz";
 import { formatCents } from "@/lib/money";
+import { swapChargeCents } from "@/lib/rental-portal";
 
 export interface DraftItem {
   id: string;
@@ -40,6 +41,9 @@ export async function loadRentalAiQueue(companyId: string, tz: string): Promise<
       include: { booking: { include: { asset: true, job: { include: { customer: true } } } } },
     }),
   ]);
+  const swapCents = new Map<string, number>(
+    await Promise.all(proposals.filter((p) => p.kind === "SWAP").map(async (p) => [p.id, await swapChargeCents(companyId, p.booking.priceBookItemId)] as [string, number])),
+  );
   const unitOf = (b: { category: string | null; asset: { label: string } | null }) => `${b.category ?? "Dumpster"}${b.asset ? ` · ${b.asset.label}` : ""}`;
   const nameOf = (b: { job: { customer: { firstName: string; lastName: string } } }) => `${b.job.customer.firstName} ${b.job.customer.lastName}`;
 
@@ -65,7 +69,7 @@ export async function loadRentalAiQueue(companyId: string, tz: string): Promise<
         p.kind === "PICKUP"
           ? "Wants the dumpster picked up. Confirm to mark pickup requested."
           : p.kind === "SWAP"
-            ? "Dumpster is full and they want an empty one. Confirm to mark pickup requested as a swap, then book the replacement on the estimate."
+            ? `Dumpster is full and they want an empty one${swapCents.get(p.id) ? ` (${formatCents(swapCents.get(p.id)!)} swap charge)` : " (no charge)"}. Confirm to mark pickup requested as a swap, then schedule the replacement.`
             : `Wants ${p.extraDays} more day${p.extraDays === 1 ? "" : "s"}: move pickup from ${label(p.booking.endAt)} to ${p.newEndAt ? label(p.newEndAt) : "?"}${p.priceCents ? ` (${formatCents(p.priceCents)} extra)` : ""}.`,
     })),
   };

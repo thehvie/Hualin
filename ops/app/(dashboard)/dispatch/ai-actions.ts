@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { availableAssets } from "@/lib/rentals";
+import { swapChargeCents } from "@/lib/rental-portal";
 import { deliverReminder, whenText } from "@/lib/rental-reminders";
 import { sendToCustomer } from "@/lib/outbound";
 import { formatCents } from "@/lib/money";
@@ -55,10 +56,11 @@ export async function applyProposal(proposalId: string): Promise<Result> {
   const company = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
   const estimateId = b.job.estimates[0]?.id ?? null;
   let confirmation: string | null = null;
+  const swapCents = p.kind === "SWAP" ? await swapChargeCents(companyId, b.priceBookItemId) : 0;
 
   if (p.kind === "SWAP") {
-    await prisma.rentalBooking.update({ where: { id: b.id }, data: { status: "PICKUP_REQUESTED", pickupRequestedAt: new Date(), swapRequested: true } });
-    confirmation = `Thanks! We'll swap your ${b.category ? `${b.category} ` : ""}dumpster for an empty one and will be in touch about timing.`;
+    await prisma.rentalBooking.update({ where: { id: b.id }, data: { status: "PICKUP_REQUESTED", pickupRequestedAt: new Date(), swapRequested: true, swapFeeCents: swapCents } });
+    confirmation = `Thanks! We'll swap your ${b.category ? `${b.category} ` : ""}dumpster for an empty one and will be in touch about timing.${swapCents ? ` The swap is ${formatCents(swapCents)} on your invoice.` : ""}`;
   } else if (p.kind === "PICKUP") {
     await prisma.rentalBooking.update({ where: { id: b.id }, data: { status: "PICKUP_REQUESTED", pickupRequestedAt: new Date() } });
     confirmation = `Thanks! We have you down for a pickup of your ${b.category ? `${b.category} ` : ""}dumpster and will be in touch about timing.`;

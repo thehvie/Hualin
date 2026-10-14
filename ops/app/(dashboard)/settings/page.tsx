@@ -5,6 +5,7 @@ import { SettingsForm } from "./settings-form";
 import { UsageCard } from "./usage-card";
 import { TermsCard } from "./terms-card";
 import { ReminderCard } from "./reminder-card";
+import { SwapCard } from "./swap-card";
 import { EmailCard, type EmailState } from "./email-card";
 import { sharedEmailStatusOf } from "@/lib/mail-config";
 import { getUsageStatus } from "@/lib/usage";
@@ -77,6 +78,8 @@ export default async function SettingsPage() {
           quietEnd: company.rentalQuietEndHour,
         }}
       />
+
+      <SwapCard initial={{ policy: company.swapPolicy, feeDollars: company.swapFeeCents ? (company.swapFeeCents / 100).toString() : "" }} />
 
       <EmailCard state={emailState} appUrl={(process.env.NEXTAUTH_URL || "").replace(/\/$/, "")} />
 

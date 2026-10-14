@@ -89,6 +89,8 @@ Three plans, all defined in `lib/plans.ts` (prices, features, AI allowance, seat
 ## Customer rental page (2026-10-15)
 No new link or login: the private estimate link (`/e/<token>`) shows a "Your rental" card once the estimate is approved and a rental exists (Base/Plus/trial). The customer can request **pickup**, **more time (1-14 days)** or a **swap** (new `SWAP` proposal kind, `RentalBooking.swapRequested`). Requests never change a rental by themselves: they become pending proposals (`fromCustomer`) in the Dispatch approval box, the office is emailed, and confirming sends the customer a confirmation. Rental reminders and the estimate email now carry the link. Migration `rental_customer_requests`. Tested in the browser with seeded data (swap and extension requests created); the office confirm step (Dispatch, needs login) was not driven.
 
+**Swap pricing** (Settings > Swap-outs, `Company.swapPolicy`): Off (default, the button is hidden), Free, Flat fee, or Full package rate. The fee is fixed on the booking when the office confirms the swap (`RentalBooking.swapFeeCents`) and becomes a "swap-out" line on the invoice with the extra-day and overweight lines. The replacement dumpster is still scheduled by hand; the owner must not also add a package for it. Migration `swap_policy`.
+
 ## Other open decisions
 - Whether the platform takes a Stripe fee, hosted website vs widget only (see ROADMAP.md).
 - Whether voice should be added to the New invoice page and invoice editor (offered, not requested yet).

@@ -35,14 +35,20 @@ function daysBetween(a: Date, b: Date, tz: string): number {
  * included tons. Needs the pickup to have happened; items with no extra-day or overweight rates add nothing.
  */
 export function rentalCharges(
-  booking: { deliveredAt: Date | null; pickedUpAt: Date | null; weightTons: number | null },
+  booking: { deliveredAt: Date | null; pickedUpAt: Date | null; weightTons: number | null; swapFeeCents?: number },
   terms: PackageTerms | null,
   tz: string,
 ): RentalCharges | null {
-  if (!terms || !booking.deliveredAt || !booking.pickedUpAt) return null;
+  if (!booking.deliveredAt || !booking.pickedUpAt) return null;
 
   const daysOut = daysBetween(booking.deliveredAt, booking.pickedUpAt, tz);
   const lines: RentalChargeLine[] = [];
+
+  if (booking.swapFeeCents && booking.swapFeeCents > 0) {
+    lines.push({ description: `${terms?.name ?? "Dumpster"}: swap-out`, quantity: 1, unitPriceCents: booking.swapFeeCents });
+  }
+
+  if (!terms) return { daysOut, extraDays: 0, overTons: 0, lines, totalCents: lines.reduce((s, l) => s + l.quantity * l.unitPriceCents, 0) };
 
   const extraDays = terms.packageDays != null && terms.extraDayCents ? Math.max(0, daysOut - terms.packageDays) : 0;
   if (extraDays > 0 && terms.extraDayCents) {

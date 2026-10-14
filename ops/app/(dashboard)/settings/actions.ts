@@ -163,6 +163,21 @@ export async function saveTerms(input: { termsText: string; rentalTermsText: str
   return { ok: true };
 }
 
+export async function saveSwapSettings(input: { policy: string; feeDollars: string }): Promise<{ ok: true } | { ok: false; error: string }> {
+  const { companyId } = await requireSession();
+  const policy = input.policy as "OFF" | "FREE" | "FLAT" | "FULL";
+  if (!["OFF", "FREE", "FLAT", "FULL"].includes(policy)) return { ok: false, error: "Pick how swaps work." };
+  let feeCents = 0;
+  if (policy === "FLAT") {
+    const dollars = Number(String(input.feeDollars).replace(/[$,\s]/g, ""));
+    if (!Number.isFinite(dollars) || dollars <= 0 || dollars > 5000) return { ok: false, error: "Enter the swap fee in dollars, like 75." };
+    feeCents = Math.round(dollars * 100);
+  }
+  await prisma.company.update({ where: { id: companyId }, data: { swapPolicy: policy, swapFeeCents: feeCents } });
+  revalidatePath("/settings");
+  return { ok: true };
+}
+
 export async function saveReminderSettings(input: {
   on: boolean;
   hours: number;

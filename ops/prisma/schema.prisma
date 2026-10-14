@@ -16,6 +16,14 @@ enum Plan {
   PLUS
 }
 
+// How a company handles customers asking to swap a full dumpster for an empty one.
+enum SwapPolicy {
+  OFF // customers can't request swaps
+  FREE // no charge
+  FLAT // a flat fee (Company.swapFeeCents)
+  FULL // the dumpster's full package price again
+}
+
 enum SubscriptionStatus {
   TRIALING
   ACTIVE
@@ -68,6 +76,9 @@ model Company {
   rentalRemindersOn      Boolean            @default(false)
   rentalReminderHours    Int                @default(24) // how long before the planned pickup
   rentalReminderAuto     Boolean            @default(false) // false = drafts wait for approval; true = sent on their own
+  // Swap-outs: whether customers can ask for one on their rental page, and what it costs.
+  swapPolicy             SwapPolicy         @default(OFF)
+  swapFeeCents           Int                @default(0)
   rentalReminderAi       Boolean            @default(true) // AI writes the message and reads replies
   rentalQuietStartHour   Int                @default(8) // no reminders before this hour (company timezone)
   rentalQuietEndHour     Int                @default(20) // ...or from this hour on
@@ -1034,6 +1045,8 @@ model RentalBooking {
   pickupRequestedAt DateTime?
   // The pickup was requested as a swap: a replacement dumpster still has to be booked.
   swapRequested     Boolean   @default(false)
+  // What the swap costs, fixed when the office confirmed it so a later policy change can't reprice it.
+  swapFeeCents      Int       @default(0)
   pickedUpAt        DateTime?
   placementNotes    String?   @db.Text
   weightTons        Float?
