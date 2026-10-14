@@ -21,49 +21,56 @@ enum SubscriptionStatus {
 }
 
 model Company {
-  id                   String             @id @default(cuid())
-  name                 String
-  logoDataUrl          String?            @db.Text
-  website              String?
-  email                String?
-  phone                String?
-  termsText            String?            @db.Text
+  id                     String             @id @default(cuid())
+  name                   String
+  logoDataUrl            String?            @db.Text
+  website                String?
+  email                  String?
+  phone                  String?
+  termsText              String?            @db.Text
   // Extra terms added on estimates and invoices that include a rental (dumpster or equipment).
-  rentalTermsText      String?            @db.Text
-  stripeCustomerId     String?            @unique
-  stripeSubscriptionId String?            @unique
-  stripePriceId        String?
-  subscriptionStatus   SubscriptionStatus @default(TRIALING)
-  trialEndsAt          DateTime?
+  rentalTermsText        String?            @db.Text
+  stripeCustomerId       String?            @unique
+  stripeSubscriptionId   String?            @unique
+  stripePriceId          String?
+  subscriptionStatus     SubscriptionStatus @default(TRIALING)
+  trialEndsAt            DateTime?
   // Email. Every company starts on the shared platform sender for 60 days after signup; after that it must connect
   // its own Mailgun account (or be exempt, e.g. the platform owner's own company). Secrets are stored encrypted.
-  sharedEmailExempt    Boolean            @default(false)
-  mailgunDomain        String?
-  mailgunRegion        String             @default("us")
-  mailgunApiKeyEnc     String?
-  mailgunSigningKeyEnc String?
-  mailFromEmail        String?
+  sharedEmailExempt      Boolean            @default(false)
+  mailgunDomain          String?
+  mailgunRegion          String             @default("us")
+  mailgunApiKeyEnc       String?
+  mailgunSigningKeyEnc   String?
+  mailFromEmail          String?
   // Link to the company's own payment page (Square, Stripe payment link, PayPal, etc.), shown to customers under the
   // total on estimates and invoices.
   paymentLinkUrl         String?
   paymentLinkLabel       String?
-  paymentLinkOnEstimates Boolean @default(true)
-  paymentLinkOnInvoices  Boolean @default(true)
+  paymentLinkOnEstimates Boolean            @default(true)
+  paymentLinkOnInvoices  Boolean            @default(true)
   // IANA zone the business operates in; job times are read/written in it.
-  timezone             String             @default("America/New_York")
+  timezone               String             @default("America/New_York")
+  // Rental reminders: texts/emails before a dumpster's rental time runs out. Off until the company turns it on.
+  rentalRemindersOn      Boolean            @default(false)
+  rentalReminderHours    Int                @default(24) // how long before the planned pickup
+  rentalReminderAuto     Boolean            @default(false) // false = drafts wait for approval; true = sent on their own
+  rentalReminderAi       Boolean            @default(true) // AI writes the message and reads replies
+  rentalQuietStartHour   Int                @default(8) // no reminders before this hour (company timezone)
+  rentalQuietEndHour     Int                @default(20) // ...or from this hour on
   // Two-letter US state the business operates in; pre-fills the online booking address.
-  state                String?
+  state                  String?
   // Where jobs start from; the estimate map shows the drive from here to the customer. Geocoded lazily.
-  officeAddressLine1   String?
-  officeCity           String?
-  officeState          String?
-  officeZip            String?
-  officeLatitude       Float?
-  officeLongitude      Float?
+  officeAddressLine1     String?
+  officeCity             String?
+  officeState            String?
+  officeZip              String?
+  officeLatitude         Float?
+  officeLongitude        Float?
   // Fuel surcharge: cents per mile beyond the free miles; 0 turns it off. Applied to the round trip when set.
-  fuelRateCentsPerMile Int                @default(0)
-  fuelFreeMiles        Int                @default(0)
-  fuelRoundTrip        Boolean            @default(true)
+  fuelRateCentsPerMile   Int                @default(0)
+  fuelFreeMiles          Int                @default(0)
+  fuelRoundTrip          Boolean            @default(true)
 
   users                        User[]
   customers                    Customer[]
@@ -94,6 +101,8 @@ model Company {
   rentalAssets                 RentalAsset[]
   rentalBookings               RentalBooking[]
   mapLookups                   MapLookup[]
+  rentalReminders              RentalReminder[]
+  rentalProposals              RentalProposal[]
   purchaseOrderLineItems       PurchaseOrderLineItem[]
   purchaseOrderAttachments     PurchaseOrderAttachment[]
 
@@ -310,8 +319,8 @@ model Estimate {
   jobId      String?
   job        Job?           @relation(fields: [jobId], references: [id])
 
-  discountCents  Int @default(0)
-  depositCents   Int @default(0)
+  discountCents        Int            @default(0)
+  depositCents         Int            @default(0)
   // A deposit actually received (as opposed to depositCents, the amount requested). Carried onto the invoice as a payment.
   depositPaidCents     Int            @default(0)
   depositPaidAt        DateTime?
@@ -319,9 +328,9 @@ model Estimate {
   depositPaidReference String?
   // The terms the customer agreed to when they signed, so later edits in Settings don't rewrite signed paperwork.
   termsSnapshot        String?        @db.Text
-  laborCostCents Int @default(0)
+  laborCostCents       Int            @default(0)
   // Fuel surcharge for the trip to the job; shown on the PDF only when above $0. Not taxed.
-  fuelSurchargeCents Int @default(0)
+  fuelSurchargeCents   Int            @default(0)
 
   lineItems       EstimateLineItem[]
   paymentSchedule EstimatePaymentScheduleItem[]
@@ -400,12 +409,12 @@ model Job {
   propertyId String?
   property   Property? @relation(fields: [propertyId], references: [id])
 
-  status      JobStatus @default(UNSCHEDULED)
-  scheduledAt DateTime?
+  status         JobStatus @default(UNSCHEDULED)
+  scheduledAt    DateTime?
   // End of a rental period (scheduledAt is the drop-off/start); null for ordinary one-visit jobs.
   scheduledEndAt DateTime?
-  completedAt DateTime?
-  notes       String?   @db.Text
+  completedAt    DateTime?
+  notes          String?   @db.Text
 
   crew      User[]     @relation("JobCrew")
   estimates Estimate[]
@@ -467,13 +476,13 @@ model Invoice {
   invoiceDate DateTime @default(now())
   publicToken String   @unique @default(cuid())
 
-  discountCents  Int      @default(0)
-  depositCents   Int      @default(0)
-  tipCents       Int      @default(0)
-  laborCostCents Int      @default(0)
-  fuelSurchargeCents Int  @default(0)
-  taxRateId      String?
-  taxRate        TaxRate? @relation(fields: [taxRateId], references: [id])
+  discountCents      Int      @default(0)
+  depositCents       Int      @default(0)
+  tipCents           Int      @default(0)
+  laborCostCents     Int      @default(0)
+  fuelSurchargeCents Int      @default(0)
+  taxRateId          String?
+  taxRate            TaxRate? @relation(fields: [taxRateId], references: [id])
 
   lineItems       InvoiceLineItem[]
   payments        Payment[]
@@ -749,24 +758,24 @@ enum CommunicationDirection {
 }
 
 model Communication {
-  id         String                 @id @default(cuid())
-  companyId  String
-  company    Company                @relation(fields: [companyId], references: [id])
-  customerId String
-  customer   Customer               @relation(fields: [customerId], references: [id])
-  estimateId String?
-  estimate   Estimate?              @relation(fields: [estimateId], references: [id])
-  invoiceId  String?
-  invoice    Invoice?               @relation(fields: [invoiceId], references: [id])
-  channel    CommunicationChannel
-  direction  CommunicationDirection
-  body       String                 @db.Text
-  providerId String?
+  id             String                 @id @default(cuid())
+  companyId      String
+  company        Company                @relation(fields: [companyId], references: [id])
+  customerId     String
+  customer       Customer               @relation(fields: [customerId], references: [id])
+  estimateId     String?
+  estimate       Estimate?              @relation(fields: [estimateId], references: [id])
+  invoiceId      String?
+  invoice        Invoice?               @relation(fields: [invoiceId], references: [id])
+  channel        CommunicationChannel
+  direction      CommunicationDirection
+  body           String                 @db.Text
+  providerId     String?
   // When staff first opened a customer's inbound message; null means it is still unread.
-  readAt DateTime?
+  readAt         DateTime?
   // False when an inbound email came from an address other than the customer's on file; staff confirm it
   // before its attachments are shown.
-  senderVerified Boolean @default(true)
+  senderVerified Boolean                @default(true)
 
   attachments CommunicationAttachment[]
 
@@ -978,27 +987,29 @@ enum RentalStatus {
 
 // One unit on rent for a job: a drop-off, a planned pickup, and what actually happened.
 model RentalBooking {
-  id        String      @id @default(cuid())
-  companyId String
-  company   Company     @relation(fields: [companyId], references: [id])
-  jobId     String
-  job       Job         @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  id              String           @id @default(cuid())
+  companyId       String
+  company         Company          @relation(fields: [companyId], references: [id])
+  jobId           String
+  job             Job              @relation(fields: [jobId], references: [id], onDelete: Cascade)
   // Empty until a specific unit is assigned; `category` says what was ordered meanwhile.
-  assetId   String?
-  asset     RentalAsset? @relation(fields: [assetId], references: [id])
-  category  String?
+  assetId         String?
+  asset           RentalAsset?     @relation(fields: [assetId], references: [id])
+  category        String?
   priceBookItemId String?
+  reminders       RentalReminder[]
+  proposals       RentalProposal[]
 
   startAt DateTime // planned delivery
   endAt   DateTime // planned pickup
   status  RentalStatus @default(RESERVED)
 
-  deliveredAt        DateTime?
-  pickupRequestedAt  DateTime?
-  pickedUpAt         DateTime?
-  placementNotes     String?   @db.Text
-  weightTons         Float?
-  ticketNumber       String?
+  deliveredAt       DateTime?
+  pickupRequestedAt DateTime?
+  pickedUpAt        DateTime?
+  placementNotes    String?   @db.Text
+  weightTons        Float?
+  ticketNumber      String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1019,4 +1030,62 @@ model MapLookup {
   createdAt DateTime @default(now())
 
   @@index([companyId, createdAt])
+}
+
+enum RentalReminderStatus {
+  DRAFT // waiting for the owner to approve
+  SENT
+  SKIPPED // nothing was sent (no contact info, send failed...)
+  DISMISSED
+}
+
+// A reminder that a customer's rental time is about to run out. One per rental, kind and planned pickup, so a
+// rental is never reminded twice for the same deadline (an extension moves the deadline and so earns a new one).
+model RentalReminder {
+  id        String               @id @default(cuid())
+  companyId String
+  company   Company              @relation(fields: [companyId], references: [id])
+  bookingId String
+  booking   RentalBooking        @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  kind      String // "MAIN" | "SHORT"
+  forEndAt  DateTime // the planned pickup this reminder was for
+  status    RentalReminderStatus @default(DRAFT)
+  channel   String? // "sms" | "email"
+  body      String               @db.Text
+  note      String? // why it was skipped, or the send error
+  sentAt    DateTime?
+  createdAt DateTime             @default(now())
+
+  @@unique([bookingId, kind, forEndAt])
+  @@index([companyId, status])
+}
+
+enum RentalProposalKind {
+  EXTEND
+  PICKUP
+}
+
+enum RentalProposalStatus {
+  PENDING
+  APPLIED
+  DISMISSED
+}
+
+// What the AI thinks a customer's reply means ("keep it till Friday", "ready for pickup"), held for one-tap confirmation.
+model RentalProposal {
+  id         String               @id @default(cuid())
+  companyId  String
+  company    Company              @relation(fields: [companyId], references: [id])
+  bookingId  String
+  booking    RentalBooking        @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  kind       RentalProposalKind
+  newEndAt   DateTime? // EXTEND: the new planned pickup
+  extraDays  Int                  @default(0)
+  priceCents Int? // EXTEND: what the extra days cost, when the package has a rate
+  message    String               @db.Text // the customer's words
+  status     RentalProposalStatus @default(PENDING)
+  createdAt  DateTime             @default(now())
+
+  @@index([companyId, status])
+  @@index([bookingId])
 }

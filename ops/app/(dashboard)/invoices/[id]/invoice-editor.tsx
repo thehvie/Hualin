@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
+import { PriceInput } from "@/components/price-input";
 import { formatCents } from "@/lib/money";
 import { formatQty, formatUnitPrice } from "@/lib/price-book";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
@@ -9,6 +10,7 @@ import {
   addLineItem,
   addLineItemFromPriceBook,
   removeLineItem,
+  updateLineItemPrice,
   setLineItemTaxable,
   updateInvoiceHeader,
   addPaymentScheduleItem,
@@ -337,7 +339,14 @@ export function InvoiceEditor({
                   <tr key={li.id}>
                     <td className="py-2.5 text-zinc-900">{li.description}</td>
                     <td className="py-2.5 text-right text-zinc-900">{formatQty(li.quantity, li.isRental)}</td>
-                    <td className="py-2.5 text-right text-zinc-900">{formatUnitPrice(formatCents(li.unitPriceCents), li.isRental)}</td>
+                    <td className="py-2.5 text-right text-zinc-900">
+                      <PriceInput
+                        cents={li.unitPriceCents}
+                        perDay={li.isRental}
+                        disabled={isPending}
+                        onSave={(c) => startTransition(() => updateLineItemPrice(invoice.id, li.id, c))}
+                      />
+                    </td>
                     <td className="py-2.5 text-right text-zinc-400">
                       {li.costCents != null ? formatCents(li.costCents) : "—"}
                     </td>

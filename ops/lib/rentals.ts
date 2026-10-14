@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import type { PackageTerms } from "@/lib/rental-charges";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -86,6 +87,8 @@ export interface RentalRow {
   assetId: string | null;
   startAt: string;
   endAt: string;
+  deliveredAt: string | null;
+  priceBookItemId: string | null;
   options: UnitOption[];
 }
 
@@ -97,6 +100,9 @@ export interface RentalCardData {
   /** The job has a delivery date, so units can be reserved. */
   scheduled: boolean;
   bookings: RentalRow[];
+  tz: string;
+  /** Package pricing by price book item id, for the running extra-day charge. */
+  terms: Record<string, PackageTerms>;
 }
 
 /** Everything the estimate's Rentals card shows: what's needed, what's reserved, and which units are free for each. */
@@ -132,9 +138,27 @@ export async function loadRentalCard(
       assetId: b.assetId,
       startAt: b.startAt.toISOString(),
       endAt: b.endAt.toISOString(),
+      deliveredAt: b.deliveredAt?.toISOString() ?? null,
+      priceBookItemId: b.priceBookItemId,
       options,
     });
   }
 
-  return { hasPackageLines: unitsNeeded > 0 || bookings.length > 0, unitsNeeded, scheduled: !!job?.scheduledAt, bookings: rows };
+  const termIds = [...new Set(bookings.map((b) => b.priceBookItemId).filter((x): x is string => !!x))];
+  const termRows = termIds.length
+    ? await prisma.priceBookItem.findMany({
+        where: { companyId, id: { in: termIds } },
+        select: { id: true, name: true, packageDays: true, extraDayCents: true, includedTons: true, overageCentsPerTon: true },
+      })
+    : [];
+  const { timezone } = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } });
+
+  return {
+    hasPackageLines: unitsNeeded > 0 || bookings.length > 0,
+    unitsNeeded,
+    scheduled: !!job?.scheduledAt,
+    bookings: rows,
+    tz: timezone,
+    terms: Object.fromEntries(termRows.map((t) => [t.id, t])),
+  };
 }

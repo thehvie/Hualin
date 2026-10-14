@@ -112,6 +112,14 @@ export async function removeLineItem(invoiceId: string, lineItemId: string) {
   revalidate(invoiceId);
 }
 
+export async function updateLineItemPrice(invoiceId: string, lineItemId: string, cents: number) {
+  const { companyId } = await requireSession();
+  const unitPriceCents = Math.max(0, Math.min(100_000_000, Math.round(Number(cents)) || 0));
+  await prisma.invoiceLineItem.updateMany({ where: { id: lineItemId, invoiceId, companyId }, data: { unitPriceCents } });
+  await recalcInvoiceStatus(invoiceId, companyId);
+  revalidate(invoiceId);
+}
+
 export async function setLineItemTaxable(invoiceId: string, lineItemId: string, taxable: boolean) {
   const { companyId } = await requireSession();
   await prisma.invoiceLineItem.updateMany({

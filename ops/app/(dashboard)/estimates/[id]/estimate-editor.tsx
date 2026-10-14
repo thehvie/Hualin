@@ -1,5 +1,6 @@
 "use client";
 
+import { PriceInput } from "@/components/price-input";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { PhotoDropzone } from "@/components/photo-dropzone";
@@ -22,6 +23,7 @@ import {
   addLineItemFromPriceBook,
   removeLineItem,
   updateLineItemQuantity,
+  updateLineItemPrice,
   updateEstimateHeader,
   addPaymentScheduleItem,
   updateEstimateSchedule,
@@ -399,7 +401,14 @@ export function EstimateEditor({
                         {li.isRental && <span className="text-xs text-zinc-500">{li.quantity === 1 ? "day" : "days"}</span>}
                       </span>
                     </td>
-                    <td className="py-2.5 text-right text-zinc-900">{formatUnitPrice(formatCents(li.unitPriceCents), li.isRental)}</td>
+                    <td className="py-2.5 text-right text-zinc-900">
+                      <PriceInput
+                        cents={li.unitPriceCents}
+                        perDay={li.isRental}
+                        disabled={isPending}
+                        onSave={(c) => startTransition(() => updateLineItemPrice(estimate.id, li.id, c))}
+                      />
+                    </td>
                     <td className="py-2.5 text-right text-zinc-400">
                       {li.costCents != null ? formatCents(li.costCents) : "—"}
                     </td>

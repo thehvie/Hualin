@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
+import { handleCustomerReply } from "@/lib/rental-replies";
 import { last10, verifyTwilioSignature, twilioInboundUrl, STOP_WORDS, START_WORDS } from "@/lib/twilio";
 
 // Twilio webhook for inbound SMS (set as the "A message comes in" URL on the
@@ -67,6 +68,9 @@ export async function POST(req: NextRequest) {
       providerId: params.MessageSid || null,
     },
   });
+
+  // Read it for "keep it till Friday" / "ready for pickup" in the background; Twilio needs a fast answer.
+  if (!STOP_WORDS.includes(upper) && !START_WORDS.includes(upper)) void handleCustomerReply(customer.companyId, customer.id, body);
 
   return twiml();
 }

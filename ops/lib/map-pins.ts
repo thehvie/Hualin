@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { spanText } from "@/lib/rental-clock";
 import { addDaysYmd, formatInTz, startOfDayInTz, wallYmd } from "@/lib/tz";
 import { getPropertyPoint } from "@/lib/office";
 
@@ -144,7 +145,8 @@ export async function dumpsterPins(companyId: string, tz: string): Promise<PinRe
     const daysOut = Math.max(0, Math.floor((now - (b.deliveredAt ?? b.startAt).getTime()) / 86_400_000));
     const late = b.endAt.getTime() < now;
     const kind: PinKind = late ? "overdue" : b.status === "PICKUP_REQUESTED" ? "pickup" : "onsite";
-    const when = `${daysOut} day${daysOut === 1 ? "" : "s"} out · due ${dateLabel(b.endAt, tz)}${b.status === "PICKUP_REQUESTED" ? " · pickup requested" : ""}${late ? " · overdue" : ""}`;
+    const left = late ? `overdue ${spanText(now - b.endAt.getTime())}` : `${spanText(b.endAt.getTime() - now)} left`;
+    const when = `${daysOut} day${daysOut === 1 ? "" : "s"} out · due ${dateLabel(b.endAt, tz)} · ${left}${b.status === "PICKUP_REQUESTED" ? " · pickup requested" : ""}`;
     const spot = await locator.locate(b.job.property);
     if (spot) pins.push({ id: b.id, lat: spot.lat, lng: spot.lng, kind, title: `${unit}`, subtitle: name, when, address: spot.address, href: `/jobs/${b.jobId}` });
     else unlocated.push({ title: unit, subtitle: `${name} · ${when}`, href: `/jobs/${b.jobId}` });

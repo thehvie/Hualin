@@ -59,7 +59,7 @@ async function askAudioModel(
   wavBase64: string | null,
   companyId: string,
   service: UsageService,
-  typedText?: string,
+  typedText?: string | null,
 ): Promise<Record<string, unknown>> {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) throw new Error("Voice features aren't configured (missing OPENROUTER_API_KEY).");
@@ -111,6 +111,11 @@ async function askAudioModel(
   const parsed = parseJson(text);
   if (!parsed) throw new Error("Couldn't understand that recording. Try again, speaking a bit slower.");
   return parsed;
+}
+
+/** One typed prompt in, one JSON object out (used for reminder wording and reading customer replies). */
+export async function askJson(prompt: string, companyId: string, service: UsageService): Promise<Record<string, unknown>> {
+  return askAudioModel(prompt, null, companyId, service, null);
 }
 
 export interface SpokenItemMatch {

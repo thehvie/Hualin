@@ -45,6 +45,14 @@ export function toStops(bookings: BookingWithContext[], tz: string): RentalStop[
       placementNotes: b.placementNotes,
       weightTons: b.weightTons,
       ticketNumber: b.ticketNumber,
+      countdown: {
+        status: b.status as RentalStop["status"],
+        startAt: b.startAt.toISOString(),
+        endAt: b.endAt.toISOString(),
+        deliveredAt: b.deliveredAt?.toISOString() ?? null,
+        tz,
+        terms: b.terms,
+      },
       charges: (() => {
         const c = b.status === "PICKED_UP" ? rentalCharges(b, b.terms, tz) : null;
         return c && c.totalCents > 0 ? { summary: c.lines.map((l) => l.description).join("; "), totalCents: c.totalCents } : null;

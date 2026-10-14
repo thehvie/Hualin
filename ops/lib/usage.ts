@@ -7,7 +7,7 @@ export const INCLUDED_MICROS = 5_000_000; // $5.00
 export const OVERAGE_MARKUP = 1.5; // cost plus 50%
 export const OVERAGE_CAP_CENTS = 5000; // $50.00 of billed overage
 
-export type UsageService = "VOICE_INTAKE" | "TEXT_INTAKE" | "VOICE_ITEMS" | "GEOCODE" | "ROUTE" | "MAP_LOAD";
+export type UsageService = "VOICE_INTAKE" | "TEXT_INTAKE" | "VOICE_ITEMS" | "GEOCODE" | "ROUTE" | "MAP_LOAD" | "RENTAL_MESSAGE" | "RENTAL_REPLY";
 
 // Google list prices (Essentials tier) per call, in millionths of a dollar. AI calls are metered at the
 // actual cost OpenRouter reports for each request.
@@ -20,6 +20,8 @@ export const SERVICE_LABELS: Record<string, string> = {
   GEOCODE: "Address lookups",
   ROUTE: "Drive routes",
   MAP_LOAD: "Map views",
+  RENTAL_MESSAGE: "Rental reminders",
+  RENTAL_REPLY: "Customer reply reading",
 };
 
 export const USAGE_PAUSED_MESSAGE =

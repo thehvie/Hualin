@@ -283,6 +283,13 @@ export async function updateLineItemQuantity(estimateId: string, lineItemId: str
   revalidatePath(`/estimates/${estimateId}`);
 }
 
+export async function updateLineItemPrice(estimateId: string, lineItemId: string, cents: number) {
+  const { companyId } = await requireSession();
+  const unitPriceCents = Math.max(0, Math.min(100_000_000, Math.round(Number(cents)) || 0));
+  await prisma.estimateLineItem.updateMany({ where: { id: lineItemId, estimateId, companyId }, data: { unitPriceCents } });
+  revalidatePath(`/estimates/${estimateId}`);
+}
+
 export async function removeLineItem(estimateId: string, lineItemId: string) {
   const { companyId } = await requireSession();
   await prisma.estimateLineItem.deleteMany({ where: { id: lineItemId, estimateId, companyId } });

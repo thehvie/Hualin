@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
+import { handleCustomerReply } from "@/lib/rental-replies";
 import { sendEmail, verifyInboundSignature } from "@/lib/mailgun";
 import { inboundSigningKeys } from "@/lib/mail-config";
 import { rateLimit } from "@/lib/rate-limit";
@@ -120,6 +121,9 @@ export async function POST(req: NextRequest) {
     },
   });
   await saveAttachments(thread.companyId, communication.id, files);
+
+  // A reply from the customer's own address may be asking for more time or a pickup; read it in the background.
+  if (senderVerified) void handleCustomerReply(thread.companyId, thread.customerId, body);
 
   // Let the company know a customer replied, so it isn't missed until someone opens the estimate.
   try {

@@ -162,3 +162,38 @@ export async function saveTerms(input: { termsText: string; rentalTermsText: str
   revalidatePath("/settings");
   return { ok: true };
 }
+
+export async function saveReminderSettings(input: {
+  on: boolean;
+  hours: number;
+  auto: boolean;
+  ai: boolean;
+  quietStart: number;
+  quietEnd: number;
+}): Promise<{ ok: true } | { ok: false; error: string }> {
+  const { companyId } = await requireSession();
+  const int = (n: unknown, min: number, max: number) => {
+    const v = Math.floor(Number(n));
+    return Number.isFinite(v) && v >= min && v <= max ? v : null;
+  };
+  const hours = int(input.hours, 3, 72);
+  const quietStart = int(input.quietStart, 0, 23);
+  const quietEnd = int(input.quietEnd, 1, 24);
+  if (hours === null) return { ok: false, error: "Send the reminder between 3 and 72 hours before pickup." };
+  if (quietStart === null || quietEnd === null || quietEnd <= quietStart) return { ok: false, error: "Pick sending hours where the end is after the start." };
+
+  await prisma.company.update({
+    where: { id: companyId },
+    data: {
+      rentalRemindersOn: !!input.on,
+      rentalReminderHours: hours,
+      rentalReminderAuto: !!input.auto,
+      rentalReminderAi: !!input.ai,
+      rentalQuietStartHour: quietStart,
+      rentalQuietEndHour: quietEnd,
+    },
+  });
+  revalidatePath("/settings");
+  revalidatePath("/dispatch");
+  return { ok: true };
+}

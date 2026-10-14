@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { assignUnit, autoAssignUnits, cancelRental, reserveRentals } from "@/app/(dashboard)/estimates/[id]/rental-actions";
 import type { RentalCardData } from "@/lib/rentals";
+import { RentalCountdown } from "@/components/rental-countdown";
 
 const STATUS_LABEL: Record<string, string> = {
   RESERVED: "Reserved",
@@ -91,6 +92,19 @@ export function RentalsCard({ estimateId, data }: { estimateId: string; data: Re
               <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${STATUS_STYLE[b.status] ?? "bg-zinc-100 text-zinc-700"}`}>
                 {STATUS_LABEL[b.status] ?? b.status}
               </span>
+              {b.status !== "PICKED_UP" && (
+                <RentalCountdown
+                  bar={false}
+                  data={{
+                    status: b.status as "RESERVED" | "DELIVERED" | "PICKUP_REQUESTED",
+                    startAt: b.startAt,
+                    endAt: b.endAt,
+                    deliveredAt: b.deliveredAt,
+                    tz: data.tz,
+                    terms: b.priceBookItemId ? (data.terms[b.priceBookItemId] ?? null) : null,
+                  }}
+                />
+              )}
               <div className="ml-auto flex items-center gap-2">
                 {b.status === "RESERVED" ? (
                   <>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { phoneHref } from "@/lib/phone";
 import { useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
+import { RentalCountdown, type CountdownData } from "@/components/rental-countdown";
 import { markDelivered, markPickedUp, requestPickup, undoRentalStep } from "@/app/(dashboard)/dispatch/actions";
 
 export interface RentalStop {
@@ -18,6 +19,7 @@ export interface RentalStop {
   startLabel: string;
   endLabel: string;
   overdue: boolean;
+  countdown: CountdownData;
   placementNotes: string | null;
   weightTons: number | null;
   ticketNumber: string | null;
@@ -70,6 +72,8 @@ export function RentalRow({ stop }: { stop: RentalStop }) {
           {stop.overdue ? " · overdue" : ""}
         </span>
       </div>
+
+      {stop.status !== "PICKED_UP" && <RentalCountdown data={stop.countdown} />}
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-zinc-500">
         {stop.address &&

@@ -4,6 +4,8 @@ import { requireSession } from "@/lib/session";
 import { addDaysYmd, startOfDayInTz, wallYmd } from "@/lib/tz";
 import { openBookings, toStops } from "@/lib/rental-stops";
 import { RentalRow } from "@/components/rental-row";
+import { RentalAiPanel } from "@/components/rental-ai-panel";
+import { loadRentalAiQueue } from "@/lib/rental-ai-queue";
 
 const RANGES = [
   { key: "today", label: "Today", days: 1 },
@@ -33,6 +35,8 @@ export default async function DispatchPage({ searchParams }: { searchParams: Pro
   const shownIds = new Set([...deliveries, ...pickups].map((s) => s.id));
   const stillOut = stops.filter((s) => !shownIds.has(s.id) && s.status !== "RESERVED");
 
+  const queue = await loadRentalAiQueue(companyId, timezone);
+
   const empty = deliveries.length === 0 && pickups.length === 0;
 
   return (
@@ -54,6 +58,8 @@ export default async function DispatchPage({ searchParams }: { searchParams: Pro
           ))}
         </div>
       </div>
+
+      <RentalAiPanel drafts={queue.drafts} proposals={queue.proposals} />
 
       {empty && (
         <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-10 text-center text-sm text-zinc-400">

@@ -3,6 +3,7 @@ import { requireSession } from "@/lib/session";
 import { SettingsForm } from "./settings-form";
 import { UsageCard } from "./usage-card";
 import { TermsCard } from "./terms-card";
+import { ReminderCard } from "./reminder-card";
 import { EmailCard, type EmailState } from "./email-card";
 import { sharedEmailStatusOf } from "@/lib/mail-config";
 import { getUsageStatus } from "@/lib/usage";
@@ -55,6 +56,17 @@ export default async function SettingsPage() {
       />
 
       <TermsCard termsText={company.termsText ?? ""} rentalTermsText={company.rentalTermsText ?? ""} />
+
+      <ReminderCard
+        initial={{
+          on: company.rentalRemindersOn,
+          hours: company.rentalReminderHours,
+          auto: company.rentalReminderAuto,
+          ai: company.rentalReminderAi,
+          quietStart: company.rentalQuietStartHour,
+          quietEnd: company.rentalQuietEndHour,
+        }}
+      />
 
       <EmailCard state={emailState} appUrl={(process.env.NEXTAUTH_URL || "").replace(/\/$/, "")} />
 
