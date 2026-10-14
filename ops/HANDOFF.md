@@ -75,8 +75,19 @@ Stage 3: QuickBooks Online sync, AI dispatcher, AI inbox, review requests, clien
 - Tested: pure clock logic, and a script run of the engine against the dev DB (quiet hours, one draft only, no duplicates, extension pauses reminders, READY proposal, switched-off). UI pages were NOT driven in a browser (needs login): check Dispatch, a job page, an estimate, Settings.
 - Not done: nav badge for pending items, a send log view, per-customer timing patterns.
 
+## SaaS plans (2026-10-15)
+Three plans, all defined in `lib/plans.ts` (prices, features, AI allowance, seats):
+- **Starter $25**: 1 user, email only, no AI/rentals/online booking/fuel surcharge/QuickBooks, "Powered by" line on documents until the **$100 one-time brand upgrade**. Signup gives **60 days of the full system free, no card**; after that a plan must be chosen (`/billing/expired`).
+- **Base $99**: everything except deeper dashboards and AI review filter; texting up to 500/mo. **$5/mo** AI+map allowance.
+- **Plus $159**: adds 1,000 texts/mo, dashboards, AI review filter. **$20/mo** allowance.
+- **Text packs**: 500 extra texts for $15 one time (Base and Plus), carried over, used after the monthly allowance (`Company.smsCredits`, webhook adds them, `recordTextSent` spends them). Warning banner at 80% and when out; out of texts means messages go by email.
+- Base and Plus include 1 office user, **$20/mo per extra user** (Stripe seat price, quantity synced by `syncSeats`). Drivers (role CREW) are unlimited and free.
+- Gates live in `lib/plan-access.ts` (`featureBlock`, `companyHasFeature`, `canSendText`); nav greys locked items; `FeatureLocked` replaces locked pages. Not built yet, so only declared: QuickBooks, customer portal, driver app, full reporting, advanced dashboards, AI review filter.
+- Pages: Settings > Plan and billing (`/settings/plan`), Settings > Team (`/settings/team`). Webhook sets `Company.plan` from the price id.
+- **To go live**: run migrations `saas_plans` and `sms_packs`, create the Stripe prices (`node scripts/setup-stripe-plans.mjs` with a test key first), set the six `STRIPE_PRICE_*` env vars (adds `STRIPE_PRICE_SMS_PACK`), enable the Stripe customer portal, register `/api/stripe/webhook`. Existing companies are migrated to Plus with the brand upgrade.
+
 ## Other open decisions
-- Pricing model ($99 base with AI allowance plus metered overage, or tiers like iCans), whether the platform takes a Stripe fee, hosted website vs widget only (see ROADMAP.md).
+- Whether the platform takes a Stripe fee, hosted website vs widget only (see ROADMAP.md).
 - Whether voice should be added to the New invoice page and invoice editor (offered, not requested yet).
 
 ## Where things live (ops/)

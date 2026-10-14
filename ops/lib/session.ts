@@ -4,6 +4,7 @@ import type { UserRole } from "@prisma/client";
 
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { COMPANY_PLAN_SELECT, accessFor } from "@/lib/plans";
 
 export type AuthedSession = {
   userId: string;
@@ -25,10 +26,11 @@ export async function requireSession(): Promise<AuthedSession> {
 
   const company = await prisma.company.findUnique({
     where: { id: session.user.companyId },
-    select: { subscriptionStatus: true },
+    select: COMPANY_PLAN_SELECT,
   });
 
-  if (!company || !ACTIVE_STATUSES.has(company.subscriptionStatus)) {
+  // A signup trial that ran out without a subscription is locked until a plan is chosen.
+  if (!company || !ACTIVE_STATUSES.has(company.subscriptionStatus) || accessFor(company).expired) {
     redirect("/billing/expired");
   }
 

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { messageChannel } from "@/lib/messaging";
+import { canSendText, companyHasFeature } from "@/lib/plan-access";
 import { estimateSigningUrl } from "@/lib/estimate-signing";
 import { timezoneLabel } from "@/lib/tz";
 import { getUsageStatus } from "@/lib/usage";
@@ -44,6 +45,7 @@ export default async function EstimateDetailPage({
     where: { id: companyId },
     select: { state: true, fuelRateCentsPerMile: true, fuelFreeMiles: true, fuelRoundTrip: true },
   });
+  const fuelOn = await companyHasFeature(companyId, "FUEL_SURCHARGE");
   const office = await getOfficePoint(companyId);
   const destination = estimate.property ? await getPropertyPoint(companyId, estimate.property) : null;
   const route = buildRoute(office, destination, await getDriveRoute(companyId, office, destination), usage.capped);
@@ -88,7 +90,7 @@ export default async function EstimateDetailPage({
             name: `${estimate.customer.firstName} ${estimate.customer.lastName}`,
             email: estimate.customer.email,
             phone: estimate.customer.phone,
-            messageChannel: messageChannel(estimate.customer),
+            messageChannel: messageChannel(estimate.customer, await canSendText(companyId)),
           },
           property: estimate.property
             ? {
@@ -123,7 +125,7 @@ export default async function EstimateDetailPage({
           route,
           rentals,
           companyState,
-          fuel: { rateCentsPerMile: fuelRateCentsPerMile, freeMiles: fuelFreeMiles, roundTrip: fuelRoundTrip },
+          fuel: { rateCentsPerMile: fuelOn ? fuelRateCentsPerMile : 0, freeMiles: fuelFreeMiles, roundTrip: fuelRoundTrip },
           timezoneName: timezoneLabel(timezone),
           attachments: (estimate.job?.attachments ?? []).map((a) => ({ id: a.id, filename: a.filename, dataUrl: a.dataUrl })),
           signingUrl: estimate.publicToken ? estimateSigningUrl(estimate.publicToken) : null,

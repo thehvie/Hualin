@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { featureBlock } from "@/lib/plan-access";
 
 type Result = { ok: true } | { ok: false; error: string };
 
@@ -10,6 +11,8 @@ const clean = (v: unknown, max: number) => String(v ?? "").trim().slice(0, max);
 
 export async function createAsset(input: { label: string; category: string; notes: string }): Promise<Result> {
   const { companyId } = await requireSession();
+  const blocked = await featureBlock(companyId, "RENTALS");
+  if (blocked) return { ok: false, error: blocked };
   const label = clean(input.label, 40);
   if (!label) return { ok: false, error: "Give the unit a number or label, like D-12." };
   const exists = await prisma.rentalAsset.findFirst({ where: { companyId, label: { equals: label, mode: "insensitive" } } });

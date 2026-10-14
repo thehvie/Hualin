@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { featureBlock } from "@/lib/plan-access";
 import { availableAssets, plannedEnd } from "@/lib/rentals";
 
 type Result = { ok: true; message?: string } | { ok: false; error: string };
@@ -26,6 +27,8 @@ function refresh(estimateId: string, jobId: string | null) {
  */
 export async function reserveRentals(estimateId: string): Promise<Result> {
   const { companyId } = await requireSession();
+  const blocked = await featureBlock(companyId, "RENTALS");
+  if (blocked) return { ok: false, error: blocked };
   const estimate = await loadEstimate(estimateId, companyId);
   if (!estimate?.job) return { ok: false, error: "This estimate has no job yet." };
   const job = estimate.job;
@@ -71,6 +74,8 @@ export async function reserveRentals(estimateId: string): Promise<Result> {
 
 export async function assignUnit(estimateId: string, bookingId: string, assetId: string | null): Promise<Result> {
   const { companyId } = await requireSession();
+  const blocked = await featureBlock(companyId, "RENTALS");
+  if (blocked) return { ok: false, error: blocked };
   const booking = await prisma.rentalBooking.findFirst({ where: { id: bookingId, companyId }, include: { job: { include: { estimates: { select: { id: true } } } } } });
   if (!booking || !booking.job.estimates.some((e) => e.id === estimateId)) return { ok: false, error: "Rental not found." };
   if (booking.status !== "RESERVED") return { ok: false, error: "That dumpster has already been delivered, so it can't be changed here." };
@@ -87,6 +92,8 @@ export async function assignUnit(estimateId: string, bookingId: string, assetId:
 /** Gives every unassigned reservation the first free unit of its size. */
 export async function autoAssignUnits(estimateId: string): Promise<Result> {
   const { companyId } = await requireSession();
+  const blocked = await featureBlock(companyId, "RENTALS");
+  if (blocked) return { ok: false, error: blocked };
   const estimate = await loadEstimate(estimateId, companyId);
   if (!estimate?.job) return { ok: false, error: "This estimate has no job yet." };
 

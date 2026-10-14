@@ -7,6 +7,12 @@ import { isValidYmd, addDaysYmd, startOfDayInTz, wallParts } from "@/lib/tz";
 import { normalizePhoto, MAX_PHOTOS } from "@/lib/photos";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
 import { notifyBooking } from "@/lib/booking-notify";
+import { companyHasFeature } from "@/lib/plan-access";
+
+/** Online booking is a Base and Plus feature (and on during the free trial); a company without it shows no slots. */
+async function bookingOpen(companyId: string): Promise<boolean> {
+  return prisma.company.findUnique({ where: { id: companyId }, select: { id: true } }).then((c) => (c ? companyHasFeature(c.id, "ONLINE_BOOKING") : false));
+}
 
 const RATE_LIMIT_MESSAGE = "We've received a lot of requests from your connection. Please try again in a little while, or call us to book.";
 
@@ -19,6 +25,7 @@ export async function getAvailableSlots(
   if (!rateLimit(`slots:${await clientIp()}`, 120, 60_000).ok) return [];
 
   if (!isValidYmd(ymd)) return [];
+  if (!(await bookingOpen(companyId))) return [];
   const company = await prisma.company.findUnique({ where: { id: companyId }, select: { timezone: true } });
   if (!company) return [];
   const tz = company.timezone;
@@ -51,6 +58,8 @@ export async function submitBooking(
   // Honeypot: real visitors never see or fill this field; bots do. Pretend it
   // worked so they don't learn to skip it.
   if (String(formData.get("companyWebsite") || "").trim()) return { ok: true };
+
+  if (!(await bookingOpen(companyId))) return { ok: false, error: "Online booking isn't available right now. Please call us to book." };
 
   // Loose limit on attempts (people mistype and retry); the strict limits on
   // bookings actually created come after validation, just before the insert.

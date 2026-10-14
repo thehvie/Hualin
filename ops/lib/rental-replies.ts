@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { askJson } from "@/lib/openrouter";
+import { companyHasFeature } from "@/lib/plan-access";
 import { getUsageStatus } from "@/lib/usage";
 import { addDaysYmd, isValidYmd, formatInTz, wallYmd, wallParts, zonedInstant } from "@/lib/tz";
 
@@ -42,7 +43,7 @@ export async function handleCustomerReply(companyId: string, customerId: string,
       return;
     }
 
-    if (!process.env.OPENROUTER_API_KEY || (await getUsageStatus(companyId)).capped) return;
+    if (!process.env.OPENROUTER_API_KEY || !(await companyHasFeature(companyId, "AI")) || (await getUsageStatus(companyId)).capped) return;
 
     const tz = company.timezone;
     const now = new Date();

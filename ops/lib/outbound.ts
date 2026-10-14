@@ -3,6 +3,7 @@ import { messageChannel } from "@/lib/messaging";
 import { sendSms, toE164, TwilioNotConfiguredError } from "@/lib/twilio";
 import { sendEmail, MailgunNotConfiguredError } from "@/lib/mailgun";
 import { SharedEmailExpiredError } from "@/lib/mail-config";
+import { canSendText, recordTextSent } from "@/lib/plan-access";
 import { emailLimitMessage } from "@/lib/email-limits";
 
 export type SendResult = { ok: true; channel: "sms" | "email" } | { ok: false; error: string };
@@ -23,7 +24,7 @@ export async function sendToCustomer(opts: {
     include: { company: { select: { name: true } } },
   });
   if (!customer) return { ok: false, error: "Customer not found." };
-  const channel = messageChannel(customer);
+  const channel = messageChannel(customer, await canSendText(opts.companyId));
   if (!channel) return { ok: false, error: "No usable phone number or email address on file." };
   const estimateId = opts.estimateId ?? undefined;
 
@@ -41,6 +42,7 @@ export async function sendToCustomer(opts: {
     await prisma.communication.create({
       data: { companyId: opts.companyId, customerId: customer.id, estimateId, channel: "SMS", direction: "OUTBOUND", body: opts.body, providerId: sid },
     });
+    await recordTextSent(opts.companyId);
     return { ok: true, channel };
   }
 

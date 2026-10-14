@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatCents, lineItemsTotal } from "@/lib/money";
 import { companyPaymentLink } from "@/lib/payment-link";
+import { PLATFORM_BRAND, isBranded } from "@/lib/plans";
 import { PayButton } from "@/components/pay-button";
 import { documentTerms, hasRentalItems } from "@/lib/terms";
 import { TermsView } from "@/components/terms-view";
@@ -38,7 +39,7 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
     <div className="min-h-screen bg-zinc-50 px-4 py-8">
       <div className="mx-auto flex max-w-2xl flex-col gap-4">
         <div className="flex items-center gap-3">
-          {company.logoDataUrl && (
+          {company.logoDataUrl && isBranded(company) && (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={company.logoDataUrl} alt={company.name} className="h-10 max-w-[140px] object-contain" />
           )}
@@ -197,6 +198,7 @@ export default async function PublicEstimatePage({ params }: { params: Promise<{
             <img src={estimate.signatureDataUrl} alt="Signature" className="h-20 object-contain" />
           </div>
         )}
+        {!isBranded(company) && <p className="pb-2 text-center text-xs text-zinc-400">Powered by {PLATFORM_BRAND}</p>}
       </div>
     </div>
   );

@@ -9,6 +9,13 @@ datasource db {
 
 // ── Tenancy / Billing ───────────────────────────────────────────────────────
 
+// Haulin Ops SaaS plans. See lib/plans.ts for prices, limits and what each one includes.
+enum Plan {
+  STARTER
+  BASE
+  PLUS
+}
+
 enum SubscriptionStatus {
   TRIALING
   ACTIVE
@@ -35,6 +42,12 @@ model Company {
   stripePriceId          String?
   subscriptionStatus     SubscriptionStatus @default(TRIALING)
   trialEndsAt            DateTime?
+  // Which plan the company pays for. During the 60-day signup trial (no subscription yet) it gets the full system.
+  plan                   Plan               @default(STARTER)
+  // One-time $100 brand upgrade: own logo on documents and no "Powered by" line. Base and Plus include it.
+  brandUpgrade           Boolean            @default(false)
+  // Extra texts bought in packs. Used only after the plan's monthly texts run out; they carry over month to month.
+  smsCredits             Int                @default(0)
   // Email. Every company starts on the shared platform sender for 60 days after signup; after that it must connect
   // its own Mailgun account (or be exempt, e.g. the platform owner's own company). Secrets are stored encrypted.
   sharedEmailExempt      Boolean            @default(false)
@@ -97,6 +110,7 @@ model Company {
   purchaseOrders               PurchaseOrder[]
   usageEvents                  UsageEvent[]
   usageStatements              UsageStatement[]
+  smsPackPurchases             SmsPackPurchase[]
   communicationAttachments     CommunicationAttachment[]
   rentalAssets                 RentalAsset[]
   rentalBookings               RentalBooking[]
@@ -927,6 +941,18 @@ model UsageEvent {
 
   @@index([companyId, createdAt])
   @@index([companyId, service, ref, createdAt])
+}
+
+// One row per paid text pack. The id is the Stripe Checkout session id, so a retried webhook can't add credits twice.
+model SmsPackPurchase {
+  id          String   @id
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  texts       Int
+  amountCents Int
+  createdAt   DateTime @default(now())
+
+  @@index([companyId])
 }
 
 // What was billed for a calendar month (UTC); the unique key makes the monthly billing job idempotent.

@@ -87,6 +87,8 @@ export interface DocumentPdfProps {
     logoDataUrl: string | null;
     // Exact box for the logo (see lib/pdf/logo.ts); without it react-pdf may stretch the image.
     logoSize?: { width: number; height: number } | null;
+    /** Platform name for the Powered by line; null when the company has the brand upgrade or a paid plan. */
+    poweredBy?: string | null;
     website: string | null;
     email: string | null;
     phone: string | null;
@@ -152,7 +154,7 @@ export function DocumentPdf(props: DocumentPdfProps) {
           <View>
             {company.logoDataUrl ? (
               <Image src={company.logoDataUrl} style={company.logoSize ? { width: company.logoSize.width, height: company.logoSize.height } : styles.logo} />
-            ) : (
+            ) : company.poweredBy ? null : (
               <View style={styles.logoPlaceholder}>
                 <Text style={styles.logoPlaceholderText}>Add a logo in Settings</Text>
               </View>
@@ -363,6 +365,7 @@ export function DocumentPdf(props: DocumentPdfProps) {
         )}
 
         <Text style={styles.footer}>{isPo ? "Thank you" : "Thank you for your business"}</Text>
+        {company.poweredBy && <Text style={{ marginTop: 6, textAlign: "center", fontSize: 8, color: "#a1a1aa" }}>Powered by {company.poweredBy}</Text>}
       </Page>
     </Document>
   );

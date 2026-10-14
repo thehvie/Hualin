@@ -1,8 +1,11 @@
 import { requireSession } from "@/lib/session";
+import { companyHasFeature } from "@/lib/plan-access";
+import { FeatureLocked } from "@/components/feature-locked";
 import { CopySnippet } from "./copy-snippet";
 
 export default async function OnlineBookingPage() {
   const { companyId } = await requireSession();
+  if (!(await companyHasFeature(companyId, "ONLINE_BOOKING"))) return <FeatureLocked feature="ONLINE_BOOKING" title="Online Booking" />;
 
   const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
   const bookingUrl = `${baseUrl}/book/${companyId}`;

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { companyHasFeature } from "@/lib/plan-access";
+import { FeatureLocked } from "@/components/feature-locked";
 import { addDaysYmd, startOfDayInTz, wallYmd } from "@/lib/tz";
 import { openBookings, toStops } from "@/lib/rental-stops";
 import { RentalRow } from "@/components/rental-row";
@@ -15,6 +17,7 @@ const RANGES = [
 
 export default async function DispatchPage({ searchParams }: { searchParams: Promise<{ range?: string }> }) {
   const { companyId } = await requireSession();
+  if (!(await companyHasFeature(companyId, "RENTALS"))) return <FeatureLocked feature="RENTALS" title="Dispatch" />;
   const { range: rangeParam } = await searchParams;
   const range = RANGES.find((r) => r.key === rangeParam) ?? RANGES[1];
 

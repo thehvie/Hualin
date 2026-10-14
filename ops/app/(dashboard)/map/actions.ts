@@ -7,6 +7,7 @@ import { rateLimit } from "@/lib/rate-limit";
 import { geocodeAddress } from "@/lib/geocode";
 import { buildRoute, getDriveRoute, getOfficePoint, type RouteInfo } from "@/lib/office";
 import { getUsageStatus, USAGE_PAUSED_MESSAGE } from "@/lib/usage";
+import { companyHasFeature } from "@/lib/plan-access";
 import type { FuelSettings } from "@/lib/fuel";
 
 export type LookupResult =
@@ -17,7 +18,8 @@ const RECENT_LIMIT = 10;
 
 async function companyFuel(companyId: string): Promise<FuelSettings> {
   const c = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { fuelRateCentsPerMile: true, fuelFreeMiles: true, fuelRoundTrip: true } });
-  return { rateCentsPerMile: c.fuelRateCentsPerMile, freeMiles: c.fuelFreeMiles, roundTrip: c.fuelRoundTrip };
+  const fuelOn = await companyHasFeature(companyId, "FUEL_SURCHARGE");
+  return { rateCentsPerMile: fuelOn ? c.fuelRateCentsPerMile : 0, freeMiles: c.fuelFreeMiles, roundTrip: c.fuelRoundTrip };
 }
 
 /** Remembers an address at the top of the recent list: no duplicates, and only the latest few are kept. */

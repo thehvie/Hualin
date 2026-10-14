@@ -65,6 +65,6 @@ Route optimization at scale, dumpsite and landfill tracking and costs, scale tic
 - A rental agreement is a legal document. Have the template reviewed by a lawyer before it ships as a default.
 
 ## Open decisions
-- Pricing model: keep **$99 base with AI included up to an allowance**, then metered overage (already built), or tiers like iCans.
+- Pricing is decided: Starter $25 / Base $99 / Plus $159, see `HANDOFF.md` and `lib/plans.ts`.
 - Does a company's customer pay the platform fee (Stripe application fee), or only the company?
 - Free website for companies without one (iCans offers this), or widget only?

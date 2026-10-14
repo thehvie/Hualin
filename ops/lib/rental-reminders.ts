@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { askJson } from "@/lib/openrouter";
 import { getUsageStatus } from "@/lib/usage";
 import { messageChannel } from "@/lib/messaging";
+import { canSendText, companyHasFeature } from "@/lib/plan-access";
 import { sendToCustomer } from "@/lib/outbound";
 import { formatInTz, wallParts } from "@/lib/tz";
 import { formatCents } from "@/lib/money";
@@ -52,7 +53,7 @@ export function templateMessage(f: Facts): { subject: string; body: string } {
 /** AI-written wording. Falls back to the template when AI is off, paused, fails, or leaves out the pickup time. */
 async function writeMessage(companyId: string, useAi: boolean, f: Facts): Promise<{ subject: string; body: string; usedAi: boolean }> {
   const fallback = { ...templateMessage(f), usedAi: false };
-  if (!useAi || !process.env.OPENROUTER_API_KEY) return fallback;
+  if (!useAi || !process.env.OPENROUTER_API_KEY || !(await companyHasFeature(companyId, "AI"))) return fallback;
   try {
     if ((await getUsageStatus(companyId)).capped) return fallback;
     const limit = f.channel === "sms" ? "Under 280 characters, one short paragraph." : "Under 120 words, a short friendly email body with a greeting and sign-off.";
@@ -107,7 +108,7 @@ async function buildReminder(
   const item = booking.priceBookItemId
     ? await prisma.priceBookItem.findFirst({ where: { id: booking.priceBookItemId, companyId: company.id }, select: { extraDayCents: true } })
     : null;
-  const channel = messageChannel(booking.job.customer) ?? "email";
+  const channel = messageChannel(booking.job.customer, await canSendText(company.id)) ?? "email";
   const facts: Facts = {
     firstName: booking.job.customer.firstName,
     company: company.name,
@@ -172,6 +173,7 @@ export async function runRentalReminders(now = new Date()): Promise<ReminderRunS
 
   for (const company of companies) {
     summary.companies++;
+    if (!(await companyHasFeature(company.id, "AI_REMINDERS"))) continue;
 
     // Drafts nobody approved before the pickup time are stale.
     await prisma.rentalReminder.updateMany({
@@ -207,7 +209,7 @@ export async function runRentalReminders(now = new Date()): Promise<ReminderRunS
       });
       if (exists) continue;
 
-      if (!messageChannel(b.job.customer)) {
+      if (!messageChannel(b.job.customer, await canSendText(company.id))) {
         await prisma.rentalReminder.create({
           data: { companyId: company.id, bookingId: b.id, kind, forEndAt: b.endAt, status: "SKIPPED", body: "", note: "Customer has no phone or email on file." },
         });

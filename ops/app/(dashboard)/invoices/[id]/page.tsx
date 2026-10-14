@@ -3,6 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { messageChannel } from "@/lib/messaging";
+import { canSendText } from "@/lib/plan-access";
 import { InvoiceEditor } from "./invoice-editor";
 
 export default async function InvoiceDetailPage({
@@ -89,7 +90,7 @@ export default async function InvoiceDetailPage({
             companyName: invoice.customer.companyName,
             email: invoice.customer.email,
             phone: invoice.customer.phone,
-            messageChannel: messageChannel(invoice.customer),
+            messageChannel: messageChannel(invoice.customer, await canSendText(companyId)),
           },
           property: property
             ? {

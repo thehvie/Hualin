@@ -9,6 +9,7 @@ import { documentTerms, hasRentalItems } from "@/lib/terms";
 import { poTotalCents } from "@/lib/purchase-orders";
 import { DocumentPdf } from "@/lib/pdf/document-pdf";
 import { logoSizeFor } from "@/lib/pdf/logo";
+import { PLATFORM_BRAND, isBranded } from "@/lib/plans";
 
 // Shared by the logged-in PDF routes (scoped by id + companyId) and the
 // public customer links (scoped by an unguessable publicToken).
@@ -47,8 +48,9 @@ export async function renderEstimatePdf(where: Prisma.EstimateWhereInput): Promi
       date: fmtDate(estimate.createdAt),
       company: {
         name: estimate.company.name,
-        logoDataUrl: estimate.company.logoDataUrl,
-        logoSize: await logoSizeFor(estimate.company.logoDataUrl),
+        logoDataUrl: isBranded(estimate.company) ? estimate.company.logoDataUrl : null,
+        logoSize: isBranded(estimate.company) ? await logoSizeFor(estimate.company.logoDataUrl) : null,
+        poweredBy: isBranded(estimate.company) ? null : PLATFORM_BRAND,
         website: estimate.company.website,
         email: estimate.company.email,
         phone: estimate.company.phone,
@@ -118,8 +120,9 @@ export async function renderInvoicePdf(where: Prisma.InvoiceWhereInput): Promise
       date: fmtDate(invoice.invoiceDate),
       company: {
         name: invoice.company.name,
-        logoDataUrl: invoice.company.logoDataUrl,
-        logoSize: await logoSizeFor(invoice.company.logoDataUrl),
+        logoDataUrl: isBranded(invoice.company) ? invoice.company.logoDataUrl : null,
+        logoSize: isBranded(invoice.company) ? await logoSizeFor(invoice.company.logoDataUrl) : null,
+        poweredBy: isBranded(invoice.company) ? null : PLATFORM_BRAND,
         website: invoice.company.website,
         email: invoice.company.email,
         phone: invoice.company.phone,
@@ -193,8 +196,9 @@ export async function renderPurchaseOrderPdf(where: Prisma.PurchaseOrderWhereInp
       date: fmtDate(po.orderDate),
       company: {
         name: po.company.name,
-        logoDataUrl: po.company.logoDataUrl,
-        logoSize: await logoSizeFor(po.company.logoDataUrl),
+        logoDataUrl: isBranded(po.company) ? po.company.logoDataUrl : null,
+        logoSize: isBranded(po.company) ? await logoSizeFor(po.company.logoDataUrl) : null,
+        poweredBy: isBranded(po.company) ? null : PLATFORM_BRAND,
         website: po.company.website,
         email: po.company.email,
         phone: po.company.phone,

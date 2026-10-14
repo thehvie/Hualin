@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/mailgun";
 import { sendSms, toE164 } from "@/lib/twilio";
+import { canSendText, recordTextSent } from "@/lib/plan-access";
 import { formatInTz } from "@/lib/tz";
 
 interface BookingNotice {
@@ -67,13 +68,14 @@ export async function notifyBooking(n: BookingNotice): Promise<void> {
 
   // 2. Text the customer (they gave their number on the form, with consent copy).
   const to = toE164(customer.phone);
-  if (to && !customer.smsOptedOut) {
+  if (to && !customer.smsOptedOut && (await canSendText(n.companyId))) {
     const body = `${company.name}: you're booked for ${whenShort(n.scheduledAt, tz)} at ${n.address}. Reply STOP to opt out.`;
     try {
       const { sid } = await sendSms({ to, body });
       await prisma.communication.create({
         data: { companyId: n.companyId, customerId: n.customerId, channel: "SMS", direction: "OUTBOUND", body, providerId: sid },
       });
+      await recordTextSent(n.companyId);
     } catch (err) {
       console.error("[booking] customer confirmation text failed", err);
     }

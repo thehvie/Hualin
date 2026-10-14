@@ -15,7 +15,7 @@ async function main() {
   let company = await prisma.company.findFirst({ where: { name: companyName } });
   if (!company) {
     company = await prisma.company.create({
-      data: { name: companyName, subscriptionStatus: "ACTIVE" },
+      data: { name: companyName, subscriptionStatus: "ACTIVE", plan: "PLUS", brandUpgrade: true },
     });
   }
   console.log(`Seeded company: ${company.name}`);

@@ -1,5 +1,5 @@
 import { MAX_COMPANY_ATTACHMENT_BYTES, formatBytes } from "@/lib/comm-attachment-constants";
-import { OVERAGE_CAP_CENTS, OVERAGE_MARKUP, SERVICE_LABELS, formatMicros, type UsageStatus } from "@/lib/usage";
+import { OVERAGE_MARKUP, SERVICE_LABELS, formatMicros, type UsageStatus } from "@/lib/usage";
 
 export function UsageCard({ usage, storageUsedBytes }: { usage: UsageStatus; storageUsedBytes: number }) {
   const pct = Math.min(100, Math.round((usage.usedMicros / usage.includedMicros) * 100));
@@ -10,8 +10,10 @@ export function UsageCard({ usage, storageUsedBytes }: { usage: UsageStatus; sto
       <div>
         <h2 className="text-sm font-semibold text-zinc-900">AI and map usage this month</h2>
         <p className="mt-1 text-xs text-zinc-500">
-          Voice features, address lookups, routes and maps. {formatMicros(usage.includedMicros)} is included each month. Usage beyond that is billed at cost plus{" "}
-          {Math.round((OVERAGE_MARKUP - 1) * 100)}% on your next invoice, up to ${OVERAGE_CAP_CENTS / 100}, then these features pause until the 1st.
+          Voice features, address lookups, routes and maps. {formatMicros(usage.includedMicros)} is included each month.{" "}
+          {usage.overageCapCents > 0
+            ? `Usage beyond that is billed at cost plus ${Math.round((OVERAGE_MARKUP - 1) * 100)}% on your next invoice, up to $${usage.overageCapCents / 100}, then these features pause until the 1st.`
+            : "These features pause once it is used, until the 1st."}
         </p>
       </div>
 

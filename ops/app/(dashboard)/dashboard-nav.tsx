@@ -44,7 +44,7 @@ const NAV_SECTIONS = [
   },
 ];
 
-export function DashboardNav({ companyName, unreadMessages = 0 }: { companyName: string; unreadMessages?: number }) {
+export function DashboardNav({ companyName, unreadMessages = 0, lockedPlans = {} }: { companyName: string; unreadMessages?: number; lockedPlans?: Record<string, string> }) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
@@ -125,15 +125,19 @@ export function DashboardNav({ companyName, unreadMessages = 0 }: { companyName:
                   return (
                     <li key={item.href}>
                       <Link
-                        href={item.href}
+                        href={lockedPlans[item.href] ? "/settings/plan" : item.href}
+                        title={lockedPlans[item.href] ? `Part of the ${lockedPlans[item.href]} plan` : undefined}
                         className={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                          active
-                            ? "bg-brand/10 text-brand-dark"
-                            : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
+                          lockedPlans[item.href]
+                            ? "text-zinc-400 hover:bg-zinc-100"
+                            : active
+                              ? "bg-brand/10 text-brand-dark"
+                              : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
                         }`}
                       >
                         <span className="flex items-center justify-between">
                           {item.label}
+                          {lockedPlans[item.href] && <span className="text-[10px] font-semibold uppercase text-zinc-400">{lockedPlans[item.href]}</span>}
                           {item.href === "/inbox" && unreadMessages > 0 && (
                             <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
                               {unreadMessages > 99 ? "99+" : unreadMessages}

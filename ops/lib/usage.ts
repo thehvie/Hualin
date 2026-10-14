@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/prisma";
+import { COMPANY_PLAN_SELECT, accessFor, type CompanyPlanFields } from "@/lib/plans";
 
-// Third-party API usage is metered per company. Every plan includes INCLUDED_MICROS of our cost each
-// calendar month (UTC); beyond that it is billed at cost + OVERAGE_MARKUP, up to OVERAGE_CAP_CENTS,
-// at which point paid features pause until the next month.
-export const INCLUDED_MICROS = 5_000_000; // $5.00
+// Third-party API usage is metered per company. Each plan includes an allowance of our cost each calendar
+// month (UTC, see lib/plans.ts); beyond that it is billed at cost + OVERAGE_MARKUP, up to the plan's overage
+// cap, at which point paid features pause until the next month. Starter and the free trial have a cap of 0:
+// no overage billing, features pause once the allowance is used.
 export const OVERAGE_MARKUP = 1.5; // cost plus 50%
-export const OVERAGE_CAP_CENTS = 5000; // $50.00 of billed overage
 
 export type UsageService = "VOICE_INTAKE" | "TEXT_INTAKE" | "VOICE_ITEMS" | "GEOCODE" | "ROUTE" | "MAP_LOAD" | "RENTAL_MESSAGE" | "RENTAL_REPLY";
 
@@ -38,15 +38,27 @@ export function monthKey(date: Date): string {
   return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
 }
 
+export interface UsageLimits {
+  includedMicros: number;
+  overageCapCents: number;
+}
+
 /** What to bill (in cents) for a month of usage: the part over the allowance, plus markup, capped. */
-export function overageCents(usageMicros: number): number {
-  const over = Math.max(0, usageMicros - INCLUDED_MICROS);
-  return Math.min(OVERAGE_CAP_CENTS, Math.ceil((over / 10_000) * OVERAGE_MARKUP));
+export function overageCents(usageMicros: number, limits: UsageLimits): number {
+  const over = Math.max(0, usageMicros - limits.includedMicros);
+  return Math.min(limits.overageCapCents, Math.ceil((over / 10_000) * OVERAGE_MARKUP));
+}
+
+/** Paid features pause: the overage cap is hit, or (no overage billing) the allowance is used up. */
+export function isCapped(usageMicros: number, limits: UsageLimits): boolean {
+  if (limits.overageCapCents <= 0) return usageMicros >= limits.includedMicros;
+  return overageCents(usageMicros, limits) >= limits.overageCapCents;
 }
 
 export interface UsageStatus {
   usedMicros: number;
   includedMicros: number;
+  overageCapCents: number;
   overageCents: number;
   capped: boolean;
   byService: { service: string; count: number; costMicros: number }[];
@@ -62,8 +74,17 @@ export async function getUsageStatus(companyId: string, date = new Date()): Prom
   });
   const byService = groups.map((g) => ({ service: g.service, count: g._count._all, costMicros: g._sum.costMicros ?? 0 }));
   const usedMicros = byService.reduce((sum, g) => sum + g.costMicros, 0);
-  const overage = overageCents(usedMicros);
-  return { usedMicros, includedMicros: INCLUDED_MICROS, overageCents: overage, capped: overage >= OVERAGE_CAP_CENTS, byService };
+  const company = await prisma.company.findUnique({ where: { id: companyId }, select: COMPANY_PLAN_SELECT });
+  const access = accessFor(company as CompanyPlanFields, date);
+  const limits = { includedMicros: access.includedMicros, overageCapCents: access.overageCapCents };
+  return {
+    usedMicros,
+    includedMicros: access.includedMicros,
+    overageCapCents: access.overageCapCents,
+    overageCents: overageCents(usedMicros, limits),
+    capped: isCapped(usedMicros, limits),
+    byService,
+  };
 }
 
 export async function recordUsage(companyId: string, service: UsageService, costMicros: number, ref?: string) {

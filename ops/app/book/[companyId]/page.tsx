@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { BookingWizard } from "./booking-wizard";
 import { wallYmd, timezoneLabel } from "@/lib/tz";
+import { companyHasFeature } from "@/lib/plan-access";
 
 export default async function BookingPage({
   params,
@@ -12,6 +13,15 @@ export default async function BookingPage({
   const company = await prisma.company.findUnique({ where: { id: companyId } });
 
   if (!company) notFound();
+
+  if (!(await companyHasFeature(company.id, "ONLINE_BOOKING"))) {
+    return (
+      <div className="min-h-screen bg-zinc-50 px-4 py-16 text-center">
+        <h1 className="text-lg font-bold text-zinc-900">{company.name}</h1>
+        <p className="mt-2 text-sm text-zinc-500">Online booking isn&apos;t available right now. Please call us to book.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-zinc-50 px-4 py-8">

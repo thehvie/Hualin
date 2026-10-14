@@ -1,9 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { companyHasFeature } from "@/lib/plan-access";
+import { FeatureLocked } from "@/components/feature-locked";
 import { FleetManager, type FleetUnit } from "./fleet-manager";
 
 export default async function FleetPage() {
   const { companyId } = await requireSession();
+  if (!(await companyHasFeature(companyId, "RENTALS"))) return <FeatureLocked feature="RENTALS" title="Fleet" />;
 
   const assets = await prisma.rentalAsset.findMany({
     where: { companyId, kind: "DUMPSTER" },

@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { sendSms, toE164, TwilioNotConfiguredError } from "@/lib/twilio";
 import { messageChannel } from "@/lib/messaging";
+import { TEXT_BLOCKED_MESSAGE, canSendText, recordTextSent } from "@/lib/plan-access";
 import { sendEmail, MailgunNotConfiguredError } from "@/lib/mailgun";
 import { SharedEmailExpiredError } from "@/lib/mail-config";
 import { newPublicToken, estimateSigningUrl } from "@/lib/estimate-signing";
@@ -28,6 +29,7 @@ async function deliver(opts: {
   if (customer.smsOptedOut) {
     return { ok: false, error: "This customer replied STOP and has opted out of texts." };
   }
+  if (!(await canSendText(opts.companyId))) return { ok: false, error: TEXT_BLOCKED_MESSAGE };
   const to = toE164(customer.phone);
   if (!to) return { ok: false, error: "This customer has no valid US mobile number on file." };
 
@@ -52,6 +54,7 @@ async function deliver(opts: {
       providerId: sid,
     },
   });
+  await recordTextSent(opts.companyId);
   return { ok: true };
 }
 
@@ -175,7 +178,7 @@ export async function sendCustomerSms(
   if (files.length > 0 && !customer.email) {
     return { ok: false, error: "Attachments are sent by email, and this customer has no email address on file." };
   }
-  const available = messageChannel(customer);
+  const available = messageChannel(customer, await canSendText(companyId));
   if (input.channel === "email" && !customer.email) return { ok: false, error: "This customer has no email address on file." };
   if (input.channel === "sms" && available !== "sms") {
     return { ok: false, error: "Texting isn't available for this customer (no phone number, or texting isn't set up yet)." };

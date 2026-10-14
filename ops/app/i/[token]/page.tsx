@@ -4,6 +4,7 @@ import { formatCents } from "@/lib/money";
 import { formatQty } from "@/lib/price-book";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
 import { companyPaymentLink } from "@/lib/payment-link";
+import { PLATFORM_BRAND, isBranded } from "@/lib/plans";
 import { PayButton } from "@/components/pay-button";
 import { documentTerms, hasRentalItems } from "@/lib/terms";
 import { TermsView } from "@/components/terms-view";
@@ -44,7 +45,7 @@ export default async function PublicInvoicePage({ params }: { params: Promise<{ 
       <div className="mx-auto flex max-w-2xl flex-col gap-4">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            {company.logoDataUrl && (
+            {company.logoDataUrl && isBranded(company) && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={company.logoDataUrl} alt={company.name} className="h-10 max-w-[140px] object-contain" />
             )}
@@ -171,6 +172,7 @@ export default async function PublicInvoicePage({ params }: { params: Promise<{ 
           <p className="mb-1 font-semibold uppercase tracking-wide text-zinc-400">Terms &amp; conditions</p>
           <TermsView text={terms} />
         </div>
+        {!isBranded(company) && <p className="pb-2 text-center text-xs text-zinc-400">Powered by {PLATFORM_BRAND}</p>}
       </div>
     </div>
   );

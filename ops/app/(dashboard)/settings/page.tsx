@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import Link from "next/link";
 import { SettingsForm } from "./settings-form";
 import { UsageCard } from "./usage-card";
 import { TermsCard } from "./terms-card";
@@ -29,6 +30,15 @@ export default async function SettingsPage() {
         <p className="mt-1 text-sm text-zinc-500">
           This shows up on your estimates and invoices, including downloaded PDFs.
         </p>
+      </div>
+
+      <div className="flex gap-3">
+        <Link href="/settings/plan" className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-50">
+          Plan and billing
+        </Link>
+        <Link href="/settings/team" className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-50">
+          Team
+        </Link>
       </div>
 
       <SettingsForm

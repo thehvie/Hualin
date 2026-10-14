@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import type { SubscriptionStatus } from "@prisma/client";
 
 import { prisma } from "@/lib/prisma";
+import { SMS_PACK_CENTS, SMS_PACK_TEXTS, planFromStripePriceId } from "@/lib/plans";
 
 const STATUS_MAP: Record<Stripe.Subscription.Status, SubscriptionStatus> = {
   trialing: "TRIALING",
@@ -39,6 +40,23 @@ export async function POST(req: NextRequest) {
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
+      if (session.metadata?.kind === "brand_upgrade" && session.client_reference_id && session.payment_status === "paid") {
+        await prisma.company.update({ where: { id: session.client_reference_id }, data: { brandUpgrade: true } });
+        break;
+      }
+      if (session.metadata?.kind === "sms_pack" && session.client_reference_id && session.payment_status === "paid") {
+        // The purchase row's id is the session id: a retried webhook hits the unique key and adds nothing.
+        const companyId = session.client_reference_id;
+        try {
+          await prisma.$transaction([
+            prisma.smsPackPurchase.create({ data: { id: session.id, companyId, texts: SMS_PACK_TEXTS, amountCents: session.amount_total ?? SMS_PACK_CENTS } }),
+            prisma.company.update({ where: { id: companyId }, data: { smsCredits: { increment: SMS_PACK_TEXTS } } }),
+          ]);
+        } catch (err) {
+          if ((err as { code?: string }).code !== "P2002") throw err;
+        }
+        break;
+      }
       if (session.client_reference_id && session.subscription) {
         await prisma.company.update({
           where: { id: session.client_reference_id },
@@ -51,12 +69,24 @@ export async function POST(req: NextRequest) {
     case "customer.subscription.created":
     case "customer.subscription.updated": {
       const sub = event.data.object as Stripe.Subscription;
+      // The plan is whichever item carries one of our plan prices (the other item is the per-user seat price).
+      let plan = null;
+      let planPriceId: string | undefined;
+      for (const item of sub.items.data) {
+        const found = planFromStripePriceId(item.price.id);
+        if (found) {
+          plan = found;
+          planPriceId = item.price.id;
+          break;
+        }
+      }
       await prisma.company.updateMany({
         where: { stripeCustomerId: String(sub.customer) },
         data: {
           stripeSubscriptionId: sub.id,
           subscriptionStatus: STATUS_MAP[sub.status],
-          stripePriceId: sub.items.data[0]?.price.id,
+          stripePriceId: planPriceId ?? sub.items.data[0]?.price.id,
+          ...(plan ? { plan } : {}),
         },
       });
       break;

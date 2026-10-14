@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
+import { featureBlock } from "@/lib/plan-access";
 import { getUsageStatus, USAGE_PAUSED_MESSAGE } from "@/lib/usage";
 import { transcribeVoiceIntake } from "@/lib/openrouter";
 
@@ -17,6 +18,9 @@ export async function POST(req: Request) {
 
   const limit = rateLimit(`voice-intake:${session.user.id}`, 30, 60 * 60 * 1000);
   if (!limit.ok) return NextResponse.json({ error: "Too many recordings, try again later." }, { status: 429 });
+
+  const blocked = await featureBlock(companyId, "AI");
+  if (blocked) return NextResponse.json({ error: blocked }, { status: 403 });
 
   if ((await getUsageStatus(companyId)).capped) return NextResponse.json({ error: USAGE_PAUSED_MESSAGE }, { status: 429 });
 

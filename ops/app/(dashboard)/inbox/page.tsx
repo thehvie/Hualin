@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { messageChannel } from "@/lib/messaging";
+import { canSendText } from "@/lib/plan-access";
 import { ConversationPanel } from "@/components/conversation-panel";
 
 const THREAD_LIMIT = 100;
@@ -117,7 +118,7 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
         }))}
         composer={{
           customerId: selected.id,
-          canText: messageChannel(selected) === "sms",
+          canText: messageChannel(selected, await canSendText(companyId)) === "sms",
           canEmail: !!selected.email,
           estimateId,
           invoiceId,

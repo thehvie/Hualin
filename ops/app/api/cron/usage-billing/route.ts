@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
+import { COMPANY_PLAN_SELECT, accessFor } from "@/lib/plans";
 import { SERVICE_LABELS, formatMicros, monthKey, monthRange, overageCents } from "@/lib/usage";
 
 // Run once a month (e.g. on the 1st) from the server's cron:
@@ -31,7 +32,7 @@ export async function POST(req: NextRequest) {
 
   const companies = await prisma.company.findMany({
     where: { stripeCustomerId: { not: null }, subscriptionStatus: { in: ["ACTIVE", "PAST_DUE", "TRIALING"] } },
-    select: { id: true, name: true, stripeCustomerId: true },
+    select: { id: true, name: true, stripeCustomerId: true, ...COMPANY_PLAN_SELECT },
   });
 
   const results: { companyId: string; usage: string; billedCents: number; status: string }[] = [];
@@ -47,7 +48,8 @@ export async function POST(req: NextRequest) {
       _sum: { costMicros: true },
     });
     const usageMicros = groups.reduce((sum, g) => sum + (g._sum.costMicros ?? 0), 0);
-    const billedCents = overageCents(usageMicros);
+    const access = accessFor(company, end);
+    const billedCents = overageCents(usageMicros, { includedMicros: access.includedMicros, overageCapCents: access.overageCapCents });
 
     let stripeInvoiceItemId: string | null = null;
     if (billedCents > 0) {
