@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
+import { RentalCountdown, type CountdownData } from "@/components/rental-countdown";
 import { deleteEstimates, updateEstimatesStatus } from "./actions";
 
 const STATUS_LABELS: Record<string, string> = {
@@ -45,6 +46,8 @@ export interface EstimateRow {
   displayStatus: string;
   /** Customer messages nobody has opened yet. */
   unread: number;
+  /** Live countdown for the estimate's dumpster rental, if it has one. */
+  rental: CountdownData | null;
 }
 
 export function EstimatesTable({ estimates }: { estimates: EstimateRow[] }) {
@@ -154,6 +157,11 @@ export function EstimatesTable({ estimates }: { estimates: EstimateRow[] }) {
                   {formatCents(e.amountCents)} ·{" "}
                   {new Date(e.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                 </p>
+                {e.rental && (
+                  <p className="mt-1.5">
+                    <RentalCountdown data={e.rental} bar={false} />
+                  </p>
+                )}
               </Link>
             </div>
           </li>
@@ -178,6 +186,7 @@ export function EstimatesTable({ estimates }: { estimates: EstimateRow[] }) {
               <th className="px-4 py-3">Created</th>
               <th className="px-4 py-3">Amount</th>
               <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3">Time left</th>
               <th className="px-4 py-3">Source</th>
             </tr>
           </thead>
@@ -219,6 +228,7 @@ export function EstimatesTable({ estimates }: { estimates: EstimateRow[] }) {
                 <td className="px-4 py-3">
                   <StatusBadge status={e.displayStatus} />
                 </td>
+                <td className="px-4 py-3">{e.rental ? <RentalCountdown data={e.rental} bar={false} /> : <span className="text-zinc-300">—</span>}</td>
                 <td className="px-4 py-3 text-zinc-500">{SOURCE_LABELS[e.source] || e.source}</td>
               </tr>
             ))}

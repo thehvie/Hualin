@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatCents, lineItemsTotal } from "@/lib/money";
 import { requireSession } from "@/lib/session";
+import type { CountdownData } from "@/components/rental-countdown";
 import { EstimatesTable, type EstimateRow } from "./estimates-table";
 
 const STATUS_LABELS: Record<string, string> = {
@@ -37,7 +38,7 @@ export default async function EstimatesPage({
           }
         : {}),
     },
-    include: { customer: true, lineItems: true, invoice: true },
+    include: { customer: true, lineItems: true, invoice: true, job: { select: { scheduledAt: true, scheduledEndAt: true } } },
     orderBy: { createdAt: "desc" },
   });
 
@@ -47,6 +48,30 @@ export default async function EstimatesPage({
     _count: { _all: true },
   });
   const unreadByEstimate = new Map(unreadRows.map((r) => [r.estimateId, r._count._all]));
+
+  // The rental to count down for each estimate: what is out on site and due back first, else the next delivery.
+  const jobIds = estimates.map((e) => e.jobId).filter((x): x is string => !!x);
+  const [{ timezone }, bookings] = await Promise.all([
+    prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } }),
+    jobIds.length
+      ? prisma.rentalBooking.findMany({
+          where: { companyId, jobId: { in: jobIds }, status: { in: ["RESERVED", "DELIVERED", "PICKUP_REQUESTED"] } },
+          orderBy: { endAt: "asc" },
+        })
+      : Promise.resolve([]),
+  ]);
+  const rentalByJob = new Map<string, CountdownData>();
+  for (const b of [...bookings].sort((a, c) => Number(a.status === "RESERVED") - Number(c.status === "RESERVED") || (a.status === "RESERVED" ? a.startAt.getTime() - c.startAt.getTime() : a.endAt.getTime() - c.endAt.getTime()))) {
+    if (rentalByJob.has(b.jobId)) continue;
+    rentalByJob.set(b.jobId, {
+      status: b.status as CountdownData["status"],
+      startAt: b.startAt.toISOString(),
+      endAt: b.endAt.toISOString(),
+      deliveredAt: b.deliveredAt?.toISOString() ?? null,
+      tz: timezone,
+      terms: null,
+    });
+  }
 
   // Derive a display status: APPROVED + already has an Invoice reads as "Won".
   const withDisplayStatus: EstimateRow[] = estimates.map((e) => ({
@@ -60,6 +85,11 @@ export default async function EstimatesPage({
     amountCents: lineItemsTotal(e.lineItems),
     displayStatus: e.status === "APPROVED" && e.invoice ? "WON" : e.status,
     unread: unreadByEstimate.get(e.id) ?? 0,
+    rental:
+      (e.jobId ? rentalByJob.get(e.jobId) : null) ??
+      (e.job?.scheduledAt && e.job.scheduledEndAt
+        ? { status: "RESERVED" as const, startAt: e.job.scheduledAt.toISOString(), endAt: e.job.scheduledEndAt.toISOString(), deliveredAt: null, tz: timezone, terms: null, schedule: true }
+        : null),
   }));
 
   const filtered = status && status !== "ALL"

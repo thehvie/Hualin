@@ -11,6 +11,7 @@ import { ConversationPanel, type ConversationMessage } from "@/components/conver
 import { VoiceItems } from "@/components/voice-items";
 import { RouteMap } from "@/components/route-map";
 import { RentalsCard } from "@/components/rentals-card";
+import { RentalCountdown, type CountdownData } from "@/components/rental-countdown";
 import { DepositPaid } from "@/components/deposit-paid";
 import type { RentalCardData } from "@/lib/rentals";
 import { ClientDetails } from "./client-details";
@@ -113,6 +114,22 @@ export function EstimateEditor({
   const [startValue, setStartValue] = useState(toLocal(estimate.scheduledAt));
   const [endValue, setEndValue] = useState(toLocal(estimate.scheduledEndAt));
   const hasRental = estimate.lineItems.some((li) => li.isRental) || !!estimate.scheduledEndAt;
+
+  // The timer: the reserved dumpster's real status when there is one, otherwise the dates just set above.
+  const liveBooking =
+    estimate.rentals.bookings.filter((b) => b.status !== "PICKED_UP").sort((a, b) => Number(a.status === "RESERVED") - Number(b.status === "RESERVED"))[0] ?? null;
+  const timer: CountdownData | null = liveBooking
+    ? {
+        status: liveBooking.status as CountdownData["status"],
+        startAt: liveBooking.startAt,
+        endAt: liveBooking.endAt,
+        deliveredAt: liveBooking.deliveredAt,
+        tz: estimate.rentals.tz,
+        terms: liveBooking.priceBookItemId ? (estimate.rentals.terms[liveBooking.priceBookItemId] ?? null) : null,
+      }
+    : estimate.scheduledAt && estimate.scheduledEndAt
+      ? { status: "RESERVED", startAt: estimate.scheduledAt, endAt: estimate.scheduledEndAt, deliveredAt: null, tz: estimate.rentals.tz, terms: null, schedule: true }
+      : null;
 
   function saveSchedule(start: string, end: string) {
     if (start === "") setEndValue("");
@@ -628,7 +645,10 @@ export function EstimateEditor({
       {/* Schedule (stored on the job this estimate belongs to) */}
       {estimate.jobId && (
         <div className="rounded-xl border border-zinc-200 bg-white p-5">
-          <h2 className="mb-2 text-sm font-semibold text-zinc-900">{hasRental ? "Rental dates" : "Schedule"}</h2>
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-sm font-semibold text-zinc-900">{hasRental ? "Rental dates" : "Schedule"}</h2>
+            {timer && <RentalCountdown data={timer} />}
+          </div>
           <div className="flex flex-wrap items-end gap-3">
             <div className="flex flex-col gap-1">
               <label className="text-xs text-zinc-500">{hasRental ? "Starts" : "Start"}</label>

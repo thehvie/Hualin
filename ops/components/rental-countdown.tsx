@@ -12,6 +12,8 @@ export interface CountdownData {
   deliveredAt: string | null;
   tz: string;
   terms: PackageTerms | null;
+  /** True when this counts the job's dates rather than a reserved dumpster. */
+  schedule?: boolean;
 }
 
 const TONE = {
@@ -37,6 +39,7 @@ export function RentalCountdown({ data, bar = true }: { data: CountdownData; bar
     startAt: new Date(data.startAt),
     endAt: new Date(data.endAt),
     deliveredAt: data.deliveredAt ? new Date(data.deliveredAt) : null,
+    schedule: data.schedule,
   };
   const clock = rentalClock(input, now);
   if (!clock) return null;

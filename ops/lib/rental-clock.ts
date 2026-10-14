@@ -5,6 +5,8 @@ export interface ClockInput {
   startAt: Date;
   endAt: Date;
   deliveredAt: Date | null;
+  /** Dates only (no dumpster reserved): "Starts in", time left, then "Ended" instead of delivery wording. */
+  schedule?: boolean;
 }
 
 export interface Clock {
@@ -34,6 +36,15 @@ export function spanText(ms: number): string {
 export function rentalClock(r: ClockInput, now: Date): Clock | null {
   const t = now.getTime();
   if (r.status === "PICKED_UP" || r.status === "CANCELLED") return null;
+
+  if (r.schedule) {
+    const toStart = r.startAt.getTime() - t;
+    if (toStart > 0) return { label: `Starts in ${spanText(toStart)}`, tone: toStart < 3_600_000 * 3 ? "soon" : "idle", progress: null, overdue: false };
+    const end = r.endAt.getTime();
+    if (t >= end) return { label: `Ended ${spanText(t - end)} ago`, tone: "idle", progress: 1, overdue: false };
+    const total = Math.max(1, end - r.startAt.getTime());
+    return { label: `${spanText(end - t)} left`, tone: end - t < 24 * 3_600_000 ? "soon" : "ok", progress: (t - r.startAt.getTime()) / total, overdue: false };
+  }
 
   if (r.status === "RESERVED") {
     const diff = r.startAt.getTime() - t;
