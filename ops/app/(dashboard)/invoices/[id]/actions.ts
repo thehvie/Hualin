@@ -149,6 +149,9 @@ export async function updateInvoiceHeader(invoiceId: string, formData: FormData)
 
   if (!INVOICE_STATUSES.includes(status as InvoiceStatus)) return;
 
+  // The tax rate must be one of this company's own; a pasted-in id from another company is ignored.
+  const ownTaxRate = taxRateId ? await prisma.taxRate.findFirst({ where: { id: taxRateId, companyId }, select: { id: true } }) : null;
+
   await prisma.invoice.updateMany({
     where: { id: invoiceId, companyId },
     data: {
@@ -157,7 +160,7 @@ export async function updateInvoiceHeader(invoiceId: string, formData: FormData)
       notes: notes || null,
       invoiceDate: invoiceDateStr ? new Date(invoiceDateStr) : undefined,
       dueAt: dueDateStr ? new Date(dueDateStr) : null,
-      taxRateId: taxRateId || null,
+      taxRateId: ownTaxRate?.id ?? null,
       discountCents,
       fuelSurchargeCents,
       depositCents,

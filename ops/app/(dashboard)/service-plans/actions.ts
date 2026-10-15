@@ -31,6 +31,10 @@ export async function subscribeClientToPlan(
   ]);
   if (!customer) return { ok: false, error: "Customer not found." };
   if (!plan) return { ok: false, error: "Plan not found." };
+  // The service address must be one of this customer's own properties.
+  if (propertyId && !(await prisma.property.findFirst({ where: { id: propertyId, customerId, companyId }, select: { id: true } }))) {
+    return { ok: false, error: "That address doesn't belong to this customer." };
+  }
   if (!billingOption?.stripePriceId) return { ok: false, error: "That billing option isn't ready yet — re-save the plan." };
 
   let stripeCustomerId = customer.stripeCustomerId;
