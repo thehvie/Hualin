@@ -126,6 +126,7 @@ model Company {
   smsPackPurchases             SmsPackPurchase[]
   messageTemplates             MessageTemplate[]
   customerContacts             CustomerContact[]
+  drivers                      Driver[]
   communicationAttachments     CommunicationAttachment[]
   rentalAssets                 RentalAsset[]
   rentalBookings               RentalBooking[]
@@ -165,6 +166,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   jobsAssigned Job[] @relation("JobCrew")
+  driver       Driver?
 
   purchaseOrdersRequested PurchaseOrder[]
 
@@ -254,6 +256,27 @@ model Customer {
   updatedAt DateTime @updatedAt
 
   @@index([companyId, lastName, firstName])
+}
+
+// A person who drives for the company. Dispatch assigns work to drivers. A driver only needs a login (a User with
+// role CREW) to use the phone view; one the office dispatches for can exist without one. Drivers never take a seat.
+model Driver {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name      String
+  phone     String?
+  email     String?
+  vehicle   String? // the truck they usually drive, like "Truck 2"
+  color     String   @default("#2563eb") // their pin and badge colour on the dispatch map
+  notes     String?  @db.Text
+  active    Boolean  @default(true)
+  userId    String?  @unique
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId, active])
 }
 
 // Other people at a customer (staff, a property manager, an accountant) to reach or assign to an estimate or invoice.

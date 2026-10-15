@@ -34,6 +34,10 @@ export async function requireSession(): Promise<AuthedSession> {
     redirect("/billing/expired");
   }
 
+  // Drivers have their own screen. Keeping them out here means a driver login can never reach billing, customers
+  // or settings, including by calling an action directly.
+  if (session.user.role === "CREW") redirect("/driver");
+
   return {
     userId: session.user.id,
     companyId: session.user.companyId,
