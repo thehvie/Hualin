@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { COMPANY_PLAN_SELECT, accessFor, hasFeature, upgradeMessage, type Feature, type PlanAccess } from "@/lib/plans";
 import { monthRange } from "@/lib/usage";
+import { companyVerified } from "@/lib/company-verified";
 
 // Server-side plan checks. The nav greys out locked features, but every real gate lives here so a locked feature
 // can't be reached by typing the URL or calling its endpoint directly.
@@ -36,7 +37,7 @@ export interface TextUsage {
 
 export async function getTextUsage(companyId: string): Promise<TextUsage> {
   const access = await getPlanAccess(companyId);
-  const enabled = hasFeature(access, "TEXTING") && access.smsPerMonth > 0;
+  const enabled = hasFeature(access, "TEXTING") && access.smsPerMonth > 0 && (await companyVerified(companyId));
   const { start, end } = monthRange();
   const [sent, company] = await Promise.all([
     prisma.communication.count({ where: { companyId, channel: "SMS", direction: "OUTBOUND", createdAt: { gte: start, lt: end } } }),

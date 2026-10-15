@@ -40,7 +40,7 @@ export async function addTeamMember(formData: FormData) {
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
-  const user = await prisma.user.create({ data: { companyId, name, email, passwordHash, role } });
+  const user = await prisma.user.create({ data: { companyId, name, email, passwordHash, role, emailVerified: new Date() } });
   if (role !== "CREW") {
     try {
       await syncSeats(companyId);

@@ -1,3 +1,4 @@
+import { companyVerified } from "@/lib/company-verified";
 import { prisma } from "@/lib/prisma";
 import { decryptSecret } from "@/lib/secrets";
 
@@ -11,6 +12,15 @@ export class SharedEmailExpiredError extends Error {
       `Your ${SHARED_EMAIL_DAYS}-day trial of the shared email sender has ended. Connect your own Mailgun account in Settings → Email to keep sending email.`,
     );
     this.name = "SharedEmailExpiredError";
+  }
+}
+
+/** Subclass so every place that already shows SharedEmailExpiredError's message shows this one too. */
+export class EmailNotVerifiedError extends SharedEmailExpiredError {
+  constructor() {
+    super();
+    this.name = "EmailNotVerifiedError";
+    this.message = "Confirm your email address before sending to customers. We emailed you a link; use the banner at the top to send it again.";
   }
 }
 
@@ -98,6 +108,8 @@ export async function getMailConfig(companyId?: string): Promise<MailConfig | nu
     }
     // Stored key can't be read (the encryption secret changed): fall through to the shared rules below.
   }
+  // The shared sender is the platform's reputation, so it's only for companies that confirmed a real address.
+  if (!(await companyVerified(companyId))) throw new EmailNotVerifiedError();
   if (status.mode === "expired") throw new SharedEmailExpiredError();
   return platformMailConfig();
 }

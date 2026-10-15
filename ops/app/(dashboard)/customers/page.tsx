@@ -62,12 +62,17 @@ export default async function CustomersPage({
     <div className="mx-auto flex max-w-6xl flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-zinc-900">Customers</h1>
-        <Link
-          href="/customers/new"
-          className="rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
-        >
-          + Add Customer
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/customers/import" className="text-sm font-medium text-zinc-500 hover:text-zinc-800">
+            Import spreadsheet
+          </Link>
+          <Link
+            href="/customers/new"
+            className="rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
+          >
+            + Add Customer
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">

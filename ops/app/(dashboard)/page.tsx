@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
 import { CommandCenter } from "@/components/command-center";
 import { SharedEmailBanner } from "@/components/shared-email-banner";
+import { SetupChecklist } from "@/components/setup-checklist";
+import { loadSetupSteps } from "@/lib/setup-steps";
 import { sharedEmailStatus } from "@/lib/mail-config";
 import { addDaysYmd, formatInTz, startOfDayInTz, wallYmd } from "@/lib/tz";
 
@@ -91,6 +93,8 @@ export default async function DashboardHome() {
       </div>
 
       <SharedEmailBanner status={await sharedEmailStatus(companyId)} />
+
+      <SetupChecklist steps={await loadSetupSteps(companyId)} />
 
       <CommandCenter defaultState={companyState} />
 
