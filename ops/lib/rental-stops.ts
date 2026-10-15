@@ -9,7 +9,7 @@ type BookingWithContext = Awaited<ReturnType<typeof loadBookings>>[number];
 async function loadBookings(where: Prisma.RentalBookingWhereInput) {
   const bookings = await prisma.rentalBooking.findMany({
     where,
-    include: { asset: true, job: { include: { customer: true, property: true } } },
+    include: { asset: true, deliveryDriver: true, pickupDriver: true, job: { include: { customer: true, property: true } } },
     orderBy: { startAt: "asc" },
   });
   const ids = [...new Set(bookings.map((b) => b.priceBookItemId).filter((x): x is string => !!x))];
@@ -43,6 +43,10 @@ export function toStops(bookings: BookingWithContext[], tz: string): RentalStop[
       endLabel: label(b.endAt),
       overdue: b.status === "RESERVED" ? b.startAt.getTime() < todayStart : out && b.endAt.getTime() < todayStart,
       swap: b.swapRequested,
+      driver: (() => {
+        const d = b.status === "RESERVED" ? b.deliveryDriver : b.pickupDriver;
+        return d ? { name: d.name, color: d.color } : null;
+      })(),
       placementNotes: b.placementNotes,
       weightTons: b.weightTons,
       ticketNumber: b.ticketNumber,

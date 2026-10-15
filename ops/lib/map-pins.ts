@@ -25,7 +25,7 @@ export interface PinResult {
   unlocated: { title: string; subtitle: string; href: string }[];
 }
 
-type Property = {
+export type Property = {
   id: string;
   addressLine1: string;
   addressLine2: string | null;
@@ -38,7 +38,7 @@ type Property = {
 
 const MAX_GEOCODES = 25; // new addresses looked up (and saved) per page view
 
-class Locator {
+export class Locator {
   private lookups = 0;
   constructor(private companyId: string) {}
 

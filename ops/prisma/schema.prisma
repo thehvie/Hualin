@@ -165,7 +165,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  jobsAssigned Job[] @relation("JobCrew")
+  jobsAssigned Job[]   @relation("JobCrew")
   driver       Driver?
 
   purchaseOrdersRequested PurchaseOrder[]
@@ -275,6 +275,9 @@ model Driver {
   user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  deliveries RentalBooking[] @relation("DeliveryDriver")
+  pickups    RentalBooking[] @relation("PickupDriver")
 
   @@index([companyId, active])
 }
@@ -1096,18 +1099,23 @@ enum RentalStatus {
 
 // One unit on rent for a job: a drop-off, a planned pickup, and what actually happened.
 model RentalBooking {
-  id              String           @id @default(cuid())
-  companyId       String
-  company         Company          @relation(fields: [companyId], references: [id])
-  jobId           String
-  job             Job              @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  id               String           @id @default(cuid())
+  companyId        String
+  company          Company          @relation(fields: [companyId], references: [id])
+  jobId            String
+  job              Job              @relation(fields: [jobId], references: [id], onDelete: Cascade)
   // Empty until a specific unit is assigned; `category` says what was ordered meanwhile.
-  assetId         String?
-  asset           RentalAsset?     @relation(fields: [assetId], references: [id])
-  category        String?
-  priceBookItemId String?
-  reminders       RentalReminder[]
-  proposals       RentalProposal[]
+  assetId          String?
+  asset            RentalAsset?     @relation(fields: [assetId], references: [id])
+  // Who drives the drop-off and who drives the pickup, set on the dispatch map.
+  deliveryDriverId String?
+  deliveryDriver   Driver?          @relation("DeliveryDriver", fields: [deliveryDriverId], references: [id], onDelete: SetNull)
+  pickupDriverId   String?
+  pickupDriver     Driver?          @relation("PickupDriver", fields: [pickupDriverId], references: [id], onDelete: SetNull)
+  category         String?
+  priceBookItemId  String?
+  reminders        RentalReminder[]
+  proposals        RentalProposal[]
 
   startAt DateTime // planned delivery
   endAt   DateTime // planned pickup
@@ -1132,6 +1140,8 @@ model RentalBooking {
   @@index([companyId])
   @@index([jobId])
   @@index([assetId, startAt, endAt])
+  @@index([deliveryDriverId])
+  @@index([pickupDriverId])
 }
 
 // The last few addresses looked up on the Map page, so they can be reopened without retyping (kept to the latest 10).

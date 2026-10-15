@@ -49,6 +49,10 @@ export default async function DispatchPage({ searchParams }: { searchParams: Pro
           <h1 className="text-2xl font-bold text-zinc-900">Dispatch</h1>
           <p className="mt-1 text-sm text-zinc-500">Dumpster drop-offs and pickups. Tap the next step as you go.</p>
         </div>
+        <div className="flex flex-wrap items-center gap-3">
+        <Link href="/dispatch/assign" className="rounded-lg bg-brand px-3 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
+          Map and assign drivers
+        </Link>
         <div className="flex overflow-hidden rounded-lg border border-zinc-300 text-sm font-semibold">
           {RANGES.map((r) => (
             <Link
@@ -59,6 +63,7 @@ export default async function DispatchPage({ searchParams }: { searchParams: Pro
               {r.label}
             </Link>
           ))}
+        </div>
         </div>
       </div>
 

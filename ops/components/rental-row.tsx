@@ -21,6 +21,8 @@ export interface RentalStop {
   overdue: boolean;
   /** The customer asked for a swap: after pickup a replacement dumpster is needed. */
   swap: boolean;
+  /** The driver assigned to the next stop (drop-off while scheduled, pickup once it's out). */
+  driver: { name: string; color: string } | null;
   countdown: CountdownData;
   placementNotes: string | null;
   weightTons: number | null;
@@ -65,6 +67,12 @@ export function RentalRow({ stop }: { stop: RentalStop }) {
           {stop.customer}
         </Link>
         <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${STATUS_STYLE[stop.status]}`}>{stop.swap && stop.status === "PICKUP_REQUESTED" ? "Swap requested" : STATUS_LABEL[stop.status]}</span>
+        {stop.driver && (
+          <span className="flex items-center gap-1 text-xs font-medium text-zinc-600">
+            <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: stop.driver.color }} />
+            {stop.driver.name}
+          </span>
+        )}
         <span className="text-sm text-zinc-600">
           {stop.category ?? "Dumpster"}
           {stop.unit ? ` · ${stop.unit}` : " · no unit assigned"}
