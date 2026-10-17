@@ -12,11 +12,12 @@ export const config = {
      * - /e/*, /i/* and /po/* (customer estimate/invoice links and vendor PO downloads, unguessable token)
      * - /book/* (public online-booking widget, embedded on the marketing site)
      * - /api/auth/* (NextAuth's own routes)
+     * - /api/public/* (read-only rental prices and availability for the marketing site)
      * - /api/logo/* (company logo image for emails)
      * - /service-plans/subscribe/[id]/success (customer lands here after Stripe Checkout)
      * - /api/deploy-webhook, /api/stripe/webhook, /api/stripe/service-plans/webhook, /api/mailgun/inbound, /api/twilio/inbound, /api/cron/* (server-to-server, no session cookie; cron routes check CRON_SECRET)
      * - Next.js internals and static assets
      */
-    "/((?!login|signup|forgot-password|reset-password/|verify-email/|book|e/|i/|po/|api/auth|api/deploy-webhook|api/stripe/webhook|api/stripe/service-plans/webhook|api/logo/|service-plans/subscribe/[^/]+/success|api/mailgun/inbound|api/twilio/inbound|api/cron|_next/static|_next/image|favicon.ico).*)",
+    "/((?!login|signup|forgot-password|reset-password/|verify-email/|book|e/|i/|po/|api/auth|api/public/|api/deploy-webhook|api/stripe/webhook|api/stripe/service-plans/webhook|api/logo/|service-plans/subscribe/[^/]+/success|api/mailgun/inbound|api/twilio/inbound|api/cron|_next/static|_next/image|favicon.ico).*)",
   ],
 };
