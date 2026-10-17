@@ -251,7 +251,7 @@
                 <table class="pricing-table">
                   <tr><th></th><th>Junk Removal</th><th>Dumpster Rental</th></tr>
                   <tr><td>Best for</td><td>One-time haul-offs, estate cleanouts</td><td>Week-long renovations, roofing</td></tr>
-                  <tr><td>Price range</td><td>$150–$900</td><td>$400–$450 (3-day rental)</td></tr>
+                  <tr><td>Price range</td><td>$150–$900</td><td>From $400 (12 yard, 3 days)</td></tr>
                   <tr><td>Labor included</td><td>✅ Yes</td><td>❌ You load it yourself</td></tr>
                   <tr><td>Same-day available</td><td>✅ Yes</td><td>✅ Yes</td></tr>
                 </table>

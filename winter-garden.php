@@ -487,8 +487,6 @@
     
 <?php include 'includes/header.php'; ?>
 
-    =============================-->
-
     <!-- Booking Modal -->
     <div id="bookingModal" class="booking-modal">
       <div class="booking-modal-content">
@@ -959,11 +957,7 @@
         SERVICE CONTENT END
     =============================-->
 
-    <!--============================
-
 <?php include 'includes/footer.php'; ?>
-
-    =============================-->
 
     <!--================================
         SCROLL BUTTON START

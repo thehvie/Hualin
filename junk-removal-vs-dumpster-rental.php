@@ -176,7 +176,7 @@
                 <table class="pricing-table">
                   <tr><th></th><th>Junk Removal</th><th>Dumpster Rental</th></tr>
                   <tr><td>Labor</td><td>✅ Crew does everything</td><td>❌ You load it yourself</td></tr>
-                  <tr><td>Cost (typical)</td><td>$150–$900</td><td>$400–$450 for 3-day rental</td></tr>
+                  <tr><td>Cost (typical)</td><td>$150–$900</td><td>From $400 (12 yard, 3 days); $700 for a 45 yard combo</td></tr>
                   <tr><td>Timeline</td><td>Same-day or scheduled</td><td>Keep it 3+ days</td></tr>
                   <tr><td>Best for</td><td>One-time cleanouts, estate haul-offs</td><td>Ongoing renovations, roofing</td></tr>
                   <tr><td>Weight limits</td><td>No cap for standard loads</td><td>4,000 lbs included</td></tr>
@@ -201,7 +201,7 @@
                   <li><strong>You want to work at your own pace</strong> — fill it over 3 days without scheduling a crew.</li>
                   <li><strong>You're a contractor with ongoing site needs</strong> — a staged dumpster keeps a job site clean.</li>
                 </ul>
-                <p>Haulin Junkies offers 12, 14, 16, and 20-yard dumpsters in Orlando starting at $400 for a 3-day rental with 4,000 lbs and driveway protection included.</p>
+                <p>Haulin Junkies offers 12, 15, 20, and 25-yard dumpsters in Orlando, plus a 45-yard combo (a 20 and a 25 delivered together) for $700. The 12-yard is $400 for a 3-day rental with 4,000 lbs and driveway protection included.</p>
 
                 <h2>The Hidden Cost of "DIY" with a Dumpster</h2>
                 <p>When comparing prices, people often see dumpster rental as cheaper — but that misses the cost of your own labor. Loading a dumpster takes 4–10+ hours of physical work. You need to break down large items, manage weight limits, and sort prohibited items. For most homeowners doing a one-time cleanout, hiring a crew is well worth the difference.</p>

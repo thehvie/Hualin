@@ -310,6 +310,10 @@
                       Haulin Junkies provides construction debris removal services at various locations, including construction sites, office buildings, retail spaces, and commercial properties throughout Orlando.
                     </p>
 
+                    <p>
+                      Running a multi-day job? We also rent <a href="dumpster-rentals.php">roll-off dumpsters in Orlando</a> (12, 15, 20 and 25 yard, plus a 45 yard combo for $700), so your crew can load debris as they go and we haul the full container away.
+                    </p>
+
                     <h3>Types of Commercial Junk & Construction Debris We Handle:</h3>
                     <ul>
                       <li>Construction Debris</li>

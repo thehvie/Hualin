@@ -6,9 +6,9 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Dumpster Rental Orlando FL | Haulin Junkies</title>
-    <meta name="description" content="Rent a dumpster in Orlando, FL — 12 to 20 yard roll-off sizes, flat-rate pricing, no hidden fees. Same-day delivery available. Call (407) 815-4926!" />
-    <meta name="keywords" content="dumpster rental Orlando, roll-off dumpster Orlando FL, 12 yard dumpster rental, 14 yard dumpster rental, 16 yard dumpster rental, 20 yard dumpster rental, dumpster rental near me, affordable dumpster Orlando, construction dumpster Orlando, residential dumpster rental Central Florida, roll-off container Orlando" />
+    <title>Dumpster Rental Orlando FL | 12–45 Yard From $400 | Haulin Junkies</title>
+    <meta name="description" content="Roll-off dumpster rental in Orlando from $400: 12, 15, 20 &amp; 25 yard dumpsters plus a 45 yard combo (20 + 25) for $700. Driveway protection, same-day delivery. Call (407) 815-4926." />
+    <meta name="keywords" content="dumpster rental Orlando, roll-off dumpster Orlando FL, 12 yard dumpster rental, 15 yard dumpster rental, 20 yard dumpster rental, 25 yard dumpster rental, 45 yard dumpster, dumpster rental near me, construction dumpster Orlando, roll-off container Orlando" />
     <meta name="author" content="Haulin Junkies" />
     <meta name="robots" content="index, follow" />
 
@@ -18,15 +18,15 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://haulinjunkies.com/dumpster-rentals.php" />
-    <meta property="og:title" content="Dumpster Rental Orlando FL | 12, 14, 16 & 20 Yard Dumpsters | Haulin Junkies" />
-    <meta property="og:description" content="Affordable roll-off dumpster rentals in Orlando & Central Florida. 12, 14, 16, and 20 yard sizes. No hidden fees, same-day delivery. Call 407-815-4926!" />
+    <meta property="og:title" content="Dumpster Rental Orlando FL | 12, 15, 20, 25 &amp; 45 Yard | Haulin Junkies" />
+    <meta property="og:description" content="Roll-off dumpster rentals in Orlando &amp; Central Florida: 12, 15, 20 and 25 yard sizes plus a 45 yard combo. No hidden fees, same-day delivery. Call 407-815-4926!" />
     <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
     <meta property="og:site_name" content="Haulin Junkies" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Dumpster Rental Orlando FL | 12, 14, 16 & 20 Yard Dumpsters | Haulin Junkies" />
-    <meta name="twitter:description" content="Roll-off dumpster rentals in Orlando. 12, 14, 16, and 20 yard sizes. No hidden fees! Call 407-815-4926!" />
+    <meta name="twitter:title" content="Dumpster Rental Orlando FL | 12, 15, 20, 25 &amp; 45 Yard | Haulin Junkies" />
+    <meta name="twitter:description" content="Roll-off dumpster rentals in Orlando. 12, 15, 20 and 25 yard sizes plus a 45 yard combo. No hidden fees! Call 407-815-4926!" />
 
     <!-- Geo Tags for Local SEO -->
     <meta name="geo.region" content="US-FL" />
@@ -43,7 +43,7 @@
           "name": "How much does a dumpster rental cost in Orlando?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Dumpster rental prices in Orlando vary by size and rental duration. Haulin Junkies offers competitive flat-rate pricing on 12, 14, and 16 yard roll-off dumpsters with no hidden fees. Call 407-815-4926 for a free quote."
+            "text": "Haulin Junkies dumpster rentals in Orlando are flat-rate with no hidden fees. A 12 yard dumpster is $400 for a 3-day rental with up to 4,000 lbs included, and a 45 yard combo (a 20 yard and a 25 yard dumpster delivered together) is $700. 15, 20 and 25 yard dumpsters are quoted by phone at 407-815-4926. Delivery, pickup, and driveway protection are included."
           }
         },
         {
@@ -51,7 +51,7 @@
           "name": "What size dumpster do I need for my project?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A 12 yard dumpster is ideal for small cleanouts and single-room renovations. A 14 yard dumpster works well for medium projects like kitchen or bathroom remodels. A 16 yard dumpster handles larger renovations, roofing projects, and whole-home cleanouts. A 20 yard dumpster is perfect for commercial construction, large-scale cleanouts, and extensive demolition projects."
+            "text": "A 12 yard dumpster suits garage cleanouts, one-room remodels, and yard debris. A 15 yard handles kitchen or bath remodels and medium home cleanouts. A 20 yard is best for roof tear-offs, large renovations, and whole-home or estate cleanouts. A 25 yard fits commercial construction and demolition. For the biggest jobs, the 45 yard combo puts a 20 yard and a 25 yard dumpster on site together."
           }
         },
         {
@@ -85,6 +85,30 @@
             "@type": "Answer",
             "text": "No. Every Haulin Junkies dumpster rental includes 100% driveway protection. We place protective boards under the dumpster to ensure your driveway, lawn, or surface stays damage-free."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "What can I put in the dumpster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most household junk, furniture, construction and remodeling debris, drywall, roofing shingles, and yard waste can go in the dumpster. Hazardous materials, paint, tires, and batteries are not allowed. Call 407-815-4926 if you are unsure about an item."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a permit for a dumpster in Orlando?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not if the dumpster sits on your own driveway or private property. A dumpster placed on a public street or sidewalk may need a city right-of-way permit; tell us where it needs to go and we will let you know before delivery."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I rent a dumpster or hire junk removal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rent a dumpster when you will be producing debris over several days, such as a remodel, roof tear-off, or a cleanout you want to do yourself. Hire junk removal when the items are ready to go and you want a crew to do the lifting in one visit. Haulin Junkies offers both."
+          }
         }
       ]
     }
@@ -97,8 +121,7 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://haulinjunkies.com/"},
-        {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://haulinjunkies.com/services.php"},
-        {"@type": "ListItem", "position": 3, "name": "Dumpster Rentals Orlando FL", "item": "https://haulinjunkies.com/dumpster-rentals.php"}
+        {"@type": "ListItem", "position": 2, "name": "Dumpster Rental Orlando FL", "item": "https://haulinjunkies.com/dumpster-rentals.php"}
       ]
     }
     </script>
@@ -610,13 +633,31 @@
       "name": "Dumpster Rental in Orlando, FL",
       "provider": {
         "@type": "LocalBusiness",
+        "@id": "https://haulinjunkies.com/",
         "name": "Haulin Junkies",
         "telephone": "+14078154926",
         "url": "https://haulinjunkies.com/"
       },
-      "serviceType": "Dumpster Rental",
-      "areaServed": {"@type": "City", "name": "Orlando", "addressRegion": "FL"},
-      "description": "Roll-off dumpster rental in Orlando and Central Florida. 12-20 yard dumpsters starting at $400 for 3 days. Same-day drop-off available.",
+      "serviceType": "Roll-off dumpster rental",
+      "areaServed": [
+        {"@type": "City", "name": "Orlando", "addressRegion": "FL"},
+        {"@type": "City", "name": "Winter Park", "addressRegion": "FL"},
+        {"@type": "City", "name": "Maitland", "addressRegion": "FL"},
+        {"@type": "City", "name": "Altamonte Springs", "addressRegion": "FL"},
+        {"@type": "City", "name": "Kissimmee", "addressRegion": "FL"},
+        {"@type": "City", "name": "Sanford", "addressRegion": "FL"},
+        {"@type": "City", "name": "Lake Mary", "addressRegion": "FL"},
+        {"@type": "City", "name": "Apopka", "addressRegion": "FL"},
+        {"@type": "City", "name": "Ocoee", "addressRegion": "FL"},
+        {"@type": "City", "name": "Winter Garden", "addressRegion": "FL"},
+        {"@type": "City", "name": "Oviedo", "addressRegion": "FL"},
+        {"@type": "City", "name": "Clermont", "addressRegion": "FL"}
+      ],
+      "description": "Roll-off dumpster rental in Orlando and Central Florida. 12, 15, 20 and 25 yard dumpsters, plus a 45 yard combo (20 + 25 yard) for $700. 12 yard from $400 for a 3-day rental with 4,000 lbs included. Delivery, pickup and driveway protection included. Same-day delivery available.",
+      "offers": [
+        {"@type": "Offer", "name": "12 yard dumpster, 3-day rental", "price": "400", "priceCurrency": "USD"},
+        {"@type": "Offer", "name": "45 yard dumpster combo (20 yard + 25 yard)", "price": "700", "priceCurrency": "USD"}
+      ],
       "url": "https://haulinjunkies.com/dumpster-rentals.php"
     }
     </script>
@@ -626,7 +667,6 @@
     
 <?php include 'includes/header.php'; ?>
 
-    =============================-->
 
     <!--============================
         BREADCRUMB START
@@ -677,42 +717,38 @@
       <div class="container">
         <div class="section-title wow fadeInUp">
           <h2>Choose Your Dumpster Size</h2>
-          <p>We offer three convenient dumpster sizes to match any project in Orlando and Central Florida. Every rental is a <strong>3-day rental</strong> and includes up to <strong>4,000 lbs</strong> — plus free delivery, driveway protection, and post-bin cleanup.</p>
+          <p>We offer <strong>12, 15, 20, and 25 yard</strong> roll-off dumpsters, plus a <strong>45 yard combo</strong> for the biggest jobs, to match any project in Orlando and Central Florida. Every rental includes free delivery, driveway protection, and post-bin cleanup.</p>
         </div>
         <div class="row justify-content-center">
 
           <!-- ===== 12 YARD DUMPSTER ===== -->
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <article class="dumpster-card" itemscope itemtype="https://schema.org/Product">
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+            <article class="dumpster-card">
               <div class="dumpster-img">
-                <!-- REPLACE: Swap the src below with your 12 yard dumpster image -->
+                <!-- Drop a real photo at assets/images/dumpster-12-yard.jpg and it shows automatically -->
                 <img
                   src="assets/images/dumpster-12-yard.jpg"
                   alt="12 Yard Dumpster Rental Orlando FL - Haulin Junkies"
-                  itemprop="image"
                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                 />
                 <div class="img-placeholder" style="display:none;">
-                  <span><i class="fas fa-dumpster" style="font-size:3rem;display:block;margin-bottom:10px;"></i>12 Yard Dumpster<br>Image Coming Soon</span>
+                  <span><i class="fas fa-dumpster" style="font-size:3rem;display:block;margin-bottom:10px;"></i>12 Yard Dumpster</span>
                 </div>
               </div>
               <div class="dumpster-body">
-                <h3 itemprop="name">12 Yard Dumpster</h3>
-                <span class="dumpster-dimensions">Approx. 10' long × 7' wide × 4' high</span>
+                <h3>12 Yard Dumpster</h3>
                 <div class="dumpster-price">$400<span>3-Day Rental Included</span></div>
                 <div class="rental-terms">
                   <span class="rental-term-badge"><i class="fas fa-calendar-alt"></i> 3-Day Rental</span>
                   <span class="rental-term-badge"><i class="fas fa-weight-hanging"></i> Up to 4,000 lbs</span>
                 </div>
-                <meta itemprop="description" content="12 yard roll-off dumpster rental in Orlando FL. Perfect for small renovations, garage cleanouts, and residential debris. Includes driveway protection and post-bin cleanup." />
                 <ul>
                   <li><i class="fas fa-check"></i> No Hidden Fees</li>
                   <li><i class="fas fa-check"></i> 100% Driveway Protection</li>
                   <li><i class="fas fa-check"></i> Post Bin Cleanup</li>
-                  <li><i class="fas fa-check"></i> Double Door Walk-In Loading</li>
-                  <li><i class="fas fa-check"></i> Small Home Cleanout Jobs</li>
                   <li><i class="fas fa-check"></i> Garage &amp; Attic Cleanouts</li>
                   <li><i class="fas fa-check"></i> Single-Room Renovations</li>
+                  <li><i class="fas fa-check"></i> Small Home Cleanouts</li>
                   <li><i class="fas fa-check"></i> Landscaping Debris</li>
                 </ul>
                 <a href="tel:+14078154926" class="dumpster-cta"><i class="fas fa-phone-alt"></i> Get a Free Quote</a>
@@ -720,79 +756,31 @@
             </article>
           </div>
 
-          <!-- ===== 14 YARD DUMPSTER ===== -->
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-            <article class="dumpster-card" itemscope itemtype="https://schema.org/Product">
+          <!-- ===== 15 YARD DUMPSTER ===== -->
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+            <article class="dumpster-card">
               <div class="dumpster-img">
-                <!-- REPLACE: Swap the src below with your 14 yard dumpster image -->
+                <!-- Drop a real photo at assets/images/dumpster-15-yard.jpg and it shows automatically -->
                 <img
-                  src="assets/images/dumpster-14-yard.jpg"
-                  alt="14 Yard Dumpster Rental Orlando FL - Haulin Junkies"
-                  itemprop="image"
+                  src="assets/images/dumpster-15-yard.jpg"
+                  alt="15 Yard Dumpster Rental Orlando FL - Haulin Junkies"
                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                 />
                 <div class="img-placeholder" style="display:none;">
-                  <span><i class="fas fa-dumpster" style="font-size:3rem;display:block;margin-bottom:10px;"></i>14 Yard Dumpster<br>Image Coming Soon</span>
+                  <span><i class="fas fa-dumpster" style="font-size:3rem;display:block;margin-bottom:10px;"></i>15 Yard Dumpster</span>
                 </div>
               </div>
               <div class="dumpster-body">
-                <h3 itemprop="name">14 Yard Dumpster</h3>
-                <span class="dumpster-dimensions">Approx. 12' long × 7.5' wide × 4.5' high</span>
-                <div class="dumpster-price">$410<span>3-Day Rental Included</span></div>
-                <div class="rental-terms">
-                  <span class="rental-term-badge"><i class="fas fa-calendar-alt"></i> 3-Day Rental</span>
-                  <span class="rental-term-badge"><i class="fas fa-weight-hanging"></i> Up to 4,000 lbs</span>
-                </div>
-                <meta itemprop="description" content="14 yard roll-off dumpster rental in Orlando FL. Ideal for medium renovations, kitchen and bathroom remodels, and construction debris. Includes driveway protection and post-bin cleanup." />
+                <h3>15 Yard Dumpster</h3>
+                <div class="dumpster-price">Call<span>for 15 Yard Pricing</span></div>
                 <ul>
                   <li><i class="fas fa-check"></i> No Hidden Fees</li>
                   <li><i class="fas fa-check"></i> 100% Driveway Protection</li>
                   <li><i class="fas fa-check"></i> Post Bin Cleanup</li>
-                  <li><i class="fas fa-check"></i> Double Door Walk-In Loading</li>
-                  <li><i class="fas fa-check"></i> Medium Home Cleanouts</li>
                   <li><i class="fas fa-check"></i> Kitchen &amp; Bath Remodels</li>
-                  <li><i class="fas fa-check"></i> Construction Debris</li>
-                  <li><i class="fas fa-check"></i> Furniture &amp; Household Debris</li>
-                </ul>
-                <a href="tel:+14078154926" class="dumpster-cta"><i class="fas fa-phone-alt"></i> Get a Free Quote</a>
-              </div>
-            </article>
-          </div>
-
-          <!-- ===== 16 YARD DUMPSTER ===== -->
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <article class="dumpster-card" itemscope itemtype="https://schema.org/Product">
-              <div class="dumpster-img">
-                <span class="dumpster-popular-badge">Most Popular</span>
-                <!-- REPLACE: Swap the src below with your 16 yard dumpster image -->
-                <img
-                  src="assets/images/dumpster-16-yard.jpg"
-                  alt="16 Yard Dumpster Rental Orlando FL - Haulin Junkies"
-                  itemprop="image"
-                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                />
-                <div class="img-placeholder" style="display:none;">
-                  <span><i class="fas fa-dumpster" style="font-size:3rem;display:block;margin-bottom:10px;"></i>16 Yard Dumpster<br>Image Coming Soon</span>
-                </div>
-              </div>
-              <div class="dumpster-body">
-                <h3 itemprop="name">16 Yard Dumpster</h3>
-                <span class="dumpster-dimensions">Approx. 14' long × 7.5' wide × 5' high</span>
-                <div class="dumpster-price">$450<span>3-Day Rental Included</span></div>
-                <div class="rental-terms">
-                  <span class="rental-term-badge"><i class="fas fa-calendar-alt"></i> 3-Day Rental</span>
-                  <span class="rental-term-badge"><i class="fas fa-weight-hanging"></i> Up to 4,000 lbs</span>
-                </div>
-                <meta itemprop="description" content="16 yard roll-off dumpster rental in Orlando FL. Best for large renovations, roofing projects, whole-home cleanouts, and commercial debris. Includes driveway protection and post-bin cleanup." />
-                <ul>
-                  <li><i class="fas fa-check"></i> No Hidden Fees</li>
-                  <li><i class="fas fa-check"></i> 100% Driveway Protection</li>
-                  <li><i class="fas fa-check"></i> Post Bin Cleanup</li>
-                  <li><i class="fas fa-check"></i> Double Door Walk-In Loading</li>
-                  <li><i class="fas fa-check"></i> Large Home &amp; Estate Cleanouts</li>
-                  <li><i class="fas fa-check"></i> Roofing &amp; Major Renovations</li>
-                  <li><i class="fas fa-check"></i> Flood &amp; Fire Restoration</li>
-                  <li><i class="fas fa-check"></i> Commercial Projects</li>
+                  <li><i class="fas fa-check"></i> Medium Home Cleanouts</li>
+                  <li><i class="fas fa-check"></i> Flooring &amp; Drywall Debris</li>
+                  <li><i class="fas fa-check"></i> Furniture &amp; Household Junk</li>
                 </ul>
                 <a href="tel:+14078154926" class="dumpster-cta"><i class="fas fa-phone-alt"></i> Get a Free Quote</a>
               </div>
@@ -800,33 +788,91 @@
           </div>
 
           <!-- ===== 20 YARD DUMPSTER ===== -->
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-            <article class="dumpster-card" itemscope itemtype="https://schema.org/Product">
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+            <article class="dumpster-card">
               <div class="dumpster-img">
-                <!-- REPLACE: Swap the src below with your 20 yard dumpster image -->
+                <!-- Drop a real photo at assets/images/dumpster-20-yard.jpg and it shows automatically -->
                 <img
                   src="assets/images/dumpster-20-yard.jpg"
                   alt="20 Yard Dumpster Rental Orlando FL - Haulin Junkies"
-                  itemprop="image"
                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                 />
                 <div class="img-placeholder" style="display:none;">
-                  <span><i class="fas fa-dumpster" style="font-size:3rem;display:block;margin-bottom:10px;"></i>20 Yard Dumpster<br>Image Coming Soon</span>
+                  <span><i class="fas fa-dumpster" style="font-size:3rem;display:block;margin-bottom:10px;"></i>20 Yard Dumpster</span>
                 </div>
               </div>
               <div class="dumpster-body">
-                <h3 itemprop="name">20 Yard Dumpster</h3>
-                <span class="dumpster-dimensions">Approx. 16' long × 8' wide × 5.5' high</span>
-                <meta itemprop="description" content="20 yard roll-off dumpster rental in Orlando FL. Perfect for commercial construction, large-scale cleanouts, multi-unit properties, and extensive demolition projects. Includes driveway protection and post-bin cleanup." />
+                <h3>20 Yard Dumpster</h3>
+                <div class="dumpster-price">Call<span>for 20 Yard Pricing</span></div>
                 <ul>
                   <li><i class="fas fa-check"></i> No Hidden Fees</li>
                   <li><i class="fas fa-check"></i> 100% Driveway Protection</li>
                   <li><i class="fas fa-check"></i> Post Bin Cleanup</li>
-                  <li><i class="fas fa-check"></i> Double Door Walk-In Loading</li>
+                  <li><i class="fas fa-check"></i> Roofing Tear-Offs</li>
+                  <li><i class="fas fa-check"></i> Large Renovations</li>
+                  <li><i class="fas fa-check"></i> Whole-Home &amp; Estate Cleanouts</li>
+                  <li><i class="fas fa-check"></i> Storm &amp; Flood Debris</li>
+                </ul>
+                <a href="tel:+14078154926" class="dumpster-cta"><i class="fas fa-phone-alt"></i> Get a Free Quote</a>
+              </div>
+            </article>
+          </div>
+
+          <!-- ===== 25 YARD DUMPSTER ===== -->
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+            <article class="dumpster-card">
+              <div class="dumpster-img">
+                <!-- Drop a real photo at assets/images/dumpster-25-yard.jpg and it shows automatically -->
+                <img
+                  src="assets/images/dumpster-25-yard.jpg"
+                  alt="25 Yard Dumpster Rental Orlando FL - Haulin Junkies"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                />
+                <div class="img-placeholder" style="display:none;">
+                  <span><i class="fas fa-dumpster" style="font-size:3rem;display:block;margin-bottom:10px;"></i>25 Yard Dumpster</span>
+                </div>
+              </div>
+              <div class="dumpster-body">
+                <h3>25 Yard Dumpster</h3>
+                <div class="dumpster-price">Call<span>for 25 Yard Pricing</span></div>
+                <ul>
+                  <li><i class="fas fa-check"></i> No Hidden Fees</li>
+                  <li><i class="fas fa-check"></i> 100% Driveway Protection</li>
+                  <li><i class="fas fa-check"></i> Post Bin Cleanup</li>
                   <li><i class="fas fa-check"></i> Commercial Construction</li>
-                  <li><i class="fas fa-check"></i> Multi-Unit Property Cleanouts</li>
-                  <li><i class="fas fa-check"></i> Large Demolition Projects</li>
+                  <li><i class="fas fa-check"></i> Demolition Projects</li>
+                  <li><i class="fas fa-check"></i> Multi-Unit Cleanouts</li>
                   <li><i class="fas fa-check"></i> Heavy Construction Debris</li>
+                </ul>
+                <a href="tel:+14078154926" class="dumpster-cta"><i class="fas fa-phone-alt"></i> Get a Free Quote</a>
+              </div>
+            </article>
+          </div>
+
+          <!-- ===== 45 YARD COMBO (20 + 25 YARD) ===== -->
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+            <article class="dumpster-card">
+              <div class="dumpster-img">
+                <!-- Drop a real photo at assets/images/dumpster-45-yard-combo.jpg and it shows automatically -->
+                <img
+                  src="assets/images/dumpster-45-yard-combo.jpg"
+                  alt="45 Yard Combo (20 + 25 Yard) Rental Orlando FL - Haulin Junkies"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                />
+                <div class="img-placeholder" style="display:none;">
+                  <span><i class="fas fa-dumpster" style="font-size:3rem;display:block;margin-bottom:10px;"></i>45 Yard Combo (20 + 25 Yard)</span>
+                </div>
+              </div>
+              <div class="dumpster-body">
+                <h3>45 Yard Combo (20 + 25 Yard)</h3>
+                <div class="dumpster-price">$700<span>Two Dumpsters Delivered Together</span></div>
+                <ul>
+                  <li><i class="fas fa-check"></i> No Hidden Fees</li>
+                  <li><i class="fas fa-check"></i> 100% Driveway Protection</li>
+                  <li><i class="fas fa-check"></i> Post Bin Cleanup</li>
+                  <li><i class="fas fa-check"></i> Whole-Property Cleanouts</li>
+                  <li><i class="fas fa-check"></i> Large Construction &amp; Demolition</li>
+                  <li><i class="fas fa-check"></i> Separate Debris Streams on Site</li>
                 </ul>
                 <a href="tel:+14078154926" class="dumpster-cta"><i class="fas fa-phone-alt"></i> Get a Free Quote</a>
               </div>
@@ -845,9 +891,31 @@
         <div class="row">
           <div class="col-xl-8 col-lg-8 wow fadeInLeft">
             <div class="service_details_text">
-              <h2>Affordable Dumpster Rental in Orlando, FL — 12, 14, 16 &amp; 20 Yard Roll-Off Dumpsters</h2>
+              <h2>Dumpster Rental Prices in Orlando at a Glance</h2>
               <p>
-                Looking for a reliable dumpster rental in Orlando? Haulin Junkies delivers affordable 12, 14, 16, and 20 yard roll-off dumpsters directly to your home, job site, or commercial property anywhere in the Orlando metro area and Central Florida. Whether you're tackling a home renovation, roof replacement, construction project, estate cleanout, or major decluttering job, our dumpster rental service makes waste removal simple with flat-rate pricing and no hidden fees.
+                <strong>Quick answer:</strong> Haulin Junkies rents roll-off dumpsters in Orlando in <strong>12, 15, 20 and 25 yard</strong> sizes. The <strong>12 yard is $400</strong> for 3 days with up to 4,000 lbs included, and the <strong>45 yard combo</strong> (a 20 yard and a 25 yard delivered together) is <strong>$700</strong>. Call <a href="tel:+14078154926">407-815-4926</a> for 15, 20 and 25 yard pricing. Every rental includes delivery, pickup, driveway protection, and cleanup after pickup, with same-day and next-day delivery across Orlando and Central Florida.
+              </p>
+              <div class="table-responsive mb_40">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr><th>Size</th><th>Price</th><th>Best for</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>12 yard</td><td>$400 (3 days, 4,000 lbs)</td><td>Garage or attic cleanouts, one-room remodels, yard debris</td></tr>
+                    <tr><td>15 yard</td><td>Call for price</td><td>Kitchen or bath remodels, medium home cleanouts</td></tr>
+                    <tr><td>20 yard</td><td>Call for price</td><td>Roof tear-offs, large renovations, whole-home and estate cleanouts</td></tr>
+                    <tr><td>25 yard</td><td>Call for price</td><td>Commercial construction, demolition, multi-unit cleanouts</td></tr>
+                    <tr><td>45 yard combo (20 + 25 yard)</td><td>$700</td><td>The biggest jobs: whole-property cleanouts, large construction and demolition, two containers on site</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                Not sure whether you need a dumpster or a crew? Read our <a href="junk-removal-vs-dumpster-rental.php">junk removal vs. dumpster rental guide</a>, or see <a href="junk-removal-cost-orlando.php">junk removal pricing in Orlando</a> if you'd rather we do the loading.
+              </p>
+
+              <h2>Affordable Dumpster Rental in Orlando, FL — 12, 15, 20 &amp; 25 Yard Roll-Off Dumpsters</h2>
+              <p>
+                Looking for a reliable dumpster rental in Orlando? Haulin Junkies delivers 12, 15, 20, and 25 yard roll-off dumpsters, plus a 45 yard combo for the biggest jobs, directly to your home, job site, or commercial property anywhere in the Orlando metro area and Central Florida. Whether you're tackling a home renovation, roof replacement, construction project, estate cleanout, or major decluttering job, our dumpster rental service makes waste removal simple with flat-rate pricing and no hidden fees.
               </p>
               <p>
                 Every dumpster rental from Haulin Junkies includes 100% driveway protection, a convenient double door for easy walk-in loading, post-bin cleanup after pickup, and flexible rental periods to match your project timeline. We offer same-day and next-day dumpster delivery across Orlando, Winter Park, Maitland, Kissimmee, Sanford, Ocoee, and all surrounding Central Florida communities.
@@ -881,7 +949,7 @@
                   </li>
                   <li>
                     <i class="fas fa-check-circle"></i>
-                    <p><strong>Flexible Rental Periods:</strong> Keep the dumpster as long as you need it — we work around your project timeline, not the other way around</p>
+                    <p><strong>Flexible Rental Periods:</strong> Every rental includes 3 days. Need longer? Call and we'll extend it to fit your project timeline</p>
                   </li>
                 </ul>
               </div>
@@ -978,7 +1046,7 @@
                   </li>
                   <li>
                     <i class="fas fa-dollar-sign"></i>
-                    <p><strong>Flat-Rate, Transparent Pricing:</strong> No surprise fees, no weight overage games — just straightforward pricing you can count on</p>
+                    <p><strong>Flat-Rate, Transparent Pricing:</strong> 4,000 lbs included and every price quoted up front, so there are no surprises on your bill</p>
                   </li>
                   <li>
                     <i class="fas fa-clock"></i>
@@ -1011,7 +1079,7 @@
                   <div class="col-xl-6 col-md-6">
                     <div class="service_banner_content">
                       <h3>Get Your Free Dumpster Rental Quote</h3>
-                      <p>Flat-rate pricing with no hidden fees. Book your 12, 14, 16, or 20 yard dumpster online in minutes.</p>
+                      <p>Flat-rate pricing with no hidden fees. Book your 12, 15, 20, or 25 yard dumpster online in minutes.</p>
                       <a class="common_btn" href="#" onclick="openBookingModal(); return false;">Book Online Now</a>
                     </div>
                   </div>
@@ -1039,7 +1107,7 @@
               <div class="sidebar_contact mt_40">
                 <div class="sidebar_contact_overlay">
                   <h3>Need a Dumpster Rental?</h3>
-                  <p>Call us for a free quote on 12, 14, 16, or 20 yard dumpsters delivered anywhere in Orlando.</p>
+                  <p>Call us for a free quote on 12, 15, 20, or 25 yard dumpsters delivered anywhere in Orlando.</p>
                   <a class="common_btn" href="tel:+14078154926">Call Now</a>
                 </div>
               </div>
@@ -1095,7 +1163,7 @@
       <div class="container">
         <div class="section-title wow fadeInUp">
           <h2>Dumpster Rental Delivery Areas in Orlando &amp; Central Florida</h2>
-          <p>Haulin Junkies delivers 12, 14, 16, and 20 yard roll-off dumpsters to homes and businesses across the entire Greater Orlando area. We provide 24/7 service to all of the following communities:</p>
+          <p>Haulin Junkies delivers 12, 15, 20, and 25 yard roll-off dumpsters to homes and businesses across the entire Greater Orlando area. We provide 24/7 service to all of the following communities:</p>
           <p style="margin-top:15px;">
             Popular delivery areas:
             <a href="downtown-orlando.php">Downtown Orlando</a>,
@@ -1325,12 +1393,12 @@
 
             <div class="faq-item-card wow fadeInUp">
               <h5><i class="fas fa-question-circle"></i> How much does a dumpster rental cost in Orlando?</h5>
-              <p>Haulin Junkies offers straightforward flat-rate pricing with no hidden fees. Our <strong>12 yard dumpster</strong> is <strong>$400</strong>, the <strong>14 yard</strong> is <strong>$410</strong>, and our most popular <strong>16 yard</strong> is <strong>$450</strong> — all for a 3-day rental including up to 4,000 lbs. The price we quote is the price you pay. Call us at <a href="tel:+14078154926">407-815-4926</a> to book.</p>
+              <p>Haulin Junkies offers straightforward flat-rate pricing with no hidden fees. Our <strong>12 yard dumpster</strong> is <strong>$400</strong> for a 3-day rental with up to 4,000 lbs included, and our <strong>45 yard combo</strong> (a 20 yard and a 25 yard dumpster delivered together) is <strong>$700</strong>. For 15, 20, and 25 yard pricing, call us at <a href="tel:+14078154926">407-815-4926</a>. The price we quote is the price you pay.</p>
             </div>
 
             <div class="faq-item-card wow fadeInUp">
               <h5><i class="fas fa-question-circle"></i> What size dumpster do I need for my project?</h5>
-              <p>Our <strong>12 yard dumpster</strong> is ideal for small projects like garage cleanouts, single-room renovations, and landscaping debris. The <strong>14 yard dumpster</strong> works great for kitchen/bathroom remodels, medium home cleanouts, and construction projects. The <strong>16 yard dumpster</strong> is our most popular size and is best for large renovations, roofing tear-offs, whole-home cleanouts, and commercial jobs. Not sure? Call us and we'll help you pick the right size.</p>
+              <p>Our <strong>12 yard dumpster</strong> is ideal for garage cleanouts, single-room renovations, and landscaping debris. The <strong>15 yard</strong> works well for kitchen and bathroom remodels and medium home cleanouts. The <strong>20 yard</strong> is best for roofing tear-offs, large renovations, and whole-home or estate cleanouts. The <strong>25 yard</strong> handles commercial construction and demolition, and the <strong>45 yard combo</strong> puts a 20 and a 25 yard dumpster on site together for the biggest jobs. Not sure? Call us and we'll help you pick the right size.</p>
             </div>
 
             <div class="faq-item-card wow fadeInUp">
@@ -1351,6 +1419,16 @@
             <div class="faq-item-card wow fadeInUp">
               <h5><i class="fas fa-question-circle"></i> What can I put in the dumpster?</h5>
               <p>Our dumpsters accept most common residential and construction waste including furniture, household junk, construction debris, drywall, roofing shingles, landscaping waste, appliances, and general clutter. Prohibited items typically include hazardous materials, paint, tires, and batteries. If you're unsure about a specific item, give us a call and we'll let you know.</p>
+            </div>
+
+            <div class="faq-item-card wow fadeInUp">
+              <h5><i class="fas fa-question-circle"></i> Do I need a permit for a dumpster in Orlando?</h5>
+              <p>Not if the dumpster sits on your own driveway or private property, which is where most of our residential rentals go. A dumpster placed on a public street or sidewalk may need a city right-of-way permit. Tell us where it needs to go when you book and we'll let you know before delivery.</p>
+            </div>
+
+            <div class="faq-item-card wow fadeInUp">
+              <h5><i class="fas fa-question-circle"></i> Should I rent a dumpster or hire junk removal?</h5>
+              <p>Rent a dumpster when you'll be producing debris over several days, like a remodel, a roof tear-off, or a cleanout you want to do at your own pace. Hire <a href="junk-removal-orlando.php">junk removal</a> when the items are ready to go and you want our crew to do all the lifting in one visit. We offer both, so we'll tell you honestly which costs less for your project.</p>
             </div>
 
             <div class="faq-item-card wow fadeInUp">
@@ -1381,11 +1459,9 @@
       </div>
     </section>
 
-    <!--============================
 
 <?php include 'includes/footer.php'; ?>
 
-    =============================-->
 
     <!--================================
         SCROLL BUTTON START

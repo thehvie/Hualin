@@ -6,8 +6,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Junk Removal Orlando, FL | Same-Day Service | Haulin Junkies</title>
-    <meta name="description" content="Haulin Junkies offers fast, affordable junk removal in Orlando and Central Florida. Same-day residential and commercial pickup. Licensed &amp; insured. Call (407) 815-4926." />
+    <title>Junk Removal &amp; Dumpster Rental Orlando, FL | Haulin Junkies</title>
+    <meta name="description" content="Same-day junk removal and roll-off dumpster rentals (12–45 yard, from $400) in Orlando and Central Florida. Licensed &amp; insured, locally owned. Call (407) 815-4926." />
     <meta name="keywords" content="junk removal Orlando FL, same day junk removal Orlando, residential junk removal, commercial junk removal, estate cleanout Orlando, appliance removal Orlando, haulin junkies" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="Haulin Junkies" />
@@ -19,14 +19,14 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://haulinjunkies.com/" />
-    <meta property="og:title" content="Junk Removal Orlando, FL | Same-Day Service | Haulin Junkies" />
+    <meta property="og:title" content="Junk Removal &amp; Dumpster Rental Orlando, FL | Haulin Junkies" />
     <meta property="og:description" content="Fast, affordable junk removal in Orlando and Central Florida. Same-day residential and commercial pickup. Licensed &amp; insured." />
     <meta property="og:image" content="https://haulinjunkies.com/assets/images/logo.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://haulinjunkies.com/" />
-    <meta property="twitter:title" content="Junk Removal Orlando, FL | Same-Day Service | Haulin Junkies" />
+    <meta property="twitter:title" content="Junk Removal &amp; Dumpster Rental Orlando, FL | Haulin Junkies" />
     <meta property="twitter:description" content="Fast, affordable junk removal in Orlando and Central Florida. Same-day pickup available." />
 
     <link rel="canonical" href="https://haulinjunkies.com/" />
@@ -296,6 +296,16 @@
             "reviewBody": "Fast and easy."
           }
         ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Junk removal and dumpster rental services",
+          "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Roll-off dumpster rental (12, 15, 20 and 25 yard, 45 yard combo)", "url": "https://haulinjunkies.com/dumpster-rentals.php"}, "price": "400", "priceCurrency": "USD", "description": "12 yard from $400 for 3 days with 4,000 lbs included"},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Junk removal", "url": "https://haulinjunkies.com/junk-removal-orlando.php"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Estate cleanout", "url": "https://haulinjunkies.com/estate-cleanout.php"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Commercial junk removal", "url": "https://haulinjunkies.com/commercial.php"}}
+          ]
+        },
         "sameAs": [
           "https://www.facebook.com/Haulinjunkies",
           "https://www.instagram.com/haulinjunkies/",
@@ -351,9 +361,10 @@
 
 
               <p>
-                Haulin Junkies provides junk removal in Orlando, FL and
-                throughout Central Florida, including residential and
-                commercial pickup.
+                Haulin Junkies provides junk removal and
+                <a href="dumpster-rentals.php">roll-off dumpster rentals</a> in
+                Orlando, FL and throughout Central Florida, for homes,
+                contractors, and businesses.
               </p>
               <ul class="d-flex flex-wrap align-items-center">
                 <!-- COMMENTED OUT: Book A Schedule button
@@ -1361,7 +1372,8 @@
         <div class="row">
           <div class="col-12 wow fadeInUp">
             <p class="area_intro">
-              Haulin Junkies runs same-day junk removal, estate cleanouts, and
+              Haulin Junkies runs same-day junk removal, estate cleanouts,
+              <a href="dumpster-rentals.php">dumpster rental</a> deliveries, and
               hauling routes throughout the Orlando metro. Some of the cities and
               neighborhoods we work in every week:
             </p>
