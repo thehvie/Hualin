@@ -355,18 +355,24 @@
         <div class="row">
           <div class="col-lg-7 col-xl-7 wow fadeInUp">
             <div class="banner_text">
-              <h5>Junk Removal is what we do!</h5>
-              <h1>Junk Removal Experts in Orlando, FL — We Sort, We Donate, We Reduce</h1>
+              <h5>Dumpster Rentals &amp; Junk Removal</h5>
+              <h1>Dumpster Rental in Orlando, FL — 12 to 45 Yard, From $400</h1>
               <h2>Call today! 407.815.4926</h2>
 
 
               <p>
-                Haulin Junkies provides junk removal and
-                <a href="dumpster-rentals.php">roll-off dumpster rentals</a> in
-                Orlando, FL and throughout Central Florida, for homes,
-                contractors, and businesses.
+                Haulin Junkies delivers
+                <a href="dumpster-rentals.php">roll-off dumpsters</a> (12, 15,
+                20, 25, 30 and 45 yard) across Orlando and Central Florida for
+                homes, contractors, and businesses. Need it hauled instead? We
+                also do same-day junk removal.
               </p>
               <ul class="d-flex flex-wrap align-items-center">
+                <li>
+                  <a class="common_btn" href="dumpster-rentals.php"
+                    >See Dumpster Sizes &amp; Prices <i class="far fa-long-arrow-right"></i
+                  ></a>
+                </li>
                 <!-- COMMENTED OUT: Book A Schedule button
                 <li>
                   <a class="common_btn" href="#" onclick="openBookingModal()"
@@ -512,6 +518,16 @@
                   <div class="icon">
                     <img
                       src="assets/images/about_icon_1.svg"
+                      alt="About"
+                      class="img-fluid"
+                    />
+                  </div>
+                  <h3><a href="dumpster-rentals.php">Dumpster Rentals</a></h3>
+                </li>
+                <li>
+                  <div class="icon">
+                    <img
+                      src="assets/images/about_icon_2.svg"
                       alt="About"
                       class="img-fluid"
                     />

@@ -5,4 +5,7 @@
 
 return [
     'mailgun_api_key' => 'your-mailgun-api-key-here',
+    // Ops system, for live dumpster prices and availability on dumpster-rentals.php
+    'ops_base_url' => 'https://ops.haulinjunkies.com',
+    'ops_company_id' => 'the-company-id-from-ops',
 ];
