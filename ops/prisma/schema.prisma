@@ -922,10 +922,36 @@ model Vendor {
   paymentTerms   String?
   active         Boolean @default(true)
 
+  // Brokering: another dumpster company we can source rentals from when our own fleet is booked.
+  dumpsterPartner Boolean @default(false)
+  serviceAreas    String? @db.Text // cities or zips they deliver to, free text
+  partnerNotes    String? @db.Text
+
   purchaseOrders PurchaseOrder[]
+  rates          VendorRate[]
 
   createdAt DateTime @default(now())
 
+  @@index([companyId])
+}
+
+// What a partner vendor charges us for a dumpster size, and what we charge the customer for it.
+model VendorRate {
+  id                 String   @id @default(cuid())
+  companyId          String
+  vendorId           String
+  vendor             Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  size               String // matches our fleet and price book size text, e.g. "20 yd"
+  costCents          Int // what the vendor charges us
+  sellCents          Int // what we charge the customer
+  packageDays        Int?
+  includedTons       Float?
+  extraDayCents      Int? // our cost per extra day
+  overageCentsPerTon Int? // our cost per ton over
+  notes              String?  @db.Text
+  createdAt          DateTime @default(now())
+
+  @@unique([vendorId, size])
   @@index([companyId])
 }
 

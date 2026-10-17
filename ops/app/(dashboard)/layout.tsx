@@ -25,7 +25,7 @@ export default async function DashboardLayout({
   const textsWarning = texts?.enabled && texts.credits === 0 && texts.sent >= texts.allowance * SMS_WARN_AT ? (texts.canSend ? "almost" : "out") : null;
   // Nav items whose feature isn't on the plan: shown greyed with a lock, linking to the plans page.
   const lockedHrefs: Record<string, string> = {};
-  const gated: Record<string, Feature> = { "/dispatch": "RENTALS", "/fleet": "RENTALS", "/drivers": "RENTALS", "/online-booking": "ONLINE_BOOKING" };
+  const gated: Record<string, Feature> = { "/dispatch": "RENTALS", "/fleet": "RENTALS", "/vendors": "RENTALS", "/drivers": "RENTALS", "/online-booking": "ONLINE_BOOKING" };
   if (access) {
     for (const [href, feature] of Object.entries(gated)) {
       if (!access.features.has(feature)) lockedHrefs[href] = PLANS[FEATURE_MIN_PLAN[feature]].name;
