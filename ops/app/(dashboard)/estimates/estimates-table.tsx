@@ -12,6 +12,7 @@ const STATUS_LABELS: Record<string, string> = {
   APPROVED: "Approved",
   DECLINED: "Declined",
   WON: "Won",
+  COMPLETE: "Complete",
   EXPIRED: "Archived",
 };
 
@@ -21,6 +22,7 @@ const STATUS_BADGE: Record<string, string> = {
   APPROVED: "bg-emerald-100 text-emerald-700",
   DECLINED: "bg-red-100 text-red-700",
   WON: "bg-brand/10 text-brand-dark",
+  COMPLETE: "bg-emerald-600 text-white",
   EXPIRED: "bg-zinc-100 text-zinc-500",
 };
 

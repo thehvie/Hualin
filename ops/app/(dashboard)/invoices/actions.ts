@@ -7,6 +7,8 @@ import { geocodeAddress } from "@/lib/geocode";
 import { getDefaultTaxRate } from "@/lib/tax";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/session";
+import { recalcInvoiceStatus } from "@/lib/invoice-status";
+import { computeInvoiceTotals } from "@/lib/invoice-totals";
 
 export async function markInvoicesSent(ids: string[]) {
   if (ids.length === 0) return;
@@ -128,4 +130,55 @@ export async function createDirectInvoice(input: DirectInvoiceInput): Promise<{ 
   revalidatePath("/invoices");
   revalidatePath("/customers");
   redirect(`/invoices/${invoice.id}`);
+}
+
+/**
+ * Row dropdown on the invoice list. Unsent/Sent/Void just set the status. Paid records a payment for whatever is still
+ * owed (method "Other"), so the books agree and the status isn't flipped back on the next recalculation. Partial is
+ * automatic from payments. Unsent/Sent are refused while payments exist, because the payments decide the status.
+ */
+export async function setInvoiceStatus(id: string, status: string): Promise<{ error?: string }> {
+  const { companyId } = await requireSession();
+  const invoice = await prisma.invoice.findFirst({
+    where: { id, companyId },
+    include: { lineItems: true, payments: true, taxRate: true },
+  });
+  if (!invoice) return { error: "Invoice not found." };
+
+  if (status === "DRAFT" || status === "SENT") {
+    if (invoice.payments.length > 0) return { error: "This invoice has payments. Remove them first, or change the status by recording payments." };
+    await prisma.invoice.update({
+      where: { id },
+      data: { status, sentAt: status === "SENT" ? (invoice.sentAt ?? new Date()) : null, paidAt: null },
+    });
+  } else if (status === "VOID") {
+    await prisma.invoice.update({ where: { id }, data: { status: "VOID" } });
+  } else if (status === "PAID") {
+    const totals = computeInvoiceTotals({
+      lineItems: invoice.lineItems,
+      discountCents: invoice.discountCents,
+      fuelSurchargeCents: invoice.fuelSurchargeCents,
+      tipCents: invoice.tipCents,
+      taxRateBps: invoice.taxRate?.rateBps ?? 0,
+      payments: invoice.payments,
+    });
+    if (totals.balanceCents > 0) {
+      await prisma.payment.create({
+        data: { companyId, invoiceId: id, amountCents: totals.balanceCents, method: "OTHER", reference: "Marked paid" },
+      });
+    }
+    // A voided invoice must come back to a normal status before recalculation will touch it.
+    if (invoice.status === "VOID") await prisma.invoice.update({ where: { id }, data: { status: invoice.sentAt ? "SENT" : "DRAFT" } });
+    await recalcInvoiceStatus(id, companyId);
+  } else {
+    return { error: "That status is set automatically from payments." };
+  }
+
+  revalidatePath("/invoices");
+  revalidatePath(`/invoices/${id}`);
+  if (invoice.estimateId) {
+    revalidatePath("/estimates");
+    revalidatePath(`/estimates/${invoice.estimateId}`);
+  }
+  return {};
 }

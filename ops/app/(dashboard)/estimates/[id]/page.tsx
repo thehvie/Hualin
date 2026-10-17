@@ -117,6 +117,7 @@ export default async function EstimateDetailPage({
           })),
           hasInvoice: !!estimate.invoice,
           invoiceId: estimate.invoice?.id ?? null,
+          invoicePaid: estimate.invoice?.status === "PAID",
           jobId: estimate.job?.id ?? null,
           jobStatus: estimate.job?.status ?? null,
           scheduledAt: estimate.job?.scheduledAt ? estimate.job.scheduledAt.toISOString() : null,

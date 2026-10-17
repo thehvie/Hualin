@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
-import { deleteInvoices, markInvoicesSent, sendInvoices } from "./actions";
+import { deleteInvoices, markInvoicesSent, sendInvoices, setInvoiceStatus } from "./actions";
 
 const STATUS_LABELS: Record<string, string> = {
   DRAFT: "Unsent",
@@ -229,7 +229,11 @@ export function InvoicesTable({ invoices }: { invoices: InvoiceRow[] }) {
                 <td className="px-4 py-3 text-right font-medium text-zinc-900">{formatCents(e.totalCents)}</td>
                 <td className="px-4 py-3 text-right text-zinc-700">{formatCents(e.balanceCents)}</td>
                 <td className="px-4 py-3">
-                  <StatusBadge status={e.status} />
+                  <StatusSelect
+                    id={e.id}
+                    status={e.status}
+                    onError={setNotice}
+                  />
                   {!e.sent && e.status !== "VOID" && (
                     <p className="mt-0.5 text-xs text-zinc-400">Not sent</p>
                   )}
@@ -253,5 +257,38 @@ function StatusBadge({ status }: { status: string }) {
     >
       {STATUS_LABELS[status] || status}
     </span>
+  );
+}
+
+/** The status badge as a dropdown. Partial is shown when it applies but can't be picked: payments decide it. */
+function StatusSelect({ id, status, onError }: { id: string; status: string; onError: (msg: string | null) => void }) {
+  const [isPending, startTransition] = useTransition();
+  const options = ["DRAFT", "SENT", "PAID", "VOID"];
+  if (status === "PARTIALLY_PAID") options.splice(2, 0, "PARTIALLY_PAID");
+
+  function change(next: string) {
+    onError(null);
+    startTransition(async () => {
+      const res = await setInvoiceStatus(id, next);
+      if (res.error) onError(res.error);
+    });
+  }
+
+  return (
+    <select
+      value={status}
+      disabled={isPending}
+      onChange={(ev) => change(ev.target.value)}
+      aria-label="Invoice status"
+      className={`cursor-pointer rounded-full border-0 py-1 pl-2.5 pr-6 text-xs font-medium outline-none focus:ring-2 focus:ring-brand/30 disabled:opacity-50 ${
+        STATUS_BADGE[status] || "bg-zinc-100 text-zinc-600"
+      }`}
+    >
+      {options.map((o) => (
+        <option key={o} value={o} disabled={o === "PARTIALLY_PAID"}>
+          {STATUS_LABELS[o]}
+        </option>
+      ))}
+    </select>
   );
 }

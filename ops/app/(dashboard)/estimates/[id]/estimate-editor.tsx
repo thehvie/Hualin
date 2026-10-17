@@ -82,6 +82,8 @@ interface EstimateData {
   paymentSchedule: PaymentScheduleItem[];
   hasInvoice: boolean;
   invoiceId: string | null;
+  /** The invoice is paid in full, so the estimate is complete. */
+  invoicePaid: boolean;
   jobId: string | null;
   jobStatus: string | null;
   scheduledAt: string | null;
@@ -375,6 +377,9 @@ export function EstimateEditor({
               </option>
             ))}
           </select>
+          {estimate.status === "APPROVED" && estimate.invoicePaid && (
+            <p className="mt-2 inline-block rounded-full bg-emerald-600 px-2.5 py-1 text-xs font-semibold text-white">Complete: invoice paid</p>
+          )}
           <p className="mt-2 text-xs text-zinc-400">Estimate no. {estimate.number}</p>
         </div>
       </div>

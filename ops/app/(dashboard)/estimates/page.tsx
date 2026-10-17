@@ -11,10 +11,11 @@ const STATUS_LABELS: Record<string, string> = {
   APPROVED: "Approved",
   DECLINED: "Declined",
   WON: "Won",
+  COMPLETE: "Complete",
   EXPIRED: "Archived",
 };
 
-const ALL_STATUSES = ["DRAFT", "SENT", "APPROVED", "DECLINED", "WON", "EXPIRED"];
+const ALL_STATUSES = ["DRAFT", "SENT", "APPROVED", "DECLINED", "WON", "COMPLETE", "EXPIRED"];
 
 export default async function EstimatesPage({
   searchParams,
@@ -73,7 +74,7 @@ export default async function EstimatesPage({
     });
   }
 
-  // Derive a display status: APPROVED + already has an Invoice reads as "Won".
+  // Derive a display status: APPROVED + an Invoice reads as "Won", and "Complete" once that invoice is paid.
   const withDisplayStatus: EstimateRow[] = estimates.map((e) => ({
     id: e.id,
     number: e.number,
@@ -83,7 +84,7 @@ export default async function EstimatesPage({
     source: e.customer.source,
     createdAt: e.createdAt.toISOString(),
     amountCents: lineItemsTotal(e.lineItems),
-    displayStatus: e.status === "APPROVED" && e.invoice ? "WON" : e.status,
+    displayStatus: e.status === "APPROVED" && e.invoice ? (e.invoice.status === "PAID" ? "COMPLETE" : "WON") : e.status,
     unread: unreadByEstimate.get(e.id) ?? 0,
     rental:
       (e.jobId ? rentalByJob.get(e.jobId) : null) ??
