@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 
 import { createDriver, createDriverLogin, deleteDriver, removeDriverLogin, setDriverActive, updateDriver, type DriverInput } from "./actions";
 import { DRIVER_COLORS } from "@/lib/drivers";
+import { formatPhone } from "@/lib/phone";
 
 export interface DriverRow {
   id: string;
@@ -112,7 +113,7 @@ export function DriversManager({ drivers, canEdit }: { drivers: DriverRow[]; can
   const card = (d: DriverRow) =>
     editing === d.id ? (
       <li key={d.id}>
-        <DriverForm initial={{ name: d.name, phone: d.phone ?? "", email: d.email ?? "", vehicle: d.vehicle ?? "", color: d.color, notes: d.notes ?? "" }} submitLabel="Save" pending={pending} error={error} onCancel={() => setEditing(null)} onSave={(v) => run(() => updateDriver(d.id, v))} />
+        <DriverForm initial={{ name: d.name, phone: formatPhone(d.phone), email: d.email ?? "", vehicle: d.vehicle ?? "", color: d.color, notes: d.notes ?? "" }} submitLabel="Save" pending={pending} error={error} onCancel={() => setEditing(null)} onSave={(v) => run(() => updateDriver(d.id, v))} />
       </li>
     ) : (
       <li key={d.id} className={`rounded-xl border border-zinc-200 bg-white p-4 ${d.active ? "" : "opacity-70"}`}>
@@ -123,7 +124,7 @@ export function DriversManager({ drivers, canEdit }: { drivers: DriverRow[]; can
               {d.name}
               {d.vehicle && <span className="font-normal text-zinc-500"> · {d.vehicle}</span>}
             </p>
-            <p className="text-sm text-zinc-600">{[d.phone, d.email].filter(Boolean).join(" · ") || "No contact details"}</p>
+            <p className="text-sm text-zinc-600">{[formatPhone(d.phone), d.email].filter(Boolean).join(" · ") || "No contact details"}</p>
             {d.notes && <p className="mt-0.5 whitespace-pre-wrap text-xs text-zinc-500">{d.notes}</p>}
             <p className="mt-1 text-xs">
               {d.loginEmail ? <span className="rounded bg-emerald-100 px-1.5 py-0.5 font-semibold text-emerald-800">Has login: {d.loginEmail}</span> : <span className="text-zinc-400">No login. Dispatched by the office.</span>}
