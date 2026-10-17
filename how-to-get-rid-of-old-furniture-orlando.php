@@ -198,7 +198,7 @@
                 <p>Before hauling it away, consider a second life: an old dresser can become a bathroom vanity, dining chairs can be repainted and reupholstered, a solid wood table can move to a garage or workshop. YouTube and Pinterest have extensive Orlando upcycling communities if you need inspiration.</p>
 
                 <h2>6. Use a Dumpster for Renovation Projects</h2>
-                <p>If you're clearing furniture as part of a larger renovation, a roll-off dumpster lets you work at your own pace. Haulin Junkies offers 12–20 yard dumpsters in Orlando starting at $400 for a 3-day rental.</p>
+                <p>If you're clearing furniture as part of a larger renovation, a roll-off dumpster lets you work at your own pace. Haulin Junkies offers 12, 15, 20 and 25 yard dumpsters in Orlando, starting at $400 for a 12 yard 3-day rental.</p>
 
                 <h2>What You Cannot Do with Old Furniture in Orlando</h2>
                 <ul>

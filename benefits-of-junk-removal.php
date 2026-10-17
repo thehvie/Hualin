@@ -322,7 +322,7 @@
                 <h2>10. It's More Affordable Than Most People Expect</h2>
                 <p>The most common reaction we hear after a job is: "That was less than I thought." Junk removal in Orlando typically starts around $150 for one or two items and ranges up to about $900 for a full truckload. Compare that to:</p>
                 <ul>
-                  <li>Dumpster rental: $400–$450 for 3 days (you do all the loading)</li>
+                  <li>Dumpster rental: from $400 for a 12 yard, 3 days (you do all the loading)</li>
                   <li>Storage unit: $100–$200/month (ongoing)</li>
                   <li>Truck rental + dump fees + your labor: often $150–$300+</li>
                 </ul>
