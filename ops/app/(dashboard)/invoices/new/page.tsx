@@ -9,7 +9,7 @@ export default async function NewInvoicePage({ searchParams }: { searchParams: P
 
   const [company, customers] = await Promise.all([
     prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { state: true } }),
-    prisma.customer.findMany({ where: { companyId }, orderBy: [{ firstName: "asc" }, { lastName: "asc" }], take: 500 }),
+    prisma.customer.findMany({ where: { companyId, archivedAt: null }, orderBy: [{ firstName: "asc" }, { lastName: "asc" }], take: 500 }),
   ]);
 
   return (

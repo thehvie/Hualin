@@ -18,7 +18,7 @@ export default async function NewEstimatePage({
   ]);
 
   const customers = await prisma.customer.findMany({
-    where: { companyId },
+    where: { companyId, archivedAt: null },
     orderBy: [{ firstName: "asc" }, { lastName: "asc" }],
     take: 500,
   });

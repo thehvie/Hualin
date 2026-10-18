@@ -7,6 +7,7 @@ import { getHomeBaseLocation, haversineDistanceMiles } from "@/lib/geocode";
 import { requireSession } from "@/lib/session";
 import { ContactsCard } from "@/components/contacts-card";
 import { formatInTz } from "@/lib/tz";
+import { CustomerActions } from "../customer-actions";
 
 const SOURCE_LABELS: Record<string, string> = {
   GOOGLE_ADS: "Google Ads",
@@ -85,6 +86,10 @@ export default async function CustomerDetailPage({
           </div>
         </div>
         {customer.companyName && <p className="text-sm text-zinc-500">{customer.companyName}</p>}
+        <div className="mt-2 flex flex-wrap items-center gap-4">
+          {customer.archivedAt && <span className="rounded-full bg-zinc-200 px-2.5 py-1 text-xs font-semibold text-zinc-600">Archived</span>}
+          <CustomerActions id={customer.id} name={`${customer.firstName} ${customer.lastName}`} archived={!!customer.archivedAt} goBack />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">

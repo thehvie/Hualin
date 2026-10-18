@@ -25,7 +25,7 @@ export default async function ServicePlansPage() {
       orderBy: { name: "asc" },
     }),
     prisma.customer.findMany({
-      where: { companyId },
+      where: { companyId, archivedAt: null },
       include: { properties: true },
       orderBy: { createdAt: "desc" },
       take: 200,

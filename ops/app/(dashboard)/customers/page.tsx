@@ -3,20 +3,23 @@ import { phoneHref } from "@/lib/phone";
 import { prisma } from "@/lib/prisma";
 import { formatCents, lineItemsTotal } from "@/lib/money";
 import { requireSession } from "@/lib/session";
+import { CustomerActions } from "./customer-actions";
 
 export default async function CustomersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; archived?: string }>;
 }) {
   const { companyId } = await requireSession();
-  const { q } = await searchParams;
+  const { q, archived } = await searchParams;
   const query = (q || "").trim();
+  const showArchived = archived === "1";
 
-  const [customers, customerCount, unpaidInvoices, pendingEstimates] = await Promise.all([
+  const [customers, customerCount, archivedCount, unpaidInvoices, pendingEstimates] = await Promise.all([
     prisma.customer.findMany({
       where: {
         companyId,
+        archivedAt: showArchived ? { not: null } : null,
         ...(query
           ? {
               OR: [
@@ -32,7 +35,8 @@ export default async function CustomersPage({
       include: { properties: { take: 1, orderBy: { createdAt: "asc" } } },
       orderBy: { createdAt: "desc" },
     }),
-    prisma.customer.count({ where: { companyId } }),
+    prisma.customer.count({ where: { companyId, archivedAt: null } }),
+    prisma.customer.count({ where: { companyId, archivedAt: { not: null } } }),
     prisma.invoice.findMany({
       where: { companyId, status: { in: ["SENT", "PARTIALLY_PAID"] } },
       include: { lineItems: true, payments: true },
@@ -90,23 +94,34 @@ export default async function CustomersPage({
         />
       </div>
 
-      <form className="flex" method="get">
-        <input
-          type="search"
-          name="q"
-          defaultValue={query}
-          placeholder="Search customers…"
-          className="w-full max-w-sm rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
-        />
-      </form>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <form className="flex flex-1" method="get">
+          {showArchived && <input type="hidden" name="archived" value="1" />}
+          <input
+            type="search"
+            name="q"
+            defaultValue={query}
+            placeholder={showArchived ? "Search archived customers…" : "Search customers…"}
+            className="w-full max-w-sm rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+          />
+        </form>
+        {(archivedCount > 0 || showArchived) && (
+          <Link
+            href={showArchived ? "/customers" : "/customers?archived=1"}
+            className="text-sm font-medium text-zinc-500 hover:text-zinc-800"
+          >
+            {showArchived ? "Hide archived" : `Show archived (${archivedCount})`}
+          </Link>
+        )}
+      </div>
 
       {customers.length === 0 ? (
         <div className="flex flex-col items-center gap-2 rounded-xl border border-zinc-200 bg-white py-16 text-center">
           <span className="text-3xl">👤</span>
           <p className="text-sm font-semibold text-zinc-900">
-            {query ? "No customers match your search" : "No customers yet"}
+            {query ? "No customers match your search" : showArchived ? "No archived customers" : "No customers yet"}
           </p>
-          {!query && (
+          {!query && !showArchived && (
             <Link href="/customers/new" className="text-sm font-medium text-brand hover:underline">
               Add your first customer
             </Link>
@@ -132,6 +147,7 @@ export default async function CustomersPage({
                   )}
                 </div>
                 {c.companyName && <p className="text-sm text-zinc-500">{c.companyName}</p>}
+                <CustomerActions id={c.id} name={`${c.firstName} ${c.lastName}`} archived={!!c.archivedAt} className="mt-2" />
                 <dl className="mt-2 flex flex-col gap-1 text-sm text-zinc-600">
                   {c.phone && (
                     <div>
@@ -160,6 +176,7 @@ export default async function CustomersPage({
                   <th className="px-4 py-3">Phone</th>
                   <th className="px-4 py-3">Address</th>
                   <th className="px-4 py-3">Created</th>
+                  <th className="px-4 py-3" />
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100">
@@ -192,6 +209,9 @@ export default async function CustomersPage({
                         day: "numeric",
                         year: "numeric",
                       })}
+                    </td>
+                    <td className="px-4 py-3">
+                      <CustomerActions id={c.id} name={`${c.firstName} ${c.lastName}`} archived={!!c.archivedAt} />
                     </td>
                   </tr>
                 ))}

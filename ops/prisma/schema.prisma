@@ -244,6 +244,9 @@ model Customer {
 
   stripeCustomerId String?
 
+  // Archived customers stay on old estimates, invoices and messages but drop out of lists and pickers.
+  archivedAt DateTime?
+
   properties               Property[]
   estimates                Estimate[]
   jobs                     Job[]
