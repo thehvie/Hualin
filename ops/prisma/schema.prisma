@@ -926,6 +926,8 @@ model Vendor {
   dumpsterPartner Boolean @default(false)
   serviceAreas    String? @db.Text // cities or zips they deliver to, free text
   partnerNotes    String? @db.Text
+  // Our cut as a percent of the customer price. When set, a size's sell price can be worked out from the vendor's cost.
+  ourRatePercent  Float?
 
   purchaseOrders PurchaseOrder[]
   rates          VendorRate[]
@@ -949,6 +951,9 @@ model VendorRate {
   extraDayCents      Int? // our cost per extra day
   overageCentsPerTon Int? // our cost per ton over
   notes              String?  @db.Text
+  // How many of this size the vendor has, as last told to us.
+  inventory          Int?
+  inventoryUpdatedAt DateTime?
   createdAt          DateTime @default(now())
 
   @@unique([vendorId, size])

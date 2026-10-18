@@ -24,10 +24,13 @@ export interface PartnerInput {
   serviceAreas: string;
   paymentTerms: string;
   partnerNotes: string;
+  ourRatePercent: string;
 }
 
 function partnerData(input: PartnerInput) {
+  const pct = parseFloat(input.ourRatePercent);
   return {
+    ourRatePercent: Number.isFinite(pct) && pct >= 0 && pct < 100 ? pct : null,
     contactName: clean(input.contactName, 120) || null,
     phone: formatPhone(clean(input.phone, 40)) || null,
     email: clean(input.email, 160) || null,
@@ -77,6 +80,7 @@ export interface RateInput {
   extraDay: string;
   overagePerTon: string;
   notes: string;
+  inventory: string;
 }
 
 /** Adds a size for a partner, or replaces its rate if the size is already on the sheet. */
@@ -88,9 +92,16 @@ export async function saveRate(vendorId: string, input: RateInput): Promise<Resu
   const size = clean(input.size, 40);
   if (!size) return { ok: false, error: "Enter a size, like 20 yd." };
   const costCents = dollarsToCents(input.cost);
-  const sellCents = dollarsToCents(input.sell);
   if (costCents == null) return { ok: false, error: "Enter what the vendor charges you." };
-  if (sellCents == null) return { ok: false, error: "Enter what you charge the customer." };
+  // Blank sell price: work it out from our percentage with this vendor (cost / (1 - cut)).
+  let sellCents = dollarsToCents(input.sell);
+  if (sellCents == null && vendor.ourRatePercent != null) sellCents = Math.round(costCents / (1 - vendor.ourRatePercent / 100));
+  if (sellCents == null) return { ok: false, error: "Enter what you charge the customer, or set your percentage on the vendor." };
+
+  const stock = parseInt(input.inventory, 10);
+  const inventory = Number.isFinite(stock) && stock >= 0 ? stock : null;
+  const existing = await prisma.vendorRate.findUnique({ where: { vendorId_size: { vendorId, size } }, select: { inventory: true, inventoryUpdatedAt: true } });
+  const inventoryUpdatedAt = inventory == null ? null : existing && existing.inventory === inventory ? existing.inventoryUpdatedAt : new Date();
 
   const days = parseInt(input.packageDays, 10);
   const tons = parseFloat(input.includedTons);
@@ -102,6 +113,8 @@ export async function saveRate(vendorId: string, input: RateInput): Promise<Resu
     extraDayCents: dollarsToCents(input.extraDay),
     overageCentsPerTon: dollarsToCents(input.overagePerTon),
     notes: clean(input.notes, 500) || null,
+    inventory,
+    inventoryUpdatedAt,
   };
   await prisma.vendorRate.upsert({
     where: { vendorId_size: { vendorId, size } },

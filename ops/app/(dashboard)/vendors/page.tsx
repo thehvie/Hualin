@@ -6,7 +6,7 @@ import { VendorsManager, type PartnerVendor, type Lookup } from "./vendors-manag
 
 export default async function VendorsPage() {
   const { companyId } = await requireSession();
-  if (!(await companyHasFeature(companyId, "RENTALS"))) return <FeatureLocked feature="RENTALS" title="Dumpster vendors" />;
+  if (!(await companyHasFeature(companyId, "RENTALS"))) return <FeatureLocked feature="RENTALS" title="Vendors" />;
 
   const [vendors, packages] = await Promise.all([
     prisma.vendor.findMany({ where: { companyId, active: true }, orderBy: { name: "asc" }, include: { rates: { orderBy: { size: "asc" } } } }),
@@ -27,6 +27,7 @@ export default async function VendorsPage() {
       serviceAreas: v.serviceAreas,
       paymentTerms: v.paymentTerms,
       partnerNotes: v.partnerNotes,
+      ourRatePercent: v.ourRatePercent,
       rates: v.rates.map((r) => ({
         id: r.id,
         size: r.size,
@@ -37,6 +38,8 @@ export default async function VendorsPage() {
         extraDayCents: r.extraDayCents,
         overageCentsPerTon: r.overageCentsPerTon,
         notes: r.notes,
+        inventory: r.inventory,
+        inventoryUpdatedAt: r.inventoryUpdatedAt?.toISOString() ?? null,
       })),
     }));
   const others = vendors.filter((v) => !v.dumpsterPartner).map((v) => ({ id: v.id, name: v.name }));
@@ -55,7 +58,7 @@ export default async function VendorsPage() {
         ownCostCents: own?.costCents ?? null,
         vendors: partners.flatMap((v) => {
           const r = v.rates.find((x) => x.size.trim().toLowerCase() === size.toLowerCase());
-          return r ? [{ vendorId: v.id, vendorName: v.name, costCents: r.costCents, sellCents: r.sellCents }] : [];
+          return r ? [{ vendorId: v.id, vendorName: v.name, costCents: r.costCents, sellCents: r.sellCents, inventory: r.inventory }] : [];
         }),
       };
     });
@@ -63,7 +66,7 @@ export default async function VendorsPage() {
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-900">Dumpster vendors</h1>
+        <h1 className="text-2xl font-bold text-zinc-900">Vendors</h1>
         <p className="mt-1 text-sm text-zinc-500">
           Other dumpster companies you can broker for when your own fleet is booked. Keep their sizes, what they charge you, what you charge the customer, and where they deliver. Orders to them are placed by phone or text for now.
         </p>

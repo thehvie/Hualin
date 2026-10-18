@@ -15,6 +15,8 @@ export interface VendorRateRow {
   extraDayCents: number | null;
   overageCentsPerTon: number | null;
   notes: string | null;
+  inventory: number | null;
+  inventoryUpdatedAt: string | null;
 }
 
 export interface PartnerVendor {
@@ -26,6 +28,7 @@ export interface PartnerVendor {
   serviceAreas: string | null;
   paymentTerms: string | null;
   partnerNotes: string | null;
+  ourRatePercent: number | null;
   rates: VendorRateRow[];
 }
 
@@ -33,7 +36,7 @@ export interface Lookup {
   size: string;
   ownPriceCents: number | null;
   ownCostCents: number | null;
-  vendors: { vendorId: string; vendorName: string; costCents: number; sellCents: number }[];
+  vendors: { vendorId: string; vendorName: string; costCents: number; sellCents: number; inventory: number | null }[];
 }
 
 const input =
@@ -44,8 +47,8 @@ const ghost = "rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium t
 const dollars = (cents: number | null) => (cents == null ? "" : (cents / 100).toFixed(2));
 const margin = (sell: number, cost: number) => (sell > 0 ? Math.round(((sell - cost) / sell) * 100) : 0);
 
-const blankPartner: PartnerInput = { name: "", contactName: "", phone: "", email: "", serviceAreas: "", paymentTerms: "", partnerNotes: "" };
-const blankRate: RateInput = { size: "", cost: "", sell: "", packageDays: "", includedTons: "", extraDay: "", overagePerTon: "", notes: "" };
+const blankPartner: PartnerInput = { name: "", contactName: "", phone: "", email: "", serviceAreas: "", paymentTerms: "", partnerNotes: "", ourRatePercent: "" };
+const blankRate: RateInput = { size: "", cost: "", sell: "", packageDays: "", includedTons: "", extraDay: "", overagePerTon: "", notes: "", inventory: "" };
 
 function PartnerForm({
   initial,
@@ -72,6 +75,7 @@ function PartnerForm({
         <input value={v.phone} onChange={set("phone")} placeholder="Phone" inputMode="tel" className={input} />
         <input value={v.email} onChange={set("email")} placeholder="Email" className={input} />
         <input value={v.paymentTerms} onChange={set("paymentTerms")} placeholder="Payment terms (e.g. Net 15)" className={input} />
+        <input value={v.ourRatePercent} onChange={set("ourRatePercent")} placeholder="Our rate % (our cut of the price)" inputMode="decimal" className={input} />
       </div>
       <textarea value={v.serviceAreas} onChange={set("serviceAreas")} placeholder="Where they deliver (cities or zip codes)" rows={2} className={input} />
       <textarea value={v.partnerNotes} onChange={set("partnerNotes")} placeholder="Notes: lead time, what they won't take, how to order" rows={2} className={input} />
@@ -105,6 +109,7 @@ function RatesEditor({ vendor }: { vendor: PartnerVendor }) {
       extraDay: dollars(row.extraDayCents),
       overagePerTon: dollars(row.overageCentsPerTon),
       notes: row.notes ?? "",
+      inventory: row.inventory?.toString() ?? "",
     });
     setError(null);
     setAdding(true);
@@ -138,6 +143,7 @@ function RatesEditor({ vendor }: { vendor: PartnerVendor }) {
                 <th className="py-2 pr-3 text-right">They charge</th>
                 <th className="py-2 pr-3 text-right">You charge</th>
                 <th className="py-2 pr-3 text-right">Margin</th>
+                <th className="py-2 pr-3 text-right">In stock</th>
                 <th className="py-2 pr-3">Package</th>
                 <th className="py-2" />
               </tr>
@@ -150,6 +156,10 @@ function RatesEditor({ vendor }: { vendor: PartnerVendor }) {
                   <td className="py-2 pr-3 text-right text-zinc-900">{formatCents(row.sellCents)}</td>
                   <td className="py-2 pr-3 text-right text-zinc-700">
                     {formatCents(row.sellCents - row.costCents)} ({margin(row.sellCents, row.costCents)}%)
+                  </td>
+                  <td className="py-2 pr-3 text-right text-zinc-700">
+                    {row.inventory != null ? row.inventory : "—"}
+                    {row.inventoryUpdatedAt && <span className="block text-[10px] text-zinc-400">as of {new Date(row.inventoryUpdatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>}
                   </td>
                   <td className="py-2 pr-3 text-xs text-zinc-500">
                     {[row.packageDays ? `${row.packageDays} days` : null, row.includedTons ? `${row.includedTons} tons` : null, row.extraDayCents != null ? `${formatCents(row.extraDayCents)}/extra day` : null, row.overageCentsPerTon != null ? `${formatCents(row.overageCentsPerTon)}/ton over` : null]
@@ -178,7 +188,8 @@ function RatesEditor({ vendor }: { vendor: PartnerVendor }) {
           <div className="grid gap-3 sm:grid-cols-4">
             <input value={r.size} onChange={set("size")} placeholder="Size (20 yd)" className={input} />
             <input value={r.cost} onChange={set("cost")} placeholder="They charge $" inputMode="decimal" className={input} />
-            <input value={r.sell} onChange={set("sell")} placeholder="You charge $" inputMode="decimal" className={input} />
+            <input value={r.sell} onChange={set("sell")} placeholder={vendor.ourRatePercent != null ? `You charge $ (auto at ${vendor.ourRatePercent}%)` : "You charge $"} inputMode="decimal" className={input} />
+            <input value={r.inventory} onChange={set("inventory")} placeholder="How many they have" inputMode="numeric" className={input} />
             <input value={r.packageDays} onChange={set("packageDays")} placeholder="Days included" inputMode="numeric" className={input} />
             <input value={r.includedTons} onChange={set("includedTons")} placeholder="Tons included" inputMode="decimal" className={input} />
             <input value={r.extraDay} onChange={set("extraDay")} placeholder="Their extra day $" inputMode="decimal" className={input} />
@@ -227,6 +238,7 @@ function PartnerCard({ vendor }: { vendor: PartnerVendor }) {
           serviceAreas: vendor.serviceAreas ?? "",
           paymentTerms: vendor.paymentTerms ?? "",
           partnerNotes: vendor.partnerNotes ?? "",
+          ourRatePercent: vendor.ourRatePercent?.toString() ?? "",
         }}
         submitLabel="Save"
         pending={pending}
@@ -254,6 +266,7 @@ function PartnerCard({ vendor }: { vendor: PartnerVendor }) {
           </p>
           {vendor.serviceAreas && <p className="mt-1 text-xs text-zinc-500">Delivers: {vendor.serviceAreas}</p>}
           {vendor.paymentTerms && <p className="text-xs text-zinc-500">Terms: {vendor.paymentTerms}</p>}
+          {vendor.ourRatePercent != null && <p className="text-xs font-medium text-zinc-700">Our rate: {vendor.ourRatePercent}% of the customer price</p>}
           {vendor.partnerNotes && <p className="mt-1 text-xs text-zinc-500">{vendor.partnerNotes}</p>}
         </div>
         <div className="flex gap-3 text-xs">
@@ -315,7 +328,7 @@ export function VendorsManager({ partners, others, lookup }: { partners: Partner
                       : l.vendors.map((v) => (
                           <p key={v.vendorId}>
                             {v.vendorName}: {formatCents(v.costCents)} → <span className="font-medium text-zinc-900">{formatCents(v.sellCents)}</span>{" "}
-                            <span className="text-xs text-zinc-500">({margin(v.sellCents, v.costCents)}% margin)</span>
+                            <span className="text-xs text-zinc-500">({margin(v.sellCents, v.costCents)}% margin{v.inventory != null ? `, ${v.inventory} in stock` : ""})</span>
                           </p>
                         ))}
                   </td>
@@ -354,7 +367,7 @@ export function VendorsManager({ partners, others, lookup }: { partners: Partner
       ) : (
         <div className="flex flex-wrap items-center gap-3">
           <button onClick={() => setAdding(true)} className={btn}>
-            + Add dumpster vendor
+            + Add vendor
           </button>
           {others.length > 0 && (
             <div className="flex items-center gap-2">
