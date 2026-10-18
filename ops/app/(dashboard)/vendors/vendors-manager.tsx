@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { formatCents } from "@/lib/money";
 import { formatPhone } from "@/lib/phone";
-import { createPartner, deleteRate, saveRate, setPartner, updatePartner, type PartnerInput, type RateInput } from "./actions";
+import { createPartner, deleteRate, saveRate, setPartner, setVendorPaid, updatePartner, type PartnerInput, type RateInput } from "./actions";
 
 export interface VendorRateRow {
   id: string;
@@ -29,7 +29,18 @@ export interface PartnerVendor {
   paymentTerms: string | null;
   partnerNotes: string | null;
   ourRatePercent: number | null;
+  jobs: VendorJob[];
   rates: VendorRateRow[];
+}
+
+export interface VendorJob {
+  id: string;
+  customer: string;
+  size: string | null;
+  status: string;
+  startAt: string;
+  costCents: number | null;
+  paid: boolean;
 }
 
 export interface Lookup {
@@ -285,6 +296,39 @@ function PartnerCard({ vendor }: { vendor: PartnerVendor }) {
         </div>
       </div>
       <RatesEditor vendor={vendor} />
+      <JobsOwed vendor={vendor} />
+    </div>
+  );
+}
+
+/** Rentals this vendor has filled for us, and what we still owe them. A rental counts as owed once it's on site. */
+function JobsOwed({ vendor }: { vendor: PartnerVendor }) {
+  const [pending, startTransition] = useTransition();
+  if (vendor.jobs.length === 0) return null;
+  const delivered = (s: string) => s === "DELIVERED" || s === "PICKUP_REQUESTED" || s === "PICKED_UP";
+  const owed = vendor.jobs.filter((j) => delivered(j.status) && !j.paid).reduce((s, j) => s + (j.costCents ?? 0), 0);
+  return (
+    <div className="mt-4 border-t border-zinc-100 pt-3">
+      <p className="text-sm font-semibold text-zinc-900">
+        Rentals they filled <span className="ml-2 font-normal text-zinc-500">We owe {formatCents(owed)}</span>
+      </p>
+      <ul className="mt-2 divide-y divide-zinc-100 text-sm">
+        {vendor.jobs.map((j) => (
+          <li key={j.id} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-1.5">
+            <span className="font-medium text-zinc-900">{j.customer}</span>
+            <span className="text-zinc-600">{j.size ?? "Dumpster"}</span>
+            <span className="text-xs text-zinc-500">{new Date(j.startAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })} · {j.status === "RESERVED" ? "Scheduled" : j.status === "PICKED_UP" ? "Picked up" : "On site"}</span>
+            <span className="ml-auto text-zinc-700">{j.costCents != null ? formatCents(j.costCents) : "No cost"}</span>
+            <button
+              disabled={pending}
+              onClick={() => startTransition(async () => void (await setVendorPaid(j.id, !j.paid)))}
+              className={`text-xs font-semibold ${j.paid ? "text-emerald-700" : "text-brand hover:underline"}`}
+            >
+              {j.paid ? "Paid ✓ (undo)" : "Mark paid"}
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

@@ -90,6 +90,20 @@ export interface RentalRow {
   deliveredAt: string | null;
   priceBookItemId: string | null;
   options: UnitOption[];
+  /** Partner vendors that have this size, and what the booking is currently filled by. */
+  vendorOptions: VendorOption[];
+  vendorId: string | null;
+  vendorName: string | null;
+  vendorCostCents: number | null;
+  vendorOrderedAt: string | null;
+}
+
+export interface VendorOption {
+  id: string;
+  name: string;
+  costCents: number;
+  sellCents: number;
+  inventory: number | null;
 }
 
 export interface RentalCardData {
@@ -122,14 +136,24 @@ export async function loadRentalCard(
     ? await prisma.rentalBooking.findMany({
         where: { jobId: estimate.jobId, companyId, status: { not: "CANCELLED" } },
         orderBy: { createdAt: "asc" },
-        include: { asset: true },
+        include: { asset: true, vendor: { select: { name: true } } },
       })
     : [];
+
+  const partners = await prisma.vendor.findMany({
+    where: { companyId, active: true, dumpsterPartner: true },
+    select: { id: true, name: true, rates: { select: { size: true, costCents: true, sellCents: true, inventory: true } } },
+    orderBy: { name: "asc" },
+  });
 
   const rows: RentalRow[] = [];
   for (const b of bookings) {
     // Delivered or finished rentals are fixed; only reserved ones can still be given a different unit.
-    const options = b.status === "RESERVED" ? await availableAssets(companyId, b.category, b.startAt, b.endAt, b.id) : [];
+    const options = b.status === "RESERVED" && !b.vendorId ? await availableAssets(companyId, b.category, b.startAt, b.endAt, b.id) : [];
+    const vendorOptions: VendorOption[] = partners.flatMap((v) => {
+      const r = v.rates.find((x) => x.size.trim().toLowerCase() === (b.category ?? "").trim().toLowerCase());
+      return r ? [{ id: v.id, name: v.name, costCents: r.costCents, sellCents: r.sellCents, inventory: r.inventory }] : [];
+    });
     if (b.asset && !options.some((o) => o.id === b.asset!.id)) options.unshift({ id: b.asset.id, label: b.asset.label });
     rows.push({
       id: b.id,
@@ -141,6 +165,11 @@ export async function loadRentalCard(
       deliveredAt: b.deliveredAt?.toISOString() ?? null,
       priceBookItemId: b.priceBookItemId,
       options,
+      vendorOptions,
+      vendorId: b.vendorId,
+      vendorName: b.vendor?.name ?? null,
+      vendorCostCents: b.vendorCostCents,
+      vendorOrderedAt: b.vendorOrderedAt?.toISOString() ?? null,
     });
   }
 

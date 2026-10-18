@@ -9,7 +9,7 @@ export default async function VendorsPage() {
   if (!(await companyHasFeature(companyId, "RENTALS"))) return <FeatureLocked feature="RENTALS" title="Vendors" />;
 
   const [vendors, packages] = await Promise.all([
-    prisma.vendor.findMany({ where: { companyId, active: true }, orderBy: { name: "asc" }, include: { rates: { orderBy: { size: "asc" } } } }),
+    prisma.vendor.findMany({ where: { companyId, active: true }, orderBy: { name: "asc" }, include: { rates: { orderBy: { size: "asc" } }, bookings: { where: { status: { not: "CANCELLED" } }, orderBy: { startAt: "desc" }, take: 50, include: { job: { include: { customer: true } } } } } }),
     prisma.priceBookItem.findMany({
       where: { companyId, active: true, packageDays: { not: null }, assetCategory: { not: null } },
       select: { assetCategory: true, unitPriceCents: true, costCents: true },
@@ -28,6 +28,15 @@ export default async function VendorsPage() {
       paymentTerms: v.paymentTerms,
       partnerNotes: v.partnerNotes,
       ourRatePercent: v.ourRatePercent,
+      jobs: v.bookings.map((b) => ({
+        id: b.id,
+        customer: `${b.job.customer.firstName} ${b.job.customer.lastName}`.trim(),
+        size: b.category,
+        status: b.status,
+        startAt: b.startAt.toISOString(),
+        costCents: b.vendorCostCents,
+        paid: !!b.vendorPaidAt,
+      })),
       rates: v.rates.map((r) => ({
         id: r.id,
         size: r.size,

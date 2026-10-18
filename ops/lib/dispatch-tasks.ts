@@ -41,6 +41,7 @@ export async function dispatchTasks(companyId: string, tz: string, ymd: string):
   const bookings = await prisma.rentalBooking.findMany({
     where: {
       companyId,
+      vendorId: null, // vendors deliver and pick up their own dumpsters
       OR: [
         { status: "RESERVED", startAt: { gte: start, lt: end } },
         { status: { in: ["DELIVERED", "PICKUP_REQUESTED"] }, endAt: { gte: start, lt: end } },

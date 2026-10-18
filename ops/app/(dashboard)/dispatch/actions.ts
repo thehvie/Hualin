@@ -39,13 +39,13 @@ export async function markDelivered(bookingId: string, placementNotes: string): 
   const b = await loadBooking(bookingId, companyId);
   if (!b) return { ok: false, error: "Rental not found." };
   if (b.status !== "RESERVED") return { ok: false, error: "This one has already been delivered." };
-  if (!b.assetId) return { ok: false, error: "Assign a specific dumpster first (on the estimate's Dumpster rentals card)." };
+  if (!b.assetId && !b.vendorId) return { ok: false, error: "Assign a specific dumpster or a vendor first (on the estimate's Dumpster rentals card)." };
 
   await prisma.rentalBooking.update({
     where: { id: b.id },
     data: { status: "DELIVERED", deliveredAt: new Date(), placementNotes: placementNotes.trim().slice(0, 1000) || null },
   });
-  await prisma.rentalAsset.update({ where: { id: b.assetId }, data: { status: "ON_RENT" } });
+  if (b.assetId) await prisma.rentalAsset.update({ where: { id: b.assetId }, data: { status: "ON_RENT" } });
   // The job is under way once its first dumpster is out.
   await prisma.job.updateMany({ where: { id: b.jobId, companyId, status: { in: ["UNSCHEDULED", "SCHEDULED"] } }, data: { status: "IN_PROGRESS" } });
   await refresh(b.jobId);

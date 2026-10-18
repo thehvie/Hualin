@@ -931,6 +931,7 @@ model Vendor {
 
   purchaseOrders PurchaseOrder[]
   rates          VendorRate[]
+  bookings       RentalBooking[]
 
   createdAt DateTime @default(now())
 
@@ -1138,6 +1139,12 @@ model RentalBooking {
   // Empty until a specific unit is assigned; `category` says what was ordered meanwhile.
   assetId          String?
   asset            RentalAsset?     @relation(fields: [assetId], references: [id])
+  // Brokered: a partner vendor delivers, picks up and supplies the dumpster, so no unit of ours and no driver of ours.
+  vendorId         String?
+  vendor           Vendor?          @relation(fields: [vendorId], references: [id], onDelete: SetNull)
+  vendorCostCents  Int? // what the vendor charges us for this rental
+  vendorOrderedAt  DateTime? // we told the vendor
+  vendorPaidAt     DateTime? // we paid the vendor
   // Who drives the drop-off and who drives the pickup, set on the dispatch map.
   deliveryDriverId String?
   deliveryDriver   Driver?          @relation("DeliveryDriver", fields: [deliveryDriverId], references: [id], onDelete: SetNull)

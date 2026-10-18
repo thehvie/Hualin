@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { assignUnit, autoAssignUnits, cancelRental, reserveRentals } from "@/app/(dashboard)/estimates/[id]/rental-actions";
+import { assignUnit, assignVendor, autoAssignUnits, cancelRental, reserveRentals, setVendorOrdered } from "@/app/(dashboard)/estimates/[id]/rental-actions";
 import type { RentalCardData } from "@/lib/rentals";
 import { RentalCountdown } from "@/components/rental-countdown";
+import { formatCents } from "@/lib/money";
 
 const STATUS_LABEL: Record<string, string> = {
   RESERVED: "Reserved",
@@ -35,7 +36,7 @@ export function RentalsCard({ estimateId, data }: { estimateId: string; data: Re
     });
 
   const active = data.bookings.length;
-  const unassigned = data.bookings.filter((b) => b.status === "RESERVED" && !b.assetId).length;
+  const unassigned = data.bookings.filter((b) => b.status === "RESERVED" && !b.assetId && !b.vendorId).length;
   const outOfSync = active !== data.unitsNeeded;
 
   return (
@@ -109,17 +110,36 @@ export function RentalsCard({ estimateId, data }: { estimateId: string; data: Re
                 {b.status === "RESERVED" ? (
                   <>
                     <select
-                      value={b.assetId ?? ""}
+                      value={b.vendorId ? `v:${b.vendorId}` : (b.assetId ?? "")}
                       disabled={pending}
-                      onChange={(e) => run(() => assignUnit(estimateId, b.id, e.target.value || null))}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        if (v.startsWith("v:")) run(() => assignVendor(estimateId, b.id, v.slice(2)));
+                        else if (b.vendorId && !v) run(() => assignVendor(estimateId, b.id, null));
+                        else run(() => assignUnit(estimateId, b.id, v || null));
+                      }}
                       className="rounded-lg border border-zinc-300 bg-white px-2 py-1 text-sm outline-none focus:border-brand"
                     >
-                      <option value="">{b.options.length === 0 ? "None free" : "Choose a unit…"}</option>
-                      {b.options.map((o) => (
-                        <option key={o.id} value={o.id}>
-                          {o.label}
-                        </option>
-                      ))}
+                      <option value="">{b.options.length === 0 && b.vendorOptions.length === 0 ? "None free" : "Choose source…"}</option>
+                      {b.options.length > 0 && (
+                        <optgroup label="Our dumpsters">
+                          {b.options.map((o) => (
+                            <option key={o.id} value={o.id}>
+                              {o.label}
+                            </option>
+                          ))}
+                        </optgroup>
+                      )}
+                      {b.vendorOptions.length > 0 && (
+                        <optgroup label="Vendors (they deliver and pick up)">
+                          {b.vendorOptions.map((o) => (
+                            <option key={o.id} value={`v:${o.id}`}>
+                              {o.name} · cost {formatCents(o.costCents)}
+                              {o.inventory != null ? ` · ${o.inventory} in stock` : ""}
+                            </option>
+                          ))}
+                        </optgroup>
+                      )}
                     </select>
                     <button
                       type="button"
@@ -132,11 +152,31 @@ export function RentalsCard({ estimateId, data }: { estimateId: string; data: Re
                     </button>
                   </>
                 ) : (
-                  <span className="font-medium text-zinc-900">{b.options.find((o) => o.id === b.assetId)?.label ?? ""}</span>
+                  <span className="font-medium text-zinc-900">{b.vendorName ? `Vendor: ${b.vendorName}` : (b.options.find((o) => o.id === b.assetId)?.label ?? "")}</span>
                 )}
               </div>
-              {b.status === "RESERVED" && !b.assetId && b.options.length === 0 && (
-                <p className="w-full text-xs text-red-600">No {b.category ?? ""} dumpster is free for these dates.</p>
+              {b.status === "RESERVED" && !b.assetId && !b.vendorId && b.options.length === 0 && (
+                <p className="w-full text-xs text-red-600">
+                  No {b.category ?? ""} dumpster of ours is free for these dates.
+                  {b.vendorOptions.length > 0 ? " A vendor can fill it: pick one from the list." : ""}
+                </p>
+              )}
+              {b.vendorId && (
+                <p className={`w-full rounded-lg p-2 text-xs ${b.vendorOrderedAt ? "bg-emerald-50 text-emerald-900" : "bg-amber-50 text-amber-900"}`}>
+                  {b.vendorName} delivers and picks up this one.
+                  {b.vendorCostCents != null ? ` Their cost ${formatCents(b.vendorCostCents)}.` : " No rate on file for this size."}{" "}
+                  {b.vendorOrderedAt ? "Vendor has been told." : "Call or text them with the address and dates, then mark it ordered."}
+                  {b.status === "RESERVED" && (
+                    <button
+                      type="button"
+                      disabled={pending}
+                      onClick={() => run(() => setVendorOrdered(estimateId, b.id, !b.vendorOrderedAt))}
+                      className="ml-2 font-semibold underline disabled:opacity-50"
+                    >
+                      {b.vendorOrderedAt ? "Undo" : "Mark ordered"}
+                    </button>
+                  )}
+                </p>
               )}
             </li>
           ))}

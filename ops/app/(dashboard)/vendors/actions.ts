@@ -125,6 +125,15 @@ export async function saveRate(vendorId: string, input: RateInput): Promise<Resu
   return { ok: true };
 }
 
+/** Record that we paid the vendor for a brokered rental (or undo it). */
+export async function setVendorPaid(bookingId: string, paid: boolean): Promise<Result> {
+  const { companyId } = await requireSession();
+  const res = await prisma.rentalBooking.updateMany({ where: { id: bookingId, companyId, vendorId: { not: null } }, data: { vendorPaidAt: paid ? new Date() : null } });
+  if (res.count === 0) return { ok: false, error: "Rental not found." };
+  revalidatePath("/vendors");
+  return { ok: true };
+}
+
 export async function deleteRate(id: string): Promise<Result> {
   const { companyId } = await requireSession();
   await prisma.vendorRate.deleteMany({ where: { id, companyId } });

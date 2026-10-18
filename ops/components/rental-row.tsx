@@ -13,6 +13,8 @@ export interface RentalStop {
   status: "RESERVED" | "DELIVERED" | "PICKUP_REQUESTED" | "PICKED_UP";
   category: string | null;
   unit: string | null;
+  /** A partner vendor delivers and picks this one up. */
+  vendor: { name: string; phone: string | null; ordered: boolean } | null;
   customer: string;
   phone: string | null;
   address: string | null;
@@ -75,13 +77,27 @@ export function RentalRow({ stop }: { stop: RentalStop }) {
         )}
         <span className="text-sm text-zinc-600">
           {stop.category ?? "Dumpster"}
-          {stop.unit ? ` · ${stop.unit}` : " · no unit assigned"}
+          {stop.vendor ? ` · Vendor: ${stop.vendor.name}` : stop.unit ? ` · ${stop.unit}` : " · no unit assigned"}
         </span>
         <span className={`text-xs ${stop.overdue ? "font-semibold text-red-700" : "text-zinc-500"}`}>
           {stop.status === "RESERVED" ? `Deliver ${stop.startLabel}` : `Pickup ${stop.endLabel}`}
           {stop.overdue ? " · overdue" : ""}
         </span>
       </div>
+
+      {stop.vendor && stop.status !== "PICKED_UP" && (
+        <p className={`rounded-lg p-2 text-xs ${stop.vendor.ordered ? "bg-emerald-50 text-emerald-900" : "bg-amber-50 text-amber-900"}`}>
+          {stop.vendor.name} delivers and picks up. {stop.vendor.ordered ? "Vendor has been told." : "Vendor not told yet. Order it from the estimate."}
+          {stop.vendor.phone && (
+            <>
+              {" "}
+              <a href={phoneHref(stop.vendor.phone)} className="font-semibold underline">
+                {stop.vendor.phone}
+              </a>
+            </>
+          )}
+        </p>
+      )}
 
       {stop.status !== "PICKED_UP" && <RentalCountdown data={stop.countdown} />}
 
@@ -129,7 +145,7 @@ export function RentalRow({ stop }: { stop: RentalStop }) {
 
       <div className="flex flex-wrap items-center gap-2">
         {stop.status === "RESERVED" && (
-          <button type="button" disabled={pending || !stop.unit} onClick={() => setPanel(panel === "deliver" ? null : "deliver")} className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-50" title={stop.unit ? undefined : "Assign a unit on the estimate first"}>
+          <button type="button" disabled={pending || (!stop.unit && !stop.vendor)} onClick={() => setPanel(panel === "deliver" ? null : "deliver")} className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-50" title={stop.unit || stop.vendor ? undefined : "Assign a unit or vendor on the estimate first"}>
             Mark delivered
           </button>
         )}

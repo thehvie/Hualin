@@ -84,8 +84,48 @@ export async function assignUnit(estimateId: string, bookingId: string, assetId:
     const free = await availableAssets(companyId, booking.category, booking.startAt, booking.endAt, booking.id);
     if (!free.some((u) => u.id === assetId)) return { ok: false, error: "That dumpster isn't free for those dates." };
   }
-  await prisma.rentalBooking.update({ where: { id: booking.id }, data: { assetId } });
+  // Picking one of our own units takes the rental off any vendor.
+  await prisma.rentalBooking.update({
+    where: { id: booking.id },
+    data: { assetId, ...(assetId ? { vendorId: null, vendorCostCents: null, vendorOrderedAt: null } : {}) },
+  });
   refresh(estimateId, booking.jobId);
+  return { ok: true };
+}
+
+/** Fills a reservation from a partner vendor (they deliver and pick up), or takes it off the vendor. */
+export async function assignVendor(estimateId: string, bookingId: string, vendorId: string | null): Promise<Result> {
+  const { companyId } = await requireSession();
+  const blocked = await featureBlock(companyId, "RENTALS");
+  if (blocked) return { ok: false, error: blocked };
+  const booking = await prisma.rentalBooking.findFirst({ where: { id: bookingId, companyId }, include: { job: { include: { estimates: { select: { id: true } } } } } });
+  if (!booking || !booking.job.estimates.some((e) => e.id === estimateId)) return { ok: false, error: "Rental not found." };
+  if (booking.status !== "RESERVED") return { ok: false, error: "That dumpster has already been delivered, so the source can't be changed here." };
+
+  if (!vendorId) {
+    await prisma.rentalBooking.update({ where: { id: booking.id }, data: { vendorId: null, vendorCostCents: null, vendorOrderedAt: null, vendorPaidAt: null } });
+  } else {
+    const vendor = await prisma.vendor.findFirst({ where: { id: vendorId, companyId, dumpsterPartner: true }, include: { rates: true } });
+    if (!vendor) return { ok: false, error: "Vendor not found." };
+    const rate = vendor.rates.find((r) => r.size.trim().toLowerCase() === (booking.category ?? "").trim().toLowerCase());
+    // The vendor's cost is fixed on the rental now, so a later rate change doesn't rewrite what we owe on this job.
+    await prisma.rentalBooking.update({
+      where: { id: booking.id },
+      data: { vendorId: vendor.id, assetId: null, vendorCostCents: rate?.costCents ?? null, vendorOrderedAt: null, vendorPaidAt: null },
+    });
+  }
+  refresh(estimateId, booking.jobId);
+  revalidatePath("/vendors");
+  return { ok: true };
+}
+
+/** Record that we told the vendor about this rental (or undo it). */
+export async function setVendorOrdered(estimateId: string, bookingId: string, ordered: boolean): Promise<Result> {
+  const { companyId } = await requireSession();
+  const res = await prisma.rentalBooking.updateMany({ where: { id: bookingId, companyId, vendorId: { not: null } }, data: { vendorOrderedAt: ordered ? new Date() : null } });
+  if (res.count === 0) return { ok: false, error: "Rental not found." };
+  revalidatePath(`/estimates/${estimateId}`);
+  revalidatePath("/dispatch");
   return { ok: true };
 }
 
@@ -98,7 +138,7 @@ export async function autoAssignUnits(estimateId: string): Promise<Result> {
   if (!estimate?.job) return { ok: false, error: "This estimate has no job yet." };
 
   const open = await prisma.rentalBooking.findMany({
-    where: { jobId: estimate.job.id, companyId, status: "RESERVED", assetId: null },
+    where: { jobId: estimate.job.id, companyId, status: "RESERVED", assetId: null, vendorId: null },
     orderBy: { createdAt: "asc" },
   });
   let assigned = 0;
