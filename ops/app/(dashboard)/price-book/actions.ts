@@ -78,8 +78,32 @@ export async function updatePriceBookItem(id: string, formData: FormData) {
   revalidatePath("/price-book");
 }
 
-export async function deletePriceBookItem(id: string) {
+/** Archived items stay on old estimates and invoices but can't be added to new ones. */
+export async function setPriceBookItemActive(id: string, active: boolean): Promise<{ ok: boolean; error?: string }> {
   const { companyId } = await requireSession();
+  const res = await prisma.priceBookItem.updateMany({ where: { id, companyId }, data: { active } });
+  if (res.count === 0) return { ok: false, error: "Item not found." };
+  revalidatePath("/price-book");
+  return { ok: true };
+}
+
+/** Deletes an item nothing refers to. Anything already used on a document, plan or rental has to be archived instead. */
+export async function deletePriceBookItem(id: string): Promise<{ ok: boolean; error?: string }> {
+  const { companyId } = await requireSession();
+  const item = await prisma.priceBookItem.findFirst({ where: { id, companyId }, select: { id: true } });
+  if (!item) return { ok: false, error: "Item not found." };
+
+  const [estimateLines, invoiceLines, plans, rentals] = await Promise.all([
+    prisma.estimateLineItem.count({ where: { priceBookItemId: id } }),
+    prisma.invoiceLineItem.count({ where: { priceBookItemId: id } }),
+    prisma.servicePlan.count({ where: { jobTypeId: id } }),
+    prisma.rentalBooking.count({ where: { companyId, priceBookItemId: id } }),
+  ]);
+  const used = estimateLines + invoiceLines + plans + rentals;
+  if (used > 0) {
+    return { ok: false, error: `This item is used on ${used} estimate, invoice, plan or rental record${used === 1 ? "" : "s"}, so it can't be deleted. Archive it instead.` };
+  }
   await prisma.priceBookItem.deleteMany({ where: { id, companyId } });
   revalidatePath("/price-book");
+  return { ok: true };
 }

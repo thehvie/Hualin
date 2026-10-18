@@ -74,7 +74,8 @@ function ItemModal({ item, onClose }: { item?: PriceBookItemData; onClose: () =>
     if (!item) return;
     if (!confirm(`Delete "${item.name}" from the Price Book? This can't be undone.`)) return;
     startTransition(async () => {
-      await deletePriceBookItem(item.id);
+      const res = await deletePriceBookItem(item.id);
+      if (!res.ok) return alert(res.error);
       onClose();
     });
   }

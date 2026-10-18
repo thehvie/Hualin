@@ -2,20 +2,25 @@ import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/money";
 import { PRICE_BOOK_TYPE_LABELS, formatUnitPrice } from "@/lib/price-book";
 import { requireSession } from "@/lib/session";
+import Link from "next/link";
 import { AddItemButton, EditItemTrigger } from "./item-modal";
+import { RowActions } from "./row-actions";
 
 export default async function PriceBookPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; archived?: string }>;
 }) {
   const { companyId } = await requireSession();
-  const { q } = await searchParams;
+  const { q, archived } = await searchParams;
   const query = (q || "").trim();
+  const showArchived = archived === "1";
 
+  const archivedCount = await prisma.priceBookItem.count({ where: { companyId, active: false } });
   const items = await prisma.priceBookItem.findMany({
     where: {
       companyId,
+      ...(showArchived ? {} : { active: true }),
       ...(query
         ? {
             OR: [
@@ -53,14 +58,21 @@ export default async function PriceBookPage({
             className="w-full max-w-sm rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
           />
         </form>
-        <AddItemButton />
+        <div className="flex items-center gap-4">
+          {(archivedCount > 0 || showArchived) && (
+            <Link href={showArchived ? (query ? `/price-book?q=${encodeURIComponent(query)}` : "/price-book") : `/price-book?archived=1${query ? `&q=${encodeURIComponent(query)}` : ""}`} className="text-sm font-medium text-zinc-500 hover:text-zinc-800">
+              {showArchived ? "Hide archived" : `Show archived (${archivedCount})`}
+            </Link>
+          )}
+          <AddItemButton />
+        </div>
       </div>
 
       {items.length === 0 ? (
         <div className="flex flex-col items-center gap-2 rounded-xl border border-zinc-200 bg-white py-16 text-center">
           <span className="text-3xl">📖</span>
           <p className="text-sm font-semibold text-zinc-900">
-            {query ? "No items match your search" : "Price book is empty"}
+            {query ? "No items match your search" : showArchived ? "No items" : "Price book is empty"}
           </p>
           <p className="text-xs text-zinc-400">Add items so estimates can pull from them.</p>
         </div>
@@ -78,9 +90,12 @@ export default async function PriceBookPage({
                   <p className="mt-1 text-xs text-zinc-400">
                     #{item.number} · {PRICE_BOOK_TYPE_LABELS[item.type] ?? item.type}
                     {item.category ? ` · ${item.category}` : ""}
-                    {!item.active ? " · Inactive" : ""}
+                    {!item.active ? " · Archived" : ""}
                   </p>
                 </EditItemTrigger>
+                <div className="mt-2">
+                  <RowActions id={item.id} name={item.name} active={item.active} />
+                </div>
               </li>
             ))}
           </ul>
@@ -100,6 +115,7 @@ export default async function PriceBookPage({
                   <th className="px-4 py-3">Model #</th>
                   <th className="px-4 py-3">Booking</th>
                   <th className="px-4 py-3">Active</th>
+                  <th className="px-4 py-3" />
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100">
@@ -128,7 +144,10 @@ export default async function PriceBookPage({
                     <td className="px-4 py-3 text-zinc-600">{item.category || "—"}</td>
                     <td className="px-4 py-3 text-zinc-600">{item.modelNumber || "—"}</td>
                     <td className="px-4 py-3 text-zinc-600">{item.bookable ? "Yes" : "No"}</td>
-                    <td className="px-4 py-3 text-zinc-600">{item.active ? "Yes" : "No"}</td>
+                    <td className="px-4 py-3 text-zinc-600">{item.active ? "Yes" : "Archived"}</td>
+                    <td className="px-4 py-3">
+                      <RowActions id={item.id} name={item.name} active={item.active} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
