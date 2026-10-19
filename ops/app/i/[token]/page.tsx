@@ -161,6 +161,17 @@ export default async function PublicInvoicePage({ params }: { params: Promise<{ 
 
         {payLink && <PayButton url={payLink.url} label={payLink.label} note={`Balance due: ${formatCents(Math.max(0, totals.balanceCents))}`} />}
 
+        {company.reviewLinkUrl && invoice.status !== "VOID" && (
+          <a
+            href={company.reviewLinkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl border border-zinc-200 bg-white px-5 py-4 text-center text-sm text-zinc-700 hover:bg-zinc-50"
+          >
+            Happy with our service? <span className="font-semibold text-brand underline">Leave us a review</span>
+          </a>
+        )}
+
         {invoice.notes && (
           <div className="rounded-xl border border-zinc-200 bg-white p-5 text-sm text-zinc-700">
             <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-zinc-400">Notes</p>

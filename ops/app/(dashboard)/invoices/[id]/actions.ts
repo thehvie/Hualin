@@ -304,6 +304,7 @@ export async function sendInvoice(
       const pay = totals.balanceCents > 0 ? companyPaymentLink(invoice.company, "invoice") : null;
       return pay ? [`${pay.label}:`, pay.url] : ["We'll be in touch with details on how to pay."];
     })(),
+    ...(invoice.company.reviewLinkUrl ? ["", "Happy with our service? We'd love a quick review:", invoice.company.reviewLinkUrl] : []),
   ].join("\n");
 
   // Attach the PDF too; if it can't be rendered the email still goes out with the download link.

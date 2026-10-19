@@ -95,6 +95,8 @@ export interface DocumentPdfProps {
     termsText: string | null;
     /** Printed under the totals when set (only for documents that can still be paid). */
     paymentLink?: { url: string; label: string } | null;
+    /** Printed on invoices when the company has a review link. */
+    reviewLink?: string | null;
   };
   customer: {
     name: string;
@@ -312,6 +314,14 @@ export function DocumentPdf(props: DocumentPdfProps) {
           <View style={{ marginTop: 10, alignItems: "flex-end" }}>
             <Link src={company.paymentLink.url} style={{ fontSize: 11, fontWeight: 700, color: "#c2410c", textDecoration: "underline" }}>
               {company.paymentLink.label}: {company.paymentLink.url}
+            </Link>
+          </View>
+        )}
+
+        {company.reviewLink && (
+          <View style={{ marginTop: 10, alignItems: "flex-end" }}>
+            <Link src={company.reviewLink} style={{ fontSize: 11, color: "#c2410c", textDecoration: "underline" }}>
+              Happy with our service? Leave us a review: {company.reviewLink}
             </Link>
           </View>
         )}

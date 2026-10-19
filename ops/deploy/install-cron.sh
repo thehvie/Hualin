@@ -4,6 +4,7 @@
 # Safe to run again: it rewrites the same two files.
 #
 #   every 15 minutes   rental reminders (drafts or sends reminders for dumpsters whose pickup is near)
+#   every 15 minutes   review requests (asks customers for a review a few days after an invoice is paid)
 #   1st of the month   usage billing for the previous month (needs Stripe; until then it logs an error and does nothing)
 #
 # The jobs read CRON_SECRET from the app's .env, so the secret never sits in the crontab.
@@ -35,6 +36,7 @@ chmod 700 /usr/local/bin/haulin-ops-cron
 cat > /etc/cron.d/haulin-ops <<'EOC'
 # Haulin Ops scheduled jobs (installed by deploy/install-cron.sh)
 */15 * * * * root /usr/local/bin/haulin-ops-cron /api/cron/rental-reminders >> /var/log/haulin-ops-cron.log 2>&1
+*/15 * * * * root /usr/local/bin/haulin-ops-cron /api/cron/review-requests >> /var/log/haulin-ops-cron.log 2>&1
 10 6 1 * * root /usr/local/bin/haulin-ops-cron /api/cron/usage-billing >> /var/log/haulin-ops-cron.log 2>&1
 EOC
 chmod 644 /etc/cron.d/haulin-ops

@@ -6,6 +6,7 @@ import { UsageCard } from "./usage-card";
 import { TermsCard } from "./terms-card";
 import { ReminderCard } from "./reminder-card";
 import { SwapCard } from "./swap-card";
+import { ReviewCard } from "./review-card";
 import { EmailCard, type EmailState } from "./email-card";
 import { sharedEmailStatusOf } from "@/lib/mail-config";
 import { getUsageStatus } from "@/lib/usage";
@@ -38,7 +39,7 @@ export default async function SettingsPage() {
           Plan and billing
         </Link>
         <Link href="/settings/customer-requests" className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-50">
-          Customer requests
+          Customer messages
         </Link>
         <Link href="/settings/team" className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-50">
           Team
@@ -81,6 +82,8 @@ export default async function SettingsPage() {
           quietEnd: company.rentalQuietEndHour,
         }}
       />
+
+      <ReviewCard initial={{ link: company.reviewLinkUrl ?? "", on: company.reviewRequestsOn, days: company.reviewRequestDays, startHour: company.reviewSendStartHour, endHour: company.reviewSendEndHour }} />
 
       <SwapCard initial={{ policy: company.swapPolicy, feeDollars: company.swapFeeCents ? (company.swapFeeCents / 100).toString() : "" }} />
 

@@ -7,7 +7,7 @@ import {
   SAMPLE_VARS,
   TEMPLATE_VARIABLES,
   buildEmailHtml,
-  detailsFromVars,
+  emailExtras,
   renderTemplateText,
   tidy,
   type TemplateContent,
@@ -56,14 +56,12 @@ export function TemplateEditor({
         logoUrl: company.logoUrl,
         headline: tidy(renderTemplateText(v.emailHeadline, vars)),
         body: renderTemplateText(v.emailBody, vars),
-        details: detailsFromVars(vars),
-        ctaLabel: "View my rental",
-        ctaUrl: vars.rental_link,
+        ...emailExtras(def.key, vars),
         phone: company.phone,
         sentTo: "customer@example.com",
         poweredBy: company.poweredBy,
       }),
-    [v.emailHeadline, v.emailBody, vars, company],
+    [v.emailHeadline, v.emailBody, vars, company, def.key],
   );
 
   function insert(name: string) {

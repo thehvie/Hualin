@@ -128,6 +128,7 @@ export async function renderInvoicePdf(where: Prisma.InvoiceWhereInput): Promise
         phone: invoice.company.phone,
         termsText: documentTerms(invoice.company, await hasRentalItems(invoice.companyId, invoice.lineItems)),
         paymentLink: invoice.status === "VOID" || totals.balanceCents <= 0 ? null : companyPaymentLink(invoice.company, "invoice"),
+        reviewLink: invoice.status === "VOID" ? null : invoice.company.reviewLinkUrl,
       },
       customer: {
         name: `${invoice.customer.firstName} ${invoice.customer.lastName}`,

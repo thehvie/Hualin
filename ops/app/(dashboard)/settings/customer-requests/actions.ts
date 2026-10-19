@@ -9,7 +9,7 @@ import { requireSession } from "@/lib/session";
 import { sendEmail } from "@/lib/mailgun";
 import { COMPANY_PLAN_SELECT, PLATFORM_BRAND, isBranded } from "@/lib/plans";
 import { logoUrlFor } from "@/lib/customer-messages";
-import { SAMPLE_VARS, TEMPLATE_KEYS, buildEmailHtml, detailsFromVars, renderTemplateText, tidy, type TemplateContent, type TemplateKey, type Vars } from "@/lib/message-templates";
+import { SAMPLE_VARS, TEMPLATE_KEYS, buildEmailHtml, emailExtras, renderTemplateText, tidy, type TemplateContent, type TemplateKey, type Vars } from "@/lib/message-templates";
 
 type Result = { ok: true; message?: string } | { ok: false; error: string };
 
@@ -60,9 +60,7 @@ export async function sendTestEmail(key: string, input: TemplateContent): Promis
     logoUrl: logoUrlFor(company, isBranded(company)),
     headline: tidy(renderTemplateText(input.emailHeadline, vars)),
     body: renderTemplateText(input.emailBody, vars),
-    details: detailsFromVars(vars),
-    ctaLabel: "View my rental",
-    ctaUrl: vars.rental_link,
+    ...emailExtras(key, vars),
     phone: company.phone,
     sentTo: to,
     poweredBy: isBranded(company) ? null : PLATFORM_BRAND,

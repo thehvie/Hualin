@@ -178,6 +178,44 @@ export async function saveSwapSettings(input: { policy: string; feeDollars: stri
   return { ok: true };
 }
 
+export async function saveReviewSettings(input: {
+  link: string;
+  on: boolean;
+  days: number;
+  startHour: number;
+  endHour: number;
+}): Promise<{ ok: true } | { ok: false; error: string }> {
+  const { companyId } = await requireSession();
+  const startHour = Math.floor(Number(input.startHour));
+  const endHour = Math.floor(Number(input.endHour));
+  if (!(startHour >= 0 && startHour <= 23 && endHour >= 1 && endHour <= 24 && endHour > startHour)) {
+    return { ok: false, error: "Pick sending hours where the end is after the start." };
+  }
+  const raw = String(input.link ?? "").trim();
+  const link = raw ? normalizePaymentUrl(raw) : null;
+  if (raw && !link) return { ok: false, error: "The review link has to be a full web address, like https://g.page/r/your-business/review." };
+  const days = Math.floor(Number(input.days));
+  if (!Number.isFinite(days) || days < 0 || days > 60) return { ok: false, error: "Ask for the review between 0 and 60 days after the invoice is paid." };
+  if (input.on && !link) return { ok: false, error: "Add your review link before turning on review requests." };
+
+  const current = await prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { reviewRequestsOn: true, reviewRequestsSince: true } });
+  const turningOn = !!input.on && !current.reviewRequestsOn;
+  await prisma.company.update({
+    where: { id: companyId },
+    data: {
+      reviewLinkUrl: link,
+      reviewRequestsOn: !!input.on,
+      reviewRequestDays: days,
+      reviewSendStartHour: startHour,
+      reviewSendEndHour: endHour,
+      // Only invoices paid from now on are asked, so switching this on never messages past customers.
+      ...(turningOn || !current.reviewRequestsSince ? { reviewRequestsSince: new Date() } : {}),
+    },
+  });
+  revalidatePath("/settings");
+  return { ok: true };
+}
+
 export async function saveReminderSettings(input: {
   on: boolean;
   hours: number;

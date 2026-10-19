@@ -1,7 +1,7 @@
 // Customer message templates (email and text) and the branded HTML email layout. Pure functions with no server
 // imports, so the Settings preview can render exactly what customers receive.
 
-export type TemplateKey = "REQUEST_RECEIVED" | "REQUEST_APPROVED" | "REQUEST_DECLINED";
+export type TemplateKey = "REQUEST_RECEIVED" | "REQUEST_APPROVED" | "REQUEST_DECLINED" | "REVIEW_REQUEST";
 
 export interface TemplateContent {
   emailOn: boolean;
@@ -19,7 +19,7 @@ export interface TemplateDef {
   defaults: TemplateContent;
 }
 
-export const TEMPLATE_KEYS: TemplateKey[] = ["REQUEST_RECEIVED", "REQUEST_APPROVED", "REQUEST_DECLINED"];
+export const TEMPLATE_KEYS: TemplateKey[] = ["REQUEST_RECEIVED", "REQUEST_APPROVED", "REQUEST_DECLINED", "REVIEW_REQUEST"];
 
 /** Variables a template can use, written {{name}}. */
 export const TEMPLATE_VARIABLES: { name: string; label: string }[] = [
@@ -37,6 +37,7 @@ export const TEMPLATE_VARIABLES: { name: string; label: string }[] = [
   { name: "approval_details", label: "One line about what happens next" },
   { name: "reason", label: "Why it was declined" },
   { name: "rental_link", label: "Link to their rental page" },
+  { name: "review_link", label: "Your review link (review request only)" },
 ];
 
 export const TEMPLATES: Record<TemplateKey, TemplateDef> = {
@@ -82,7 +83,27 @@ export const TEMPLATES: Record<TemplateKey, TemplateDef> = {
       smsBody: "{{company_name}}: we couldn't approve your {{request_type}} request. {{reason}} Please call {{company_phone}}.",
     },
   },
+  REVIEW_REQUEST: {
+    key: "REVIEW_REQUEST",
+    label: "Review request",
+    when: "Sent a few days after an invoice is paid (set the days and the link in Settings > Google reviews). Only goes out if a review link is saved.",
+    defaults: {
+      emailOn: true,
+      emailSubject: "How did we do, {{customer_name}}?",
+      emailHeadline: "How did we do?",
+      emailBody:
+        "Hi {{customer_name}},\n\nThanks for choosing {{company_name}}! If you were happy with our service, a quick review helps our small business more than you know. It only takes a minute.\n\n{{review_link}}\n\nIf anything wasn't right, please call us at {{company_phone}} so we can make it right.\n\nThank you,\n{{company_name}}",
+      smsOn: true,
+      smsBody: "Hi {{customer_name}}, thanks for choosing {{company_name}}! Would you leave us a quick review? {{review_link}}",
+    },
+  },
 };
+
+/** Pieces of the branded email that depend on the kind of message: the details card and the big button. */
+export function emailExtras(key: TemplateKey, vars: Vars): { details: { label: string; value: string }[]; ctaLabel: string | null; ctaUrl: string | null } {
+  if (key === "REVIEW_REQUEST") return { details: [], ctaLabel: vars.review_link ? "Leave a review" : null, ctaUrl: vars.review_link || null };
+  return { details: detailsFromVars(vars), ctaLabel: vars.rental_link ? "View my rental" : null, ctaUrl: vars.rental_link || null };
+}
 
 export type Vars = Record<string, string | undefined>;
 
@@ -101,6 +122,7 @@ export const SAMPLE_VARS: Record<string, string> = {
   approval_details: "Your pickup is now Mon, Oct 19, 2:00 PM. The 3 extra days are $75.00 on your invoice.",
   reason: "That dumpster is booked by another customer.",
   rental_link: "https://example.com/e/your-rental-link",
+  review_link: "https://g.page/r/your-business/review",
 };
 
 /** Replaces {{name}} with its value; unknown or empty names become empty. */

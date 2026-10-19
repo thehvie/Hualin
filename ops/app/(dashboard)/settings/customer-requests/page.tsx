@@ -25,9 +25,9 @@ export default async function CustomerRequestsPage() {
         <Link href="/settings" className="text-xs font-medium text-zinc-400 hover:text-zinc-700">
           ← Settings
         </Link>
-        <h1 className="mt-1 text-2xl font-bold text-zinc-900">Customer requests</h1>
+        <h1 className="mt-1 text-2xl font-bold text-zinc-900">Customer messages</h1>
         <p className="mt-1 text-sm text-zinc-500">
-          What customers are told when they ask for a pickup, more time or a swap on their rental page. Each message can go by email, by text, or both. Your logo and phone number are added automatically.
+          What customers are told when they ask for a pickup, more time or a swap on their rental page, and the review request sent after they pay. Each message can go by email, by text, or both. Your logo and phone number are added automatically.
         </p>
       </div>
 
