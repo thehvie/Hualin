@@ -6,10 +6,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>International Drive Junk Removal | Haulin Junkies</title>
+    <title>International Drive Dumpster Rental &amp; Junk Removal | Haulin Junkies</title>
     <meta
       name="description"
-      content="Professional junk removal services in Orlando, FL. Same-day pickup available. Furniture removal, appliance disposal, estate cleanouts. Licensed & insured. Call (407) 815-4926"
+      content="Commercial dumpster rental and junk removal on International Drive, Orlando. Hotel, restaurant &amp; retail renovations, 12–30 yard dumpsters, 45 yard combo. Call (407) 815-4926."
     />
     <meta
       name="keywords"
@@ -478,7 +478,41 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-      </head>
+          <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Dumpster Rental and Junk Removal in International Drive",
+      "serviceType": "Roll-off dumpster rental",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://haulinjunkies.com/",
+        "name": "Haulin Junkies",
+        "telephone": "+14078154926",
+        "url": "https://haulinjunkies.com/"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "International Drive, FL"
+      },
+      "url": "https://haulinjunkies.com/international-drive.php",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "12 yard dumpster, 3-day rental",
+          "price": "400",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "45 yard dumpster combo (20 yard + 25 yard)",
+          "price": "700",
+          "priceCurrency": "USD"
+        }
+      ]
+    }
+    </script>
+</head>
 
   <body>
     
@@ -622,6 +656,14 @@
                 residential customers, commercial properties, and contractors
                 throughout Orlando and surrounding Central Florida communities.
               </p>
+            </div>
+
+            <!-- Dumpster Rental -->
+            <div class="content-section wow fadeInUp" id="dumpster-rental">
+              <h2 class="section-title">Dumpster Rental in International Drive</h2>
+              <p class="section-text">International Drive is mostly hotels, restaurants, attractions, and retail, so dumpster rentals here are usually commercial: room renovations, restaurant buildouts, and store refits that produce debris for days at a time. The <strong>25 and 30 yard</strong> dumpsters and the <strong>45 yard combo</strong> are built for that volume, and we coordinate placement and swap-outs with your property or facilities manager.</p>
+              <p class="section-text">For one-time furniture and fixture liquidations, such as a hotel replacing beds or a store clearing old shelving, our <a href="commercial.php">commercial junk removal crew</a> can load and haul everything in one visit instead. Our <a href="junk-removal-vs-dumpster-rental.php">dumpster vs. junk removal guide</a> explains which fits your job.</p>
+              <p class="section-text">We rent <strong>12, 15, 20, 25, and 30 yard</strong> roll-off dumpsters, plus a <strong>45 yard combo</strong> (a 20 and a 25 delivered together) for <strong>$700</strong>. The 12 yard is <strong>$400</strong> for 3 days with up to 4,000 lbs included. Call <a href="tel:+14078154926">407-815-4926</a> for the larger sizes. Every rental includes delivery, pickup, driveway protection boards, and cleanup after pickup. <a href="dumpster-rentals.php">See all dumpster sizes and prices</a>.</p>
             </div>
 
             <!-- Same Day Service -->

@@ -6,10 +6,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Alafaya Junk Removal | Same-Day Service | Haulin Junkies</title>
+    <title>Alafaya Dumpster Rental &amp; Junk Removal | Haulin Junkies</title>
     <meta
       name="description"
-      content="Professional junk removal services in Alafaya, FL. Same-day pickup available. Furniture removal, appliance disposal, estate cleanouts. Licensed & insured. Call (407) 815-4926"
+      content="Dumpster rental and junk removal in Alafaya and the UCF area. 12–30 yard roll-off dumpsters from $400, rental turnovers, same-day junk pickup. Call (407) 815-4926."
     />
     <meta
       name="keywords"
@@ -477,7 +477,41 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-      </head>
+          <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Dumpster Rental and Junk Removal in Alafaya",
+      "serviceType": "Roll-off dumpster rental",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://haulinjunkies.com/",
+        "name": "Haulin Junkies",
+        "telephone": "+14078154926",
+        "url": "https://haulinjunkies.com/"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Alafaya, FL"
+      },
+      "url": "https://haulinjunkies.com/alafaya.php",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "12 yard dumpster, 3-day rental",
+          "price": "400",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "45 yard dumpster combo (20 yard + 25 yard)",
+          "price": "700",
+          "priceCurrency": "USD"
+        }
+      ]
+    }
+    </script>
+</head>
 
   <body>
    <?php include 'includes/header.php'; ?>
@@ -619,6 +653,14 @@
                 residential customers, commercial properties, and contractors
                 throughout Alafaya and surrounding East Orlando communities.
               </p>
+            </div>
+
+            <!-- Dumpster Rental -->
+            <div class="content-section wow fadeInUp" id="dumpster-rental">
+              <h2 class="section-title">Dumpster Rental in Alafaya</h2>
+              <p class="section-text">Around UCF and the Alafaya corridor, the busiest weeks are lease turnovers at the end of each semester, when landlords and property managers need furniture, mattresses, and move-out leftovers gone before the next tenant arrives. A <strong>15 or 20 yard</strong> dumpster handles most rental-house turnovers, and the <strong>45 yard combo</strong> covers multi-unit cleanouts.</p>
+              <p class="section-text">Townhome and HOA communities in the area often limit where and how long a dumpster can sit, so we schedule drop-off and pickup around your timeline. For a single apartment with no driveway, our <a href="junk-removal-orlando.php">junk removal crew</a> is usually faster and cheaper. Our <a href="junk-removal-vs-dumpster-rental.php">dumpster vs. junk removal guide</a> explains the difference.</p>
+              <p class="section-text">We rent <strong>12, 15, 20, 25, and 30 yard</strong> roll-off dumpsters, plus a <strong>45 yard combo</strong> (a 20 and a 25 delivered together) for <strong>$700</strong>. The 12 yard is <strong>$400</strong> for 3 days with up to 4,000 lbs included. Call <a href="tel:+14078154926">407-815-4926</a> for the larger sizes. Every rental includes delivery, pickup, driveway protection boards, and cleanup after pickup. <a href="dumpster-rentals.php">See all dumpster sizes and prices</a>.</p>
             </div>
 
             <!-- Same Day Service -->

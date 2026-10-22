@@ -6,10 +6,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Ocoee Junk Removal | Same-Day Service | Haulin Junkies</title>
+    <title>Ocoee Dumpster Rental &amp; Junk Removal | Haulin Junkies</title>
     <meta
       name="description"
-      content="Professional junk removal services in Ocoee, FL. Same-day pickup available. Furniture removal, appliance disposal, estate cleanouts. Licensed & insured. Call (407) 815-4926"
+      content="Roll-off dumpster rental and junk removal in Ocoee, FL. 12–30 yard dumpsters from $400 with driveway protection, same-day junk pickup. Call (407) 815-4926."
     />
     <meta
       name="keywords"
@@ -478,7 +478,41 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-      </head>
+          <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Dumpster Rental and Junk Removal in Ocoee",
+      "serviceType": "Roll-off dumpster rental",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://haulinjunkies.com/",
+        "name": "Haulin Junkies",
+        "telephone": "+14078154926",
+        "url": "https://haulinjunkies.com/"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Ocoee, FL"
+      },
+      "url": "https://haulinjunkies.com/ocoee.php",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "12 yard dumpster, 3-day rental",
+          "price": "400",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "45 yard dumpster combo (20 yard + 25 yard)",
+          "price": "700",
+          "priceCurrency": "USD"
+        }
+      ]
+    }
+    </script>
+</head>
 
   <body>
     
@@ -620,6 +654,14 @@
                 residential customers, commercial properties, and contractors
                 throughout Ocoee and surrounding Central Florida communities.
               </p>
+            </div>
+
+            <!-- Dumpster Rental -->
+            <div class="content-section wow fadeInUp" id="dumpster-rental">
+              <h2 class="section-title">Dumpster Rental in Ocoee</h2>
+              <p class="section-text">Ocoee's newer West Orange subdivisions have the driveway space for a full-size roll-off, which makes a dumpster the cheapest way to handle a remodel, a roof tear-off, or a garage that's been filling up for years. A <strong>20 yard</strong> covers most whole-home cleanouts, and a <strong>12 or 15 yard</strong> is plenty for a kitchen or bathroom job.</p>
+              <p class="section-text">Many Ocoee neighborhoods have HOA rules about how long a dumpster can stay in the driveway, so check yours before you book and we'll schedule pickup to match. If you'd rather not load it yourself, our <a href="junk-removal-orlando.php">junk removal crew</a> can do the lifting instead. See our <a href="junk-removal-vs-dumpster-rental.php">dumpster vs. junk removal guide</a> to compare.</p>
+              <p class="section-text">We rent <strong>12, 15, 20, 25, and 30 yard</strong> roll-off dumpsters, plus a <strong>45 yard combo</strong> (a 20 and a 25 delivered together) for <strong>$700</strong>. The 12 yard is <strong>$400</strong> for 3 days with up to 4,000 lbs included. Call <a href="tel:+14078154926">407-815-4926</a> for the larger sizes. Every rental includes delivery, pickup, driveway protection boards, and cleanup after pickup. <a href="dumpster-rentals.php">See all dumpster sizes and prices</a>.</p>
             </div>
 
             <!-- Same Day Service -->
