@@ -6,10 +6,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Lake Buena Vista Junk Removal | Haulin Junkies FL</title>
+    <title>Lake Buena Vista Dumpster Rental &amp; Junk Removal | Haulin Junkies</title>
     <meta
       name="description"
-      content="Fast junk removal in Lake Buena Vista, FL. Same-day pickup, upfront pricing. Furniture, appliances, estate cleanouts. Licensed & insured. Call (407) 815-4926"
+      content="Dumpster rental and junk removal in Lake Buena Vista. Vacation rental refreshes, remodels, 12–30 yard dumpsters from $400, same-day junk pickup. Call (407) 815-4926."
     />
     <meta
       name="keywords"
@@ -484,7 +484,41 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-      </head>
+          <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Dumpster Rental and Junk Removal in Lake Buena Vista",
+      "serviceType": "Roll-off dumpster rental",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://haulinjunkies.com/",
+        "name": "Haulin Junkies",
+        "telephone": "+14078154926",
+        "url": "https://haulinjunkies.com/"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Lake Buena Vista, FL"
+      },
+      "url": "https://haulinjunkies.com/lake-buena-vista.php",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "12 yard dumpster, 3-day rental",
+          "price": "400",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "45 yard dumpster combo (20 yard + 25 yard)",
+          "price": "700",
+          "priceCurrency": "USD"
+        }
+      ]
+    }
+    </script>
+</head>
 
   <body>
     
@@ -620,6 +654,14 @@
                 residential customers, commercial properties, and contractors
                 throughout the area—and we're usually there within 24 hours of your call.
               </p>
+            </div>
+
+            <!-- Dumpster Rental -->
+            <div class="content-section wow fadeInUp" id="dumpster-rental">
+              <h2 class="section-title">Dumpster Rental in Lake Buena Vista</h2>
+              <p class="section-text">A lot of our Lake Buena Vista work comes from vacation-rental and short-term rental owners near the resort area, refreshing furniture, replacing mattresses, or remodeling between bookings. We schedule dumpster drop-off and pickup inside the gap between guest stays so the property is never shown with a dumpster in the driveway. A <strong>15 or 20 yard</strong> fits most furniture refreshes and remodels.</p>
+              <p class="section-text">Gated communities here usually have HOA rules for dumpsters and contractor access, so let us know the community when you book. If the old furniture just needs to disappear in one trip, our <a href="junk-removal-orlando.php">junk removal crew</a> loads and hauls it for you. See the <a href="junk-removal-vs-dumpster-rental.php">dumpster vs. junk removal guide</a> to compare costs.</p>
+              <p class="section-text">We rent <strong>12, 15, 20, 25, and 30 yard</strong> roll-off dumpsters, plus a <strong>45 yard combo</strong> (a 20 and a 25 delivered together) for <strong>$700</strong>. The 12 yard is <strong>$400</strong> for 3 days with up to 4,000 lbs included. Call <a href="tel:+14078154926">407-815-4926</a> for the larger sizes. Every rental includes delivery, pickup, driveway protection boards, and cleanup after pickup. <a href="dumpster-rentals.php">See all dumpster sizes and prices</a>.</p>
             </div>
 
             <!-- Same Day Service -->

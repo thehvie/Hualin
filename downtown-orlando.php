@@ -6,10 +6,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Downtown Orlando Junk Removal | Haulin Junkies FL</title>
+    <title>Dumpster Rental &amp; Junk Removal Downtown Orlando | Haulin Junkies</title>
     <meta
       name="description"
-      content="Professional junk removal services in Orlando, FL. Same-day pickup available. Furniture removal, appliance disposal, estate cleanouts. Licensed & insured. Call (407) 815-4926"
+      content="Dumpster rental and junk removal in Downtown Orlando, Thornton Park, Lake Eola Heights &amp; College Park. 12–30 yard dumpsters from $400, same-day junk pickup. Call (407) 815-4926."
     />
     <meta
       name="keywords"
@@ -478,7 +478,41 @@
       gtag("config", "G-NCGVC9289X");
     </script>
 
-      </head>
+          <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Dumpster Rental and Junk Removal in Downtown Orlando",
+      "serviceType": "Roll-off dumpster rental",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://haulinjunkies.com/",
+        "name": "Haulin Junkies",
+        "telephone": "+14078154926",
+        "url": "https://haulinjunkies.com/"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Downtown Orlando, FL"
+      },
+      "url": "https://haulinjunkies.com/downtown-orlando.php",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "12 yard dumpster, 3-day rental",
+          "price": "400",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "45 yard dumpster combo (20 yard + 25 yard)",
+          "price": "700",
+          "priceCurrency": "USD"
+        }
+      ]
+    }
+    </script>
+</head>
 
   <body>
     
@@ -622,6 +656,14 @@
                 residential customers, commercial properties, and contractors
                 throughout Orlando and surrounding Central Florida communities.
               </p>
+            </div>
+
+            <!-- Dumpster Rental -->
+            <div class="content-section wow fadeInUp" id="dumpster-rental">
+              <h2 class="section-title">Dumpster Rental in Downtown Orlando</h2>
+              <p class="section-text">Downtown Orlando is a tricky place to drop a dumpster. The historic bungalow streets around Thornton Park, Lake Eola Heights, Delaney Park, and College Park have short driveways and narrow lanes, and the high-rise condos have loading docks with building rules. We look at the spot before we commit, and on tight driveways we usually recommend a <strong>12 or 15 yard</strong> dumpster because it fits where a bigger can won't.</p>
+              <p class="section-text">If the dumpster has to sit on the street, a City of Orlando right-of-way permit may be required, so tell us the address when you book and we'll let you know before delivery. For condo and apartment move-outs where there's no room for a dumpster at all, our <a href="junk-removal-orlando.php">junk removal crew</a> carries everything down and hauls it away in one visit. Our <a href="junk-removal-vs-dumpster-rental.php">dumpster vs. junk removal guide</a> explains which costs less.</p>
+              <p class="section-text">We rent <strong>12, 15, 20, 25, and 30 yard</strong> roll-off dumpsters, plus a <strong>45 yard combo</strong> (a 20 and a 25 delivered together) for <strong>$700</strong>. The 12 yard is <strong>$400</strong> for 3 days with up to 4,000 lbs included. Call <a href="tel:+14078154926">407-815-4926</a> for the larger sizes. Every rental includes delivery, pickup, driveway protection boards, and cleanup after pickup. <a href="dumpster-rentals.php">See all dumpster sizes and prices</a>.</p>
             </div>
 
             <!-- Same Day Service -->
