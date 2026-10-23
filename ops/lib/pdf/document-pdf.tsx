@@ -312,8 +312,11 @@ export function DocumentPdf(props: DocumentPdfProps) {
 
         {company.paymentLink && (
           <View style={{ marginTop: 10, alignItems: "flex-end" }}>
-            <Link src={company.paymentLink.url} style={{ fontSize: 11, fontWeight: 700, color: "#c2410c", textDecoration: "underline" }}>
-              {company.paymentLink.label}: {company.paymentLink.url}
+            <Link
+              src={company.paymentLink.url}
+              style={{ fontSize: 12, fontWeight: 700, color: "#ffffff", textDecoration: "none", backgroundColor: "#c2410c", paddingVertical: 8, paddingHorizontal: 18, borderRadius: 4 }}
+            >
+              {company.paymentLink.label}
             </Link>
           </View>
         )}
@@ -321,7 +324,7 @@ export function DocumentPdf(props: DocumentPdfProps) {
         {company.reviewLink && (
           <View style={{ marginTop: 10, alignItems: "flex-end" }}>
             <Link src={company.reviewLink} style={{ fontSize: 11, color: "#c2410c", textDecoration: "underline" }}>
-              Happy with our service? Leave us a review: {company.reviewLink}
+              Happy with our service? Leave us a review
             </Link>
           </View>
         )}
