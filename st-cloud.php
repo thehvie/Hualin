@@ -477,8 +477,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/st-cloud.php#service",
+        "name": "Junk Removal and Dumpster Rental in St. Cloud, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/st-cloud.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in St. Cloud, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "St. Cloud",
+          "addressRegion": "FL",
+          "postalCode": "34769",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Osceola County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "St. Cloud Junk Removal",
+            "item": "https://haulinjunkies.com/st-cloud.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you serve the rural edges of St. Cloud?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, out to the surrounding Osceola County properties. Longer dirt driveways are fine as long as a truck can turn around, and we will confirm that when you book."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you remove a trailer or large equipment?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Trailers and large equipment are quoted case by case because they need different handling than household junk. Send photos and dimensions and we will tell you what is possible."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there a travel surcharge for St. Cloud?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The drive from Maitland is built into the quote you receive, so the number you approve is the number you pay. There is no separate trip fee added later."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -836,6 +932,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in St. Cloud: What to Know</h2>
+              <p class="section-text">
+                St. Cloud spreads south of Kissimmee along Lake Tohopekaliga, and the edge of the city turns rural quickly. Properties here often have outbuildings, trailers, and equipment that a suburban pickup never sees. Because travel time is longer than in central Orlando, we route St. Cloud jobs together and quote them with the drive included rather than adding it afterward.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you serve the rural edges of St. Cloud?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes, out to the surrounding Osceola County properties. Longer dirt driveways are fine as long as a truck can turn around, and we will confirm that when you book.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you remove a trailer or large equipment?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Trailers and large equipment are quoted case by case because they need different handling than household junk. Send photos and dimensions and we will tell you what is possible.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Is there a travel surcharge for St. Cloud?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">The drive from Maitland is built into the quote you receive, so the number you approve is the number you pay. There is no separate trip fee added later.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in St. Cloud</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in St. Cloud &mdash;

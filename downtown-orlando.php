@@ -512,7 +512,39 @@
       ]
     }
     </script>
-</head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you handle high-rise condo removals in downtown Orlando?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. We work with building management on freight elevator reservations, elevator padding, and dock access, and we can provide a certificate of insurance if the building requires one."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you legally park a truck downtown?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Loading zones are time-limited and enforced. If your building has a designated dock or service lane we use it; otherwise you may need to reserve a curbside spot, and we will tell you before the scheduled date."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you remove junk from downtown offices and event venues?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Office cleanouts, furniture replacement, and post-event removal are all part of our commercial work downtown."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -548,10 +580,10 @@
         <div class="row">
           <div class="col-12">
             <h1 class="hero-title wow fadeInUp">
-              Orlando Junk Removal Services
+              Downtown Orlando Junk Removal &amp; Dumpster Rental
             </h1>
             <p class="hero-subtitle wow fadeInUp" data-wow-delay="0.2s">
-              Professional Same-Day Junk Removal & Hauling Services in Orlando,
+              Professional Same-Day Junk Removal & Hauling in Downtown Orlando,
               Florida
             </p>
             <div class="hero-features wow fadeInUp" data-wow-delay="0.4s">
@@ -893,6 +925,26 @@
 
               <!-- Internal linking: services + nearby cities -->
               <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Downtown Orlando: What to Know</h2>
+              <p class="section-text">
+                Downtown is high-rise work. Condos and apartments here mean freight elevators, loading zones with time limits, and parking rules that can consume an hour before the first item is loaded. We ask for the building's move policy up front so the crew arrives with the right paperwork and the job fits inside the window the building reserved for you.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you handle high-rise condo removals in downtown Orlando?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. We work with building management on freight elevator reservations, elevator padding, and dock access, and we can provide a certificate of insurance if the building requires one.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you legally park a truck downtown?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Loading zones are time-limited and enforced. If your building has a designated dock or service lane we use it; otherwise you may need to reserve a curbside spot, and we will tell you before the scheduled date.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you remove junk from downtown offices and event venues?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Office cleanouts, furniture replacement, and post-event removal are all part of our commercial work downtown.</p>
+              </div>
+            </div>
+
                 <h2 class="section-title">Junk Removal Services in Downtown Orlando</h2>
                 <p class="section-text">
                   Every Haulin Junkies service is available in Downtown Orlando &mdash;

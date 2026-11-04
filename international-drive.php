@@ -512,7 +512,39 @@
       ]
     }
     </script>
-</head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can you remove furniture from a hotel or timeshare on International Drive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Hotel and timeshare furniture replacement is a standard commercial job for us. We work the loading dock and freight elevator windows the property gives us and keep the corridor clear while the crew loads."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you work outside normal business hours on I-Drive?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "When a property needs it, yes. Refurbishments often have to happen between the morning check-out rush and afternoon check-in, so we schedule the window the hotel can actually support."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens to old hotel furniture?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usable case goods are set aside for donation or salvage, metal frames and components are recycled, and only material that cannot be reused goes to the landfill."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -548,11 +580,11 @@
         <div class="row">
           <div class="col-12">
             <h1 class="hero-title wow fadeInUp">
-              Orlando Junk Removal Services
+              International Drive Junk Removal &amp; Dumpster Rental
             </h1>
             <p class="hero-subtitle wow fadeInUp" data-wow-delay="0.2s">
-              Professional Same-Day Junk Removal & Hauling Services in Orlando,
-              Florida
+              Professional Same-Day Junk Removal & Hauling on International
+              Drive, Florida
             </p>
             <div class="hero-features wow fadeInUp" data-wow-delay="0.4s">
               <span class="hero-feature">✓ Same-Day Service</span>
@@ -893,6 +925,26 @@
 
               <!-- Internal linking: services + nearby cities -->
               <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal on International Drive: What to Know</h2>
+              <p class="section-text">
+                International Drive is hotel and timeshare territory, so the work here is commercial by nature. Room sets get replaced on a refurbishment schedule, lobby furniture turns over, and old case goods have to leave through a back-of-house loading dock during a narrow window between check-out and check-in. We plan those removals around the property operations calendar rather than our own.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you remove furniture from a hotel or timeshare on International Drive?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Hotel and timeshare furniture replacement is a standard commercial job for us. We work the loading dock and freight elevator windows the property gives us and keep the corridor clear while the crew loads.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you work outside normal business hours on I-Drive?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">When a property needs it, yes. Refurbishments often have to happen between the morning check-out rush and afternoon check-in, so we schedule the window the hotel can actually support.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">What happens to old hotel furniture?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Usable case goods are set aside for donation or salvage, metal frames and components are recycled, and only material that cannot be reused goes to the landfill.</p>
+              </div>
+            </div>
+
                 <h2 class="section-title">Junk Removal Services in International Drive</h2>
                 <p class="section-text">
                   Every Haulin Junkies service is available in International Drive &mdash;

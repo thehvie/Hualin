@@ -480,8 +480,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/lake-mary.php#service",
+        "name": "Junk Removal and Dumpster Rental in Lake Mary, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/lake-mary.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Lake Mary, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Lake Mary",
+          "addressRegion": "FL",
+          "postalCode": "32746",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Seminole County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Lake Mary Junk Removal",
+            "item": "https://haulinjunkies.com/lake-mary.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you remove office furniture in Lake Mary?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Desks, chairs, cubicle panels, and filing cabinets are all part of our commercial service. For a full floor or suite, we schedule a walkthrough first so the quote reflects the real volume."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you handle a lease-end cleanout on a deadline?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "That is the normal case for commercial work. Give us the lease date and we will book the removal inside it, with a written quote before the crew arrives."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you offer dumpsters for larger Lake Mary jobs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Roll-off dumpsters from 12 to 30 yards are available when the debris volume makes repeated truck loads inefficient."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -839,6 +935,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Lake Mary: What to Know</h2>
+              <p class="section-text">
+                Lake Mary mixes corporate office parks with established residential neighborhoods, so the jobs split cleanly in two: office furniture and equipment from the business corridor, and household removal from homes near the lake. The commercial side usually runs on a schedule tied to a lease end date, which is why we quote it with a fixed pickup window rather than a call-ahead.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you remove office furniture in Lake Mary?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Desks, chairs, cubicle panels, and filing cabinets are all part of our commercial service. For a full floor or suite, we schedule a walkthrough first so the quote reflects the real volume.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you handle a lease-end cleanout on a deadline?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">That is the normal case for commercial work. Give us the lease date and we will book the removal inside it, with a written quote before the crew arrives.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you offer dumpsters for larger Lake Mary jobs?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Roll-off dumpsters from 12 to 30 yards are available when the debris volume makes repeated truck loads inefficient.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Lake Mary</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Lake Mary &mdash;

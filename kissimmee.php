@@ -480,8 +480,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/kissimmee.php#service",
+        "name": "Junk Removal and Dumpster Rental in Kissimmee, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/kissimmee.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Kissimmee, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Kissimmee",
+          "addressRegion": "FL",
+          "postalCode": "34741",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Osceola County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Kissimmee Junk Removal",
+            "item": "https://haulinjunkies.com/kissimmee.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can you remove furniture from a Kissimmee vacation rental on a tight turnaround?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Rental refurnishing is a regular job for us. Give us the check-in deadline and we will schedule the removal before it, including evenings if the calendar requires it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you work with Airbnb and VRBO hosts?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We work directly with hosts and property managers. We can coordinate access through a lockbox or management company so nobody has to be on site."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you take mattresses from rentals?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, mattresses and box springs are accepted. They are handled separately from recyclable material because most municipal programs will not take them."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -839,6 +935,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Kissimmee: What to Know</h2>
+              <p class="section-text">
+                Kissimmee runs on vacation rentals, and that shapes the work more than anything else. When a short-term rental is refurnished, the old furniture usually has to leave the same week the new set arrives, often with a fixed check-in date on the other side. We schedule those swaps tightly and can remove a full unit of furniture, mattresses, and small appliances in one visit.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you remove furniture from a Kissimmee vacation rental on a tight turnaround?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Rental refurnishing is a regular job for us. Give us the check-in deadline and we will schedule the removal before it, including evenings if the calendar requires it.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you work with Airbnb and VRBO hosts?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">We work directly with hosts and property managers. We can coordinate access through a lockbox or management company so nobody has to be on site.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you take mattresses from rentals?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes, mattresses and box springs are accepted. They are handled separately from recyclable material because most municipal programs will not take them.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Kissimmee</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Kissimmee &mdash;

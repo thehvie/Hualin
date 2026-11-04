@@ -477,8 +477,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/apopka.php#service",
+        "name": "Junk Removal and Dumpster Rental in Apopka, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/apopka.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Apopka, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Apopka",
+          "addressRegion": "FL",
+          "postalCode": "32703",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Orange County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Apopka Junk Removal",
+            "item": "https://haulinjunkies.com/apopka.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can you clean out a shed or barn in Apopka?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Outbuildings are common here, and we can clear a shed, barn, or detached garage in one visit. If the structure itself is coming down, a roll-off dumpster is usually the cheaper option."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you take yard debris and fencing?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We take branches, palm fronds, fencing, and similar yard waste. Treated lumber and painted material may need to go in a dumpster rather than a truck load, and we will tell you which when we quote."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is not allowed in an Apopka pickup?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hazardous materials, paint, tires, and batteries cannot go in a standard load. Keep those separate and we will advise on the correct disposal route."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     <?php include 'includes/header.php'; ?>
@@ -829,6 +925,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Apopka: What to Know</h2>
+              <p class="section-text">
+                Apopka properties tend to have more ground than the rest of the metro: larger lots, detached sheds, barns, and the kind of accumulated equipment that builds up over decades. That changes the job. Instead of a single room, we are often loading from three or four outbuildings in one visit, and sometimes bringing a dumpster for the demolition debris that will not fit in a truck.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you clean out a shed or barn in Apopka?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Outbuildings are common here, and we can clear a shed, barn, or detached garage in one visit. If the structure itself is coming down, a roll-off dumpster is usually the cheaper option.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you take yard debris and fencing?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">We take branches, palm fronds, fencing, and similar yard waste. Treated lumber and painted material may need to go in a dumpster rather than a truck load, and we will tell you which when we quote.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">What is not allowed in an Apopka pickup?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Hazardous materials, paint, tires, and batteries cannot go in a standard load. Keep those separate and we will advise on the correct disposal route.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Apopka</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Apopka &mdash;

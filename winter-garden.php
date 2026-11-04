@@ -480,8 +480,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/winter-garden.php#service",
+        "name": "Junk Removal and Dumpster Rental in Winter Garden, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/winter-garden.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Winter Garden, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Winter Garden",
+          "addressRegion": "FL",
+          "postalCode": "34787",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Orange County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Winter Garden Junk Removal",
+            "item": "https://haulinjunkies.com/winter-garden.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you work on older homes near downtown Winter Garden?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The bungalows around Plant Street often have detached garages and shallow attics, and we plan the removal around that layout rather than assuming a modern floor plan."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you take builder debris from a new Winter Garden home?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Packaging, offcuts, and leftover construction material are common here. For a large volume, a 12 or 20 yard dumpster is usually the most economical choice."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you remove carpet and flooring?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We do. Carpet removal is a separate service, and padding and tack strips are handled so the subfloor is left ready for the next install."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -867,6 +963,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Winter Garden: What to Know</h2>
+              <p class="section-text">
+                Winter Garden has two very different halves: the historic bungalows around Plant Street, and the new construction sweeping west through Horizon West. In the old neighborhood the work is garages, sheds, and whole-home cleanouts; in the new one it is cardboard, packaging, and builder debris. We bring a dumpster for the second kind and a truck for the first.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you work on older homes near downtown Winter Garden?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. The bungalows around Plant Street often have detached garages and shallow attics, and we plan the removal around that layout rather than assuming a modern floor plan.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you take builder debris from a new Winter Garden home?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Packaging, offcuts, and leftover construction material are common here. For a large volume, a 12 or 20 yard dumpster is usually the most economical choice.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you remove carpet and flooring?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">We do. Carpet removal is a separate service, and padding and tack strips are handled so the subfloor is left ready for the next install.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Winter Garden</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Winter Garden &mdash;

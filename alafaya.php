@@ -511,7 +511,39 @@
       ]
     }
     </script>
-</head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can you clear an Alafaya apartment between tenants?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Unit turnovers are our most common Alafaya job. Tell us the move-out date and we will work around the cleaning crew so the unit is empty before the next walkthrough."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you take furniture left at the curb near UCF?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Curbside piles in Orange County are not automatically collected, and landlords are usually responsible for what tenants leave behind. We remove it from inside the unit or from the curb, whichever is easier for you."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How is pricing set for a small Alafaya apartment?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pricing is based on how much truck space your items fill, not on the number of items or the hours worked. A single-room turnover normally lands near the minimum load price, and you get the number before we start."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
    <?php include 'includes/header.php'; ?>
@@ -874,6 +906,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Alafaya: What to Know</h2>
+              <p class="section-text">
+                Alafaya is east Orlando's university corridor, and most of our work here comes from rental turnover rather than long-term homeowners. Apartments and townhomes around UCF empty out in waves at the end of each semester, which means a lot of mattresses, particle-board desks, and mismatched furniture that cannot go to the curb. We can usually clear a full unit in a single visit and haul everything in one load instead of scheduling three separate pickups.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you clear an Alafaya apartment between tenants?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Unit turnovers are our most common Alafaya job. Tell us the move-out date and we will work around the cleaning crew so the unit is empty before the next walkthrough.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you take furniture left at the curb near UCF?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Curbside piles in Orange County are not automatically collected, and landlords are usually responsible for what tenants leave behind. We remove it from inside the unit or from the curb, whichever is easier for you.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">How is pricing set for a small Alafaya apartment?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Pricing is based on how much truck space your items fill, not on the number of items or the hours worked. A single-room turnover normally lands near the minimum load price, and you get the number before we start.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Alafaya</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Alafaya &mdash;
