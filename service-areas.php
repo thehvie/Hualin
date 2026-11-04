@@ -9,7 +9,7 @@
     <title>Junk Removal Service Areas | Orlando & Central Florida | Haulin Junkies</title>
     <meta
       name="description"
-      content="Same-day junk removal services in Orlando, Winter Park, Windermere, Maitland, Ocoee, Gotha, Groveland, Altamonte Springs & 20+ Central Florida cities. Affordable furniture removal, appliance disposal, residential & commercial cleanouts. Licensed & insured. Call (407) 815-4926"
+      content="Same-day junk removal and dumpster rental in Orlando, Winter Park, Maitland and 20+ Central Florida cities. Upfront pricing. Call (407) 815-4926."
     />
     <meta
       name="keywords"
@@ -747,10 +747,10 @@
     <section class="service-areas-section">
       <div class="container">
         <div class="service-areas-title wow fadeInUp">
-          <h1>
+          <h2>
             Affordable Same-Day Junk Removal Services Near Me - 27+ Central
             Florida Locations
-          </h1>
+          </h2>
           <p>
             Looking for <strong>affordable junk removal near me</strong>? We
             offer <strong>same-day junk pickup</strong>,

@@ -512,7 +512,39 @@
       ]
     }
     </script>
-</head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you serve Ocoee and the rest of West Orange County?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Ocoee, Winter Garden, and Horizon West are all inside our normal service radius, usually with same-day or next-day availability."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you take old lawn equipment?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, mowers and similar equipment are accepted. Fuel has to be drained first, and loose gasoline or gas cans with fuel in them cannot be loaded because they are hazardous."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What do you do with paint and chemicals?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Paint, chemicals, tires, and batteries cannot go in a standard load. Orange County runs household hazardous waste drop-off sites for those, and we will point you to the right one rather than mixing it into a load."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -866,6 +898,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Ocoee: What to Know</h2>
+              <p class="section-text">
+                Ocoee sits just west of Orlando between Winter Garden and the turnpike, and the housing runs from older single-family homes to newer subdivisions. Most of what we pull out here is garage and shed material: lawn equipment that stopped running years ago, furniture that never made it back inside after a move, and the accumulated boxes from a renovation.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you serve Ocoee and the rest of West Orange County?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Ocoee, Winter Garden, and Horizon West are all inside our normal service radius, usually with same-day or next-day availability.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you take old lawn equipment?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes, mowers and similar equipment are accepted. Fuel has to be drained first, and loose gasoline or gas cans with fuel in them cannot be loaded because they are hazardous.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">What do you do with paint and chemicals?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Paint, chemicals, tires, and batteries cannot go in a standard load. Orange County runs household hazardous waste drop-off sites for those, and we will point you to the right one rather than mixing it into a load.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Ocoee</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Ocoee &mdash;

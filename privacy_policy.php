@@ -7,6 +7,9 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>Privacy Policy - Haulin Junkies Junk Removal Services</title>
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content="How Haulin Junkies collects, uses and protects the information you share when requesting a junk removal or dumpster rental quote." />
+    <link rel="canonical" href="https://haulinjunkies.com/privacy_policy.php" />
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -170,6 +173,36 @@
       }
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://haulinjunkies.com/privacy_policy.php",
+        "url": "https://haulinjunkies.com/privacy_policy.php",
+        "name": "Privacy Policy - Haulin Junkies",
+        "description": "How Haulin Junkies collects, uses and protects the information you share when requesting a junk removal or dumpster rental quote.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/"
+        },
+        "about": {
+          "@type": "LocalBusiness",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        }
+      }
     </script>
   </head>
 

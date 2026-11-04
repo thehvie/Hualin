@@ -477,8 +477,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/longwood.php#service",
+        "name": "Junk Removal and Dumpster Rental in Longwood, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/longwood.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Longwood, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Longwood",
+          "addressRegion": "FL",
+          "postalCode": "32750",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Seminole County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Longwood Junk Removal",
+            "item": "https://haulinjunkies.com/longwood.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can you clear out a garage in Longwood in one visit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually yes. A standard two-car garage is a one-truck job in most cases, and we sort as we load so donation and recycling are separated on site."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you take storm debris and fallen branches?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We take yard debris including branches and palm fronds. Large tree trunks may need a dedicated dumpster or a tree service, depending on size."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you serve Longwood and the surrounding Seminole County area?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, along with Lake Mary, Altamonte Springs, Sanford, and Oviedo."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -833,6 +929,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Longwood: What to Know</h2>
+              <p class="section-text">
+                Longwood is older Seminole County, full of ranch homes on wooded lots where the trees are older than the roof. That combination produces two predictable jobs: garages that have not been cleared in a decade, and storm debris after a summer squall. We take both, and we separate yard waste from household junk so the load can be disposed of properly instead of all going to one place.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you clear out a garage in Longwood in one visit?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Usually yes. A standard two-car garage is a one-truck job in most cases, and we sort as we load so donation and recycling are separated on site.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you take storm debris and fallen branches?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">We take yard debris including branches and palm fronds. Large tree trunks may need a dedicated dumpster or a tree service, depending on size.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you serve Longwood and the surrounding Seminole County area?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes, along with Lake Mary, Altamonte Springs, Sanford, and Oviedo.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Longwood</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Longwood &mdash;

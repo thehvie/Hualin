@@ -483,8 +483,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/altamonte-springs.php#service",
+        "name": "Junk Removal and Dumpster Rental in Altamonte Springs, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/altamonte-springs.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Altamonte Springs, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Altamonte Springs",
+          "addressRegion": "FL",
+          "postalCode": "32701",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Seminole County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Altamonte Springs Junk Removal",
+            "item": "https://haulinjunkies.com/altamonte-springs.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you handle condo and high-rise pickups in Altamonte Springs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. We work with HOA and building management on elevator pads, freight elevator windows, and dock access, and we carry the item out rather than leaving it in a hallway."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you remove a hot tub from a Seminole County condo?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We remove hot tubs and spas, but a condo installation usually needs to be disassembled on site to fit the elevator or stairwell. Send a photo and we will confirm access before scheduling."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does a typical Altamonte Springs cleanout cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most single-unit jobs fall between the minimum load and a half truck. Multi-unit or whole-condo cleanouts scale with volume, and the estimate is free and given on site before any work begins."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
 
@@ -876,6 +972,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Altamonte Springs: What to Know</h2>
+              <p class="section-text">
+                Altamonte Springs is dense with mid-rise condos and apartment communities clustered around Cranes Roost and the I-4 corridor. Those buildings bring two constraints that a house does not: elevator reservations and loading-dock time limits. We plan around both, so a fourth-floor condo cleanout does not turn into a six-hour job with the building manager calling you about the freight elevator.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you handle condo and high-rise pickups in Altamonte Springs?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. We work with HOA and building management on elevator pads, freight elevator windows, and dock access, and we carry the item out rather than leaving it in a hallway.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you remove a hot tub from a Seminole County condo?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">We remove hot tubs and spas, but a condo installation usually needs to be disassembled on site to fit the elevator or stairwell. Send a photo and we will confirm access before scheduling.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">What does a typical Altamonte Springs cleanout cost?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Most single-unit jobs fall between the minimum load and a half truck. Multi-unit or whole-condo cleanouts scale with volume, and the estimate is free and given on site before any work begins.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Altamonte Springs</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Altamonte Springs &mdash;

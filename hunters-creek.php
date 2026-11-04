@@ -480,8 +480,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/hunters-creek.php#service",
+        "name": "Junk Removal and Dumpster Rental in Hunter's Creek, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/hunters-creek.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Hunter's Creek, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Hunter's Creek",
+          "addressRegion": "FL",
+          "postalCode": "32837",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Orange County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Hunter's Creek Junk Removal",
+            "item": "https://haulinjunkies.com/hunters-creek.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can you get a large item down from a second floor in Hunter's Creek?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. We disassemble where needed and carry items down the stairs. Tell us the floor and the item size when booking so the crew arrives prepared."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you take treadmills and exercise equipment?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We do. Most units are partially disassembled to move safely, and metal components are recycled."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you serve the whole Hunter's Creek subdivision?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, including the townhome sections off John Young Parkway and the surrounding south Orlando neighborhoods."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -825,6 +921,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Hunter's Creek: What to Know</h2>
+              <p class="section-text">
+                Hunter's Creek is a large, established subdivision in south Orlando where most homes are two-story and most removals happen on moving day. The recurring problem is stairwells: a sleeper sofa or a treadmill that came in through a second-floor window is not going back out the same way. We bring the crew to disassemble and carry it down rather than quoting a price and then discovering it will not fit.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you get a large item down from a second floor in Hunter's Creek?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. We disassemble where needed and carry items down the stairs. Tell us the floor and the item size when booking so the crew arrives prepared.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you take treadmills and exercise equipment?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">We do. Most units are partially disassembled to move safely, and metal components are recycled.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you serve the whole Hunter's Creek subdivision?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes, including the townhome sections off John Young Parkway and the surrounding south Orlando neighborhoods.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Hunter's Creek</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Hunter's Creek &mdash;

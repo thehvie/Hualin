@@ -220,6 +220,36 @@
       gtag('js', new Date());
       gtag('config', 'G-NCGVC9289X');
     </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://haulinjunkies.com/donation-partners.php",
+        "url": "https://haulinjunkies.com/donation-partners.php",
+        "name": "Our Donation Partners",
+        "description": "The Central Florida charities Haulin Junkies works with to keep usable furniture, appliances and household goods out of landfills.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/"
+        },
+        "about": {
+          "@type": "LocalBusiness",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        }
+      }
+    </script>
   </head>
 
   <body>
@@ -275,7 +305,7 @@
         <div class="row">
           <div class="col-xl-12 wow fadeInLeft">
             <div class="service_details_text">
-              <h1 class="details_title">Keeping Items Out of Landfills Through Community Partnerships</h1>
+              <h2 class="details_title">Keeping Items Out of Landfills Through Community Partnerships</h2>
 
               <p>
                 At Haulin Junkies, we believe that junk removal is about more than just hauling away unwanted items—it's about making a positive impact on our community and environment. That's why we've partnered with some of Central Florida's most trusted charitable organizations to ensure that usable items find new homes instead of ending up in landfills.

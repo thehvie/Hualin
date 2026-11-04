@@ -1,4 +1,6 @@
 <?php
+// Build tool, not a page: keep it out of search indexes.
+header('X-Robots-Tag: noindex, nofollow', true);
 
 /*
  * This file is part of Composer.

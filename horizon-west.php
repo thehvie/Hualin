@@ -480,8 +480,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/horizon-west.php#service",
+        "name": "Junk Removal and Dumpster Rental in Horizon West, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/horizon-west.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Horizon West, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Horizon West",
+          "addressRegion": "FL",
+          "postalCode": "34787",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Orange County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Horizon West Junk Removal",
+            "item": "https://haulinjunkies.com/horizon-west.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can you take a garage full of moving boxes in Horizon West?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, and it is one of the most common calls we get here. Cardboard is broken down and recycled rather than landfilled, which usually means it takes far less truck space than people expect."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you haul new-construction debris?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We do, including offcuts, packaging, and leftover material. For a whole-house build or major remodel, a roll-off dumpster delivered to the driveway is normally the better fit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How fast can you get to Horizon West?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is inside our normal radius from Maitland, so same-day and next-day slots are usually available. Call before noon for the best chance at same-day service."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -858,6 +954,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Horizon West: What to Know</h2>
+              <p class="section-text">
+                Horizon West is one of the fastest-growing parts of Orange County, and the work reflects it: new-construction debris, moving boxes, and the packaging that comes with a house that was finished six months ago. Cardboard alone can fill half a truck. We separate it for recycling so a move-in cleanup does not turn into a landfill run.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you take a garage full of moving boxes in Horizon West?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes, and it is one of the most common calls we get here. Cardboard is broken down and recycled rather than landfilled, which usually means it takes far less truck space than people expect.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you haul new-construction debris?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">We do, including offcuts, packaging, and leftover material. For a whole-house build or major remodel, a roll-off dumpster delivered to the driveway is normally the better fit.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">How fast can you get to Horizon West?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">It is inside our normal radius from Maitland, so same-day and next-day slots are usually available. Call before noon for the best chance at same-day service.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Horizon West</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Horizon West &mdash;

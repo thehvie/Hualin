@@ -7,6 +7,9 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>Terms and Conditions - Haulin Junkies Junk Removal Services</title>
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content="Terms and conditions for junk removal and dumpster rental services from Haulin Junkies in Orlando and Central Florida." />
+    <link rel="canonical" href="https://haulinjunkies.com/terms_and_conditions.php" />
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -170,6 +173,36 @@
       }
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://haulinjunkies.com/terms_and_conditions.php",
+        "url": "https://haulinjunkies.com/terms_and_conditions.php",
+        "name": "Terms and Conditions - Haulin Junkies",
+        "description": "Terms and conditions for junk removal and dumpster rental services from Haulin Junkies in Orlando and Central Florida.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/"
+        },
+        "about": {
+          "@type": "LocalBusiness",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        }
+      }
     </script>
   </head>
 

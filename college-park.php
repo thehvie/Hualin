@@ -477,8 +477,112 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/college-park.php#service",
+        "name": "Junk Removal and Dumpster Rental in College Park, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/college-park.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in College Park, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "College Park",
+          "addressRegion": "FL",
+          "postalCode": "32804",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Orange County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "College Park Junk Removal",
+            "item": "https://haulinjunkies.com/college-park.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does junk removal cost in College Park?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pricing depends on the volume of junk and type of items. We offer free on-site estimates so you know the exact cost before we start. Most residential pickups in College Park range from a single truck load to a full truck. Call (407) 815-4926 for a quote."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you offer same-day junk removal in College Park?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Same-day service is available in College Park most days of the week. Call us before noon for the best chance of same-day pickup. We also offer scheduled service if you prefer a specific time."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What items do you remove in College Park?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We remove nearly everything — furniture, appliances, mattresses, construction debris, yard waste, hot tubs, carpet, and more. The only items we cannot take are hazardous materials, paint, chemicals, and tires."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are you licensed and insured in College Park?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Haulin Junkies is a fully licensed and insured junk removal company serving College Park and all of Central Florida. Your property is protected every step of the way."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -514,10 +618,10 @@
         <div class="row">
           <div class="col-12">
             <h1 class="hero-title wow fadeInUp">
-              Orlando Junk Removal Services
+              College Park Junk Removal &amp; Cleanouts
             </h1>
             <p class="hero-subtitle wow fadeInUp" data-wow-delay="0.2s">
-              Professional Same-Day Junk Removal & Hauling Services in Orlando,
+              Professional Same-Day Junk Removal & Hauling in College Park,
               Florida
             </p>
             <div class="hero-features wow fadeInUp" data-wow-delay="0.4s">

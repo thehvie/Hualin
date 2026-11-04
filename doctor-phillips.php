@@ -483,8 +483,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/doctor-phillips.php#service",
+        "name": "Junk Removal and Dumpster Rental in Doctor Phillips, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/doctor-phillips.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Doctor Phillips, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Doctor Phillips",
+          "addressRegion": "FL",
+          "postalCode": "32836",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Orange County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Doctor Phillips Junk Removal",
+            "item": "https://haulinjunkies.com/doctor-phillips.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you donate furniture from Doctor Phillips homes?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. We sort each load and set aside usable furniture, appliances, and household goods for donation before anything goes to the landfill. You can also ask us to leave donation items staged and we will document what was taken."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you handle a large estate cleanout near Sand Lake Road?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Estate cleanouts are one of our core services, and larger Doctor Phillips homes often need two or three loads. We quote the whole job up front rather than pricing truck by truck."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you remove built-in appliances and furniture?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Freestanding appliances are standard. Built-ins, attached cabinetry, and anything requiring demolition are quoted separately, since they need to be detached first."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -874,6 +970,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Doctor Phillips: What to Know</h2>
+              <p class="section-text">
+                Doctor Phillips is one of the wealthier pockets of southwest Orlando, with large homes around Sand Lake Road and a steady turnover of high-end furniture that owners would rather not see go to a landfill. Because of that, most of our work here is donation-heavy: solid wood furniture, working appliances, and household goods that are still usable and can go to a Central Florida charity partner instead of the dump.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you donate furniture from Doctor Phillips homes?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. We sort each load and set aside usable furniture, appliances, and household goods for donation before anything goes to the landfill. You can also ask us to leave donation items staged and we will document what was taken.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you handle a large estate cleanout near Sand Lake Road?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Estate cleanouts are one of our core services, and larger Doctor Phillips homes often need two or three loads. We quote the whole job up front rather than pricing truck by truck.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you remove built-in appliances and furniture?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Freestanding appliances are standard. Built-ins, attached cabinetry, and anything requiring demolition are quoted separately, since they need to be detached first.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Dr. Phillips</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Dr. Phillips &mdash;

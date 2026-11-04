@@ -1,4 +1,7 @@
 <?php
+// Form handler, not a page: keep it out of search indexes.
+header('X-Robots-Tag: noindex, nofollow', true);
+
 /**
  * HAULINJUNKIES Contact Form Processor
  * Handles form submission and image uploads using Mailgun SMTP

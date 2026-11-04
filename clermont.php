@@ -477,8 +477,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/clermont.php#service",
+        "name": "Junk Removal and Dumpster Rental in Clermont, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/clermont.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Clermont, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Clermont",
+          "addressRegion": "FL",
+          "postalCode": "34711",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Lake County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Clermont Junk Removal",
+            "item": "https://haulinjunkies.com/clermont.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you serve Clermont and the rest of Lake County?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Clermont, Minneola, and Groveland are all inside our normal service radius from Maitland, usually with same-day or next-day availability."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you haul debris from a new build in Clermont?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We handle construction debris, packaging, and leftover material from new construction and remodels. For a large job a roll-off dumpster is usually more economical than repeated truck loads."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Will a truck fit up a steep Clermont driveway?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually, but not always once the truck is loaded. If the driveway is steep or narrow, we can stage at the street and carry items down, and we will tell you if that affects the quote."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -834,6 +930,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Clermont: What to Know</h2>
+              <p class="section-text">
+                Clermont sits in Lake County on some of the highest ground in Florida, and the housing mix runs from older lake cottages to brand-new subdivisions on the south side. Two job types dominate: whole-home cleanouts in the older neighborhoods, and construction or move-in debris in the new builds. The hilly terrain also means some driveways are steep enough that we plan the truck position in advance.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you serve Clermont and the rest of Lake County?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Clermont, Minneola, and Groveland are all inside our normal service radius from Maitland, usually with same-day or next-day availability.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you haul debris from a new build in Clermont?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">We handle construction debris, packaging, and leftover material from new construction and remodels. For a large job a roll-off dumpster is usually more economical than repeated truck loads.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Will a truck fit up a steep Clermont driveway?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Usually, but not always once the truck is loaded. If the driveway is steep or narrow, we can stage at the street and carry items down, and we will tell you if that affects the quote.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Clermont</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Clermont &mdash;

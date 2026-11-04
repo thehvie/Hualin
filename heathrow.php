@@ -479,8 +479,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/heathrow.php#service",
+        "name": "Junk Removal and Dumpster Rental in Heathrow, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/heathrow.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Heathrow, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Heathrow",
+          "addressRegion": "FL",
+          "postalCode": "32746",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Seminole County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Heathrow Junk Removal",
+            "item": "https://haulinjunkies.com/heathrow.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you need advance notice to enter Heathrow?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Let us know the guardhouse procedure and any name the gate should expect, and we will pass it to the crew. Without it, the driver can be held at the entrance and the appointment may need to be rescheduled."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you work with property managers in Heathrow?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Regularly. We can coordinate directly with a property manager or realtor for access, and we can invoice the responsible party rather than the occupant."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is same-day pickup available in Heathrow?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Often, if you call before noon and the gate can clear the truck. Gated access makes same-day less certain than in open neighborhoods, so earlier is better."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -795,6 +891,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Heathrow: What to Know</h2>
+              <p class="section-text">
+                Heathrow is a gated community, which means every job starts at a guardhouse. That single detail drives most of the logistics here: we need the address, the gate procedure, and often a name to reference at the entrance before the truck rolls. Once we are inside, the work itself is usually straightforward residential removal from homes and townhomes around the country club.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you need advance notice to enter Heathrow?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Let us know the guardhouse procedure and any name the gate should expect, and we will pass it to the crew. Without it, the driver can be held at the entrance and the appointment may need to be rescheduled.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you work with property managers in Heathrow?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Regularly. We can coordinate directly with a property manager or realtor for access, and we can invoice the responsible party rather than the occupant.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Is same-day pickup available in Heathrow?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Often, if you call before noon and the gate can clear the truck. Gated access makes same-day less certain than in open neighborhoods, so earlier is better.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Heathrow</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Heathrow &mdash;

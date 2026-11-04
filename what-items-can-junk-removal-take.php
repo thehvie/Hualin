@@ -62,6 +62,36 @@
       .pricing-table td { padding: 10px 14px; border-bottom: 1px solid #dee2e6; }
       .pricing-table tr:nth-child(even) { background-color: #f8f9fa; }
     </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://haulinjunkies.com/what-items-can-junk-removal-take.php",
+        "url": "https://haulinjunkies.com/what-items-can-junk-removal-take.php",
+        "name": "What Items Can Junk Removal Companies Take?",
+        "description": "What junk removal companies will and will not take, from furniture and appliances to yard debris and construction material.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/"
+        },
+        "about": {
+          "@type": "LocalBusiness",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        }
+      }
+    </script>
   </head>
   <body>
 

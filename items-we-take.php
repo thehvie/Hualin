@@ -11,7 +11,7 @@
     </title>
     <meta
       name="description"
-      content="Professional junk removal services in Winter Garden, FL. Same-day pickup available. Furniture removal, appliance disposal, estate cleanouts. Licensed & insured. Call (407) 815-4926"
+      content="See what junk removal takes in Orlando: furniture, appliances, electronics, yard debris, construction material and more. Call (407) 815-4926."
     />
     <meta
       name="keywords"
@@ -482,6 +482,37 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://haulinjunkies.com/items-we-take.php",
+        "url": "https://haulinjunkies.com/items-we-take.php",
+        "name": "Items We Take | Junk Removal Services | Haulin Junkies FL",
+        "description": "Item-by-item list of what Haulin Junkies hauls in Orlando and Central Florida, plus what cannot be accepted: hazardous waste, paint, tires and batteries.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/"
+        },
+        "about": {
+          "@type": "LocalBusiness",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        }
+      }
+    </script>
+  </head>
 
   <body>
     

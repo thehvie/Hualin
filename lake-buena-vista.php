@@ -518,7 +518,39 @@
       ]
     }
     </script>
-</head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do you work with vacation rental managers near Disney World?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. We coordinate access through lockboxes or the management company so nobody has to meet the crew on site, and we work to the check-in deadline rather than a fixed appointment slot."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you get into resort back-of-house areas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Only with authorization from the property. Service roads and loading docks are usually gated or escorted, so we need the access details and any required insurance certificate before scheduling."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you take mattresses and box springs from rentals?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Mattresses and box springs are accepted and handled separately from recyclable material, since most municipal programs will not collect them."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -873,6 +905,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Lake Buena Vista: What to Know</h2>
+              <p class="section-text">
+                Lake Buena Vista exists to serve the theme-park corridor, so nearly every property here is a vacation rental, timeshare, or hotel-adjacent business. Removals run on turnover schedules: a rental gets refurnished between bookings, and the old furniture has to be out before the next guest checks in. Resort security gates and back-of-house access are the usual bottlenecks, so we confirm both before the truck rolls.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you work with vacation rental managers near Disney World?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. We coordinate access through lockboxes or the management company so nobody has to meet the crew on site, and we work to the check-in deadline rather than a fixed appointment slot.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you get into resort back-of-house areas?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Only with authorization from the property. Service roads and loading docks are usually gated or escorted, so we need the access details and any required insurance certificate before scheduling.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you take mattresses and box springs from rentals?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Mattresses and box springs are accepted and handled separately from recyclable material, since most municipal programs will not collect them.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Lake Buena Vista</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Lake Buena Vista &mdash;

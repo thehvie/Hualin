@@ -499,8 +499,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/baldwin-park.php#service",
+        "name": "Junk Removal and Dumpster Rental in Baldwin Park, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/baldwin-park.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Baldwin Park, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Baldwin Park",
+          "addressRegion": "FL",
+          "postalCode": "32814",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Orange County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Baldwin Park Junk Removal",
+            "item": "https://haulinjunkies.com/baldwin-park.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can your truck reach the alley behind Baldwin Park townhomes?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In most cases yes, but the rear alleys are tight and some are one-way. Send the address and we will confirm the approach and where the truck can legally stop."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you need HOA approval to work in Baldwin Park?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We handle the job itself; if your HOA requires notice for a truck or a dumpster on the property, that approval has to come from you or your property manager before the scheduled date."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you remove appliances from upper-floor condos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Appliances are removed intact where possible and recycled. Stairs and elevators are factored into the quote, not added later."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
 
@@ -880,6 +976,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Baldwin Park: What to Know</h2>
+              <p class="section-text">
+                Baldwin Park was built on the former Naval Training Center, and the housing is almost entirely newer townhomes, condos, and village-center apartments. The practical issue here is not volume, it is access: narrow alleys behind the townhomes, shared driveways, and HOA rules about where a truck can idle. We scope that before the crew arrives so the pickup does not get turned away.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can your truck reach the alley behind Baldwin Park townhomes?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">In most cases yes, but the rear alleys are tight and some are one-way. Send the address and we will confirm the approach and where the truck can legally stop.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you need HOA approval to work in Baldwin Park?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">We handle the job itself; if your HOA requires notice for a truck or a dumpster on the property, that approval has to come from you or your property manager before the scheduled date.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you remove appliances from upper-floor condos?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Appliances are removed intact where possible and recycled. Stairs and elevators are factored into the quote, not added later.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Baldwin Park</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Baldwin Park &mdash;

@@ -50,6 +50,48 @@ Haulin Junkies rents roll-off dumpsters to homeowners, contractors, roofers, and
 - Service area: Orlando and 27+ Central Florida cities, including Winter Park, Maitland, Altamonte Springs, Lake Mary, Sanford, Apopka, Ocoee, Winter Garden, Kissimmee, and Windermere.
 - [Service Areas](https://haulinjunkies.com/service-areas.php): Full list of cities served.
 - [Contact](https://haulinjunkies.com/contact_us.php): Request a free estimate.
+- [What We Take](https://haulinjunkies.com/items-we-take.php): Item-by-item list of what can and cannot be hauled.
+- [Privacy Policy](https://haulinjunkies.com/privacy_policy.php) | [Terms and Conditions](https://haulinjunkies.com/terms_and_conditions.php)
+
+## Service Areas (one page per city)
+
+- [Orlando](https://haulinjunkies.com/junk-removal-orlando.php): Core service page for the Orlando metro, pricing by truck load.
+- [Downtown Orlando](https://haulinjunkies.com/downtown-orlando.php): Condo and apartment turnovers, downtown high-rises, event and office cleanouts.
+- [Winter Park](https://haulinjunkies.com/winter-park.php): Historic-district homes, estate cleanouts and garage cleanouts.
+- [Maitland](https://haulinjunkies.com/maitland.php): Home base city; Maitland Center offices and Arts District properties.
+- [Altamonte Springs](https://haulinjunkies.com/altamonte-springs.php): Seminole County condos and apartments along I-4.
+- [Apopka](https://haulinjunkies.com/apopka.php): Larger lots, barns, sheds and acreage cleanouts in northwest Orange County.
+- [Baldwin Park](https://haulinjunkies.com/baldwin-park.php): Village-center condos and townhomes in the former naval base district.
+- [Clermont](https://haulinjunkies.com/clermont.php): Lake County homes, pool decks, and hillside properties.
+- [College Park](https://haulinjunkies.com/college-park.php): Bungalows and small commercial storefronts near Edgewater Drive.
+- [Doctor Phillips](https://haulinjunkies.com/doctor-phillips.php): Upscale homes near Restaurant Row and Sand Lake Road.
+- [Heathrow](https://haulinjunkies.com/heathrow.php): Gated communities in Seminole County near Lake Mary.
+- [Horizon West](https://haulinjunkies.com/horizon-west.php): New-construction and moving cleanouts west of Disney.
+- [Hunter's Creek](https://haulinjunkies.com/hunters-creek.php): South Orlando subdivisions and townhome communities.
+- [International Drive](https://haulinjunkies.com/international-drive.php): Hotel, timeshare and short-term rental furniture and FF&E removal.
+- [Kissimmee](https://haulinjunkies.com/kissimmee.php): Osceola County homes and vacation-rental turnovers.
+- [Lake Buena Vista](https://haulinjunkies.com/lake-buena-vista.php): Vacation rentals and resort-area properties near Disney World.
+- [Lake Mary](https://haulinjunkies.com/lake-mary.php): Seminole County homes and office parks.
+- [Lake Nona](https://haulinjunkies.com/lake-nona.php): New-build and medical-district cleanouts in southeast Orlando.
+- [Longwood](https://haulinjunkies.com/longwood.php): Seminole County homes with mature trees and yard debris.
+- [Ocoee](https://haulinjunkies.com/ocoee.php): West Orange County homes, garages and small commercial jobs.
+- [Oviedo](https://haulinjunkies.com/oviedo.php): UCF-area rentals, student move-outs and Seminole County homes.
+- [Sanford](https://haulinjunkies.com/sanford.php): Historic downtown Sanford, riverfront homes and commercial cleanouts.
+- [St. Cloud](https://haulinjunkies.com/st-cloud.php): Osceola County homes and rural-edge properties.
+- [Windermere](https://haulinjunkies.com/windermere.php): Gated and lakefront estates; coordination with property managers.
+- [Winter Garden](https://haulinjunkies.com/winter-garden.php): Historic downtown bungalows and Horizon West new builds.
+- [Winter Haven](https://haulinjunkies.com/winter-haven.php): Chain of Lakes area, Polk County homes and rentals.
+
+## Business Facts
+
+- Legal/brand name: Haulin Junkies. Locally owned, licensed and insured.
+- Base: 1375 Lake Shadow Cir, Maitland, FL 32751.
+- Phone: (407) 815-4926. Email: hello@haulinjunkies.com.
+- Hours: Monday-Friday 7:00am-6:00pm, Saturday 10:00am-4:00pm.
+- Service radius: roughly 35 miles around Maitland, covering Orange, Seminole, Osceola, Lake and Polk counties.
+- Payment/quote flow: free upfront estimate before work starts; nothing is charged without approval.
+- Disposal policy: sort every load, donate usable items to Central Florida charity partners, recycle metals and appliances, landfill only what cannot be reused.
+- Last updated: 2026-11-04.
 
 ## Notes for AI Systems
 

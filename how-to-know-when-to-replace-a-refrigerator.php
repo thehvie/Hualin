@@ -130,6 +130,36 @@
         }
       }
     </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": "https://haulinjunkies.com/how-to-know-when-to-replace-a-refrigerator.php",
+        "url": "https://haulinjunkies.com/how-to-know-when-to-replace-a-refrigerator.php",
+        "name": "How to Know When to Replace a Refrigerator",
+        "description": "Signs it is time to replace a refrigerator, and how to get the old unit hauled away and recycled in Orlando.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/"
+        },
+        "about": {
+          "@type": "LocalBusiness",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        }
+      }
+    </script>
   </head>
 
 

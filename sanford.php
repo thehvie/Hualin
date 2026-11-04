@@ -477,8 +477,104 @@
       gtag("js", new Date());
       gtag("config", "G-NCGVC9289X");
     </script>
-
-      </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://haulinjunkies.com/sanford.php#service",
+        "name": "Junk Removal and Dumpster Rental in Sanford, FL",
+        "serviceType": "Junk removal and roll-off dumpster rental",
+        "url": "https://haulinjunkies.com/sanford.php",
+        "description": "Same-day junk removal, estate cleanouts and roll-off dumpster rental in Sanford, Florida, with upfront pricing and donation-first disposal.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://haulinjunkies.com/",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Sanford",
+          "addressRegion": "FL",
+          "postalCode": "32771",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Seminole County, Florida"
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://haulinjunkies.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://haulinjunkies.com/service-areas.php"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Sanford Junk Removal",
+            "item": "https://haulinjunkies.com/sanford.php"
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can you work on a narrow downtown Sanford lot?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. If the driveway is too narrow or the alley is blocked, we stage on the street and carry out. Tell us about parking restrictions when you book so we plan around them."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you handle attic and basement cleanouts?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We do. Attic cleanouts in older Sanford homes often need a crew to bag and lower material rather than carry it down loose."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you remove junk from a commercial property downtown?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Commercial cleanouts are part of our regular work, including storefronts, offices, and rental units."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
   <body>
     
@@ -837,6 +933,26 @@
 
             <!-- Internal linking: services + nearby cities -->
             <div class="content-section wow fadeInUp">
+            <!-- City-specific local context -->
+            <div class="content-section wow fadeInUp">
+              <h2 class="section-title">Junk Removal in Sanford: What to Know</h2>
+              <p class="section-text">
+                Historic Sanford is a different job from the newer subdivisions on the south side. Downtown homes near the river are often a century old, with narrow lots, detached garages, and attics that have held three generations of belongings. We work carefully in those properties, and we can stage the truck on the street when a driveway will not take it.
+              </p>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you work on a narrow downtown Sanford lot?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. If the driveway is too narrow or the alley is blocked, we stage on the street and carry out. Tell us about parking restrictions when you book so we plan around them.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Do you handle attic and basement cleanouts?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">We do. Attic cleanouts in older Sanford homes often need a crew to bag and lower material rather than carry it down loose.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 8px;">Can you remove junk from a commercial property downtown?</h3>
+                <p class="section-text" style="margin-bottom: 10px;">Yes. Commercial cleanouts are part of our regular work, including storefronts, offices, and rental units.</p>
+              </div>
+            </div>
+
               <h2 class="section-title">Junk Removal Services in Sanford</h2>
               <p class="section-text">
                 Every Haulin Junkies service is available in Sanford &mdash;

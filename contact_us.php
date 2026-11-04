@@ -196,7 +196,33 @@
     </script>
 
     <!-- LocalBusiness Schema -->
-  </head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "@id": "https://haulinjunkies.com/contact_us.php",
+        "url": "https://haulinjunkies.com/contact_us.php",
+        "name": "Contact Haulin Junkies | Orlando Junk Removal",
+        "description": "Contact Haulin Junkies for same-day junk removal and dumpster rental in Orlando and Central Florida. Call (407) 815-4926 or request a free estimate.",
+        "about": {
+          "@type": "LocalBusiness",
+          "name": "Haulin Junkies",
+          "url": "https://haulinjunkies.com/",
+          "telephone": "+14078154926",
+          "email": "hello@haulinjunkies.com",
+          "image": "https://haulinjunkies.com/assets/images/logo.png",
+          "priceRange": "$$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1375 Lake Shadow Cir",
+            "postalCode": "32751",
+            "addressLocality": "Maitland",
+            "addressRegion": "FL",
+            "addressCountry": "US"
+          }
+        }
+      }
+    </script>
 
     <!-- Google reCAPTCHA -->
     <!-- IMPORTANT: Replace 'YOUR_SITE_KEY_HERE' with your actual reCAPTCHA site key -->
