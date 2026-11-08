@@ -40,9 +40,11 @@ export interface InvoiceRow {
   balanceCents: number;
   /** Customer messages nobody has opened yet. */
   unread: number;
+  /** When the invoice was fully paid (Paid tab shows this instead of the created date). */
+  paidAt?: string | null;
 }
 
-export function InvoicesTable({ invoices }: { invoices: InvoiceRow[] }) {
+export function InvoicesTable({ invoices, dateColumn = "created" }: { invoices: InvoiceRow[]; dateColumn?: "created" | "paid" }) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [isPending, startTransition] = useTransition();
   const [notice, setNotice] = useState<string | null>(null);
@@ -178,7 +180,7 @@ export function InvoicesTable({ invoices }: { invoices: InvoiceRow[] }) {
               </th>
               <th className="px-4 py-3">Invoice</th>
               <th className="px-4 py-3">Client</th>
-              <th className="px-4 py-3">Created</th>
+              <th className="px-4 py-3">{dateColumn === "paid" ? "Paid" : "Created"}</th>
               <th className="px-4 py-3 text-right">Subtotal</th>
               <th className="px-4 py-3 text-right">Tax</th>
               <th className="px-4 py-3 text-right">Discount</th>
@@ -217,7 +219,7 @@ export function InvoicesTable({ invoices }: { invoices: InvoiceRow[] }) {
                   {e.companyName && <p className="text-xs text-zinc-400">{e.companyName}</p>}
                 </td>
                 <td className="px-4 py-3 text-zinc-500">
-                  {new Date(e.createdAt).toLocaleDateString("en-US", {
+                  {new Date(dateColumn === "paid" && e.paidAt ? e.paidAt : e.createdAt).toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                     year: "numeric",

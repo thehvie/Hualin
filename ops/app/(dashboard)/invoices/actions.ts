@@ -133,8 +133,8 @@ export async function createDirectInvoice(input: DirectInvoiceInput): Promise<{ 
 }
 
 /**
- * Row dropdown on the invoice list. Unsent/Sent/Void just set the status. Paid records a payment for whatever is still
- * owed (method "Other"), so the books agree and the status isn't flipped back on the next recalculation. Partial is
+ * Row dropdown on the invoice list. Unsent/Sent/Void just set the status. Paid records a cash payment for whatever is still
+ * owed, so the books agree and the status isn't flipped back on the next recalculation. Partial is
  * automatic from payments. Unsent/Sent are refused while payments exist, because the payments decide the status.
  */
 export async function setInvoiceStatus(id: string, status: string): Promise<{ error?: string }> {
@@ -164,7 +164,7 @@ export async function setInvoiceStatus(id: string, status: string): Promise<{ er
     });
     if (totals.balanceCents > 0) {
       await prisma.payment.create({
-        data: { companyId, invoiceId: id, amountCents: totals.balanceCents, method: "OTHER", reference: "Marked paid" },
+        data: { companyId, invoiceId: id, amountCents: totals.balanceCents, method: "CASH", reference: "Marked paid (assumed cash)" },
       });
     }
     // A voided invoice must come back to a normal status before recalculation will touch it.

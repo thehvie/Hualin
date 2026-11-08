@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/money";
 import { computeInvoiceTotals } from "@/lib/invoice-totals";
 import { requireSession } from "@/lib/session";
+import { loadSaleEvents, paidDateOf, summarizeSales } from "@/lib/sales";
 import { InvoicesTable, type InvoiceRow } from "./invoices-table";
 
 const STATUS_LABELS: Record<string, string> = {
@@ -18,10 +19,11 @@ const ALL_STATUSES = ["DRAFT", "SENT", "PARTIALLY_PAID", "PAID", "VOID"];
 export default async function InvoicesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; status?: string }>;
+  searchParams: Promise<{ q?: string; status?: string; tab?: string }>;
 }) {
   const { companyId } = await requireSession();
-  const { q, status } = await searchParams;
+  const { q, status, tab } = await searchParams;
+  const paidTab = tab === "paid";
   const query = (q || "").trim();
 
   const numericQuery = /^\d+$/.test(query) ? parseInt(query, 10) : undefined;
@@ -36,7 +38,7 @@ export default async function InvoicesPage({
       ]
     : undefined;
 
-  const [invoices, jobsNeedingInvoices] = await Promise.all([
+  const [invoices, jobsNeedingInvoices, saleEvents, company] = await Promise.all([
     prisma.invoice.findMany({
       where: { companyId, ...(searchOr ? { OR: searchOr } : {}) },
       include: {
@@ -49,7 +51,10 @@ export default async function InvoicesPage({
       orderBy: { createdAt: "desc" },
     }),
     prisma.job.count({ where: { companyId, invoices: { none: {} }, status: "COMPLETED" } }),
+    loadSaleEvents(companyId),
+    prisma.company.findUniqueOrThrow({ where: { id: companyId }, select: { timezone: true } }),
   ]);
+  const sales = summarizeSales(saleEvents, company.timezone);
 
   const now = Date.now();
 
@@ -85,7 +90,9 @@ export default async function InvoicesPage({
       taxCents: totals.taxCents,
       discountCents: totals.discountCents,
       totalCents: totals.totalCents,
-      balanceCents: totals.balanceCents,
+      // A paid invoice owes nothing, even an older one marked paid without a payment on file.
+      balanceCents: inv.status === "PAID" ? 0 : totals.balanceCents,
+      paidAt: inv.status === "PAID" ? paidDateOf(inv).toISOString() : null,
       unread: unreadByInvoice.get(inv.id) ?? 0,
     };
   });
@@ -96,8 +103,19 @@ export default async function InvoicesPage({
   const overdueTotal = overdueRows.reduce((sum, r) => sum + Math.max(0, r.balanceCents), 0);
   const unsentCount = rows.filter((r) => !r.sent && r.status !== "VOID").length;
 
-  const filtered =
-    status && status !== "ALL" ? rows.filter((r) => r.status === status) : rows;
+  const filtered = paidTab
+    ? rows.filter((r) => r.status === "PAID").sort((a, b) => (b.paidAt ?? "").localeCompare(a.paidAt ?? ""))
+    : status && status !== "ALL"
+      ? rows.filter((r) => r.status === status)
+      : rows;
+  const paidListTotal = filtered.reduce((sum, r) => sum + r.totalCents, 0);
+  const tabHref = (t?: string) => {
+    const p = new URLSearchParams();
+    if (t) p.set("tab", t);
+    if (query) p.set("q", query);
+    const qs = p.toString();
+    return qs ? `/invoices?${qs}` : "/invoices";
+  };
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6">
@@ -108,14 +126,31 @@ export default async function InvoicesPage({
         </Link>
       </div>
 
+      <div className="flex gap-1 border-b border-zinc-200">
+        <TabLink href={tabHref()} active={!paidTab} label="All invoices" />
+        <TabLink href={tabHref("paid")} active={paidTab} label="Paid" />
+      </div>
+
+      {paidTab ? (
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <StatCard value={formatCents(sales.monthCents)} label="Made this month" />
+        <StatCard value={formatCents(sales.yearCents)} label="Made this year" />
+        <StatCard value={formatCents(sales.allTimeCents)} label="Made all time" />
+        <StatCard value={formatCents(sales.last14Cents)} label="Last 14 days" />
+      </div>
+      ) : (
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard value={formatCents(dueTotal)} label={`Due from ${openRows.length} invoice${openRows.length === 1 ? "" : "s"}`} />
         <StatCard value={formatCents(overdueTotal)} label={`Overdue from ${overdueRows.length} invoice${overdueRows.length === 1 ? "" : "s"}`} />
         <StatCard value={`${unsentCount}`} label="Unsent" />
         <StatCard value={`${jobsNeedingInvoices}`} label="Completed jobs need invoices" />
       </div>
+      )}
 
       <form className="flex flex-wrap items-center gap-3" method="get">
+        {paidTab ? (
+          <input type="hidden" name="tab" value="paid" />
+        ) : (
         <select
           name="status"
           defaultValue={status || "ALL"}
@@ -128,6 +163,7 @@ export default async function InvoicesPage({
             </option>
           ))}
         </select>
+        )}
         <input
           type="search"
           name="q"
@@ -141,7 +177,7 @@ export default async function InvoicesPage({
         >
           Apply
         </button>
-        {status && (
+        {status && !paidTab && (
           <Link href={query ? `/invoices?q=${query}` : "/invoices"} className="text-sm font-medium text-zinc-500 hover:text-zinc-800">
             Clear filter: {STATUS_LABELS[status]} ✕
           </Link>
@@ -152,16 +188,25 @@ export default async function InvoicesPage({
         <div className="flex flex-col items-center gap-2 rounded-xl border border-zinc-200 bg-white py-16 text-center">
           <span className="text-3xl">🧾</span>
           <p className="text-sm font-semibold text-zinc-900">
-            {query || status ? "No invoices match" : "No invoices yet"}
+            {query || status ? "No invoices match" : paidTab ? "No paid invoices yet" : "No invoices yet"}
           </p>
-          {!query && !status && (
+          {!query && !status && !paidTab && (
             <p className="text-sm text-zinc-500">
               Approve an estimate and mark it as won to create your first invoice.
             </p>
           )}
         </div>
       ) : (
-        <InvoicesTable invoices={filtered} />
+        <>
+          {paidTab && (
+            <p className="-mb-3 text-sm text-zinc-500">
+              {filtered.length} paid invoice{filtered.length === 1 ? "" : "s"}
+              {query ? " matching your search" : ""}, totaling{" "}
+              <span className="font-semibold text-zinc-900">{formatCents(paidListTotal)}</span>
+            </p>
+          )}
+          <InvoicesTable invoices={filtered} dateColumn={paidTab ? "paid" : "created"} />
+        </>
       )}
     </div>
   );
@@ -173,5 +218,18 @@ function StatCard({ value, label }: { value: string; label: string }) {
       <p className="text-right text-xl font-bold text-zinc-900">{value}</p>
       <p className="mt-1 text-right text-xs text-zinc-500">{label}</p>
     </div>
+  );
+}
+
+function TabLink({ href, active, label }: { href: string; active: boolean; label: string }) {
+  return (
+    <Link
+      href={href}
+      className={`-mb-px border-b-2 px-4 py-2 text-sm font-medium ${
+        active ? "border-brand text-brand" : "border-transparent text-zinc-500 hover:text-zinc-800"
+      }`}
+    >
+      {label}
+    </Link>
   );
 }

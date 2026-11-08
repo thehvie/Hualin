@@ -7,6 +7,7 @@ import { SetupChecklist } from "@/components/setup-checklist";
 import { loadSetupSteps } from "@/lib/setup-steps";
 import { sharedEmailStatus } from "@/lib/mail-config";
 import { addDaysYmd, formatInTz, startOfDayInTz, wallYmd } from "@/lib/tz";
+import { loadSaleEvents, summarizeSales } from "@/lib/sales";
 
 function formatCents(cents: number) {
   return (cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
@@ -33,7 +34,6 @@ export default async function DashboardHome() {
   const todayYmd = wallYmd(today, timezone);
   const todayStart = startOfDayInTz(todayYmd, timezone);
   const todayEnd = startOfDayInTz(addDaysYmd(todayYmd, 1), timezone);
-  const fourteenDaysAgo = new Date(todayStart.getTime() - 14 * 24 * 60 * 60 * 1000);
 
   const [
     customerCount,
@@ -41,8 +41,7 @@ export default async function DashboardHome() {
     pendingEstimateCount,
     invoiceCount,
     unpaidInvoiceCount,
-    salesLast14,
-    salesToday,
+    saleEvents,
     jobsDoneToday,
     jobsCancelledToday,
     jobStatusCounts,
@@ -54,14 +53,7 @@ export default async function DashboardHome() {
     prisma.estimate.count({ where: { companyId, status: "SENT" } }),
     prisma.invoice.count({ where: { companyId } }),
     prisma.invoice.count({ where: { companyId, status: { in: ["SENT", "PARTIALLY_PAID"] } } }),
-    prisma.payment.aggregate({
-      _sum: { amountCents: true },
-      where: { companyId, createdAt: { gte: fourteenDaysAgo } },
-    }),
-    prisma.payment.aggregate({
-      _sum: { amountCents: true },
-      where: { companyId, createdAt: { gte: todayStart, lt: todayEnd } },
-    }),
+    loadSaleEvents(companyId),
     prisma.job.count({
       where: { companyId, status: "COMPLETED", completedAt: { gte: todayStart, lt: todayEnd } },
     }),
@@ -83,6 +75,7 @@ export default async function DashboardHome() {
   ]);
 
   const hasAnyCustomer = customerCount > 0;
+  const sales = summarizeSales(saleEvents, timezone, today);
   const statusMap = Object.fromEntries(jobStatusCounts.map((s) => [s.status, s._count._all]));
 
   return (
@@ -127,22 +120,25 @@ export default async function DashboardHome() {
 
       {/* Row 1 */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Widget title="Sales" subtitle="Last 14 days">
-          {salesLast14._sum.amountCents ? (
+        <Widget title="Sales" subtitle="Money collected">
+          {saleEvents.length ? (
             <div>
-              <p className="text-3xl font-bold text-zinc-900">
-                {formatCents(salesLast14._sum.amountCents)}
-              </p>
-              <p className="mt-1 text-sm text-zinc-500">collected in the last 14 days</p>
+              <p className="text-3xl font-bold text-zinc-900">{formatCents(sales.allTimeCents)}</p>
+              <p className="mt-1 text-sm text-zinc-500">sales to date</p>
+              <dl className="mt-4 flex flex-col gap-2.5 text-sm">
+                <Row label="This month" value={formatCents(sales.monthCents)} accent="green" />
+                <Row label="This year" value={formatCents(sales.yearCents)} accent="blue" />
+                <Row label="Last 14 days" value={formatCents(sales.last14Cents)} accent="zinc" />
+              </dl>
             </div>
           ) : (
             <EmptyState
               icon="📈"
               title="No sales data available yet"
-              description="Start recording payments to see your business performance and trends."
+              description="Mark invoices paid or record payments to see your sales here."
             />
           )}
-          <WidgetFooter viewAllHref="/invoices" addHref="/estimates/new" addLabel="New estimate" />
+          <WidgetFooter viewAllHref="/invoices?tab=paid" addHref="/estimates/new" addLabel="New estimate" />
         </Widget>
 
         <Widget title="Invoices" subtitle="All time">
@@ -184,7 +180,7 @@ export default async function DashboardHome() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
         <Widget title="Today">
           <dl className="flex flex-col gap-2.5 text-sm">
-            <Row label="Sales" value={formatCents(salesToday._sum.amountCents ?? 0)} accent="green" />
+            <Row label="Sales" value={formatCents(sales.todayCents)} accent="green" />
             <Row label="Jobs done" value={String(jobsDoneToday)} accent="amber" />
             <Row label="Jobs cancelled" value={String(jobsCancelledToday)} accent="red" />
           </dl>
